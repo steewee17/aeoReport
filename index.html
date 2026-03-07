@@ -376,11 +376,21 @@ mark{background:rgba(212,138,0,.15);color:var(--yellow);border-bottom:1px solid 
 
   <div class="input-panel">
     <input type="hidden" id="webhookUrl" value="https://steewee.app.n8n.cloud/webhook/crawl-website" />
-    <div class="input-row" style="align-items:center;">
-      <input class="inp inp-row-item" id="targetUrl" placeholder="https://kundenwebsite.at" style="margin-bottom:0;" />
-      <input class="inp inp-sm" id="maxPages" type="number" value="20" min="5" max="50" style="margin-bottom:0;" />
-      <button class="btn-primary" id="auditBtn" onclick="startAudit()">▶ AUDIT STARTEN</button>
-      <button class="settings-btn" onclick="toggleSettings()" title="Webhook konfigurieren" style="display:none">⚙</button>
+    <input type="hidden" id="clientPin" value="" />
+    <div id="pinGate" style="display:none;margin-bottom:12px;">
+      <div class="input-row" style="align-items:center;">
+        <input class="inp" id="pinInput" type="password" placeholder="PIN eingeben" style="margin-bottom:0;max-width:180px;letter-spacing:4px;" onkeydown="if(event.key==='Enter')unlockWithPin()" />
+        <button class="btn-primary" onclick="unlockWithPin()">🔓 Freischalten</button>
+      </div>
+      <div id="pinError" style="color:var(--red);font-size:11px;font-family:var(--mono);margin-top:6px;display:none;">✗ Ungültiger PIN — bitte erneut versuchen.</div>
+    </div>
+    <div id="mainForm">
+      <div class="input-row" style="align-items:center;">
+        <input class="inp inp-row-item" id="targetUrl" placeholder="https://kundenwebsite.at" style="margin-bottom:0;" />
+        <input class="inp inp-sm" id="maxPages" type="number" value="20" min="5" max="50" style="margin-bottom:0;" />
+        <button class="btn-primary" id="auditBtn" onclick="startAudit()">▶ AUDIT STARTEN</button>
+        <button class="settings-btn" onclick="toggleSettings()" title="Webhook konfigurieren" style="display:none">⚙</button>
+      </div>
     </div>
     <div id="settingsPanel" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
@@ -399,6 +409,10 @@ mark{background:rgba(212,138,0,.15);color:var(--yellow);border-bottom:1px solid 
           <input class="inp" id="clientToken" placeholder="z.B. agentur-xy-a3f9k2" style="margin-bottom:0;font-family:var(--mono);font-size:11px;" />
           <button class="export-btn" onclick="generateToken()" style="padding:8px 12px;font-size:10px;white-space:nowrap;flex-shrink:0;">🔄 Generieren</button>
         </div>
+      </div>
+      <div style="margin-bottom:10px;">
+        <div class="section-label">PIN-Schutz <span style="font-weight:400;opacity:.6;">(leer = kein PIN-Gate)</span></div>
+        <input class="inp" id="pinCode" placeholder="z.B. 4821" style="margin-bottom:0;font-family:var(--mono);font-size:13px;max-width:120px;" />
       </div>
       <div style="border-top:1px solid var(--border);padding-top:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
         <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Branded HTML-Kopie mit hinterlegten Einstellungen exportieren — für /agenturxy Hosting</span>
@@ -526,7 +540,8 @@ async function startAudit(){
         body:JSON.stringify({
           url: targetUrl,
           maxPages,
-          clientToken: document.getElementById('clientToken').value.trim() || 'anonymous'
+          clientToken: document.getElementById('clientToken').value.trim() || 'anonymous',
+          clientPin: document.getElementById('clientPin').value.trim() || ''
         })
       });
     } catch(fetchErr) {
@@ -540,6 +555,12 @@ async function startAudit(){
       if(res.status === 429) {
         const errData = await res.json().catch(()=>({}));
         throw new Error(errData.message || 'Analyse-Kontingent für diesen Monat aufgebraucht.');
+      }
+      if(res.status === 401) {
+        document.getElementById('pinError').style.display='block';
+        document.getElementById('pinInput').value='';
+        document.getElementById('pinInput').focus();
+        throw new Error('Ungültiger PIN.');
       }
       throw new Error('Analyse-Server nicht erreichbar ('+res.status+' '+res.statusText+')');
     }
@@ -1452,6 +1473,30 @@ function setKiResult(i, visible) {
   updateKiScore();
 }
 
+function initPinGate() {
+  const pin = document.getElementById('clientPin').value.trim();
+  if (pin) {
+    document.getElementById('pinGate').style.display = 'block';
+    document.getElementById('mainForm').style.display = 'none';
+  }
+}
+
+function unlockWithPin() {
+  const entered = document.getElementById('pinInput').value.trim();
+  const stored  = document.getElementById('clientPin').value.trim();
+  if (entered === stored) {
+    document.getElementById('pinGate').style.display = 'none';
+    document.getElementById('mainForm').style.display = 'block';
+  } else {
+    document.getElementById('pinError').style.display = 'block';
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinInput').focus();
+  }
+}
+
+// Run PIN gate check on load
+(function(){ initPinGate(); })();
+
 function generateToken() {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
   const rand = (n) => Array.from({length:n}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
@@ -1510,13 +1555,25 @@ async function exportBrandedHtml() {
     }
   }
 
-  // 4. Zahnrad-Button ausblenden
+  // 4. PIN einbetten
+  const pinCode = document.getElementById('pinCode').value.trim();
+  if (pinCode) {
+    html = html.replace(
+      /(<input[^>]*id="clientPin"[^>]*value=")[^"]*"/,
+      `$1${pinCode.replace(/"/g,'&quot;')}"`
+    );
+    if (!html.match(/id="clientPin"[^>]*value=/)) {
+      html = html.replace('id="clientPin"', `id="clientPin" value="${pinCode.replace(/"/g,'&quot;')}"`);
+    }
+  }
+
+  // 5. Zahnrad-Button ausblenden
   html = html.replace(
     /(<button[^>]*class="settings-btn"[^>]*)(>)/,
     '$1 style="display:none"$2'
   );
 
-  // 5. Dateiname aus Brandnamen ableiten
+  // 6. Dateiname aus Brandnamen ableiten
   const slug = brandName.toLowerCase()
     .replace(/[äöüÄÖÜ]/g, c => ({ä:'ae',ö:'oe',ü:'ue',Ä:'ae',Ö:'oe',Ü:'ue'}[c]))
     .replace(/[^a-z0-9]+/g,'-')
