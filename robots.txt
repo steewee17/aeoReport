@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+
+# KI-Crawler explizit erlaubt
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+Sitemap: https://www.aeo-report.com/sitemap.xml

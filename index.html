@@ -1,0 +1,2933 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEO Report — KI-Sichtbarkeit für Ihre Kunden</title>
+<meta name="description" content="Der AEO Report analysiert automatisiert, wie sichtbar eine Website in KI-Suchsystemen wie ChatGPT, Perplexity und Gemini ist. Für Agenturen im DACH-Raum.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.aeo-report.com/">
+<meta property="og:title" content="AEO Report — KI-Sichtbarkeit für Ihre Kunden">
+<meta property="og:description" content="Der AEO Report analysiert automatisiert, wie sichtbar eine Website in KI-Suchsystemen wie ChatGPT, Perplexity und Gemini ist. Für Agenturen im DACH-Raum.">
+<meta property="og:locale" content="de_AT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AEO Report — KI-Sichtbarkeit für Ihre Kunden">
+<meta name="twitter:description" content="Automatisierter AEO-Audit: Wie sichtbar ist Ihre Website in ChatGPT, Perplexity und Gemini?">
+
+<!-- Canonical + hreflang DACH -->
+<link rel="canonical" href="https://www.aeo-report.com/">
+<link rel="alternate" hreflang="de-AT" href="https://www.aeo-report.com/">
+<link rel="alternate" hreflang="de-DE" href="https://www.aeo-report.com/">
+<link rel="alternate" hreflang="de-CH" href="https://www.aeo-report.com/">
+<link rel="alternate" hreflang="de"    href="https://www.aeo-report.com/">
+
+<!-- Schema Markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "AEO Report",
+  "url": "https://www.aeo-report.com",
+  "description": "Automatisiertes Analyse-Tool für KI-Sichtbarkeit von Websites. Für Marketingagenturen und Unternehmen im DACH-Raum.",
+  "areaServed": ["AT", "DE", "CH"],
+  "knowsAbout": ["Answer Engine Optimization", "KI-Sichtbarkeit", "SEO", "Schema Markup", "Perplexity", "ChatGPT"],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "office@aeo-report.com",
+    "contactType": "customer service",
+    "availableLanguage": "German"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "AEO Report",
+  "url": "https://www.aeo-report.com",
+  "description": "Der AEO Report analysiert automatisiert, wie sichtbar eine Website in KI-Suchsystemen wie ChatGPT, Perplexity und Gemini ist.",
+  "inLanguage": "de-AT",
+  "publisher": {
+    "@type": "Organization",
+    "name": "AEO Report"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Von der URL zum AEO Report in unter 3 Minuten",
+  "description": "So funktioniert der automatisierte AEO Audit: URL eingeben, KI-Praxistest, Score berechnen, PDF exportieren.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "URL eingeben",
+      "text": "Domain des Unternehmens eingeben. Der Crawler analysiert automatisch bis zu 20 Unterseiten."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "KI-Praxistest",
+      "text": "10 branchenrelevante Fragen werden automatisiert an Perplexity gestellt. Erscheint die Website in den Antworten?"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "Score berechnen",
+      "text": "Alle fünf Dimensionen werden gewichtet ausgewertet. Gesamtscore 0–100, inklusive konkreter Maßnahmen."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 4,
+      "name": "PDF exportieren",
+      "text": "Drei Exportvarianten: Kundenexemplar, Agenturexemplar inkl. Umsetzungsleitfaden, Vertriebsexemplar."
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Was ist Answer Engine Optimization (AEO)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Answer Engine Optimization (AEO) ist die Optimierung einer Website, um in KI-Suchsystemen wie ChatGPT, Perplexity und Google Gemini als Antwortquelle zitiert zu werden. Im Gegensatz zu klassischem SEO geht es nicht darum, in Suchergebnissen zu erscheinen, sondern direkt in KI-generierten Antworten genannt zu werden."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Für wen ist der AEO Report geeignet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Der AEO Report richtet sich primär an Marketingagenturen im DACH-Raum, die ihren Kunden KI-Sichtbarkeit als neues Leistungsangebot anbieten möchten. Auch Unternehmen, die ihre eigene KI-Sichtbarkeit verstehen und verbessern wollen, profitieren vom Report."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wie lange dauert eine AEO-Analyse?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Eine vollständige Analyse dauert unter 3 Minuten. Der Crawler analysiert bis zu 20 Unterseiten, führt 10 KI-Praxistests durch und erstellt den vollständigen Report mit Score und Maßnahmen automatisiert."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Welche KI-Systeme werden beim Praxistest getestet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Der AEO Report testet die KI-Sichtbarkeit primär mit Perplexity, da dieses System besonders webbasierte Quellen zitiert und damit den stärksten Indikator für AEO-Sichtbarkeit liefert. Die Erkenntnisse sind auf andere KI-Systeme wie ChatGPT und Gemini übertragbar."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Was ist der Unterschied zwischen Kundenexemplar, Agenturexemplar und Vertriebsexemplar?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Das Kundenexemplar (Analyse) enthält Befunde und Optimierungspotenziale ohne detaillierte Umsetzungsanleitungen. Das Agenturexemplar enthält zusätzlich vollständige Schritt-für-Schritt-Anleitungen für jede Maßnahme. Das Vertriebsexemplar ergänzt eine E-Mail-Vorlage und die gefundenen Kontaktadressen des analysierten Unternehmens."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Ist der AEO Report White-Label fähig?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja. Agenturen können den AEO Report vollständig mit eigenem Branding, Logo und Kontaktdaten versehen. Der Kunde sieht ausschließlich die Agentur als Absender des Reports."
+      }
+    }
+  ]
+}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,600;12..96,800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0d0b;
+    --bg2: #141310;
+    --surface: #1c1a17;
+    --surface2: #242118;
+    --border: #2e2b25;
+    --border2: #3a3730;
+    --text: #f0ece4;
+    --text-dim: #8a8578;
+    --text-dimmer: #4a4740;
+    --accent: #c8a96e;
+    --accent2: #2e7d52;
+    --accent-red: #c0392b;
+    --mono: 'DM Mono', monospace;
+    --display: 'Bricolage Grotesque', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--display);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: .4;
+  }
+
+  /* ── CONTACT FORM ── */
+  .contact-form-wrap {
+    max-width: 640px;
+    margin: 48px auto 0;
+    text-align: left;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-field.full {
+    grid-column: 1 / -1;
+  }
+
+  .form-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .form-input,
+  .form-textarea {
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--border2);
+    border-radius: 2px;
+    padding: 12px 16px;
+    font-family: var(--display);
+    font-size: 15px;
+    color: var(--text);
+    transition: border-color .2s, background .2s;
+    outline: none;
+    width: 100%;
+  }
+
+  .form-input::placeholder,
+  .form-textarea::placeholder {
+    color: var(--text-dimmer);
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    border-color: var(--accent);
+    background: rgba(200,169,110,.05);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 110px;
+  }
+
+  .form-submit {
+    width: 100%;
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 16px 28px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: opacity .2s, transform .2s;
+    position: relative;
+  }
+
+  .form-submit:hover:not(:disabled) { opacity: .88; transform: translateY(-1px); }
+  .form-submit:disabled { opacity: .5; cursor: not-allowed; }
+
+  .form-status {
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 1px;
+    display: none;
+  }
+
+  .form-status.success {
+    display: block;
+    background: rgba(46,125,82,.15);
+    border: 1px solid rgba(46,125,82,.4);
+    color: #5cc990;
+  }
+
+  .form-status.error {
+    display: block;
+    background: rgba(192,57,43,.12);
+    border: 1px solid rgba(192,57,43,.35);
+    color: #e07060;
+  }
+
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 60px;
+    background: rgba(14,13,11,.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-logo-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color .2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--bg) !important;
+    background: var(--accent);
+    padding: 8px 18px;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: opacity .2s !important;
+  }
+
+  .nav-cta:hover { opacity: .85; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding-top: 60px;
+    position: relative;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 64px 80px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-title {
+    font-size: clamp(42px, 5vw, 72px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 28px;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-title .strike {
+    position: relative;
+    color: var(--text-dim);
+  }
+
+  .hero-title .strike::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    top: 50%;
+    height: 3px;
+    background: var(--accent-red);
+    transform: rotate(-2deg);
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--text-dim);
+    line-height: 1.75;
+    max-width: 480px;
+    margin-bottom: 44px;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .btn-primary {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity .2s, transform .2s;
+  }
+
+  .btn-primary:hover { opacity: .88; transform: translateY(-1px); }
+
+  .btn-ghost {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color .2s;
+  }
+
+  .btn-ghost:hover { color: var(--text); }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .hero-stat-num {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .hero-stat-num span { color: var(--accent); }
+
+  .hero-stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  /* ── HERO RIGHT — MOCK REPORT ── */
+  .hero-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 48px;
+    border-left: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(200,169,110,.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .mock-report {
+    width: 100%;
+    max-width: 380px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04);
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .mock-header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mock-domain {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .mock-badge {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    background: rgba(192,57,43,.15);
+    color: #e74c3c;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  .mock-score-area {
+    padding: 24px 20px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mock-score-big {
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: -3px;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  .mock-score-sub {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  .mock-cite-rate {
+    text-align: right;
+  }
+
+  .mock-cite-num {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: var(--accent-red);
+    line-height: 1;
+  }
+
+  .mock-cite-label {
+    font-family: var(--mono);
+    font-size: 8px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  .mock-bars {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mock-bar-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 40px;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mock-bar-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  .mock-bar-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .mock-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    animation: barGrow 1.5s ease-out forwards;
+    transform-origin: left;
+  }
+
+  @keyframes barGrow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  .mock-bar-val {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-dim);
+    text-align: right;
+  }
+
+  .mock-actions-preview {
+    padding: 14px 20px;
+  }
+
+  .mock-act-label {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--text-dimmer);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .mock-act-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .mock-act-item:last-child { border-bottom: none; }
+
+  .mock-act-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: fadeInUp 1s 1.5s both;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--text-dimmer), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollLine {
+    0%, 100% { transform: scaleY(1); opacity: .5; }
+    50% { transform: scaleY(.5); opacity: 1; }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 80px;
+  }
+
+  /* ── PROBLEM STRIP ── */
+  .problem-strip {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    padding: 20px 0;
+    overflow: hidden;
+  }
+
+  .ticker-wrap {
+    display: flex;
+    gap: 0;
+    animation: ticker 30s linear infinite;
+    white-space: nowrap;
+  }
+
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 40px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .ticker-item::after {
+    content: '//';
+    color: var(--text-dimmer);
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── WHAT IS AEO ── */
+  .what-section {
+    padding: 120px 0;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .what-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 64px;
+  }
+
+  .what-card {
+    background: var(--surface);
+    padding: 40px;
+    transition: background .3s;
+  }
+
+  .what-card:hover { background: var(--surface2); }
+
+  .what-card-icon {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--text-dimmer);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .what-card-icon::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--border2);
+  }
+
+  .what-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.5px;
+    margin-bottom: 12px;
+  }
+
+  .what-card p {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.75;
+  }
+
+  .what-card.highlight {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent2);
+  }
+
+  /* ── FIVE DIMENSIONS ── */
+  .dimensions-section {
+    padding: 120px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .dim-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    margin-bottom: 64px;
+  }
+
+  .dim-header p {
+    font-size: 16px;
+    color: var(--text-dim);
+    line-height: 1.75;
+    margin-top: 20px;
+  }
+
+  .dim-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .dim-card {
+    background: var(--surface);
+    padding: 32px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: background .3s;
+  }
+
+  .dim-card:hover { background: var(--surface2); }
+
+  .dim-num {
+    font-family: var(--mono);
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--border2);
+    line-height: 1;
+    margin-bottom: 16px;
+    letter-spacing: -2px;
+  }
+
+  .dim-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .dim-weight {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  .dim-desc {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-section {
+    padding: 120px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .how-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 64px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .how-step {
+    padding: 40px 32px;
+    border-right: 1px solid var(--border);
+    position: relative;
+    background: var(--surface);
+    transition: background .3s;
+  }
+
+  .how-step:last-child { border-right: none; }
+  .how-step:hover { background: var(--surface2); }
+
+  .how-step-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-dimmer);
+    margin-bottom: 20px;
+  }
+
+  .how-step h3 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+    margin-bottom: 12px;
+  }
+
+  .how-step p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  .how-step-arrow {
+    position: absolute;
+    top: 40px;
+    right: -12px;
+    width: 24px;
+    height: 24px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--text-dim);
+    z-index: 2;
+  }
+
+  .how-step:last-child .how-step-arrow { display: none; }
+
+  /* ── FOR AGENCIES ── */
+  .agency-section {
+    padding: 120px 0;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .agency-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .agency-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .benefit-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    transition: border-color .3s;
+  }
+
+  .benefit-item:hover { border-color: var(--border2); }
+
+  .benefit-icon {
+    font-family: var(--mono);
+    font-size: 16px;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .benefit-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .benefit-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.65;
+  }
+
+  .agency-visual {
+    position: relative;
+  }
+
+  .agency-card {
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .agency-card-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg2);
+  }
+
+  .agency-card-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .agency-urls {
+    padding: 0;
+  }
+
+  .agency-url-item {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    transition: background .2s;
+  }
+
+  .agency-url-item:hover { background: var(--surface); }
+  .agency-url-item:last-child { border-bottom: none; }
+
+  .agency-url-domain {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  .agency-url-score {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .score-red { color: var(--accent-red); }
+  .score-amber { color: var(--accent); }
+  .score-green { color: var(--accent2); }
+
+  .agency-url-badge {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+
+  .badge-unsicht { background: rgba(192,57,43,.12); color: #e74c3c; }
+  .badge-begrenzt { background: rgba(200,169,110,.12); color: var(--accent); }
+  .badge-sichtbar { background: rgba(46,125,82,.12); color: var(--accent2); }
+
+  /* ── CTA ── */
+  .cta-section {
+    padding: 140px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(200,169,110,.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-section .section-label {
+    justify-content: center;
+  }
+
+  .cta-section .section-label::before { display: none; }
+
+  .cta-title {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-sub {
+    font-size: 17px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto 48px;
+  }
+
+  .cta-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .btn-large {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 18px 36px;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity .2s, transform .2s;
+    text-transform: uppercase;
+  }
+
+  .btn-large:hover { opacity: .88; transform: translateY(-2px); }
+
+  .btn-large-ghost {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    border: 1px solid var(--border2);
+    padding: 18px 36px;
+    border-radius: 2px;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color .2s, color .2s;
+    text-transform: uppercase;
+  }
+
+  .btn-large-ghost:hover { border-color: var(--text-dim); color: var(--text); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg2);
+  }
+
+  .footer-logo {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 32px;
+  }
+
+  .footer-links a {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--text-dimmer);
+    text-decoration: none;
+    transition: color .2s;
+  }
+
+  .footer-links a:hover { color: var(--text-dim); }
+
+  .footer-copy {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--text-dimmer);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── FAQ ── */
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    transition: background .2s;
+  }
+
+  .faq-item:hover { background: var(--surface2); }
+
+  .faq-q {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 24px 32px;
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    transition: color .2s;
+  }
+
+  .faq-q:hover { color: var(--accent); }
+
+  .faq-icon {
+    font-family: var(--mono);
+    font-size: 20px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    transition: transform .3s, color .2s;
+    line-height: 1;
+  }
+
+  .faq-item.open .faq-icon {
+    transform: rotate(45deg);
+    color: var(--accent);
+  }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .4s ease, padding .3s ease;
+    padding: 0 32px;
+  }
+
+  .faq-item.open .faq-a {
+    max-height: 400px;
+    padding: 0 32px 24px;
+  }
+
+  .faq-a p {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.8;
+    border-left: 2px solid var(--border2);
+    padding-left: 16px;
+  }
+
+  .faq-a strong { color: var(--text); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 80px 40px; }
+    nav { padding: 0 24px; }
+    .container { padding: 0 40px; }
+    .what-grid { grid-template-columns: 1fr; }
+    .dim-grid { grid-template-columns: 1fr 1fr; }
+    .how-steps { grid-template-columns: 1fr 1fr; }
+    .agency-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 20px; text-align: center; padding: 32px 24px; }
+    .nav-links { display: none; }
+  }
+
+  /* ── TOOL SECTION ── */
+  .tool-section {
+    padding: 100px 0 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .tool-section .container {
+    text-align: center;
+    padding-bottom: 56px;
+  }
+
+  .tool-section .section-title {
+    margin-bottom: 16px;
+  }
+
+  .tool-section .section-sub {
+    font-size: 17px;
+    color: var(--text-dim);
+    max-width: 540px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+
+  .tool-section-sub {
+    font-size: 17px;
+    color: var(--text-dim);
+    max-width: 540px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+
+  /* URL input bar — dark LP style */
+  .tool-url-bar {
+    display: flex;
+    gap: 10px;
+    max-width: 640px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  .tool-url-input {
+    flex: 1;
+    background: rgba(255,255,255,.05);
+    border: 1px solid var(--border2);
+    border-radius: 2px;
+    padding: 14px 18px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    transition: border-color .2s, background .2s;
+  }
+
+  .tool-url-input::placeholder { color: var(--text-dimmer); }
+  .tool-url-input:focus { border-color: var(--accent); background: rgba(200,169,110,.05); }
+
+  .tool-url-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 14px 24px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: opacity .2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .tool-url-btn:hover:not(:disabled) { opacity: .85; }
+  .tool-url-btn:disabled { opacity: .45; cursor: not-allowed; }
+
+  /* Status log — dark */
+  .tool-status-log {
+    display: none;
+    max-width: 640px;
+    margin: 12px auto 0;
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 10px 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 2;
+    max-height: 80px;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  .tlog-ok { color: #5cc990; }
+  .tlog-err { color: #e07060; }
+  .tlog-info { color: var(--text-dim); }
+
+  /* Scorecard wrapper — light tool theme */
+  .tool-results-wrap {
+    background: #f5f3ee;
+    border-top: 1px solid var(--border);
+    padding: 40px 0 60px;
+    margin-top: 32px;
+    display: none;
+  }
+
+  .tool-results-wrap.visible { display: block; }
+
+  .tool-results-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* ── TOOL INNER CSS (light theme, scoped) ── */
+  .tool-results-wrap {
+    --tbg: #f5f3ee;
+    --tsurf: #fff;
+    --tsurf2: #f0ede6;
+    --tborder: #e0dbd0;
+    --ttext: #1a1814;
+    --tdim: #7a7468;
+    --tred: #c0392b;
+    --tyellow: #d48a00;
+    --tgreen: #2e7d52;
+    --tred-bg: #fdf0ee;
+    --tyellow-bg: #fdf8ee;
+    --tgreen-bg: #eef6f0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #1a1814;
+  }
+
+  .tool-results-wrap .mgmt-summary{background:#1a1814;color:#fff;border-radius:8px;padding:36px;margin-bottom:24px;-webkit-font-smoothing:antialiased;}
+  .tool-results-wrap .mgmt-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;flex-wrap:wrap;gap:16px;}
+  .tool-results-wrap .mgmt-title{font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;opacity:.5;margin-bottom:6px;}
+  .tool-results-wrap .mgmt-company{font-family:'DM Sans',sans-serif;font-size:26px;font-weight:600;line-height:1.1;letter-spacing:-0.3px;}
+  .tool-results-wrap .mgmt-meta{font-family:'DM Mono',monospace;font-size:11px;opacity:.4;margin-top:6px;}
+  .tool-results-wrap .mgmt-rating-block{text-align:right;}
+  .tool-results-wrap .mgmt-score-big{font-family:'DM Sans',sans-serif;font-size:60px;font-weight:700;line-height:1;letter-spacing:-2px;}
+  .tool-results-wrap .mgmt-score-label{font-family:'DM Mono',monospace;font-size:11px;opacity:.4;letter-spacing:1px;}
+  .tool-results-wrap .mgmt-badge{display:inline-block;padding:4px 14px;border-radius:20px;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;margin-top:8px;}
+  .tool-results-wrap .mgmt-badge.red{background:#c0392b;color:#fff;}
+  .tool-results-wrap .mgmt-badge.yellow{background:#d48a00;color:#fff;}
+  .tool-results-wrap .mgmt-badge.green{background:#2e7d52;color:#fff;}
+  .tool-results-wrap .score-breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:28px;}
+  .tool-results-wrap .score-dim{background:rgba(255,255,255,.07);border-radius:6px;padding:14px;}
+  .tool-results-wrap .score-dim-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;opacity:.5;text-transform:uppercase;margin-bottom:6px;}
+  .tool-results-wrap .score-dim-bar{height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin-bottom:6px;overflow:hidden;}
+  .tool-results-wrap .score-dim-fill{height:100%;border-radius:2px;transition:width .6s ease;}
+  .tool-results-wrap .score-dim-fill.red{background:#c0392b;}
+  .tool-results-wrap .score-dim-fill.yellow{background:#d48a00;}
+  .tool-results-wrap .score-dim-fill.green{background:#2e7d52;}
+  .tool-results-wrap .score-dim-val{font-family:'DM Sans',sans-serif;font-size:20px;font-weight:600;display:inline;letter-spacing:-0.5px;}
+  .tool-results-wrap .score-dim-max{font-family:'DM Mono',monospace;font-size:11px;opacity:.4;display:inline;}
+  .tool-results-wrap .mgmt-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;}
+  .tool-results-wrap .kpi-card{background:rgba(255,255,255,.07);border-radius:6px;padding:16px;}
+  .tool-results-wrap .kpi-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;opacity:.4;text-transform:uppercase;margin-bottom:8px;}
+  .tool-results-wrap .kpi-value{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:800;margin-bottom:4px;}
+  .tool-results-wrap .kpi-desc{font-size:12px;opacity:.5;line-height:1.4;}
+  .tool-results-wrap .kpi-indicator{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;}
+  .tool-results-wrap .kpi-indicator.red{background:#c0392b;}
+  .tool-results-wrap .kpi-indicator.yellow{background:#d48a00;}
+  .tool-results-wrap .kpi-indicator.green{background:#2e7d52;}
+  .tool-results-wrap .mgmt-actions{border-top:1px solid rgba(255,255,255,.1);padding-top:20px;}
+  .tool-results-wrap .mgmt-actions-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;opacity:.4;text-transform:uppercase;margin-bottom:14px;}
+  .tool-results-wrap .mgmt-action-row{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;}
+  .tool-results-wrap .mgmt-action-num{font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;opacity:.2;line-height:1;flex-shrink:0;width:28px;}
+  .tool-results-wrap .mgmt-action-text h4{font-size:14px;font-weight:600;margin-bottom:2px;}
+  .tool-results-wrap .mgmt-action-text p{font-size:12px;opacity:.45;line-height:1.4;}
+  .tool-results-wrap .mgmt-action-effort{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;padding:2px 8px;border-radius:3px;flex-shrink:0;margin-top:2px;}
+  .tool-results-wrap .mgmt-action-effort.low{background:#2e7d52;color:#fff;}
+  .tool-results-wrap .mgmt-action-effort.medium{background:#d48a00;color:#fff;}
+  .tool-results-wrap .mgmt-action-effort.high{background:rgba(255,255,255,.15);color:#fff;}
+  .tool-results-wrap .ki-test-section{background:#fff;border:1px solid #e0dbd0;border-radius:8px;padding:28px;margin-bottom:24px;}
+  .tool-results-wrap .ki-test-section h3{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;margin-bottom:6px;}
+  .tool-results-wrap .ki-test-sub{font-size:13px;color:#7a7468;margin-bottom:20px;}
+  .tool-results-wrap .ki-test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;}
+  .tool-results-wrap .ki-question{background:#f0ede6;border:1px solid #e0dbd0;border-radius:6px;padding:14px;}
+  .tool-results-wrap .ki-q-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:#7a7468;text-transform:uppercase;margin-bottom:6px;}
+  .tool-results-wrap .ki-q-text{font-size:13px;font-weight:500;margin-bottom:10px;line-height:1.4;}
+  .tool-results-wrap .ki-q-links{display:flex;gap:6px;flex-wrap:wrap;}
+  .tool-results-wrap .ki-link{display:inline-flex;align-items:center;gap:5px;background:#1a1814;color:#fff;border:none;border-radius:4px;padding:5px 10px;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;text-decoration:none;transition:opacity .2s;}
+  .tool-results-wrap .ki-link.perplexity{background:#20808d;}
+  .tool-results-wrap .ki-link.gemini{background:#1a73e8;}
+  .tool-results-wrap .tech-section{background:#fff;border:1px solid #e0dbd0;border-radius:8px;padding:28px;margin-bottom:24px;}
+  .tool-results-wrap .tech-section h3{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+  .tool-results-wrap .section-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;background:#f0ede6;border:1px solid #e0dbd0;padding:3px 8px;border-radius:3px;color:#7a7468;}
+  .tool-results-wrap .checks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:0;}
+  .tool-results-wrap .check-card{background:#f0ede6;border:1px solid #e0dbd0;border-radius:6px;padding:18px;}
+  .tool-results-wrap .check-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .tool-results-wrap .check-title{font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;}
+  .tool-results-wrap .check-aeo-relevance{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;padding:2px 6px;border-radius:3px;opacity:.7;}
+  .tool-results-wrap .check-aeo-relevance.high{background:rgba(192,57,43,.1);color:#c0392b;}
+  .tool-results-wrap .check-aeo-relevance.medium{background:rgba(212,138,0,.1);color:#d48a00;}
+  .tool-results-wrap .check-aeo-relevance.low{background:rgba(46,125,82,.1);color:#2e7d52;}
+  .tool-results-wrap .status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .tool-results-wrap .status-dot.red{background:#c0392b;}
+  .tool-results-wrap .status-dot.yellow{background:#d48a00;}
+  .tool-results-wrap .status-dot.green{background:#2e7d52;}
+  .tool-results-wrap .check-value{font-family:'DM Mono',monospace;font-size:12px;color:#7a7468;margin-bottom:8px;}
+  .tool-results-wrap .check-action{font-size:12px;padding:6px 10px;border-radius:4px;font-weight:500;line-height:1.3;}
+  .tool-results-wrap .check-action.red{background:#fdf0ee;color:#c0392b;}
+  .tool-results-wrap .check-action.yellow{background:#fdf8ee;color:#d48a00;}
+  .tool-results-wrap .check-action.green{background:#eef6f0;color:#2e7d52;}
+  .tool-results-wrap .schema-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+  .tool-results-wrap .schema-tag{background:#fff;border:1px solid #e0dbd0;border-radius:3px;padding:2px 7px;font-family:'DM Mono',monospace;font-size:9px;color:#7a7468;}
+  .tool-results-wrap .schema-tag.found{background:#eef6f0;border-color:#2e7d52;color:#2e7d52;}
+  .tool-results-wrap .entity-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:0;}
+  .tool-results-wrap .entity-card{background:#f0ede6;border-radius:6px;padding:14px;border:1px solid #e0dbd0;}
+  .tool-results-wrap .entity-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:#7a7468;text-transform:uppercase;margin-bottom:6px;}
+  .tool-results-wrap .entity-value{font-size:13px;font-weight:500;}
+  .tool-results-wrap .entity-status{font-family:'DM Mono',monospace;font-size:10px;margin-top:4px;}
+  .tool-results-wrap .entity-status.found{color:#2e7d52;}
+  .tool-results-wrap .entity-status.missing{color:#c0392b;}
+  .tool-results-wrap .actions-section{background:#fff;border:1px solid #e0dbd0;border-radius:8px;padding:28px;margin-bottom:24px;}
+  .tool-results-wrap .actions-section h3{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;margin-bottom:20px;}
+  .tool-results-wrap .action-item{display:grid;grid-template-columns:100px 1fr auto;gap:16px;padding:14px 0;border-bottom:1px solid #e0dbd0;align-items:start;}
+  .tool-results-wrap .action-item:last-child{border-bottom:none;}
+  .tool-results-wrap .action-priority{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;white-space:nowrap;text-align:center;}
+  .tool-results-wrap .action-priority.high{background:#fdf0ee;color:#c0392b;}
+  .tool-results-wrap .action-priority.medium{background:#fdf8ee;color:#d48a00;}
+  .tool-results-wrap .action-priority.low{background:#eef6f0;color:#2e7d52;}
+  .tool-results-wrap .action-content h4{font-weight:600;font-size:14px;margin-bottom:3px;}
+  .tool-results-wrap .action-content p{font-size:12px;color:#7a7468;line-height:1.5;}
+  .tool-results-wrap .effort-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:#f0ede6;color:#7a7468;white-space:nowrap;}
+  .tool-results-wrap .how-to-toggle{background:none;border:1px solid #e0dbd0;border-radius:4px;padding:4px 10px;font-family:'DM Mono',monospace;font-size:10px;color:#7a7468;cursor:pointer;margin-top:8px;transition:all .2s;display:flex;align-items:center;gap:5px;}
+  .tool-results-wrap .how-to-toggle:hover{border-color:#1a1814;color:#1a1814;}
+  .tool-results-wrap .how-to-panel{display:none;margin-top:10px;background:#f0ede6;border-radius:5px;padding:14px;border-left:3px solid #e0dbd0;}
+  .tool-results-wrap .how-to-panel.open{display:block;}
+  .tool-results-wrap .how-to-panel h5{font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;margin-bottom:8px;color:#7a7468;text-transform:uppercase;letter-spacing:1px;}
+  .tool-results-wrap .how-to-panel pre{background:#fff;border:1px solid #e0dbd0;border-radius:4px;padding:10px 12px;font-family:'DM Mono',monospace;font-size:11px;overflow-x:auto;margin:6px 0;white-space:pre-wrap;word-break:break-all;line-height:1.6;}
+  .tool-results-wrap .how-to-panel .tool-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .tool-results-wrap .how-to-panel .tool-link{display:inline-flex;align-items:center;gap:4px;background:#1a1814;color:#fff;border-radius:4px;padding:4px 10px;font-family:'DM Mono',monospace;font-size:10px;text-decoration:none;transition:opacity .2s;}
+  .tool-results-wrap .how-to-panel p{font-size:12px;color:#7a7468;line-height:1.6;margin-bottom:6px;}
+  .tool-results-wrap .page-table{background:#fff;border:1px solid #e0dbd0;border-radius:8px;overflow:hidden;margin-bottom:24px;}
+  .tool-results-wrap .page-table-header{padding:20px 24px;border-bottom:1px solid #e0dbd0;display:flex;justify-content:space-between;align-items:center;}
+  .tool-results-wrap .page-table-header h3{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;}
+  .tool-results-wrap table{width:100%;border-collapse:collapse;}
+  .tool-results-wrap th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#7a7468;text-align:left;padding:10px 14px;border-bottom:1px solid #e0dbd0;background:#f0ede6;}
+  .tool-results-wrap td{padding:10px 14px;border-bottom:1px solid #e0dbd0;font-size:12px;}
+  .tool-results-wrap tr:last-child td{border-bottom:none;}
+  .tool-results-wrap .td-title{font-weight:500;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .tool-results-wrap .section-label-t{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#7a7468;margin-bottom:10px;}
+  .tool-results-wrap .spinner{display:inline-block;width:11px;height:11px;border:2px solid #e0dbd0;border-top-color:#1a1814;border-radius:50%;animation:tspin .7s linear infinite;vertical-align:middle;margin-right:6px;}
+  @keyframes tspin{to{transform:rotate(360deg)}}
+
+  /* Download box in results */
+  .tool-download-box {
+    background: #fff;
+    border: 1px solid #e0dbd0;
+    border-radius: 8px;
+    padding: 32px;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .tool-download-box h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #7a7468;
+    margin-bottom: 20px;
+  }
+
+  .tool-dl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #1a1814;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 14px 32px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: opacity .2s;
+    margin-bottom: 16px;
+  }
+  .tool-dl-btn:hover { opacity: .82; }
+  .tool-dl-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+  .tool-agentur-locked {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #f0ede6;
+    border: 1px solid #e0dbd0;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-top: 16px;
+    text-align: left;
+  }
+
+  .tool-agentur-locked-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .tool-agentur-locked-text {
+    font-size: 13px;
+    color: #7a7468;
+    line-height: 1.6;
+  }
+
+  .tool-agentur-locked-title {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1814;
+    margin-bottom: 4px;
+  }
+
+  .tool-agentur-cta {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #c8a96e;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(200,169,110,.4);
+    cursor: pointer;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding: 0;
+  }
+
+  .tool-reset-btn {
+    display: block;
+    margin: 0 auto;
+    background: none;
+    border: 1px solid #e0dbd0;
+    border-radius: 4px;
+    padding: 8px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #7a7468;
+    cursor: pointer;
+    transition: all .2s;
+    margin-top: 12px;
+  }
+  .tool-reset-btn:hover { border-color: #1a1814; color: #1a1814; }
+
+  /* ── LEAD MODAL ── */
+  .lead-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(14,13,11,.85);
+    backdrop-filter: blur(8px);
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .lead-modal-box {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    padding: 48px 40px 40px;
+    max-width: 480px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 40px 80px rgba(0,0,0,.6);
+  }
+
+  .lead-modal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .lead-modal-close:hover { border-color: var(--text); color: var(--text); }
+
+  .lead-modal-icon {
+    font-family: var(--mono);
+    font-size: 28px;
+    color: var(--accent);
+    margin-bottom: 16px;
+    line-height: 1;
+  }
+
+  .lead-modal-title {
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -.5px;
+    margin-bottom: 8px;
+  }
+
+  .lead-modal-sub {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  .lead-modal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .lead-modal-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .lead-modal-input {
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--border2);
+    border-radius: 2px;
+    padding: 12px 14px;
+    font-family: var(--display);
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    transition: border-color .2s, background .2s;
+    width: 100%;
+  }
+  .lead-modal-input::placeholder { color: var(--text-dimmer); }
+  .lead-modal-input:focus { border-color: var(--accent); background: rgba(200,169,110,.04); }
+
+  .lead-modal-submit {
+    width: 100%;
+    margin-top: 8px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 2px;
+    padding: 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .lead-modal-submit:hover:not(:disabled) { opacity: .85; }
+  .lead-modal-submit:disabled { opacity: .45; cursor: not-allowed; }
+
+  .lead-modal-privacy {
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dimmer);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .lead-modal-status {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 11px;
+    display: none;
+  }
+  .lead-modal-status.success { display: block; background: rgba(46,125,82,.12); border: 1px solid rgba(46,125,82,.3); color: #5cc990; }
+  .lead-modal-status.error { display: block; background: rgba(192,57,43,.1); border: 1px solid rgba(192,57,43,.3); color: #e07060; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-dot"></div>
+    AEO REPORT
+  </a>
+  <div class="nav-links">
+    <a href="#was-ist-aeo">Was ist AEO?</a>
+    <a href="#wie-es-funktioniert">Methodik</a>
+    <a href="#fuer-agenturen">Für Agenturen</a>
+    <a href="#faq">FAQ</a>
+    <a href="#analyse" class="nav-cta">ANALYSE STARTEN</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Answer Engine Optimization</div>
+    <h1 class="hero-title">
+      <span class="strike">Google</span> war gestern.<br>
+      Heute entscheidet<br>
+      <em>KI.</em>
+    </h1>
+    <p class="hero-sub">
+      ChatGPT, Perplexity und Gemini werden zur ersten Anlaufstelle für Kaufentscheidungen. Der AEO Report zeigt, wie sichtbar Ihre Kunden dort wirklich sind — automatisiert, in Minuten.
+    </p>
+    <div class="hero-actions">
+      <a href="#analyse" class="btn-primary">JETZT ANALYSIEREN →</a>
+      <a href="#wie-es-funktioniert" class="btn-ghost">Report ansehen ↓</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">5<span>×</span></div>
+        <div class="hero-stat-label">Kategorien analysiert</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">10<span>+</span></div>
+        <div class="hero-stat-label">KI-Praxistests</div>
+      </div>
+      <div>
+        <div class="hero-stat-num"><span>&lt;</span>3<span>min</span></div>
+        <div class="hero-stat-label">Analyse-Dauer</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="mock-report">
+      <div class="mock-header">
+        <span class="mock-domain">theurl.com · AEO AUDIT</span>
+        <span class="mock-badge">UNSICHTBAR</span>
+      </div>
+      <div class="mock-score-area">
+        <div>
+          <div class="mock-score-big">36</div>
+          <div class="mock-score-sub">/ 100 PUNKTE</div>
+        </div>
+        <div class="mock-cite-rate">
+          <div class="mock-cite-num">40%</div>
+          <div class="mock-cite-label">Citation Rate</div>
+        </div>
+      </div>
+      <div class="mock-bars">
+        <div class="mock-bar-row">
+          <div class="mock-bar-label">KI-Sichtbarkeit</div>
+          <div class="mock-bar-track"><div class="mock-bar-fill" style="width:33%;background:#c0392b;animation-delay:.1s"></div></div>
+          <div class="mock-bar-val">9.9</div>
+        </div>
+        <div class="mock-bar-row">
+          <div class="mock-bar-label">Content-Architektur</div>
+          <div class="mock-bar-track"><div class="mock-bar-fill" style="width:7%;background:#c0392b;animation-delay:.2s"></div></div>
+          <div class="mock-bar-val">1.8</div>
+        </div>
+        <div class="mock-bar-row">
+          <div class="mock-bar-label">Strukturierte Daten</div>
+          <div class="mock-bar-track"><div class="mock-bar-fill" style="width:50%;background:#c8a96e;animation-delay:.3s"></div></div>
+          <div class="mock-bar-val">10.0</div>
+        </div>
+        <div class="mock-bar-row">
+          <div class="mock-bar-label">Techn. Zugänglichkeit</div>
+          <div class="mock-bar-track"><div class="mock-bar-fill" style="width:45%;background:#c8a96e;animation-delay:.4s"></div></div>
+          <div class="mock-bar-val">6.8</div>
+        </div>
+        <div class="mock-bar-row">
+          <div class="mock-bar-label">Entity-Präsenz</div>
+          <div class="mock-bar-track"><div class="mock-bar-fill" style="width:80%;background:#2e7d52;animation-delay:.5s"></div></div>
+          <div class="mock-bar-val">8.0</div>
+        </div>
+      </div>
+      <div class="mock-actions-preview">
+        <div class="mock-act-label">Top Sofortmaßnahmen</div>
+        <div class="mock-act-item">
+          <div class="mock-act-dot" style="background:#c0392b"></div>
+          FAQPage Schema ergänzen · 2 Std
+        </div>
+        <div class="mock-act-item">
+          <div class="mock-act-dot" style="background:#c0392b"></div>
+          LocalBusiness Schema ergänzen · 2 Std
+        </div>
+        <div class="mock-act-item">
+          <div class="mock-act-dot" style="background:#c8a96e"></div>
+          llms.txt erstellen · 1–2 Std
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">scroll</div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="problem-strip">
+  <div class="ticker-wrap">
+    <span class="ticker-item">ChatGPT — 300 Mio. aktive Nutzer täglich</span>
+    <span class="ticker-item">Perplexity — 15 Mio. Anfragen pro Tag</span>
+    <span class="ticker-item">Google AI Overviews — aktiv in 100+ Ländern</span>
+    <span class="ticker-item">KI-Suche ersetzt klassische Google-Klicks</span>
+    <span class="ticker-item">Schema Markup — Basis für KI-Zitierungen</span>
+    <span class="ticker-item">llms.txt — neuer Standard für KI-Sichtbarkeit</span>
+    <span class="ticker-item">ChatGPT — 300 Mio. aktive Nutzer täglich</span>
+    <span class="ticker-item">Perplexity — 15 Mio. Anfragen pro Tag</span>
+    <span class="ticker-item">Google AI Overviews — aktiv in 100+ Ländern</span>
+    <span class="ticker-item">KI-Suche ersetzt klassische Google-Klicks</span>
+    <span class="ticker-item">Schema Markup — Basis für KI-Zitierungen</span>
+    <span class="ticker-item">llms.txt — neuer Standard für KI-Sichtbarkeit</span>
+  </div>
+</div>
+
+<!-- WHAT IS AEO -->
+<section class="what-section" id="was-ist-aeo">
+  <div class="container">
+    <div class="section-label">Das Problem</div>
+    <h2 class="section-title fade-in">SEO bringt Sie ins<br>Suchergebnis — nicht in die Antwort.</h2>
+
+    <div class="what-grid fade-in">
+      <div class="what-card">
+        <div class="what-card-icon">SEO — BISHER AUSREICHEND</div>
+        <h3>Sichtbar im Datenpool</h3>
+        <p>SEO bringt eine Website in die Auswahl — sie wird indexiert und kann in klassischen Suchergebnissen erscheinen. Das reicht für Google-Klicks, aber nicht für KI-Antworten.</p>
+      </div>
+      <div class="what-card highlight">
+        <div class="what-card-icon">AEO — HEUTE ENTSCHEIDEND</div>
+        <h3>Als Antwort erkannt werden</h3>
+        <p>AEO macht eine Website zur Antwort. KI-Systeme wie ChatGPT, Perplexity und Gemini zitieren Quellen die strukturiert, klar und maschinenlesbar sind. Wer das nicht erfüllt, existiert für KI schlicht nicht.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIVE DIMENSIONS -->
+<section class="dimensions-section" id="wie-es-funktioniert">
+  <div class="container">
+    <div class="dim-header">
+      <div>
+        <div class="section-label">Methodik</div>
+        <h2 class="section-title fade-in">Fünf Dimensionen.<br>Ein Score.</h2>
+      </div>
+      <div>
+        <p class="fade-in" style="margin-top:40px;">Der AEO Report analysiert jede Website vollautomatisch in fünf gewichteten Kategorien — von der technischen Grundlage bis zum echten KI-Praxistest mit realen Suchanfragen.</p>
+      </div>
+    </div>
+
+    <div class="dim-grid fade-in">
+      <div class="dim-card">
+        <div class="dim-num">01</div>
+        <div class="dim-title">KI-Sichtbarkeit</div>
+        <div class="dim-weight">30% Gewichtung</div>
+        <div class="dim-desc">10 branchenrelevante Suchanfragen via Perplexity. Primär, am Rand oder unsichtbar?</div>
+      </div>
+      <div class="dim-card">
+        <div class="dim-num">02</div>
+        <div class="dim-title">Content-Architektur</div>
+        <div class="dim-weight">25% Gewichtung</div>
+        <div class="dim-desc">FAQ-, HowTo- und Vergleichsseiten. Texttiefe und Frageformate für KI-Zitierungen.</div>
+      </div>
+      <div class="dim-card">
+        <div class="dim-num">03</div>
+        <div class="dim-title">Strukturierte Daten</div>
+        <div class="dim-weight">20% Gewichtung</div>
+        <div class="dim-desc">Schema Markup, H1-Struktur, FAQPage, LocalBusiness — die unsichtbaren KI-Signale.</div>
+      </div>
+      <div class="dim-card">
+        <div class="dim-num">04</div>
+        <div class="dim-title">Techn. Zugänglichkeit</div>
+        <div class="dim-weight">15% Gewichtung</div>
+        <div class="dim-desc">robots.txt, llms.txt, Meta-Tags, Open Graph. Kann KI die Website überhaupt lesen?</div>
+      </div>
+      <div class="dim-card">
+        <div class="dim-num">05</div>
+        <div class="dim-title">Entity-Präsenz</div>
+        <div class="dim-weight">10% Gewichtung</div>
+        <div class="dim-desc">Konsistente Kernbegriffe, Branche, Region, Zielgruppe — wie klar ist das Unternehmen für KI erkennbar?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="container">
+    <div class="section-label">Ablauf</div>
+    <h2 class="section-title fade-in">Von der URL zum Report<br>in unter 3 Minuten.</h2>
+
+    <div class="how-steps fade-in">
+      <div class="how-step">
+        <div class="how-step-num">SCHRITT 01</div>
+        <h3>URL eingeben</h3>
+        <p>Domain des Unternehmens eingeben. Der Crawler analysiert automatisch bis zu 20 Unterseiten.</p>
+        <div class="how-step-arrow">→</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">SCHRITT 02</div>
+        <h3>KI-Praxistest</h3>
+        <p>10 branchenrelevante Fragen werden automatisiert an Perplexity gestellt. Erscheint die Website in den Antworten?</p>
+        <div class="how-step-arrow">→</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">SCHRITT 03</div>
+        <h3>Score berechnen</h3>
+        <p>Alle fünf Dimensionen werden gewichtet ausgewertet. Gesamtscore 0–100, inklusive konkreter Maßnahmen.</p>
+        <div class="how-step-arrow">→</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">SCHRITT 04</div>
+        <h3>PDF exportieren</h3>
+        <p>Drei Exportvarianten: Kundenexemplar, Agenturexemplar inkl. Umsetzungsleitfaden, Vertriebsexemplar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR AGENCIES -->
+<section class="agency-section" id="fuer-agenturen">
+  <div class="container">
+    <div class="agency-grid">
+      <div>
+        <div class="section-label">Für Agenturen</div>
+        <h2 class="section-title fade-in">Ihr neues<br>Erstgespräch-Tool.</h2>
+        <div class="agency-benefits">
+          <div class="benefit-item fade-in">
+            <div class="benefit-icon">⬡</div>
+            <div>
+              <div class="benefit-title">White-Label Ready</div>
+              <div class="benefit-desc">Der Report erscheint mit Ihrem Branding, Ihrem Logo, Ihren Kontaktdaten. Der Kunde sieht Ihre Agentur.</div>
+            </div>
+          </div>
+          <div class="benefit-item fade-in">
+            <div class="benefit-icon">⬡</div>
+            <div>
+              <div class="benefit-title">Gesprächsanlass schaffen</div>
+              <div class="benefit-desc">Ein konkreter Score mit Optimierungspotenzial öffnet Türen. Kostengünstig prospektiert, hochwertig präsentiert.</div>
+            </div>
+          </div>
+          <div class="benefit-item fade-in">
+            <div class="benefit-icon">⬡</div>
+            <div>
+              <div class="benefit-title">Drei Exportvarianten</div>
+              <div class="benefit-desc">Analyse-, Agentur- und Vertriebsexemplar — jedes für einen anderen Empfänger und Zweck optimiert.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="agency-visual fade-in">
+        <div class="agency-card">
+          <div class="agency-card-header">
+            <span class="agency-card-title">Analysierte Domains</span>
+            <span style="font-family:var(--mono);font-size:9px;color:var(--text-dimmer);">DIESE WOCHE</span>
+          </div>
+          <div class="agency-urls">
+            <div class="agency-url-item">
+              <span class="agency-url-domain">tischlerei-maier.at</span>
+              <span class="agency-url-score score-red">24/100</span>
+              <span class="agency-url-badge badge-unsicht">Unsichtbar</span>
+            </div>
+            <div class="agency-url-item">
+              <span class="agency-url-domain">sanitaer-huber.de</span>
+              <span class="agency-url-score score-amber">41/100</span>
+              <span class="agency-url-badge badge-begrenzt">Begrenzt</span>
+            </div>
+            <div class="agency-url-item">
+              <span class="agency-url-domain">bäckerei-brand.ch</span>
+              <span class="agency-url-score score-red">18/100</span>
+              <span class="agency-url-badge badge-unsicht">Unsichtbar</span>
+            </div>
+            <div class="agency-url-item">
+              <span class="agency-url-domain">elektro-fischer.at</span>
+              <span class="agency-url-score score-amber">55/100</span>
+              <span class="agency-url-badge badge-begrenzt">Begrenzt</span>
+            </div>
+            <div class="agency-url-item">
+              <span class="agency-url-domain">malerbetrieb-wolf.de</span>
+              <span class="agency-url-score score-green">72/100</span>
+              <span class="agency-url-badge badge-sichtbar">Sichtbar</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOL SECTION -->
+<section class="tool-section" id="analyse">
+  <div class="container">
+    <div class="section-label">Live-Analyse</div>
+    <h2 class="section-title fade-in">Ihre Domain.<br>Jetzt analysieren.</h2>
+    <p class="tool-section-sub fade-in">URL eingeben — der vollständige AEO Report ist in unter 3 Minuten fertig.</p>
+
+    <div class="tool-url-bar fade-in">
+      <input
+        class="tool-url-input"
+        id="targetUrl"
+        type="text"
+        placeholder="https://ihre-website.at"
+        onkeydown="if(event.key==='Enter')startAudit()"
+      />
+      <button class="tool-url-btn" id="auditBtn" onclick="startAudit()">▶ ANALYSIEREN</button>
+    </div>
+    <div class="tool-status-log" id="statusLog"></div>
+  </div>
+
+  <!-- Results area — expands after analysis -->
+  <div class="tool-results-wrap" id="toolResultsWrap">
+    <div class="tool-results-inner">
+      <div id="scorecard"></div>
+    </div>
+  </div>
+</section>
+
+<!-- LEAD MODAL -->
+<div class="lead-modal-overlay" id="leadModal" style="display:none;" onclick="handleModalOverlayClick(event)">
+  <div class="lead-modal-box">
+    <button class="lead-modal-close" onclick="closeLeadModal()">✕ SCHLIEßEN</button>
+    <div class="lead-modal-icon">↓</div>
+    <div class="lead-modal-title">Report freischalten</div>
+    <p class="lead-modal-sub">Wohin sollen wir Ihren Report schicken? Der Download startet sofort nach Eingabe.</p>
+
+    <div class="lead-modal-field">
+      <label class="lead-modal-label" for="lg-name">Name <span style="color:var(--accent)">*</span></label>
+      <input class="lead-modal-input" id="lg-name" type="text" placeholder="Max Mustermann" autocomplete="name" onkeydown="if(event.key==='Enter')submitLeadAndDownload()">
+    </div>
+    <div class="lead-modal-field">
+      <label class="lead-modal-label" for="lg-email">E-Mail <span style="color:var(--accent)">*</span></label>
+      <input class="lead-modal-input" id="lg-email" type="email" placeholder="max@muster.at" autocomplete="email" onkeydown="if(event.key==='Enter')submitLeadAndDownload()">
+    </div>
+    <div class="lead-modal-field">
+      <label class="lead-modal-label" for="lg-company">Firma / Agentur <span style="color:var(--text-dimmer);font-size:9px;">(optional)</span></label>
+      <input class="lead-modal-input" id="lg-company" type="text" placeholder="Muster GmbH" autocomplete="organization" onkeydown="if(event.key==='Enter')submitLeadAndDownload()">
+    </div>
+
+    <button class="lead-modal-submit" id="lg-submit" onclick="submitLeadAndDownload()">↓ HERUNTERLADEN</button>
+    <div class="lead-modal-status" id="lg-status"></div>
+    <p class="lead-modal-privacy">Kein Newsletter · Keine Weitergabe · Nur Ihr Report.</p>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section style="padding:120px 0;border-top:1px solid var(--border);" id="faq">
+  <div class="container">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title fade-in">Häufige Fragen<br>zum AEO Report.</h2>
+
+    <div style="margin-top:56px;display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+
+      <div class="faq-item fade-in">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Was ist Answer Engine Optimization (AEO)?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Answer Engine Optimization ist die Optimierung einer Website, um in KI-Suchsystemen wie ChatGPT, Perplexity und Google Gemini als Antwortquelle zitiert zu werden. Im Gegensatz zu klassischem SEO geht es nicht darum, in Suchergebnissen zu erscheinen — sondern direkt in KI-generierten Antworten genannt zu werden.</p>
+        </div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Für wen ist der AEO Report geeignet?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Der AEO Report richtet sich primär an Marketingagenturen im DACH-Raum, die ihren Kunden KI-Sichtbarkeit als neues Leistungsangebot anbieten möchten. Auch Unternehmen, die ihre eigene KI-Sichtbarkeit verstehen und verbessern wollen, profitieren direkt vom Report.</p>
+        </div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Wie lange dauert eine AEO-Analyse?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Eine vollständige Analyse dauert unter 3 Minuten. Der Crawler analysiert bis zu 20 Unterseiten, führt 10 KI-Praxistests durch und erstellt den vollständigen Report mit Score und konkreten Maßnahmen vollautomatisch.</p>
+        </div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Welche KI-Systeme werden beim Praxistest getestet?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Der Praxistest läuft primär über Perplexity, da dieses System besonders webbasierte Quellen zitiert und damit den stärksten Indikator für AEO-Sichtbarkeit liefert. Die Erkenntnisse sind direkt auf andere KI-Systeme wie ChatGPT, Gemini und Claude übertragbar.</p>
+        </div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Was ist der Unterschied zwischen den drei Exportvarianten?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p><strong>Kundenexemplar</strong> — Befunde, Score und Optimierungspotenziale ohne technische Umsetzungsdetails. Ideal zum Übergeben an den Kunden.<br><br>
+          <strong>Agenturexemplar</strong> — identisch, aber mit vollständigen Schritt-für-Schritt-Anleitungen für jede Maßnahme. Für die interne Umsetzung.<br><br>
+          <strong>Vertriebsexemplar</strong> — ergänzt eine fertige E-Mail-Vorlage und die automatisch gefundenen Kontaktadressen des Unternehmens. Als Akquise-Tool konzipiert.</p>
+        </div>
+      </div>
+
+      <div class="faq-item fade-in" style="border-bottom:none;">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Ist der AEO Report White-Label fähig?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Ja. Agenturen können den Report vollständig mit eigenem Branding, Logo und Kontaktdaten versehen. Der Kunde sieht ausschließlich die Agentur als Absender — die dahinterliegende Technologie bleibt unsichtbar.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section style="padding:120px 0;border-top:1px solid var(--border);background:var(--surface);" id="call">
+  <div class="container" style="text-align:center;">
+    <div class="section-label" style="justify-content:center;">Für Agenturen</div>
+    <h2 class="section-title fade-in" style="max-width:680px;margin:0 auto 20px;">Der AEO Report als<br>Agentur-Leistung einführen.</h2>
+    <p class="fade-in" style="font-size:17px;color:var(--text-dim);line-height:1.75;max-width:540px;margin:0 auto 48px;">In einem kurzen Demo-Call zeigen wir, wie Agenturen den AEO Report in der Kundenakquise und im laufenden Betrieb einsetzen — von der ersten Analyse über den konkreten Umsetzungsleitfaden bis hin zum gebrandeten PDF.</p>
+
+    <div class="fade-in" style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+      <a href="mailto:office@aeo-report.com?subject=Demo-Call AEO Report für Agenturen&body=Hallo,%0A%0Awir sind eine Marketingagentur und möchten mehr über den Einsatz des AEO Reports für unsere Kunden erfahren.%0A%0AAgentur / Website: %0AAnsprechpartner: %0A%0AFreundliche Grüße" class="btn-large" style="display:inline-block;">DEMO-CALL ANFRAGEN →</a>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--text-dimmer);letter-spacing:1px;">30 Min. · Online · Kostenlos · Für Agenturen im DACH-Raum</span>
+    </div>
+
+    <div class="fade-in" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-top:64px;max-width:720px;margin-left:auto;margin-right:auto;">
+      <div style="background:var(--bg);padding:28px 24px;text-align:left;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px;">Im Call</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Tool live erleben</div>
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.6;">Wir analysieren eine Kunden-Domain Ihrer Wahl live und zeigen den vollständigen Report-Output.</div>
+      </div>
+      <div style="background:var(--bg);padding:28px 24px;text-align:left;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px;">Im Call</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Use Cases besprechen</div>
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.6;">Akquise-Tool, Kundenbindung, Upsell — wie andere Agenturen den Report bereits einsetzen.</div>
+      </div>
+      <div style="background:var(--bg);padding:28px 24px;text-align:left;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px;">Im Call</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Onboarding klären</div>
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.6;">White-Label, Branding, Zugänge — alles was für den Start bei Ihrer Agentur nötig ist.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:#0e0d0b;color:white;padding:24px 16px;margin-top:0;border-top:1px solid #2e2b25;">
+  <div style="max-width:900px;margin:0 auto;text-align:center;">
+    <p style="font-size:11px;opacity:.7;margin:0 0 8px;line-height:1.6;">
+      Dieses Tool richtet sich an Unternehmen und Marketingagenturen im deutschsprachigen Raum (DACH).<br>
+      Die Analyse erfolgt automatisiert auf Basis öffentlich zugänglicher Website-Inhalte. Es werden keine personenbezogenen Daten gespeichert.
+    </p>
+    <div style="font-size:11px;opacity:.7;margin-bottom:8px;">
+      <span>AEO Report (aeo-report.com)</span>
+      <span style="opacity:.4;margin:0 6px;">·</span>
+      <span>© 2026 Stefan Wurzer</span>
+    </div>
+    <div style="font-size:11px;">
+      <a href="https://www.wkoecg.at/Ecg.aspx?FirmaID=f18d9b7a-0310-436a-a9f0-1f35002ee26a" target="_blank" rel="noopener noreferrer" style="color:white;opacity:.6;text-decoration:none;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">Impressum</a>
+      <span style="opacity:.3;margin:0 6px;">·</span>
+      <a href="/cdn-cgi/l/email-protection#2e414848474d4b6e4f4b41035c4b5e415c5a004d4143" style="color:white;opacity:.6;text-decoration:none;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">Kontakt</a>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+// ══════════════════════════════════════════════
+// TOOL JS — AEO Scorecard Embed
+// ══════════════════════════════════════════════
+
+const AUDIT_WEBHOOK = 'https://steewee.app.n8n.cloud/webhook/crawl-website';
+const PDF_WEBHOOK   = 'https://steewee.app.n8n.cloud/webhook/generate-pdf';
+const LEAD_WEBHOOK  = 'https://steewee.app.n8n.cloud/webhook/aeo-website-lead';
+
+let fuse = null;
+let _pendingDownloadBtn = null;
+
+const WEIGHTS = {
+  kiVisibility:        { label:'KI-Sichtbarkeit',          weight:30 },
+  contentArchitecture: { label:'Content-Architektur',      weight:25 },
+  structuredData:      { label:'Strukturierte Daten',       weight:20 },
+  technical:           { label:'Technische Zugänglichkeit', weight:15 },
+  entityPresence:      { label:'Entity-Präsenz',            weight:10 }
+};
+
+const FUSE_OPTIONS = {
+  keys:[{name:'title',weight:.45},{name:'description',weight:.3},{name:'headings',weight:.15},{name:'content',weight:.1}],
+  threshold:.35,includeScore:true,includeMatches:true,ignoreLocation:true,minMatchCharLength:2
+};
+
+function buildDimsFromScoring(scoring, kiVisibility) {
+  const cats = scoring?.categories || {};
+  const ki   = cats.kiVisibility?.score   ?? kiVisibility?.score ?? 0;
+  const ca   = cats.contentArchitecture?.score ?? 0;
+  const sd   = cats.structuredData?.score ?? 0;
+  const tech = cats.technical?.score      ?? 0;
+  const ent  = cats.entityPresence?.score ?? 0;
+  const total = scoring?.totalScore ?? Math.round(ki*.30 + ca*.25 + sd*.20 + tech*.15 + ent*.10);
+  return {
+    kiVisibility:        Math.round(ki  * .30),
+    contentArchitecture: Math.round(ca  * .25),
+    structuredData:      Math.round(sd  * .20),
+    technical:           Math.round(tech* .15),
+    entityPresence:      Math.round(ent * .10),
+    raw: { kiVisibility: ki, contentArchitecture: ca, structuredData: sd, technical: tech, entityPresence: ent },
+    total,
+    rating: total>=80?'KI-BEREIT':total>=60?'TEILSICHTBAR':total>=40?'KAUM SICHTBAR':'UNSICHTBAR',
+    ratingClass: total>=80?'green':total>=60?'green':total>=40?'yellow':'red'
+  };
+}
+
+function addLog(msg, type='info') {
+  const log = document.getElementById('statusLog');
+  log.style.display = 'block';
+  const t = new Date().toLocaleTimeString('de-AT',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  log.innerHTML += `<div><span style="color:var(--text-dimmer)">[${t}]</span> <span class="tlog-${type}">${msg}</span></div>`;
+  log.scrollTop = log.scrollHeight;
+}
+
+async function startAudit() {
+  const targetUrl = document.getElementById('targetUrl').value.trim();
+  const btn = document.getElementById('auditBtn');
+  document.getElementById('statusLog').innerHTML = '';
+  document.getElementById('scorecard').innerHTML = '';
+  document.getElementById('toolResultsWrap').classList.remove('visible');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="tool-results-wrap .spinner" style="display:inline-block;width:10px;height:10px;border:2px solid rgba(14,13,11,.3);border-top-color:var(--bg);border-radius:50%;animation:tspin .7s linear infinite;vertical-align:middle;margin-right:6px;"></span>ANALYSIERT...';
+
+  if (!targetUrl || !targetUrl.startsWith('http')) {
+    addLog('✗ Bitte eine gültige URL eingeben (https://...)', 'err');
+    btn.disabled = false;
+    btn.innerHTML = '▶ ANALYSIEREN';
+    return;
+  }
+
+  addLog('Starte AEO Report: ' + targetUrl, 'info');
+  try {
+    const t0 = performance.now();
+    const res = await fetch(AUDIT_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: targetUrl, maxPages: 20, clientToken: 'website-embed' })
+    });
+    if (!res.ok) throw new Error('Server ' + res.status);
+    const raw = await res.json();
+    const t1 = performance.now();
+    let data = Array.isArray(raw) ? raw[0] : raw;
+    if (data.json) data = data.json;
+    const docs = data.documents || [];
+    const aeo = data.aeoScore || {};
+    const meta = data.meta || {};
+    if (!docs.length) throw new Error('Keine Dokumente zurückgegeben.');
+    addLog(`✓ ${docs.length} Seiten analysiert in ${((t1-t0)/1000).toFixed(1)}s`, 'ok');
+    fuse = new Fuse(docs, FUSE_OPTIONS);
+    const kiVisibility = data.kiVisibility || null;
+    const robotsData   = data.robotsData || null;
+    const llmsData     = data.llmsData || null;
+    const scoring      = data.scoring || null;
+    window._lastAeoData = { documents: docs, aeoScore: aeo, meta, kiVisibility, robotsData, llmsData, scoring, emails: data.emails || [] };
+    const displayScore = scoring?.totalScore ?? 0;
+    addLog(`✓ AEO Score: ${displayScore}/100`, 'ok');
+    renderScorecard(docs, aeo, meta, targetUrl, kiVisibility, robotsData, llmsData, scoring);
+    // Scroll to results
+    setTimeout(() => {
+      document.getElementById('toolResultsWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 200);
+  } catch (err) {
+    addLog('✗ ' + err.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '▶ ANALYSIEREN';
+  }
+}
+
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function detectEntities(aeo) {
+  const text = [
+    ...(aeo.pageDetails||[]).map(p=>p.title||''),
+    aeo.siteDescription||''
+  ].join(' ').toLowerCase();
+  const industryKw = ['werkzeug','maschinenbau','sanitär','elektro','bau','holz','metall','kunststoff','automotive','luftfahrt','tischlerei','malerei','bäckerei','konditorei','landwirtschaft','gastro'];
+  const regionKw   = ['tirol','österreich','germany','deutschland','schweiz','wien','graz','salzburg','innsbruck','münchen','berlin','zürich','steiermark','vorarlberg','niederösterreich','oberösterreich','kärnten','burgenland'];
+  const targetKw   = ['unternehmen','firmen','kunden','betriebe','agenturen','handwerker','dienstleister'];
+  const serviceKw  = ['leistung','angebot','produkt','service','lösung','beratung','fertigung','produktion','montage','wartung','reparatur'];
+  return {
+    hasIndustry: industryKw.some(k=>text.includes(k)),
+    hasRegion:   regionKw.some(k=>text.includes(k)),
+    hasTarget:   targetKw.some(k=>text.includes(k)),
+    hasService:  serviceKw.some(k=>text.includes(k)),
+    score: Math.round(
+      (industryKw.some(k=>text.includes(k))?25:0) +
+      (regionKw.some(k=>text.includes(k))?25:0) +
+      (targetKw.some(k=>text.includes(k))?25:0) +
+      (serviceKw.some(k=>text.includes(k))?25:0)
+    )
+  };
+}
+
+function toggleHowTo(id, btn) {
+  const panel = document.getElementById(id);
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open');
+  btn.querySelector('span').textContent = isOpen ? '▶' : '▼';
+}
+
+function copyPrompt(e) {
+  e.stopPropagation();
+  const text = document.getElementById('promptText').innerText;
+  const btn = document.getElementById('copyPromptBtn');
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ KOPIERT';
+    setTimeout(() => btn.textContent = 'KOPIEREN', 2000);
+  });
+}
+
+function renderPotenzial(dims, docs) {
+  const grid = document.getElementById('potenzialGrid');
+  if (!grid) return;
+  const delta = 100 - dims.total;
+  const leadPotenzial = delta >= 40 ? 'Hoch' : delta >= 20 ? 'Mittel' : 'Gering';
+  const leadClass = delta >= 40 ? '#c0392b' : delta >= 20 ? '#d48a00' : '#2e7d52';
+  grid.innerHTML = `
+    <div style="background:rgba(255,255,255,.07);border-radius:6px;padding:14px;">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;opacity:.4;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Score-Delta</div>
+      <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:24px;font-weight:800;">+${delta} Pkt.</div>
+      <div style="font-size:11px;opacity:.4;margin-top:3px;">bis max. Sichtbarkeit</div>
+    </div>
+    <div style="background:rgba(255,255,255,.07);border-radius:6px;padding:14px;">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;opacity:.4;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Seiten analysiert</div>
+      <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:24px;font-weight:800;">${docs.length}</div>
+      <div style="font-size:11px;opacity:.4;margin-top:3px;">gecrawlte URLs</div>
+    </div>
+    <div style="background:rgba(255,255,255,.07);border-radius:6px;padding:14px;">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;opacity:.4;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Lead-Potenzial</div>
+      <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:24px;font-weight:800;color:${leadClass};">${leadPotenzial}</div>
+      <div style="font-size:11px;opacity:.4;margin-top:3px;">geschätztes Potenzial</div>
+    </div>`;
+}
+
+function renderScorecard(docs, aeo, meta, targetUrl, kiVisibility, robotsData, llmsData, scoring) {
+  const wrap = document.getElementById('toolResultsWrap');
+  const sc   = document.getElementById('scorecard');
+  wrap.classList.add('visible');
+
+  const useNewScoring = !!(scoring && scoring.totalScore != null);
+  const dims = useNewScoring ? buildDimsFromScoring(scoring, kiVisibility) : { total:0, ratingClass:'red', rating:'UNSICHTBAR', raw:{} };
+  const entities = detectEntities(aeo);
+  const ratingEmoji = dims.total>=80?'🟢':dims.total>=60?'🟡':dims.total>=40?'🟠':'🔴';
+  const domain = meta.domain || targetUrl.replace(/^https?:\/\//,'').split('/')[0];
+  const dateStr = new Date().toLocaleDateString('de-AT');
+  const riskLevel = dims.total>=75?'Niedrig':dims.total>=45?'Mittel':'Hoch';
+  const riskClass = dims.total>=75?'green':dims.total>=45?'yellow':'red';
+  const potenzial = dims.total>=75?'Optimierung':'Erheblich';
+  const potenzialClass = dims.total>=75?'green':'yellow';
+  const wettbewerb = aeo.hasLocalBusiness&&aeo.hasAnySchema?'Vorteil möglich':'Aufholbedarf';
+  const wettbewerbClass = aeo.hasLocalBusiness&&aeo.hasAnySchema?'green':'yellow';
+
+  const topActions = [];
+  if (!aeo.hasFaqSchema && aeo.hasFaqContent) topActions.push({title:'FAQPage Schema ergänzen',desc:'FAQ-Inhalte vorhanden — Schema Markup ist ein 2h Quick Win.',effort:'low'});
+  if (!aeo.hasAnySchema) topActions.push({title:'Schema Markup implementieren',desc:'Kein strukturiertes Datenschema. LocalBusiness + FAQPage sind Pflicht.',effort:'medium'});
+  if (aeo.metaCoverage < 80) topActions.push({title:'Meta Descriptions vervollständigen',desc:`Nur ${aeo.metaCoverage}% Abdeckung. Basis für KI-Snippets.`,effort:'low'});
+  if (!aeo.hasFaqContent) topActions.push({title:'FAQ-Sektion einbauen',desc:'Keine Frage-Antwort-Strukturen. KI bevorzugt direkte Antworten.',effort:'high'});
+  const top3 = topActions.slice(0,3);
+
+  // All actions (condensed)
+  const allActions = [];
+  if (!aeo.hasAnySchema) allActions.push({p:'high',effort:'2–3 Tage',title:'Schema Markup implementieren',desc:'Kein strukturiertes Datenschema. LocalBusiness, Service und FAQPage sind für AEO die wichtigsten Typen.',howTo:null});
+  else if (!aeo.hasLocalBusiness) allActions.push({p:'high',effort:'2h',title:'LocalBusiness Schema ergänzen',desc:'Schema vorhanden, aber kein LocalBusiness-Typ. Für lokale KI-Suchen essenziell.',howTo:null});
+  if (!aeo.hasFaqSchema && aeo.hasFaqContent) allActions.push({p:'high',effort:'2h',title:'FAQPage Schema zu bestehendem FAQ',desc:'FAQ-Inhalte vorhanden, aber kein FAQPage-Markup. Einfachster Quick Win für AEO-Sichtbarkeit.',howTo:null});
+  if (!aeo.hasFaqContent) allActions.push({p:'high',effort:'1–2 Tage',title:'FAQ-Sektion einbauen',desc:'Keine Frage-Antwort-Strukturen gefunden. KI-Systeme bevorzugen direkte Antworten.',howTo:null});
+  if (aeo.metaCoverage < 80) allActions.push({p:'medium',effort:'1 Tag',title:`Meta Descriptions ergänzen (${aeo.metaCoverage}% → 100%)`,desc:'Meta Descriptions sind Basis für KI-Snippets.',howTo:null});
+  if (!entities.hasRegion) allActions.push({p:'medium',effort:'0.5 Tage',title:'Regionale Signale stärken',desc:'Kein klarer regionaler Bezug erkannt. Ortsangaben in Texten und Schema erhöhen lokale KI-Sichtbarkeit.',howTo:null});
+  if (robotsData && !robotsData.allowsGptBot) allActions.push({p:'medium',effort:'30 Min',title:'KI-Crawler in robots.txt erlauben',desc:'GPTBot oder PerplexityBot scheinen geblockt. KI-Systeme können die Website nicht crawlen.',howTo:null});
+  if (!llmsData?.exists) allActions.push({p:'medium',effort:'1–2h',title:'llms.txt erstellen',desc:'KI-Systeme wie Perplexity lesen llms.txt um die Website besser einzustufen.',howTo:null});
+  const ca = scoring?.categories?.contentArchitecture?.detail;
+  if (ca) {
+    if ((ca.faqPages??0) === 0) allActions.push({p:'high',effort:'1–2 Tage',title:'FAQ-Seiten aufbauen',desc:'Keine Frage-Antwort-Seiten. KI bevorzugt Seiten die Fragen direkt beantworten.',howTo:null});
+    if ((ca.avgWordCount??0) < 300) allActions.push({p:'medium',effort:'3–5 Tage',title:`Texttiefe erhöhen (∅ ${ca.avgWordCount??0} → min. 400 Wörter)`,desc:'Seiten zu kurz. KI bevorzugt inhaltlich tiefe Seiten.',howTo:null});
+  }
+  if (aeo.totalImgsWithoutAlt > 0) allActions.push({p:'low',effort:'1–2 Tage',title:`Alt-Texte ergänzen (${aeo.totalImgsWithoutAlt} Bilder)`,desc:'Für multimodale KI-Systeme zunehmend relevant.',howTo:null});
+  if (!aeo.hasOgTags) allActions.push({p:'low',effort:'2h',title:'Open Graph Tags hinzufügen',desc:'Relevant für Social Sharing und Linkvorschauen.',howTo:null});
+
+  // KI questions
+  const allTitles = docs.map(d=>d.title||'').join(' ');
+  const allHeadings = docs.flatMap(d=>d.headings||[]).slice(0,20).join(' ');
+  const stopwords = /^(und|oder|für|die|der|das|mit|von|bei|ist|ein|eine|einen|einer|im|in|an|auf|zu|zum|zur|als|auch|sich|wir|sie|ihr|ihre|uns|den|dem|des|wird|sind|haben|hat|kann|nach|über|unter|vor|durch|aus|bei|wird|werden|nicht|nur|noch|mehr|alle|ohne|aber|wenn|dann|wie|was|wer|wo|wann|warum)/i;
+  const words = (allTitles+' '+allHeadings).split(/[\s,&-]+/).map(w=>w.replace(/[^a-zA-ZäöüÄÖÜß]/g,'')).filter(w=>w.length>4&&!stopwords.test(w));
+  const freq = {};
+  words.forEach(w=>{const k=w.toLowerCase();freq[k]=(freq[k]||0)+1;});
+  const topKw = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,4).map(e=>e[0]);
+  const kw1 = topKw[0]||'Ihrer Branche';
+  const kw2 = topKw[1]||'Leistungen';
+  const region = entities.hasRegion ? 'Ihrer Region' : 'Österreich/Deutschland';
+  const kiQuestions = [
+    {label:'Lokale Suche', q:`Wer ist Spezialist für ${kw1} in ${region}?`},
+    {label:'Produktsuche', q:`Welche Unternehmen bieten ${kw2} in ${region} an?`},
+    {label:'Problemsuche', q:`Wie funktioniert ${kw1} und was kostet es?`},
+    {label:'Anbietervergleich', q:`Welche Firmen bieten ${kw1} und ${kw2} an?`}
+  ];
+
+  sc.innerHTML = `
+  <!-- MANAGEMENT SUMMARY -->
+  <div class="mgmt-summary">
+    <div class="mgmt-header">
+      <div>
+        <div class="mgmt-title">AEO Report · Management Summary</div>
+        <div class="mgmt-company">${esc(domain)}</div>
+        <div style="font-size:12px;opacity:.6;margin-top:4px;font-style:italic;">Momentaufnahme der KI-Sichtbarkeit — ${dateStr}</div>
+        <div class="mgmt-meta">${docs.length} Seiten analysiert</div>
+      </div>
+      <div class="mgmt-rating-block">
+        <div class="mgmt-score-big">${dims.total}</div>
+        <div class="mgmt-score-label">AEO SCORE / 100</div>
+        <div><span class="mgmt-badge ${dims.ratingClass}">${ratingEmoji} ${dims.rating}</span></div>
+      </div>
+    </div>
+
+    ${kiVisibility?.aiCitationRate != null ? `
+    <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;opacity:.5;text-transform:uppercase;margin-bottom:6px;">AI Citation Rate</div>
+        <div style="display:flex;align-items:baseline;gap:10px;">
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-size:52px;font-weight:800;line-height:1;color:${kiVisibility.aiCitationRate>=70?'#4ade80':kiVisibility.aiCitationRate>=40?'#fbbf24':'#f87171'};">${kiVisibility.aiCitationRate}%</span>
+          <div>
+            <div style="font-size:14px;font-weight:600;">${kiVisibility.aiCitationRateLabel||''}</div>
+            <div style="font-family:'DM Mono',monospace;font-size:11px;opacity:.5;margin-top:2px;">${kiVisibility.citedCount} von ${kiVisibility.totalCount} Fragen</div>
+          </div>
+        </div>
+      </div>
+      ${kiVisibility.aiCitationRateText ? `<div style="flex:1;min-width:200px;border-left:1px solid rgba(255,255,255,.1);padding-left:24px;font-size:13px;line-height:1.6;opacity:.75;font-style:italic;">"${esc(kiVisibility.aiCitationRateText)}"</div>` : ''}
+    </div>` : ''}
+
+    <div class="score-breakdown">
+      ${Object.entries(WEIGHTS).map(([key,w])=>{
+        const rawScore = dims.raw?.[key] ?? 0;
+        const pct = Math.round(rawScore);
+        const cls = pct>=80?'green':pct>=50?'yellow':'red';
+        return `<div class="score-dim">
+          <div class="score-dim-label">${w.label} <span style="opacity:.4">${w.weight}%</span></div>
+          <div class="score-dim-bar"><div class="score-dim-fill ${cls}" style="width:${pct}%"></div></div>
+          <div><span class="score-dim-val">${dims[key]}</span><span class="score-dim-max"> / ${w.weight}</span></div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div class="mgmt-kpis">
+      <div class="kpi-card">
+        <div class="kpi-label">KI-Sichtbarkeitsrisiko</div>
+        <div class="kpi-value"><span class="kpi-indicator ${riskClass}"></span>${riskLevel}</div>
+        <div class="kpi-desc">${dims.total>=75?'Gut für KI verständlich':dims.total>=45?'Wichtige Signale fehlen':'Kaum AEO-Signale'}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Optimierungspotenzial</div>
+        <div class="kpi-value"><span class="kpi-indicator ${potenzialClass}"></span>${potenzial}</div>
+        <div class="kpi-desc">${dims.total>=75?'Gezielte Quick Wins':'Strukturelle Maßnahmen nötig'}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Wettbewerbsposition</div>
+        <div class="kpi-value"><span class="kpi-indicator ${wettbewerbClass}"></span>${wettbewerb}</div>
+        <div class="kpi-desc">${aeo.hasLocalBusiness?'LocalBusiness Schema vorhanden':'Wettbewerber mit Schema im Vorteil'}</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,.07);border-radius:6px;padding:20px;margin-bottom:20px;">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;opacity:.4;text-transform:uppercase;margin-bottom:14px;">Potenzial-Einschätzung</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;" id="potenzialGrid"></div>
+    </div>
+
+    <div class="mgmt-actions">
+      <div class="mgmt-actions-title">Top ${top3.length} Potenziale</div>
+      ${top3.map((a,i)=>`
+        <div class="mgmt-action-row">
+          <div class="mgmt-action-num">${i+1}</div>
+          <div class="mgmt-action-text"><h4>${esc(a.title)}</h4><p>${esc(a.desc)}</p></div>
+          <span class="mgmt-action-effort ${a.effort}">${a.effort==='low'?'QUICK WIN':a.effort==='medium'?'1–3 TAGE':'PROJEKT'}</span>
+        </div>`).join('')}
+    </div>
+  </div>
+
+  <!-- KI PRAXISTEST -->
+  ${kiVisibility ? `
+  <div class="ki-test-section">
+    <h3>KI-Praxistest <span class="section-tag">PERPLEXITY</span></h3>
+    <p class="ki-test-sub">Automatisch geprüft: Erscheint ${esc(domain)} in KI-Antworten? ${kiVisibility.totalCount} Suchanfragen getestet.</p>
+    <div style="background:#f0ede6;border:1px solid #e0dbd0;border-radius:6px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#7a7468;text-transform:uppercase;margin-bottom:4px;">AI Citation Rate</div>
+        <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:36px;font-weight:800;color:${kiVisibility.aiCitationRate>=70?'#2e7d52':kiVisibility.aiCitationRate>=40?'#d48a00':'#c0392b'};">${kiVisibility.aiCitationRate}%</div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:#7a7468;">${kiVisibility.citedCount} von ${kiVisibility.totalCount} Anfragen</div>
+      </div>
+      <div style="flex:1;min-width:180px;">
+        <div style="height:6px;background:#e0dbd0;border-radius:3px;overflow:hidden;"><div style="height:100%;background:${kiVisibility.aiCitationRate>=70?'#2e7d52':kiVisibility.aiCitationRate>=40?'#d48a00':'#c0392b'};width:${kiVisibility.aiCitationRate}%;"></div></div>
+        <div style="font-size:12px;color:#7a7468;margin-top:8px;line-height:1.5;">${kiVisibility.aiCitationRate<50?`<strong style="color:#c0392b;">${kiVisibility.totalCount-(kiVisibility.citedCount??0)} von ${kiVisibility.totalCount}</strong> möglichen KI-Erwähnungen bleiben ungenutzt.`:'Website erscheint bei den meisten getesteten Anfragen.'}</div>
+      </div>
+    </div>
+    ${kiVisibility.results ? `<div class="ki-test-grid">
+      ${kiVisibility.results.slice(0,6).map((r,i)=>`
+        <div class="ki-question">
+          <div class="ki-q-label">Frage ${i+1}</div>
+          <div class="ki-q-text">${esc(r.question||r.q||'')}</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:${r.cited||r.found?'#2e7d52':'#c0392b'};">${r.cited||r.found?'✓ Zitiert':'✗ Nicht genannt'}</div>
+        </div>`).join('')}
+    </div>` : ''}
+  </div>` : `
+  <div class="ki-test-section">
+    <h3>KI-Praxistest <span class="section-tag">BEISPIEL-ANFRAGEN</span></h3>
+    <p class="ki-test-sub">Typische KI-Suchanfragen für diese Domain — testen Sie selbst in Perplexity oder ChatGPT.</p>
+    <div class="ki-test-grid">
+      ${kiQuestions.map((q,i)=>`
+        <div class="ki-question">
+          <div class="ki-q-label">${esc(q.label)}</div>
+          <div class="ki-q-text">${esc(q.q)}</div>
+          <div class="ki-q-links">
+            <a class="ki-link perplexity" href="https://www.perplexity.ai/search?q=${encodeURIComponent(q.q)}" target="_blank">↗ Perplexity</a>
+          </div>
+        </div>`).join('')}
+    </div>
+  </div>`}
+
+  <!-- TECHNISCHE ANALYSE -->
+  <div class="tech-section">
+    <h3>Technische Signale <span class="section-tag">DETAILANALYSE</span></h3>
+    <div class="checks-grid">
+      <div class="check-card">
+        <div class="check-header">
+          <div class="check-title">Schema Markup</div>
+          <div class="check-aeo-relevance high">AEO-KRITISCH</div>
+        </div>
+        <div class="check-value">${aeo.hasAnySchema?`Gefunden: ${(aeo.allSchemaTypes||[]).slice(0,3).join(', ')||'Custom'}` : 'Nicht vorhanden'}</div>
+        <div class="check-action ${aeo.hasAnySchema?'green':'red'}">${aeo.hasAnySchema?'✓ Strukturierte Daten vorhanden':'✗ Kein Schema Markup — für KI unsichtbar'}</div>
+      </div>
+      <div class="check-card">
+        <div class="check-header">
+          <div class="check-title">Meta Descriptions</div>
+          <div class="check-aeo-relevance medium">WICHTIG</div>
+        </div>
+        <div class="check-value">${aeo.metaCoverage}% Abdeckung</div>
+        <div class="check-action ${aeo.metaCoverage>=80?'green':aeo.metaCoverage>=50?'yellow':'red'}">${aeo.metaCoverage>=80?'✓ Gut abgedeckt':aeo.metaCoverage>=50?`⚠ ${100-aeo.metaCoverage}% fehlen noch`:`✗ Nur ${aeo.metaCoverage}% vorhanden`}</div>
+      </div>
+      <div class="check-card">
+        <div class="check-header">
+          <div class="check-title">FAQ-Inhalte</div>
+          <div class="check-aeo-relevance high">AEO-KRITISCH</div>
+        </div>
+        <div class="check-value">${aeo.hasFaqSchema?'FAQPage Schema ✓':aeo.hasFaqContent?'Inhalt vorhanden, kein Schema':'Nicht gefunden'}</div>
+        <div class="check-action ${aeo.hasFaqSchema?'green':aeo.hasFaqContent?'yellow':'red'}">${aeo.hasFaqSchema?'✓ FAQ mit Schema — optimal':aeo.hasFaqContent?'⚠ FAQ vorhanden — Schema fehlt noch':'✗ Kein FAQ-Content gefunden'}</div>
+      </div>
+      <div class="check-card">
+        <div class="check-header">
+          <div class="check-title">robots.txt</div>
+          <div class="check-aeo-relevance medium">WICHTIG</div>
+        </div>
+        <div class="check-value">${robotsData?.exists?'Vorhanden':'Nicht gefunden'}</div>
+        <div class="check-action ${robotsData?.allowsGptBot!==false?'green':'yellow'}">${robotsData?.allowsGptBot===false?'⚠ KI-Crawler möglicherweise geblockt':'✓ KI-Crawler nicht explizit geblockt'}</div>
+      </div>
+      <div class="check-card">
+        <div class="check-header">
+          <div class="check-title">llms.txt</div>
+          <div class="check-aeo-relevance medium">NEU</div>
+        </div>
+        <div class="check-value">${llmsData?.exists?'Vorhanden':'Fehlt'}</div>
+        <div class="check-action ${llmsData?.exists?'green':'yellow'}">${llmsData?.exists?'✓ KI-Kontext-Datei vorhanden':'⚠ llms.txt fehlt — empfohlen für KI-Sichtbarkeit'}</div>
+      </div>
+      <div class="check-card">
+        <div class="check-header">
+          <div class="check-title">Open Graph</div>
+          <div class="check-aeo-relevance low">BASIS</div>
+        </div>
+        <div class="check-value">${aeo.hasOgTags?'Vorhanden':'Fehlt'}</div>
+        <div class="check-action ${aeo.hasOgTags?'green':'yellow'}">${aeo.hasOgTags?'✓ OG Tags implementiert':'⚠ Open Graph fehlt'}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENTITY CHECK -->
+  <div class="tech-section">
+    <h3>Entity-Präsenz <span class="section-tag">KI-KATEGORISIERUNG</span></h3>
+    <p style="font-size:13px;color:#7a7468;margin-bottom:16px;">KI-Systeme arbeiten entitätsbasiert — diese Signale bestimmen wie gut die Website kategorisiert wird.</p>
+    <div class="entity-grid">
+      <div class="entity-card"><div class="entity-label">Branche</div><div class="entity-value">${entities.hasIndustry?'Erkannt':'Unklar'}</div><div class="entity-status ${entities.hasIndustry?'found':'missing'}">${entities.hasIndustry?'✓ Branchensignale im Content':'✗ Branche unklar formuliert'}</div></div>
+      <div class="entity-card"><div class="entity-label">Region / Standort</div><div class="entity-value">${entities.hasRegion?'Erkannt':'Unklar'}</div><div class="entity-status ${entities.hasRegion?'found':'missing'}">${entities.hasRegion?'✓ Regionale Signale vorhanden':'✗ Kein Standortbezug erkannt'}</div></div>
+      <div class="entity-card"><div class="entity-label">Zielgruppe</div><div class="entity-value">${entities.hasTarget?'Erkannt':'Unklar'}</div><div class="entity-status ${entities.hasTarget?'found':'missing'}">${entities.hasTarget?'✓ Zielgruppe erkennbar':'✗ Für wen? Unklar'}</div></div>
+      <div class="entity-card"><div class="entity-label">Kernleistung</div><div class="entity-value">${entities.hasService?'Erkannt':'Unklar'}</div><div class="entity-status ${entities.hasService?'found':'missing'}">${entities.hasService?'✓ Leistungen klar':'✗ Was wird angeboten?'}</div></div>
+    </div>
+  </div>
+
+  <!-- MASSNAHMEN -->
+  <div class="actions-section">
+    <h3>Maßnahmen zur Optimierung (${allActions.length})</h3>
+    <p style="font-size:13px;color:#7a7468;line-height:1.7;margin:0 0 20px;padding-bottom:16px;border-bottom:1px solid #e0dbd0;">Basierend auf der Analyse identifizierte Maßnahmen zur Verbesserung der KI-Sichtbarkeit.</p>
+    ${allActions.map((a,i)=>`
+      <div class="action-item">
+        <span class="action-priority ${a.p}">${a.p==='high'?'KRITISCH':a.p==='medium'?'WICHTIG':'OPTIONAL'}</span>
+        <div class="action-content"><h4>${esc(a.title)}</h4><p>${esc(a.desc)}</p></div>
+        <span class="effort-tag">~${esc(a.effort)}</span>
+      </div>`).join('')}
+  </div>
+
+  <!-- METHODIK -->
+  <div style="padding:20px 24px;background:#fff;border:1px solid #e0dbd0;border-radius:8px;font-size:12px;color:#7a7468;line-height:1.7;margin-bottom:24px;">
+    <strong style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.5px;color:#1a1814;">WIE WIRD DIESER REPORT ERSTELLT?</strong>
+    <p style="margin:8px 0;">Der AEO Report analysiert automatisiert bis zu 20 Unterseiten und bewertet in 5 gewichteten Kategorien: KI-Sichtbarkeit (30%), Content-Architektur (25%), Strukturierte Daten (20%), Technische Zugänglichkeit (15%) und Entity-Präsenz (10%).</p>
+    <div style="position:relative;margin-top:12px;">
+      <button onclick="copyPrompt(event)" id="copyPromptBtn" style="position:absolute;top:10px;right:10px;background:#f0ede6;border:1px solid #e0dbd0;color:#7a7468;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;padding:4px 10px;border-radius:4px;cursor:pointer;">KOPIEREN</button>
+      <pre id="promptText" style="background:#f5f3ee;border:1px solid #e0dbd0;border-radius:6px;padding:16px 20px;font-family:'DM Mono',monospace;font-size:11px;line-height:1.8;color:#7a7468;white-space:pre-wrap;margin:0;">Du bist Experte für Websiteoptimierung und KI-Suche.
+
+Analysiere den folgenden AEO Report und erkläre mir:
+1. Was bedeuten die wichtigsten Ergebnisse?
+2. Warum ist die KI-Sichtbarkeit aktuell begrenzt?
+3. Welche Maßnahmen verbessern die Sichtbarkeit am schnellsten?
+
+Erkläre in einfacher Sprache.</pre>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD BOX -->
+  <div class="tool-download-box" id="downloadBox">
+    <h3>REPORT HERUNTERLADEN</h3>
+    <div>
+      <button class="tool-dl-btn" id="dlAnalyseBtn" onclick="openLeadModal(this)">
+        ↓ Analyse-Report herunterladen
+      </button>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a7468;margin-bottom:20px;">Kundenexemplar · Befunde & Score</div>
+    </div>
+    <div class="tool-agentur-locked">
+      <div class="tool-agentur-locked-icon">🔒</div>
+      <div class="tool-agentur-locked-text">
+        <div class="tool-agentur-locked-title">Agenturexemplar inkl. Umsetzungsleitfaden</div>
+        Das Agenturexemplar enthält vollständige Schritt-für-Schritt-Anleitungen für alle ${allActions.length} Maßnahmen.
+        Gerne besprechen wir die Vollanalyse in einem kurzen Gespräch.
+        <br><button class="tool-agentur-cta" onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">Gespräch anfragen →</button>
+      </div>
+    </div>
+    <button class="tool-reset-btn" onclick="resetAnalysis()">↺ Neue Analyse starten</button>
+  </div>
+  `;
+
+  renderPotenzial(dims, docs);
+
+  // Search input
+  setTimeout(() => {
+    const si = document.getElementById('searchInput');
+    if (si) {
+      si.addEventListener('input', function() {
+        if (!fuse) return;
+        const q = this.value.trim();
+        const res = q ? fuse.search(q).slice(0,8) : [];
+        const container = document.getElementById('searchResults');
+        if (!container) return;
+        container.innerHTML = res.map(r => `<div style="background:#f0ede6;border:1px solid #e0dbd0;border-radius:5px;padding:12px 16px;margin-bottom:4px;"><div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a7468;margin-bottom:3px;">${esc(r.item.title||'')}</div><div style="font-size:12px;color:#7a7468;">${esc((r.item.description||'').substring(0,120))}...</div></div>`).join('');
+      });
+    }
+  }, 100);
+}
+
+function resetAnalysis() {
+  document.getElementById('scorecard').innerHTML = '';
+  document.getElementById('toolResultsWrap').classList.remove('visible');
+  document.getElementById('statusLog').innerHTML = '';
+  document.getElementById('statusLog').style.display = 'none';
+  document.getElementById('targetUrl').value = '';
+  window._lastAeoData = null;
+  document.getElementById('analyse').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => document.getElementById('targetUrl').focus(), 400);
+}
+
+// ── LEAD MODAL ──
+function openLeadModal(btn) {
+  _pendingDownloadBtn = btn;
+  document.getElementById('leadModal').style.display = 'flex';
+  document.getElementById('lg-name').focus();
+}
+
+function closeLeadModal() {
+  document.getElementById('leadModal').style.display = 'none';
+  document.getElementById('lg-status').className = 'lead-modal-status';
+  _pendingDownloadBtn = null;
+}
+
+function handleModalOverlayClick(e) {
+  if (e.target === document.getElementById('leadModal')) closeLeadModal();
+}
+
+async function submitLeadAndDownload() {
+  const name    = document.getElementById('lg-name').value.trim();
+  const email   = document.getElementById('lg-email').value.trim();
+  const company = document.getElementById('lg-company').value.trim();
+  const status  = document.getElementById('lg-status');
+  const btn     = document.getElementById('lg-submit');
+
+  if (!name) { status.className='lead-modal-status error'; status.textContent='Bitte Namen eingeben.'; return; }
+  if (!email || !email.includes('@')) { status.className='lead-modal-status error'; status.textContent='Bitte gültige E-Mail eingeben.'; return; }
+
+  btn.disabled = true;
+  btn.textContent = 'WIRD VERARBEITET …';
+  status.className = 'lead-modal-status';
+
+  const aeoData = window._lastAeoData;
+  const domain  = aeoData?.meta?.domain || document.getElementById('targetUrl').value.replace(/^https?:\/\//,'').split('/')[0];
+  const score   = aeoData?.scoring?.totalScore ?? 0;
+
+  try {
+    // POST lead to n8n → Supabase website_leads + Gmail
+    await fetch(LEAD_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, company, domain_analyzed: domain, aeo_score: score, source: 'aeo-report.com' })
+    });
+  } catch(e) { /* still proceed with download */ }
+
+  // Trigger PDF download
+  try {
+    btn.textContent = 'PDF WIRD ERSTELLT …';
+    const res = await fetch(PDF_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(Object.assign({}, aeoData, { reportMode: 'analyse', brandName: '' }), (k,v) => {
+        if (k==='content' && typeof v==='string' && v.length>5000) return v.substring(0,5000);
+        return v;
+      })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const blob = await res.blob();
+    if (!blob || blob.size < 100) throw new Error('Kein PDF erhalten.');
+    const suffix = new Date().toISOString().slice(0,10);
+    const filename = `AEO-Report-${domain.replace(/[^a-z0-9]/gi,'-')}-Analyse-${suffix}.pdf`;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.click();
+    URL.revokeObjectURL(url);
+
+    status.className = 'lead-modal-status success';
+    status.textContent = '✓ Download gestartet — prüfen Sie Ihre Downloads.';
+    btn.textContent = '✓ HERUNTERGELADEN';
+    if (_pendingDownloadBtn) { _pendingDownloadBtn.textContent = '✓ Heruntergeladen'; }
+
+    setTimeout(() => closeLeadModal(), 2500);
+  } catch(err) {
+    status.className = 'lead-modal-status error';
+    status.textContent = 'PDF konnte nicht erstellt werden: ' + err.message;
+    btn.disabled = false;
+    btn.textContent = '↓ NOCHMAL VERSUCHEN';
+  }
+}
+
+// ══════════════════════════════════════════════
+// LANDING PAGE JS
+// ══════════════════════════════════════════════
+
+  // FAQ accordion
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Intersection Observer für fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Staggered children
+  document.querySelectorAll('.dim-grid, .how-steps, .agency-benefits').forEach(grid => {
+    Array.from(grid.children).forEach((child, i) => {
+      child.style.transitionDelay = (i * 0.08) + 's';
+    });
+  });
+
+</script>
+</body>
+</html>

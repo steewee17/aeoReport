@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <url>
+    <loc>https://www.aeo-report.com/</loc>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://www.aeo-report.com/"/>
+    <xhtml:link rel="alternate" hreflang="de-DE" href="https://www.aeo-report.com/"/>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://www.aeo-report.com/"/>
+    <xhtml:link rel="alternate" hreflang="de"    href="https://www.aeo-report.com/"/>
+    <lastmod>2026-03-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://www.aeo-report.com/futureweb</loc>
+    <lastmod>2026-03-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+</urlset>

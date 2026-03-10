@@ -1,0 +1,54 @@
+# AEO Report — aeo-report.com
+
+> Der AEO Report ist ein automatisiertes Analyse-Tool für KI-Sichtbarkeit von Websites.
+> Er analysiert, wie gut eine Website in KI-Suchsystemen wie ChatGPT, Perplexity und Google Gemini
+> als Antwortquelle zitiert wird — und liefert einen gewichteten Score mit konkreten Maßnahmen.
+
+## Angebot
+
+Das Tool richtet sich primär an Marketingagenturen im DACH-Raum (Deutschland, Österreich, Schweiz),
+die AEO-Analysen als neue Dienstleistung für ihre Kunden anbieten möchten.
+
+### Kernfunktionen
+
+- Automatisierter AEO-Audit: Crawlt bis zu 20 Unterseiten einer Website
+- KI-Praxistest: 10 branchenrelevante Suchanfragen via Perplexity
+- Gewichteter Score in 5 Kategorien (0–100 Punkte)
+- PDF-Export in 3 Varianten: Kundenexemplar, Agenturexemplar, Vertriebsexemplar
+- White-Label-fähig: vollständig mit Agentur-Branding exportierbar
+
+### Die 5 Analyse-Kategorien
+
+1. KI-Sichtbarkeit (30%) — Perplexity-Praxistest mit realen Suchanfragen
+2. Content-Architektur (25%) — FAQ-, HowTo- und Vergleichsseiten, Texttiefe
+3. Strukturierte Daten (20%) — Schema Markup, H1-Struktur, FAQPage, LocalBusiness
+4. Technische Zugänglichkeit (15%) — robots.txt, llms.txt, Meta-Tags, Open Graph
+5. Entity-Präsenz (10%) — Kernbegriffe, Branche, Region, Zielgruppe
+
+## Zielgruppe
+
+- Marketingagenturen im DACH-Raum
+- Agenturen die SEO-Leistungen um KI-Sichtbarkeit erweitern möchten
+- Agenturen die ein Akquise- und Umsetzungstool für Website-Optimierung suchen
+
+## Technischer Stack
+
+- Frontend: HTML/CSS/JS (Cloudflare Pages)
+- Analyse-Backend: n8n (Workflow-Automatisierung)
+- Datenbankl: Supabase
+- PDF-Generierung: PDFmunk API via n8n
+- KI-Praxistest: Perplexity API
+- KI-Fragengenerierung: Claude (Anthropic)
+
+## Kontakt
+
+- Website: https://www.aeo-report.com
+- E-Mail: office@aeo-report.com
+- Betreiber: Stefan Wurzer, Österreich
+- Impressum: https://www.wkoecg.at/Ecg.aspx?FirmaID=f18d9b7a-0310-436a-a9f0-1f35002ee26a
+
+## Weitere Ressourcen
+
+- Live-Demo: https://www.aeo-report.com/futureweb
+- Vollständige Analyse-Dokumentation: https://www.aeo-report.com/#wie-es-funktioniert
+- FAQ: https://www.aeo-report.com/#faq
