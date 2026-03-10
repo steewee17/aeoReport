@@ -166,8 +166,8 @@
     --border: #2e2b25;
     --border2: #3a3730;
     --text: #f0ece4;
-    --text-dim: #8a8578;
-    --text-dimmer: #4a4740;
+    --text-dim: #9a9590;
+    --text-dimmer: #6a6560;
     --accent: #c8a96e;
     --accent2: #2e7d52;
     --accent-red: #c0392b;
@@ -669,9 +669,9 @@
 
   .mock-act-label {
     font-family: var(--mono);
-    font-size: 8px;
+    font-size: 9px;
     letter-spacing: 2px;
-    color: var(--text-dimmer);
+    color: var(--text-dim);
     margin-bottom: 10px;
     text-transform: uppercase;
   }
@@ -767,7 +767,8 @@
 
   .ticker-item::after {
     content: '//';
-    color: var(--text-dimmer);
+    color: var(--text-dim);
+    opacity: .4;
   }
 
   @keyframes ticker {
@@ -831,7 +832,7 @@
     font-family: var(--mono);
     font-size: 11px;
     letter-spacing: 2px;
-    color: var(--text-dimmer);
+    color: var(--text-dim);
     margin-bottom: 20px;
     display: flex;
     align-items: center;
@@ -912,6 +913,7 @@
     line-height: 1;
     margin-bottom: 16px;
     letter-spacing: -2px;
+    opacity: .8;
   }
 
   .dim-title {
@@ -927,10 +929,11 @@
     color: var(--accent);
     letter-spacing: 1px;
     margin-bottom: 12px;
+    opacity: .85;
   }
 
   .dim-desc {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--text-dim);
     line-height: 1.7;
   }
@@ -966,7 +969,8 @@
     font-family: var(--mono);
     font-size: 10px;
     letter-spacing: 2px;
-    color: var(--text-dimmer);
+    color: var(--accent);
+    opacity: .6;
     margin-bottom: 20px;
   }
 
@@ -1247,18 +1251,18 @@
     font-family: var(--mono);
     font-size: 10px;
     letter-spacing: 1px;
-    color: var(--text-dimmer);
+    color: var(--text-dim);
     text-decoration: none;
     transition: color .2s;
   }
 
-  .footer-links a:hover { color: var(--text-dim); }
+  .footer-links a:hover { color: var(--text); }
 
   .footer-copy {
     font-family: var(--mono);
     font-size: 10px;
     letter-spacing: 1px;
-    color: var(--text-dimmer);
+    color: var(--text-dim);
   }
 
   /* ── ANIMATIONS ── */
@@ -2191,7 +2195,7 @@
         <div class="agency-card">
           <div class="agency-card-header">
             <span class="agency-card-title">Analysierte Domains</span>
-            <span style="font-family:var(--mono);font-size:9px;color:var(--text-dimmer);">DIESE WOCHE</span>
+            <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">DIESE WOCHE</span>
           </div>
           <div class="agency-urls">
             <div class="agency-url-item">
@@ -2271,7 +2275,7 @@
       <input class="lead-modal-input" id="lg-email" type="email" placeholder="max@muster.at" autocomplete="email" onkeydown="if(event.key==='Enter')submitLeadAndDownload()">
     </div>
     <div class="lead-modal-field">
-      <label class="lead-modal-label" for="lg-company">Firma / Agentur <span style="color:var(--text-dimmer);font-size:9px;">(optional)</span></label>
+      <label class="lead-modal-label" for="lg-company">Firma / Agentur <span style="color:var(--text-dim);font-size:9px;">(optional)</span></label>
       <input class="lead-modal-input" id="lg-company" type="text" placeholder="Muster GmbH" autocomplete="organization" onkeydown="if(event.key==='Enter')submitLeadAndDownload()">
     </div>
 
@@ -2364,7 +2368,7 @@
 
     <div class="fade-in" style="display:flex;flex-direction:column;align-items:center;gap:16px;">
       <a href="mailto:info@stefanwurzer.at?subject=Demo-Call AEO Report für Agenturen&body=Hallo,%0A%0Awir sind eine Marketingagentur und möchten mehr über den Einsatz des AEO Reports für unsere Kunden erfahren.%0A%0AAgentur / Website: %0AAnsprechpartner: %0A%0AFreundliche Grüße" class="btn-large" style="display:inline-block;">DEMO-CALL ANFRAGEN →</a>
-      <span style="font-family:var(--mono);font-size:11px;color:var(--text-dimmer);letter-spacing:1px;">30 Min. · Online · Kostenlos · Für Agenturen im DACH-Raum</span>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:1px;">30 Min. · Online · Kostenlos · Für Agenturen im DACH-Raum</span>
     </div>
 
     <div class="fade-in" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-top:64px;max-width:720px;margin-left:auto;margin-right:auto;" id="callGrid">
