@@ -1358,6 +1358,66 @@
     .nav-links { display: none; }
   }
 
+  @media (max-width: 640px) {
+    /* Global */
+    .container { padding: 0 20px; }
+    .section-title { font-size: 32px; }
+
+    /* Nav */
+    nav { padding: 0 20px; }
+    .nav-logo { font-size: 16px; }
+
+    /* Hero */
+    .hero-left { padding: 60px 20px 48px; }
+    .hero-title { font-size: 36px; }
+    .hero-sub { font-size: 15px; }
+    .hero-cta { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+    /* Sections */
+    section { padding: 72px 0 !important; }
+
+    /* Grids → single column */
+    .dim-grid { grid-template-columns: 1fr; }
+    .how-steps { grid-template-columns: 1fr; }
+
+    /* Tool URL bar */
+    .tool-url-bar { flex-direction: column; gap: 8px; }
+    .tool-url-input { font-size: 14px; padding: 14px 16px; }
+    .tool-url-btn { width: 100%; padding: 14px; text-align: center; }
+
+    /* Tool results */
+    .tool-results-inner { padding: 0 16px; }
+
+    /* Scorecard inner */
+    .tool-results-wrap .mgmt-summary { padding: 24px 20px; }
+    .tool-results-wrap .mgmt-header { flex-direction: column; gap: 16px; }
+    .tool-results-wrap .mgmt-rating-block { text-align: left; }
+    .tool-results-wrap .mgmt-score-big { font-size: 48px; }
+    .tool-results-wrap .mgmt-kpis { grid-template-columns: 1fr; }
+    .tool-results-wrap .score-breakdown { grid-template-columns: 1fr 1fr; }
+    .tool-results-wrap .action-item { grid-template-columns: 1fr; gap: 8px; }
+    .tool-results-wrap .ki-test-section { padding: 20px 16px; }
+    .tool-results-wrap .tech-section { padding: 20px 16px; }
+    .tool-results-wrap .actions-section { padding: 20px 16px; }
+    .tool-results-wrap .checks-grid { grid-template-columns: 1fr; }
+    .tool-results-wrap .entity-grid { grid-template-columns: 1fr 1fr; }
+    .tool-results-wrap table { font-size: 11px; }
+    .tool-results-wrap th, .tool-results-wrap td { padding: 8px 10px; }
+
+    /* Download box */
+    .tool-download-box { padding: 24px 16px; }
+    .tool-dl-btn { width: 100%; justify-content: center; }
+
+    /* Lead modal */
+    .lead-modal-box { padding: 36px 24px 28px; }
+
+    /* Final CTA 3-col grid → single col */
+    #callGrid { grid-template-columns: 1fr !important; }
+
+    /* Agency section */
+    .agency-visual { display: none; }
+  }
+
   /* ── TOOL SECTION ── */
   .tool-section {
     padding: 100px 0 0;
@@ -2307,7 +2367,7 @@
       <span style="font-family:var(--mono);font-size:11px;color:var(--text-dimmer);letter-spacing:1px;">30 Min. · Online · Kostenlos · Für Agenturen im DACH-Raum</span>
     </div>
 
-    <div class="fade-in" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-top:64px;max-width:720px;margin-left:auto;margin-right:auto;">
+    <div class="fade-in" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-top:64px;max-width:720px;margin-left:auto;margin-right:auto;" id="callGrid">
       <div style="background:var(--bg);padding:28px 24px;text-align:left;">
         <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px;">Im Call</div>
         <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Tool live erleben</div>
