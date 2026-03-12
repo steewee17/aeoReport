@@ -365,8 +365,8 @@ mark{background:rgba(212,138,0,.15);color:var(--yellow);border-bottom:1px solid 
 
   <div class="header">
     <div>
-      <div class="brand" id="brandDisplay">stefanwurzer <span style="opacity:.55;font-size:16px;">/// <a href="https://aeo-report.com" target="_blank" style="color:inherit;text-decoration:none;">aeo-report.com</a></span><span>///</span> MASTER</div>
-      <div class="tagline">Answer Engine Optimization — Strategische Vollanalyse</div>
+      <div class="brand" id="brandDisplay">stefanwurzer <span style="opacity:.55;font-size:16px;">/// <a href="https://aeo-report.com" target="_blank" style="color:inherit;text-decoration:none;">aeo-report.com</a></span></div>
+      <div class="tagline">Answer Engine Optimization — Strategische Vollanalyse · <a href="https://aeo-report.com" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px solid currentColor;opacity:.6;">aeo-report.com</a></div>
     </div>
     <div style="display:flex;gap:8px;align-items:flex-start;">
       <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
@@ -1776,11 +1776,11 @@ async function exportBrandedHtml() {
     html = html.replace('id="brandName"', `id="brandName" value="${brandName.replace(/"/g,'&quot;')}"`);
   }
 
-  // 1b. brandDisplay Text direkt ersetzen
+  // 1b. brandDisplay Text direkt ersetzen — Regex ersetzt gesamten Inhalt inkl. nested spans
   const brandDisplayText = brandName + ' <span style="opacity:.55;font-size:16px;">/// <a href="https://aeo-report.com" target="_blank" style="color:inherit;text-decoration:none;">aeo-report.com</a></span>';
   html = html.replace(
-    /(<div[^>]*id="brandDisplay"[^>]*>)[^<]*/,
-    `$1${brandDisplayText}`
+    /(<div[^>]*id="brandDisplay"[^>]*>)[\s\S]*?(<\/div>)/,
+    `$1${brandDisplayText}$2`
   );
 
   // 2. Platzhalter-URL vorausfüllen
