@@ -365,7 +365,7 @@ mark{background:rgba(212,138,0,.15);color:var(--yellow);border-bottom:1px solid 
 
   <div class="header">
     <div>
-      <div class="brand" id="brandDisplay">stefanwurzer <span style="opacity:.3;font-size:14px;">/// AEO REPORT</span><span>///</span> TOOL</div>
+      <div class="brand" id="brandDisplay">stefanwurzer <span style="opacity:.55;font-size:16px;">/// <a href="https://aeo-report.com" target="_blank" style="color:inherit;text-decoration:none;">aeo-report.com</a></span><span>///</span> MASTER</div>
       <div class="tagline">Answer Engine Optimization — Strategische Vollanalyse</div>
     </div>
     <div style="display:flex;gap:8px;align-items:flex-start;">
@@ -499,7 +499,7 @@ mark{background:rgba(212,138,0,.15);color:var(--yellow);border-bottom:1px solid 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
         <div>
           <div class="section-label">Platzhaltertext URL-Feld</div>
-          <input class="inp" id="customPlaceholder" value="https://stefanwurzer.at" placeholder="z.B. https://ihre-website.at" style="margin-bottom:0;" oninput="updatePlaceholder()" />
+          <input class="inp" id="customPlaceholder" value="https://aeo-report.com" placeholder="z.B. https://ihre-website.at" style="margin-bottom:0;" oninput="updatePlaceholder()" />
         </div>
         <div>
           <div class="section-label">Absender / Branding</div>
@@ -577,9 +577,9 @@ function updateBranding() {
   const name = document.getElementById('brandName').value.trim();
   const display = document.getElementById('brandDisplay');
   if (name) {
-    display.innerHTML = name + ' <span style="opacity:.3;font-size:14px;">/// AEO REPORT</span>';
+    display.innerHTML = name + ' <span style="opacity:.55;font-size:16px;">/// <a href="https://aeo-report.com" target="_blank" style="color:inherit;text-decoration:none;">aeo-report.com</a></span>';
   } else {
-    display.innerHTML = 'AEO REPORT <span>///</span> TOOL';
+    display.innerHTML = 'AEO REPORT <span>///</span> MASTER';
   }
   // Also update footer in scorecard if visible
   const footer = document.getElementById('reportBrandFooter');
@@ -1777,7 +1777,7 @@ async function exportBrandedHtml() {
   }
 
   // 1b. brandDisplay Text direkt ersetzen
-  const brandDisplayText = brandName + ' <span style="opacity:.3;font-size:14px;">/// AEO REPORT</span>';
+  const brandDisplayText = brandName + ' <span style="opacity:.55;font-size:16px;">/// <a href="https://aeo-report.com" target="_blank" style="color:inherit;text-decoration:none;">aeo-report.com</a></span>';
   html = html.replace(
     /(<div[^>]*id="brandDisplay"[^>]*>)[^<]*/,
     `$1${brandDisplayText}`
