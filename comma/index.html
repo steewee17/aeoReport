@@ -1,0 +1,2016 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEO Report Tool</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600&display=swap');
+:root {
+  --bg:#f5f3ee; --surface:#fff; --surface2:#f0ede6; --border:#e0dbd0;
+  --text:#1a1814; --text-dim:#7a7468;
+  --red:#c0392b; --yellow:#d48a00; --green:#2e7d52;
+  --red-bg:#fdf0ee; --yellow-bg:#fdf8ee; --green-bg:#eef6f0;
+  --mono:'DM Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;}
+.wrap{max-width:980px;margin:0 auto;padding:40px 24px;}
+
+/* HEADER */
+.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:40px;border-bottom:2px solid var(--text);padding-bottom:24px;}
+.brand{font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.5px;}
+.brand span{opacity:.35;}
+.tagline{font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:1px;margin-top:4px;}
+.export-btn{background:var(--text);border:1px solid var(--text);border-radius:5px;padding:10px 20px;font-family:var(--mono);font-size:11px;color:var(--bg);cursor:pointer;transition:all .15s;letter-spacing:.5px;font-weight:600;}
+.export-btn:hover{opacity:.85;transform:translateY(-1px);}
+.export-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.export-btn-footer{display:flex;flex-direction:column;align-items:stretch;gap:10px;padding:32px;margin-top:8px;background:var(--surface);border:1px solid var(--border);border-radius:8px;}
+.export-btn-footer-btns{display:flex;gap:12px;justify-content:center;}
+.export-btn-footer .export-btn{padding:14px 32px;font-size:12px;letter-spacing:1px;}
+.export-btn-footer .footer-hint{font-size:11px;color:var(--text-dim);font-family:var(--mono);text-align:left;}
+
+/* INPUT */
+.input-panel{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:28px;margin-bottom:32px;}
+.section-label{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px;}
+.inp{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:11px 14px;font-family:var(--mono);font-size:13px;color:var(--text);outline:none;transition:border-color .2s;width:100%;margin-bottom:10px;}
+.inp:focus{border-color:var(--text);}
+.input-row{display:flex;gap:10px;}
+.inp-sm{width:90px;flex:none;text-align:center;margin-bottom:0;}
+.inp-row-item{flex:1;margin-bottom:0;}
+.btn-primary{background:var(--text);color:#fff;border:none;border-radius:5px;padding:11px 24px;font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:opacity .2s;white-space:nowrap;}
+.btn-primary:hover{opacity:.8;}
+.btn-primary:disabled{opacity:.3;cursor:not-allowed;}
+.settings-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:11px 13px;font-size:15px;cursor:pointer;color:var(--text-dim);transition:all .2s;flex-shrink:0;}
+.settings-btn:hover{border-color:var(--text);color:var(--text);}
+#statusLog{display:none;background:var(--surface2);border-radius:4px;padding:12px 14px;margin-top:12px;font-family:var(--mono);font-size:11px;line-height:2;max-height:100px;overflow-y:auto;}
+.log-ok{color:var(--green);}.log-err{color:var(--red);}.log-info{color:var(--text-dim);}
+.spinner{display:inline-block;width:11px;height:11px;border:2px solid var(--border);border-top-color:var(--text);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============ MANAGEMENT SUMMARY ============ */
+.mgmt-summary{background:var(--text);color:#fff;border-radius:8px;padding:36px;margin-bottom:24px;-webkit-font-smoothing:antialiased;}
+.mgmt-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;flex-wrap:wrap;gap:16px;}
+.mgmt-title{font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;opacity:.5;margin-bottom:6px;}
+.mgmt-company{font-family:'DM Sans',sans-serif;font-size:26px;font-weight:600;line-height:1.1;letter-spacing:-0.3px;-webkit-font-smoothing:antialiased;}
+.mgmt-meta{font-family:var(--mono);font-size:11px;opacity:.4;margin-top:6px;}
+.mgmt-rating-block{text-align:right;}
+.mgmt-score-big{font-family:'DM Sans',sans-serif;font-size:60px;font-weight:700;line-height:1;-webkit-font-smoothing:antialiased;letter-spacing:-2px;}
+.mgmt-score-label{font-family:var(--mono);font-size:11px;opacity:.4;letter-spacing:1px;}
+.mgmt-badge{display:inline-block;padding:4px 14px;border-radius:20px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:2px;margin-top:8px;}
+.mgmt-badge.red{background:var(--red);color:#fff;}
+.mgmt-badge.yellow{background:var(--yellow);color:#fff;}
+.mgmt-badge.green{background:var(--green);color:#fff;}
+
+/* Score Breakdown */
+.score-breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:28px;}
+.score-dim{background:rgba(255,255,255,.07);border-radius:6px;padding:14px;}
+.score-dim-label{font-family:var(--mono);font-size:9px;letter-spacing:1px;opacity:.5;text-transform:uppercase;margin-bottom:6px;}
+.score-dim-bar{height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin-bottom:6px;overflow:hidden;}
+.score-dim-fill{height:100%;border-radius:2px;transition:width .6s ease;}
+.score-dim-fill.red{background:var(--red);}
+.score-dim-fill.yellow{background:var(--yellow);}
+.score-dim-fill.green{background:var(--green);}
+.score-dim-val{font-family:'DM Sans',sans-serif;font-size:20px;font-weight:600;display:inline;-webkit-font-smoothing:antialiased;letter-spacing:-0.5px;}
+.score-dim-max{font-family:var(--mono);font-size:11px;opacity:.4;display:inline;}
+.score-dim-num{display:block;margin-top:4px;}
+
+/* Strategic KPIs */
+.mgmt-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;}
+.kpi-card{background:rgba(255,255,255,.07);border-radius:6px;padding:16px;}
+.kpi-label{font-family:var(--mono);font-size:9px;letter-spacing:1px;opacity:.4;text-transform:uppercase;margin-bottom:8px;}
+.kpi-value{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:800;margin-bottom:4px;}
+.kpi-desc{font-size:12px;opacity:.5;line-height:1.4;}
+.kpi-indicator{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;}
+.kpi-indicator.red{background:var(--red);}
+.kpi-indicator.yellow{background:var(--yellow);}
+.kpi-indicator.green{background:var(--green);}
+
+/* Top 3 Actions in summary */
+.mgmt-actions{border-top:1px solid rgba(255,255,255,.1);padding-top:20px;}
+.mgmt-actions-title{font-family:var(--mono);font-size:10px;letter-spacing:2px;opacity:.4;text-transform:uppercase;margin-bottom:14px;}
+.mgmt-action-row{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;}
+.mgmt-action-num{font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;opacity:.2;line-height:1;flex-shrink:0;width:28px;}
+.mgmt-action-text h4{font-size:14px;font-weight:600;margin-bottom:2px;}
+.mgmt-action-text p{font-size:12px;opacity:.45;line-height:1.4;}
+.mgmt-action-effort{font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:2px 8px;border-radius:3px;flex-shrink:0;margin-top:2px;}
+.mgmt-action-effort.low{background:var(--green);color:#fff;}
+.mgmt-action-effort.medium{background:var(--yellow);color:#fff;}
+.mgmt-action-effort.high{background:rgba(255,255,255,.15);color:#fff;}
+
+/* KI PRAXISTEST */
+.ki-test-section{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:28px;margin-bottom:24px;}
+.ki-test-section h3{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;margin-bottom:6px;}
+.ki-test-sub{font-size:13px;color:var(--text-dim);margin-bottom:20px;}
+.ki-test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;}
+.ki-question{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:14px;}
+.ki-q-label{font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px;}
+.ki-q-text{font-size:13px;font-weight:500;margin-bottom:10px;line-height:1.4;}
+.ki-q-links{display:flex;gap:6px;flex-wrap:wrap;}
+.ki-link{display:inline-flex;align-items:center;gap:5px;background:var(--text);color:#fff;border:none;border-radius:4px;padding:5px 10px;font-family:var(--mono);font-size:10px;cursor:pointer;text-decoration:none;transition:opacity .2s;}
+.ki-link:hover{opacity:.8;}
+.ki-link.perplexity{background:#20808d;}
+.ki-link.gemini{background:#1a73e8;}
+
+/* TECHNICAL SECTION */
+.tech-section{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:28px;margin-bottom:24px;}
+.tech-section h3{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.section-tag{font-family:var(--mono);font-size:9px;letter-spacing:1px;background:var(--surface2);border:1px solid var(--border);padding:3px 8px;border-radius:3px;color:var(--text-dim);}
+
+.checks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:0;}
+.check-card{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:18px;}
+.check-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.check-title{font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;}
+.check-aeo-relevance{font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:2px 6px;border-radius:3px;opacity:.7;}
+.check-aeo-relevance.high{background:rgba(192,57,43,.1);color:var(--red);}
+.check-aeo-relevance.medium{background:rgba(212,138,0,.1);color:var(--yellow);}
+.check-aeo-relevance.low{background:rgba(46,125,82,.1);color:var(--green);}
+.status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.status-dot.red{background:var(--red);}
+.status-dot.yellow{background:var(--yellow);}
+.status-dot.green{background:var(--green);}
+.check-value{font-family:var(--mono);font-size:12px;color:var(--text-dim);margin-bottom:8px;}
+.check-action{font-size:12px;padding:6px 10px;border-radius:4px;font-weight:500;line-height:1.3;}
+.check-action.red{background:var(--red-bg);color:var(--red);}
+.check-action.yellow{background:var(--yellow-bg);color:var(--yellow);}
+.check-action.green{background:var(--green-bg);color:var(--green);}
+.schema-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.schema-tag{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:2px 7px;font-family:var(--mono);font-size:9px;color:var(--text-dim);}
+.schema-tag.found{background:var(--green-bg);border-color:var(--green);color:var(--green);}
+.schema-tag.custom{background:var(--yellow-bg);border-color:var(--yellow);color:var(--yellow);}
+
+/* ENTITY CHECK */
+.entity-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:0;}
+.entity-card{background:var(--surface2);border-radius:6px;padding:14px;border:1px solid var(--border);}
+.entity-label{font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px;}
+.entity-value{font-size:13px;font-weight:500;}
+.entity-status{font-family:var(--mono);font-size:10px;margin-top:4px;}
+.entity-status.found{color:var(--green);}
+.entity-status.missing{color:var(--red);}
+.entity-status.partial{color:var(--yellow);}
+
+/* ACTIONS TABLE */
+.actions-section{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:28px;margin-bottom:24px;}
+.actions-section h3{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;margin-bottom:20px;}
+.action-item{display:grid;grid-template-columns:100px 1fr auto;gap:16px;padding:14px 0;border-bottom:1px solid var(--border);align-items:start;}
+.action-item:last-child{border-bottom:none;}
+.action-priority{font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;white-space:nowrap;text-align:center;}
+.action-priority.high{background:var(--red-bg);color:var(--red);}
+.action-priority.medium{background:var(--yellow-bg);color:var(--yellow);}
+.action-priority.low{background:var(--green-bg);color:var(--green);}
+.action-content h4{font-weight:600;font-size:14px;margin-bottom:3px;}
+.action-content p{font-size:12px;color:var(--text-dim);line-height:1.5;}
+.effort-tag{font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:var(--surface2);color:var(--text-dim);white-space:nowrap;}
+.how-to-toggle{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:var(--mono);font-size:10px;color:var(--text-dim);cursor:pointer;margin-top:8px;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.how-to-toggle:hover{border-color:var(--text);color:var(--text);}
+.how-to-panel{display:none;margin-top:10px;background:var(--surface2);border-radius:5px;padding:14px;border-left:3px solid var(--border);}
+.how-to-panel.open{display:block;}
+.how-to-panel h5{font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;margin-bottom:8px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;}
+.how-to-panel pre{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:10px 12px;font-family:var(--mono);font-size:11px;overflow-x:auto;margin:6px 0;white-space:pre-wrap;word-break:break-all;line-height:1.6;}
+.how-to-panel .tool-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.how-to-panel .tool-link{display:inline-flex;align-items:center;gap:4px;background:var(--text);color:#fff;border-radius:4px;padding:4px 10px;font-family:var(--mono);font-size:10px;text-decoration:none;transition:opacity .2s;}
+.how-to-panel .tool-link:hover{opacity:.8;}
+.how-to-panel p{font-size:12px;color:var(--text-dim);line-height:1.6;margin-bottom:6px;}
+@page {
+  margin: 1.2cm;
+  size: A4;
+}
+
+@media print {
+  .how-to-toggle{display:none!important;}
+  .how-to-panel{display:block!important;border-left-color:var(--text);}
+}
+
+/* PAGE TABLE */
+.page-table{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:24px;}
+.page-table-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.page-table-header h3{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;}
+table{width:100%;border-collapse:collapse;}
+th{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--surface2);}
+td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--surface2);}
+.td-title{font-weight:500;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.check-icon{font-size:13px;}
+
+/* SEARCH */
+.search-section{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:28px;margin-bottom:24px;}
+.search-section h3{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;margin-bottom:16px;}
+.search-wrap{position:relative;margin-bottom:10px;}
+.s-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-dim);}
+#searchInput{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:11px 14px 11px 40px;font-family:var(--mono);font-size:13px;color:var(--text);outline:none;}
+#searchInput:focus{border-color:var(--text);}
+.search-meta-line{font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-bottom:12px;letter-spacing:1px;}
+#searchResults{display:flex;flex-direction:column;gap:2px;}
+.res-card{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:12px 16px;cursor:pointer;transition:border-color .15s;}
+.res-card:hover{border-color:var(--text);}
+.res-cat{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:3px;}
+.res-title{font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;margin-bottom:2px;}
+.res-desc{font-size:12px;color:var(--text-dim);}
+mark{background:rgba(212,138,0,.15);color:var(--yellow);border-bottom:1px solid var(--yellow);padding:0 1px;border-radius:2px;}
+
+@media print {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+
+  .input-panel, #statusLog, .ki-q-links, #aeoExplainer, .settings-btn, .export-btn, .export-btn-footer, .no-print, .search-section { display:none!important; }
+  .wrap { padding:16px; }
+
+  /* Headings — lighter weight for print */
+  h1,h2,h3,h4,.brand,.mgmt-company,.actions-section h3,.page-table-header h3,.search-section h3,.tech-section h3,.ki-test-section h3 {
+    font-weight:700 !important;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mgmt-company { font-size:22px !important; }
+  .mgmt-score-big { font-size:48px !important; }
+
+  /* Management summary — white for print, safe margin so border doesnt bleed to edge */
+  .mgmt-summary {
+    background:#fff !important;
+    color:var(--text) !important;
+    border:none !important;
+    border-radius:0;
+    margin:0 0 24px !important;
+    padding:24px 0 !important;
+    border-bottom:1.5px solid #333 !important;
+  }
+  .mgmt-summary * { color:var(--text) !important; }
+  .mgmt-title { opacity:.5 !important; }
+  .mgmt-meta { opacity:.4 !important; }
+  .mgmt-action-num { color:#ccc !important; }
+  .score-dim { background:#f5f3ee !important; }
+  .kpi-card { background:#f5f3ee !important; }
+  .score-dim-bar { background:#ddd !important; }
+  .score-dim-fill { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .score-dim-fill.green { background:var(--green) !important; }
+  .score-dim-fill.yellow { background:var(--yellow) !important; }
+  .score-dim-fill.red { background:var(--red) !important; }
+  .mgmt-badge.green { background:var(--green-bg) !important; color:var(--green) !important; border:1px solid var(--green) !important; }
+  .mgmt-badge.yellow { background:var(--yellow-bg) !important; color:var(--yellow) !important; border:1px solid var(--yellow) !important; }
+  .mgmt-badge.red { background:var(--red-bg) !important; color:var(--red) !important; border:1px solid var(--red) !important; }
+
+  /* Brand footer: hide inline instance, show print-only footer at document end */
+  #reportBrandFooter { display:none !important; }
+  #reportBrandFooterPrint { display:block !important; }
+
+  /* Page breaks */
+  .mgmt-summary { page-break-after: always; page-break-inside: avoid; }
+  .ki-test-section { page-break-inside: avoid; }
+  .tech-section { page-break-inside: avoid; }
+  .actions-section { page-break-before: always; }
+  .action-item { page-break-inside: avoid; margin-bottom:6px; }
+  .action-content p { orphans:3; widows:3; }
+  .page-table { page-break-before: always; }
+  .check-card { page-break-inside: avoid; }
+  .entity-card { page-break-inside: avoid; }
+  .how-to-toggle { display:none !important; }
+  .how-to-panel { display:block !important; border-left:2px solid #ccc !important; page-break-inside:avoid; }
+
+  /* Potenzial section */
+  #potenzialGrid > div { background:#f5f3ee !important; }
+}
+
+/* ============ MOBILE RESPONSIVE ============ */
+@media (max-width: 680px) {
+
+  /* Wrap padding */
+  .wrap { padding: 20px 16px; }
+
+  /* HEADER — stack brand + buttons */
+  .header { flex-direction: column; gap: 16px; align-items: flex-start; }
+  .header > div:last-child { display: flex; flex-direction: row; gap: 8px; width: 100%; }
+  .header > div:last-child > div { flex: 1; }
+  .header > div:last-child .export-btn { width: 100%; padding: 10px 10px; font-size: 10px; }
+  .header > div:last-child span { font-size: 9px; }
+
+  /* INPUT — stack URL + pages + button */
+  .input-panel { padding: 20px 16px; }
+  .input-row { flex-wrap: wrap; }
+  .inp-row-item { flex: 1 1 100%; margin-bottom: 8px; }
+  .inp-sm { width: 70px; flex: none; }
+  .btn-primary { flex: 1; }
+
+  /* Settings panel */
+  #settingsPanel > div:first-child { grid-template-columns: 1fr !important; }
+
+  /* MANAGEMENT SUMMARY */
+  .mgmt-summary { padding: 24px 18px; }
+  .mgmt-header { flex-direction: column; gap: 12px; }
+  .mgmt-rating-block { text-align: left; }
+  .mgmt-score-big { font-size: 48px; }
+  .mgmt-company { font-size: 22px; }
+
+  /* Score breakdown — 2 cols */
+  .score-breakdown { grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  /* KPI cards — 1 col */
+  .mgmt-kpis { grid-template-columns: 1fr; gap: 8px; }
+
+  /* Potenzial grid — 1 col */
+  #potenzialGrid { grid-template-columns: 1fr !important; gap: 8px; }
+
+  /* KI Citation Rate block */
+  .mgmt-summary div[style*="display:flex;align-items:center;gap:24px"] {
+    flex-direction: column; gap: 16px;
+  }
+  .mgmt-summary div[style*="border-left:1px solid"] {
+    border-left: none !important;
+    border-top: 1px solid rgba(255,255,255,.1);
+    padding-left: 0 !important;
+    padding-top: 16px;
+  }
+
+  /* KI TEST */
+  .ki-test-section { padding: 20px 16px; }
+  .ki-test-grid { grid-template-columns: 1fr; }
+
+  /* TECH SECTION */
+  .tech-section { padding: 20px 16px; }
+  .checks-grid { grid-template-columns: 1fr; }
+
+  /* ENTITY GRID — 2 cols */
+  .entity-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  /* ACTIONS */
+  .actions-section { padding: 20px 16px; }
+  .action-item { grid-template-columns: 1fr; gap: 6px; }
+  .effort-tag { align-self: flex-start; }
+
+  /* PAGE TABLE — horizontal scroll */
+  .page-table { overflow-x: auto; }
+  .page-table table { min-width: 520px; }
+
+  /* SEARCH */
+  .search-section { padding: 20px 16px; }
+
+  /* EXPORT FOOTER BUTTONS */
+  .export-btn-footer { padding: 20px 16px; }
+  .export-btn-footer-btns { flex-direction: column; }
+  .export-btn-footer .export-btn { padding: 14px 20px; }
+
+  /* ANSCHREIBEN section */
+  .ki-test-section div[style*="position:absolute"] { position: static !important; margin-bottom: 8px; }
+}
+
+@media (max-width: 400px) {
+  .score-breakdown { grid-template-columns: 1fr; }
+  .entity-grid { grid-template-columns: 1fr; }
+  .header > div:last-child { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div>
+      <div class="brand" id="brandDisplay">comma PR & Marketingagentur GmbH <span style="opacity:.55;font-size:16px;">/// <a href="https://aeo-report.com" target="_blank" style="color:inherit;text-decoration:none;">aeo-report.com</a></span></div>
+      <div class="tagline">Answer Engine Optimization — Strategische Vollanalyse</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:flex-start;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+        <button class="export-btn" id="pdfBtnAnalyse" onclick="exportPdf('analyse', this)" title="Kompakter Report für den Kunden — Befunde &amp; Potenziale">↓ Kundenexemplar</button>
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:.5px;">Analyse</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+        <button class="export-btn" id="pdfBtnFull" onclick="exportPdf('full', this)" style="background:var(--bg);color:var(--text);" title="Vollständiger Report für die Agentur — inkl. Umsetzungsanleitungen">↓ Agenturexemplar</button>
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:.5px;">inkl. Umsetzungsleitfaden</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AEO ERKLÄRUNG -->
+  <div id="aeoExplainer" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:24px;">
+
+    <!-- INTRO COPY -->
+    <div style="padding:28px 28px 20px;border-bottom:1px solid var(--border);">
+      <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;letter-spacing:-.3px;margin-bottom:6px;">KI verändert die Suche. SEO reicht nicht mehr.</div>
+      <div style="font-size:14px;color:var(--text-dim);margin-bottom:16px;">Früher war Google das Ziel — heute sind es ChatGPT, Perplexity und Gemini.</div>
+      <!-- SEO vs AEO KONTRAST -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+        <div style="background:var(--surface2);border-radius:6px;padding:16px;border-left:3px solid var(--border);">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase;">SEO — bisher ausreichend</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:5px;">Sichtbar im Datenpool</div>
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">SEO bringt eine Website in die Auswahl — sie wird indexiert und kann in Suchergebnissen erscheinen.</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:6px;padding:16px;border-left:3px solid var(--text);">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase;">AEO — heute entscheidend</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:5px;">Als Antwort erkannt werden</div>
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">AEO macht eine Website zur Antwort. Wer nicht als Quelle erkannt wird, existiert für KI-Suchmaschinen schlicht nicht.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TITLE + TOGGLE -->
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 28px 0;">
+      <div>
+        <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;">Was ist AEO?</div>
+        <div style="font-size:13px;color:var(--text-dim);margin-top:3px;">Answer Engine Optimization — in 5 Ebenen erklärt</div>
+      </div>
+      <button onclick="toggleExplainer()" id="explainerToggle" style="background:none;border:1px solid var(--border);border-radius:5px;padding:6px 12px;font-family:var(--mono);font-size:10px;color:var(--text-dim);cursor:pointer;letter-spacing:1px;">▲ EINKLAPPEN</button>
+    </div>
+    <div id="explainerContent" style="padding:20px 28px 28px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;">
+
+        <div style="background:var(--surface2);border-radius:6px;padding:16px;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;margin-bottom:8px;">Sichtbare Ebene — Inhalt & Klarheit</div>
+          <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px;line-height:1.6;">Was der Mensch sieht — und gleichzeitig die Basis für KI-Verständlichkeit.</p>
+          <ul style="font-size:12px;color:var(--text-dim);line-height:1.8;padding-left:16px;">
+            <li>In 3 Sekunden klar: Was, für wen, in welcher Region?</li>
+            <li>Klare Leistungsseiten vorhanden?</li>
+            <li>Echte Kundenfragen beantwortet?</li>
+            <li>Konkret geschrieben statt allgemein?</li>
+          </ul>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--text);margin-top:10px;padding:6px 10px;background:var(--surface);border-radius:4px;">Unklare Marketingsprache ist für AEO nahezu wertlos.</div>
+        </div>
+
+        <div style="background:var(--surface2);border-radius:6px;padding:16px;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;margin-bottom:8px;">Struktur-Ebene — Content-Organisation</div>
+          <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px;line-height:1.6;">Maschinenlesbarkeit — wie gut kann KI den Content gliedern?</p>
+          <ul style="font-size:12px;color:var(--text-dim);line-height:1.8;padding-left:16px;">
+            <li>Saubere H1–H2–H3 Hierarchie?</li>
+            <li>Jede Seite ein klares Hauptthema?</li>
+            <li>Eigenständige Unterseiten pro Thema?</li>
+            <li>Sprechende URLs (nicht /page1?id=32)?</li>
+          </ul>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:10px;padding:6px 10px;background:var(--surface);border-radius:4px;">Tools: Detailed SEO Extension, Ahrefs Toolbar</div>
+        </div>
+
+        <div style="background:var(--surface2);border-radius:6px;padding:16px;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;margin-bottom:8px;">Code-Ebene — Hintergrund-Signale</div>
+          <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px;line-height:1.6;">Hier erkennt man den AEO-Reifegrad — unsichtbar für den User.</p>
+          <ul style="font-size:12px;color:var(--text-dim);line-height:1.8;padding-left:16px;">
+            <li>Meta Title & Description sauber?</li>
+            <li>Schema Markup vorhanden? <span style="font-family:var(--mono);font-size:10px;background:var(--surface);padding:1px 5px;border-radius:3px;">ld+json</span></li>
+            <li>LocalBusiness, FAQPage, Product?</li>
+            <li>Interne Verlinkung logisch?</li>
+          </ul>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:10px;padding:6px 10px;background:var(--surface);border-radius:4px;">Fehlt Schema komplett → massives AEO-Potenzial</div>
+        </div>
+
+        <div style="background:var(--surface2);border-radius:6px;padding:16px;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;margin-bottom:8px;">Technische Ebene — Crawlbarkeit</div>
+          <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px;line-height:1.6;">Kann KI die Website überhaupt lesen und indexieren?</p>
+          <ul style="font-size:12px;color:var(--text-dim);line-height:1.8;padding-left:16px;">
+            <li><span style="font-family:var(--mono);font-size:10px;">/robots.txt</span> — Zugang erlaubt?</li>
+            <li><span style="font-family:var(--mono);font-size:10px;">/sitemap.xml</span> — vorhanden?</li>
+            <li>Alle Seiten in Google indexiert?</li>
+            <li>Prüfung: <span style="font-family:var(--mono);font-size:10px;">site:domain.at</span></li>
+          </ul>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:10px;padding:6px 10px;background:var(--surface);border-radius:4px;">Tools: Screaming Frog, Google Search Console</div>
+        </div>
+
+        <div style="background:var(--surface2);border-radius:6px;padding:16px;grid-column:span 1;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;margin-bottom:8px;">KI-Test — Praxischeck</div>
+          <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px;line-height:1.6;">Der wichtigste Teil — zeigt die echte AEO-Sichtbarkeit.</p>
+          <ul style="font-size:12px;color:var(--text-dim);line-height:1.8;padding-left:16px;">
+            <li>„Wo kaufe ich [Produkt] in [Region]?"</li>
+            <li>„Welcher Fachhändler für [X] in der Nähe?"</li>
+            <li>Wird die Website genannt?</li>
+            <li>Welche Wettbewerber erscheinen stattdessen?</li>
+          </ul>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--text);margin-top:10px;padding:6px 10px;background:var(--surface);border-radius:4px;">→ KI-Praxistest ist Teil dieses Reports ↓</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="input-panel">
+    <input type="hidden" id="webhookUrl" value="https://steewee.app.n8n.cloud/webhook/crawl-website" />
+    <input type="hidden" id="clientPin" value="5600" />
+    <div id="pinGate" style="display:none;margin-bottom:12px;">
+      <div class="input-row" style="align-items:center;">
+        <input class="inp" id="pinInput" type="password" placeholder="PIN eingeben" style="margin-bottom:0;max-width:180px;letter-spacing:4px;" onkeydown="if(event.key==='Enter')unlockWithPin()" />
+        <button class="btn-primary" onclick="unlockWithPin()">🔓 Freischalten</button>
+      </div>
+      <div id="pinError" style="color:var(--red);font-size:11px;font-family:var(--mono);margin-top:6px;display:none;">✗ Ungültiger PIN — bitte erneut versuchen.</div>
+    </div>
+    <div id="mainForm">
+      <div class="input-row" style="align-items:center;">
+        <input class="inp inp-row-item" id="targetUrl" placeholder="https://kundenwebsite.at" style="margin-bottom:0;" />
+        <input class="inp inp-sm" id="maxPages" type="number" value="20" min="5" max="50" style="margin-bottom:0;" />
+        <button class="btn-primary" id="auditBtn" onclick="startAudit()">▶ AUDIT STARTEN</button>
+        <button class="settings-btn" onclick="toggleSettings()" title="Webhook konfigurieren" style="display:none">⚙</button>
+      </div>
+    </div>
+    <div id="settingsPanel" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div>
+          <div class="section-label">Platzhaltertext URL-Feld</div>
+          <input class="inp" id="customPlaceholder" value="https://www.comma.info" placeholder="z.B. https://ihre-website.at" style="margin-bottom:0;" oninput="updatePlaceholder()" />
+        </div>
+        <div>
+          <div class="section-label">Absender / Branding</div>
+          <input class="inp" id="brandName" value="comma PR & Marketingagentur GmbH" placeholder="z.B. Stefan Wurzer Consulting" style="margin-bottom:0;" oninput="updateBranding()" />
+        </div>
+      </div>
+      <div style="margin-bottom:10px;">
+        <div class="section-label">Client Token <span style="font-weight:400;opacity:.6;">(für Kontingent-Steuerung)</span></div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input class="inp" id="clientToken" value="comma-pr-marketi-kdsz5h" placeholder="z.B. agentur-xy-a3f9k2" style="margin-bottom:0;font-family:var(--mono);font-size:11px;" />
+          <button class="export-btn" onclick="generateToken()" style="padding:8px 12px;font-size:10px;white-space:nowrap;flex-shrink:0;">🔄 Generieren</button>
+        </div>
+      </div>
+      <div style="margin-bottom:10px;">
+        <div class="section-label">PIN-Schutz <span style="font-weight:400;opacity:.6;">(leer = kein PIN-Gate)</span></div>
+        <input class="inp" id="pinCode" value="5600" placeholder="z.B. 4821" style="margin-bottom:0;font-family:var(--mono);font-size:13px;max-width:120px;" />
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Branded HTML-Kopie mit hinterlegten Einstellungen exportieren — für /agenturxy Hosting</span>
+        <button class="export-btn" onclick="exportBrandedHtml()" style="padding:8px 16px;font-size:10px;white-space:nowrap;">↓ Als Branded Version exportieren</button>
+      </div>
+    </div>
+    <div id="statusLog"></div>
+  </div>
+
+  <div id="scorecard"></div>
+</div>
+
+<script>
+const FUSE_OPTIONS = {
+  keys:[{name:'title',weight:.45},{name:'description',weight:.3},{name:'headings',weight:.15},{name:'content',weight:.1}],
+  threshold:.35,includeScore:true,includeMatches:true,ignoreLocation:true,minMatchCharLength:2
+};
+let fuse = null;
+
+// AEO-Gewichtung v3 (6 Kategorien)
+const WEIGHTS = {
+  kiVisibility:        { label:'KI-Sichtbarkeit',         weight:30, desc:'Perplexity Praxistest' },
+  contentArchitecture: { label:'Content-Architektur',     weight:25, desc:'FAQ, HowTo, Texttiefe' },
+  structuredData:      { label:'Strukturierte Daten',     weight:20, desc:'Schema Markup, H1' },
+  technical:           { label:'Technische Zugänglichkeit',weight:15, desc:'Meta, OG, robots.txt, llms.txt' },
+  entityPresence:      { label:'Entity-Präsenz',          weight:10, desc:'Konsistente Kernbegriffe' }
+};
+
+// Neue Scoring-Daten → dims-Objekt (kompatibel mit render-Funktionen)
+function buildDimsFromScoring(scoring, kiVisibility) {
+  const cats = scoring?.categories || {};
+  const ki   = cats.kiVisibility?.score   ?? kiVisibility?.score ?? 0;
+  const ca   = cats.contentArchitecture?.score ?? 0;
+  const sd   = cats.structuredData?.score ?? 0;
+  const tech = cats.technical?.score      ?? 0;
+  const ent  = cats.entityPresence?.score ?? 0;
+  const total = scoring?.totalScore ?? Math.round(ki*.30 + ca*.25 + sd*.20 + tech*.15 + ent*.10);
+  return {
+    kiVisibility:        Math.round(ki  * .30),
+    contentArchitecture: Math.round(ca  * .25),
+    structuredData:      Math.round(sd  * .20),
+    technical:           Math.round(tech* .15),
+    entityPresence:      Math.round(ent * .10),
+    // raw scores for progress bars
+    raw: { kiVisibility: ki, contentArchitecture: ca, structuredData: sd, technical: tech, entityPresence: ent },
+    total,
+    rating: total>=80?'KI-BEREIT':total>=60?'TEILSICHTBAR':total>=40?'KAUM SICHTBAR':'UNSICHTBAR',
+    ratingClass: total>=80?'green':total>=60?'green':total>=40?'yellow':'red'
+  };
+}
+
+function updatePlaceholder() {
+  const val = document.getElementById('customPlaceholder').value.trim();
+  const field = document.getElementById('targetUrl');
+  field.placeholder = val || 'https://kundenwebsite.at';
+}
+
+function updateBranding() {
+  const name = document.getElementById('brandName').value.trim();
+  const display = document.getElementById('brandDisplay');
+  if (name) {
+    display.innerHTML = name + ' <span style="opacity:.55;font-size:16px;">/// <a href="https://aeo-report.com" target="_blank" style="color:inherit;text-decoration:none;">aeo-report.com</a></span>';
+  } else {
+    display.innerHTML = 'AEO REPORT <span>///</span> MASTER';
+  }
+  // Also update footer in scorecard if visible
+  const footer = document.getElementById('reportBrandFooter');
+  if (footer) footer.textContent = name ? ('Erstellt von: ' + name) : '';
+  const footerPrint = document.getElementById('reportBrandFooterPrint');
+  if (footerPrint) footerPrint.textContent = name ? ('Erstellt von: ' + name) : '';
+}
+
+function toggleExplainer() {
+  const c = document.getElementById('explainerContent');
+  const btn = document.getElementById('explainerToggle');
+  const visible = c.style.display !== 'none';
+  c.style.display = visible ? 'none' : 'block';
+  btn.textContent = visible ? '▼ AUFKLAPPEN' : '▲ EINKLAPPEN';
+}
+
+function toggleHowTo(id, btn) {
+  const panel = document.getElementById(id);
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open');
+  btn.querySelector('span').textContent = isOpen ? '▶' : '▼';
+  btn.style.borderColor = isOpen ? 'var(--border)' : 'var(--text)';
+  btn.style.color = isOpen ? 'var(--text-dim)' : 'var(--text)';
+}
+
+function toggleSettings(){
+  const p=document.getElementById('settingsPanel');
+  p.style.display=p.style.display==='none'?'block':'none';
+}
+
+function addLog(msg,type='info'){
+  const log=document.getElementById('statusLog');
+  log.style.display='block';
+  const t=new Date().toLocaleTimeString('de-AT',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  log.innerHTML+=`<div><span style="color:var(--text-dim)">[${t}]</span> <span class="log-${type}">${msg}</span></div>`;
+  log.scrollTop=log.scrollHeight;
+}
+
+async function startAudit(){
+  const webhookUrl=document.getElementById('webhookUrl').value.trim();
+  const targetUrl=document.getElementById('targetUrl').value.trim();
+  const maxPages=parseInt(document.getElementById('maxPages').value)||20;
+  const btn=document.getElementById('auditBtn');
+  document.getElementById('statusLog').innerHTML='';
+  document.getElementById('scorecard').innerHTML='';
+  btn.disabled=true;
+  btn.innerHTML='<span class="spinner"></span>ANALYSIERT...';
+  if(!targetUrl || !targetUrl.startsWith('http')) {
+    addLog('✗ Bitte eine gültige URL eingeben (https://...)','err');
+    btn.disabled=false;
+    btn.innerHTML='▶ AUDIT STARTEN';
+    return;
+  }
+  addLog('Starte AEO Report: '+targetUrl,'info');
+  try {
+    const t0=performance.now();
+    addLog('Analyse wird gestartet...','info');
+    let res;
+    try {
+      res = await fetch(webhookUrl, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          url: targetUrl,
+          maxPages,
+          clientToken: document.getElementById('clientToken').value.trim() || 'anonymous',
+          clientPin: document.getElementById('clientPin').value.trim() || ''
+        })
+      });
+    } catch(fetchErr) {
+      // CORS oder Netzwerk-Problem — versuche mit mode:no-cors als Fallback-Diagnose
+      addLog('⚠ Verbindungsfehler: '+fetchErr.message,'err');
+      addLog('Bitte kurz warten und nochmal versuchen — oder URL prüfen.','err');
+      throw fetchErr;
+    }
+    if(!res.ok) {
+      // Kontingent-Fehler abfangen
+      if(res.status === 429) {
+        const errData = await res.json().catch(()=>({}));
+        throw new Error(errData.message || 'Analyse-Kontingent für diesen Monat aufgebraucht.');
+      }
+      if(res.status === 401) {
+        document.getElementById('pinError').style.display='block';
+        document.getElementById('pinInput').value='';
+        document.getElementById('pinInput').focus();
+        throw new Error('Ungültiger PIN.');
+      }
+      throw new Error('Analyse-Server nicht erreichbar ('+res.status+' '+res.statusText+')');
+    }
+    const raw=await res.json();
+    const t1=performance.now();
+    let data=Array.isArray(raw)?raw[0]:raw;
+    if(data.json) data=data.json;
+    const docs=data.documents||[];
+    const aeo=data.aeoScore||{};
+    const meta=data.meta||{};
+    if(!docs.length) throw new Error('Keine Dokumente. Response: '+JSON.stringify(raw).substring(0,200));
+    addLog(`✓ ${docs.length} Seiten analysiert in ${((t1-t0)/1000).toFixed(1)}s`,'ok');
+    fuse=new Fuse(docs,FUSE_OPTIONS);
+    const kiVisibility = data.kiVisibility || null;
+    const pdfBase64 = data.pdf_base64 || null;
+    const pdfFilename = data.pdf_filename || 'aeo-report.pdf';
+    const robotsData = data.robotsData || null;
+    const llmsData = data.llmsData || null;
+    const scoring = data.scoring || null;
+    const quota = data.quota || null;
+    renderScorecard(docs,aeo,meta,targetUrl,kiVisibility,pdfBase64,pdfFilename,robotsData,llmsData,scoring);
+    const displayScore = scoring?.totalScore ?? calcWeightedScore(aeo).total;
+    addLog(`✓ AEO Score: ${displayScore}/100`,'ok');
+    if(quota && quota.limit != null){
+      const usedDisplay = quota.used != null ? quota.used : (quota.limit - quota.remaining);
+      const remainingDisplay = quota.limit - usedDisplay;
+      addLog(`◎ ${usedDisplay} von ${quota.limit} Analysen diesen Monat verwendet — noch ${remainingDisplay} verfügbar.`,'ok');
+    }
+    // E-Mails anzeigen
+    const emails = data.emails || [];
+    if (emails.length > 0) {
+      const block = document.getElementById('foundEmailsBlock');
+      const list  = document.getElementById('foundEmailsList');
+      if (block && list) {
+        const subject = encodeURIComponent('Analyse der KI-Sichtbarkeit Ihrer Website');
+        list.innerHTML = emails.map(email =>
+          `<a href="mailto:${email}?subject=${subject}" style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;font-family:var(--mono);font-size:11px;color:var(--text);text-decoration:none;" title="E-Mail öffnen">
+            <span style="opacity:.5;">✉</span> ${email}
+          </a>`
+        ).join('');
+        block.style.display = 'block';
+        addLog(`✉ ${emails.length} E-Mail-Adresse${emails.length>1?'n':''} gefunden.`, 'ok');
+      }
+    }
+
+    // Daten für On-Demand PDF Export speichern
+    window._lastAeoData = { documents: docs, aeoScore: aeo, meta, kiVisibility, robotsData, llmsData, scoring, emails };
+  } catch(err){
+    addLog('✗ '+err.message,'err');
+  } finally {
+    btn.disabled=false;
+    btn.innerHTML='▶ AUDIT STARTEN';
+  }
+}
+
+// WEIGHTED SCORE
+function calcWeightedScore(aeo){
+  const total=aeo.pageDetails?.length||1;
+  const dims = {
+    schema: Math.round(
+      (aeo.hasAnySchema?15:0) +
+      (aeo.hasLocalBusiness?8:0) +
+      (aeo.hasFaqSchema?7:0)
+    ),
+    entity: detectEntities(aeo).score,
+    meta: Math.round(
+      Math.min(aeo.metaCoverage||0, 100) * 0.12 +
+      ((aeo.pagesWithSingleH1||0)/total*100) * 0.08
+    ),
+    faq: (aeo.hasFaqSchema?15:0) + (aeo.hasFaqContent&&!aeo.hasFaqSchema?7:0),
+    technical: Math.round(
+      (aeo.hasOgTags?7:0) +
+      (aeo.siteLanguage&&aeo.siteLanguage!=='unknown'?4:0) +
+      (aeo.totalImgsWithoutAlt===0?4:aeo.totalImgsWithoutAlt<=10?2:0)
+    )
+  };
+  // Cap each dimension to its weight
+  dims.schema  = Math.min(dims.schema, 30);
+  dims.entity  = Math.min(dims.entity, 20);
+  dims.meta    = Math.min(dims.meta, 20);
+  dims.faq     = Math.min(dims.faq, 15);
+  dims.technical = Math.min(dims.technical, 15);
+  dims.total = dims.schema+dims.entity+dims.meta+dims.faq+dims.technical;
+  dims.rating = dims.total>=75?'GRÜN':dims.total>=45?'GELB':'ROT';
+  dims.ratingClass = dims.total>=75?'green':dims.total>=45?'yellow':'red';
+  return dims;
+}
+
+// ENTITY DETECTION
+function detectEntities(aeo){
+  const pages = aeo.pageDetails||[];
+  const allText = pages.map(p=>((p.title||'')+(p.url||''))).join(' ').toLowerCase();
+  // Branche
+  const hasIndustry = /werkzeug|automation|faserverbund|composite|roboter|maschinen|engineering|vorrichtung|fertig/i.test(allText);
+  // Region
+  const hasRegion = /tirol|österreich|austria|innsbruck|wien|graz|salzburg|vorarlberg|osttirol|dach/i.test(allText);
+  // Zielgruppe
+  const hasTarget = /luftfahrt|automotive|aerospace|airbus|boeing|bmw|porsche|industrie|b2b/i.test(allText);
+  // Kernleistung
+  const hasService = /entwicklung|konstruktion|fertigung|montage|service|beratung|planung/i.test(allText);
+  let score = 0;
+  if(hasIndustry) score+=6;
+  if(hasRegion) score+=5;
+  if(hasTarget) score+=5;
+  if(hasService) score+=4;
+  return { hasIndustry, hasRegion, hasTarget, hasService, score };
+}
+
+// CLASSIFY SCHEMA TYPE
+function classifySchema(type){
+  const known=['LocalBusiness','Organization','FAQPage','Product','Service','Article','BreadcrumbList','WebPage','WebSite','VideoObject','Person','Event','Review','HowTo','NewsArticle'];
+  if(!type||type==='unknown') return 'custom';
+  if(known.some(k=>type.includes(k))) return 'found';
+  return 'custom';
+}
+
+// RENDER
+function checkCard(title, aeoLabel, aeoClass, statusClass, value, action, actionClass, extra=''){
+  return `<div class="check-card">
+    <div class="check-header">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="check-title">${title}</div>
+        <span class="check-aeo-relevance ${aeoClass}">${aeoLabel}</span>
+      </div>
+      <div class="status-dot ${statusClass}"></div>
+    </div>
+    <div class="check-value">${value}</div>
+    <div class="check-action ${actionClass}">${action}</div>
+    ${extra}
+  </div>`;
+}
+
+function renderScorecard(docs, aeo, meta, targetUrl, kiVisibility, pdfBase64, pdfFilename, robotsData, llmsData, scoring){
+  const sc=document.getElementById('scorecard');
+  sc.style.display='block';
+  // Scoring: neue Logik wenn verfügbar, sonst Legacy
+  const useNewScoring = !!(scoring && scoring.totalScore != null);
+  const dims = useNewScoring ? buildDimsFromScoring(scoring, kiVisibility) : calcWeightedScore(aeo);
+  const entities=detectEntities(aeo);
+  const ratingEmoji = dims.total>=80?'🟢':dims.total>=60?'🟡':dims.total>=40?'🟠':'🔴';
+  const ratingLabel = useNewScoring ? dims.rating : (dims.rating==='GRÜN'?'KI-BEREIT':dims.rating==='GELB'?'TEILSICHTBAR':'UNSICHTBAR');
+  const domain=meta.domain||targetUrl.replace(/^https?:\/\//,'').split('/')[0];
+  const dateStr=new Date().toLocaleDateString('de-AT');
+
+  // Strategic summary texts
+  const riskLevel=dims.total>=75?'Niedrig':dims.total>=45?'Mittel':'Hoch';
+  const riskClass=dims.total>=75?'green':dims.total>=45?'yellow':'red';
+  const potenzial=dims.total>=75?'Optimierung':'Erheblich';
+  const potenzialClass=dims.total>=75?'green':'yellow';
+  const wettbewerb=aeo.hasLocalBusiness&&aeo.hasAnySchema?'Vorteil möglich':'Aufholbedarf';
+  const wettbewerbClass=aeo.hasLocalBusiness&&aeo.hasAnySchema?'green':'yellow';
+
+  // Top 3 actions for management
+  const topActions=[];
+  if(!aeo.hasFaqSchema&&aeo.hasFaqContent) topActions.push({title:'FAQPage Schema ergänzen',desc:'FAQ-Inhalte vorhanden — Schema Markup ist ein 2h Quick Win mit hohem KI-Sichtbarkeitseffekt.',effort:'low'});
+  if(!aeo.hasAnySchema) topActions.push({title:'Schema Markup implementieren',desc:'Keine strukturierten Daten gefunden. LocalBusiness + Service Schema sind Pflicht für lokale KI-Suchen.',effort:'medium'});
+  if(aeo.totalImgsWithoutAlt>20) topActions.push({title:`${aeo.totalImgsWithoutAlt} Bilder beschriften`,desc:'Alt-Texte für multimodale KI-Systeme (Gemini, GPT-4o) zunehmend relevant.',effort:'medium'});
+  if(aeo.metaCoverage<80) topActions.push({title:'Meta Descriptions vervollständigen',desc:`Nur ${aeo.metaCoverage}% Abdeckung. Basis für KI-Snippets in Suchantworten.`,effort:'low'});
+  if(!aeo.hasFaqContent) topActions.push({title:'FAQ-Sektion einbauen',desc:'Keine Frage-Antwort-Strukturen gefunden. KI-Systeme bevorzugen direkte Antworten.',effort:'high'});
+  const top3=topActions.slice(0,3);
+
+  // Schema tags
+  const knownTypes=['LocalBusiness','Organization','FAQPage','Product','Service','Article','BreadcrumbList','WebPage','WebSite','VideoObject'];
+  const foundTypes=aeo.allSchemaTypes||[];
+  const schemaTagsHtml=knownTypes.map(t=>{
+    const f=foundTypes.some(s=>s.includes(t));
+    return `<span class="schema-tag ${f?'found':''}">${f?'✓ ':''} ${t}</span>`;
+  }).join('')+foundTypes.filter(t=>t&&t!=='unknown'&&!knownTypes.some(k=>t.includes(k))).map(t=>`<span class="schema-tag custom">◆ ${t}</span>`).join('');
+
+  // All actions
+  const allActions=[];
+  if(!aeo.hasAnySchema) allActions.push({p:'high',effort:'2–3 Tage',
+    title:'Schema Markup implementieren',
+    desc:'Kein strukturiertes Datenschema vorhanden. LocalBusiness, Service und FAQPage sind für AEO die wichtigsten Typen.',
+    howTo:`<h5>Umsetzung</h5>
+      <p>Folgenden Code-Block in den <code>&lt;head&gt;</code> der Homepage einfügen:</p>
+      <pre>
+&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Firmenname",
+  "description": "Kurzbeschreibung",
+  "url": "https://www.domain.at",
+  "telephone": "+43 ...",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Musterstraße 1",
+    "addressLocality": "Stadt",
+    "addressCountry": "AT"
+  },
+  "areaServed": "Österreich",
+  "knowsAbout": ["Branche", "Kernleistung"]
+}
+&lt;/script&gt;
+      </pre>
+      <p>Bei WordPress: Plugin <strong>Yoast SEO</strong> oder <strong>Rank Math</strong> verwenden. Bei Wix/Squarespace: unter SEO-Einstellungen → Strukturierte Daten.</p>
+      <div class="tool-links">
+        <a class="tool-link" href="https://search.google.com/test/rich-results" target="_blank">↗ Google Rich Results Test</a>
+        <a class="tool-link" href="https://validator.schema.org" target="_blank">↗ Schema Validator</a>
+      </div>`
+  });
+  else if(!aeo.hasLocalBusiness) allActions.push({p:'high',effort:'2h',
+    title:'LocalBusiness Schema ergänzen',
+    desc:'Schema vorhanden, aber kein LocalBusiness-Typ. Für lokale KI-Suchen (ChatGPT, Perplexity) essenziell.',
+    howTo:`<h5>Umsetzung</h5>
+      <p>Vorhandenes Schema um LocalBusiness-Typ erweitern oder neuen Block hinzufügen:</p>
+      <pre>
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Firmenname",
+  "url": "https://www.domain.at",
+  "telephone": "+43 ...",
+  "address": { "@type": "PostalAddress", "addressLocality": "Stadt", "addressCountry": "AT" }
+}
+      </pre>
+      <div class="tool-links">
+        <a class="tool-link" href="https://search.google.com/test/rich-results" target="_blank">↗ Rich Results Test</a>
+      </div>`
+  });
+  if(!aeo.hasFaqSchema&&aeo.hasFaqContent) allActions.push({p:'high',effort:'2h',
+    title:'FAQPage Schema zu bestehendem FAQ',
+    desc:'FAQ-Inhalte vorhanden, aber kein FAQPage-Markup. Einfachster Quick Win für AEO-Sichtbarkeit.',
+    howTo:`<h5>Umsetzung</h5>
+      <p>Auf der FAQ-Seite folgenden Block in den <code>&lt;head&gt;</code> einfügen. Je Frage ein mainEntity-Eintrag:</p>
+      <pre>
+&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Was ist Ihre Kernleistung?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Wir spezialisieren uns auf..."
+      }
+    }
+  ]
+}
+&lt;/script&gt;
+      </pre>
+      <p>Tipp: Jede Frage die bereits auf der Seite steht 1:1 übernehmen. Je mehr Fragen, desto besser für KI-Systeme.</p>
+      <div class="tool-links">
+        <a class="tool-link" href="https://search.google.com/test/rich-results" target="_blank">↗ Rich Results Test</a>
+        <a class="tool-link" href="https://technicalseo.com/tools/schema-markup-generator/" target="_blank">↗ Schema Generator</a>
+      </div>`
+  });
+  if(!aeo.hasFaqContent) allActions.push({p:'high',effort:'1–2 Tage',
+    title:'FAQ-Sektion einbauen',
+    desc:'Keine Frage-Antwort-Strukturen gefunden. KI-Systeme wie ChatGPT bevorzugen direkte, klare Antworten.',
+    howTo:`<h5>Umsetzung</h5>
+      <p><strong>Schritt 1:</strong> 5–10 häufige Kundenfragen sammeln (aus Verkaufsgesprächen, Support-Anfragen, Google Search Console).</p>
+      <p><strong>Schritt 2:</strong> FAQ-Bereich auf relevanten Seiten einbauen — direkt als Text, nicht als Akkordeon (KI liest zugeklappte Inhalte schlecht).</p>
+      <p><strong>Schritt 3:</strong> FAQPage Schema ergänzen (siehe oben).</p>
+      <p><strong>Frageformate die funktionieren:</strong></p>
+      <pre>
+"Was kostet [Leistung]?"
+"Wie lange dauert [Prozess]?"
+"Für welche Branchen ist [Produkt] geeignet?"
+"Was unterscheidet Sie von [Wettbewerber]?"
+      </pre>`
+  });
+  if(aeo.metaCoverage<80) allActions.push({p:'medium',effort:'1 Tag',
+    title:`Meta Descriptions ergänzen (\${aeo.metaCoverage}% → 100%)`,
+    desc:'Meta Descriptions sind Basis für KI-Snippets. Fehlende Seiten sollten priorisiert beschrieben werden.',
+    howTo:`<h5>Umsetzung</h5>
+      <p>Pro fehlender Seite eine Meta Description verfassen — <strong>max. 155 Zeichen</strong>, enthält: Kernleistung + Region + Call to Action.</p>
+      <pre>
+&lt;meta name="description" content="Spezialist für [Leistung] in [Region].
+[Kernvorteil]. Jetzt [CTA]." /&gt;
+      </pre>
+      <p><strong>Vorlage:</strong> <em>"MICADO ist Ihr Partner für Werkzeug- und Vorrichtungsbau in Tirol. Maßgeschneiderte Lösungen für Luftfahrt & Automotive. Jetzt Anfrage stellen."</em></p>
+      <p>Bei WordPress: Yoast SEO → jede Seite → SEO-Tab → Meta Description Feld.</p>
+      <div class="tool-links">
+        <a class="tool-link" href="https://search.google.com/search-console/" target="_blank">↗ Google Search Console</a>
+      </div>`
+  });
+  if(!entities.hasRegion) allActions.push({p:'medium',effort:'0.5 Tage',
+    title:'Regionale Signale stärken',
+    desc:'Kein klarer regionaler Bezug erkannt. Ortsangaben in Texten und Schema erhöhen lokale KI-Sichtbarkeit.',
+    howTo:`<h5>Umsetzung</h5>
+      <p>Region explizit in Texten nennen — nicht nur im Impressum:</p>
+      <pre>
+✓ "Unser Standort in Tirol / Österreich / DACH-Region"
+✓ "Projekte in ganz Österreich und Europa"
+✓ LocalBusiness Schema: "areaServed": ["Tirol", "Österreich"]
+      </pre>
+      <p>Google Business Profile anlegen/aktualisieren — wird von KI-Systemen als starkes lokales Signal gewertet.</p>`
+  });
+  if(aeo.pagesWithMultiH1>3) allActions.push({p:'medium',effort:'1 Tag',
+    title:`H1-Struktur bereinigen (\${aeo.pagesWithMultiH1} Seiten mit mehreren H1)`,
+    desc:'Mehrere H1 pro Seite erschweren KI-Kategorisierung. Jede Seite sollte exakt eine H1 haben.',
+    howTo:`<h5>Umsetzung</h5>
+      <p>Jede Seite darf genau <strong>eine H1</strong> haben — das Hauptthema der Seite.</p>
+      <pre>
+✓ &lt;h1&gt;Werkzeug- und Vorrichtungsbau für die Luftfahrt&lt;/h1&gt;
+✗ Mehrere &lt;h1&gt; auf einer Seite
+      </pre>
+      <p>Zusätzliche H1-Tags auf H2 oder H3 ändern. Im Browser prüfen: Rechtsklick → Untersuchen → nach &lt;h1&gt; suchen.</p>
+      <div class="tool-links">
+        <a class="tool-link" href="https://chrome.google.com/webstore/detail/detailed-seo-extension/" target="_blank">↗ Detailed SEO Extension</a>
+      </div>`
+  });
+  // robots.txt KI-Bots
+  if(robotsData && (robotsData.blocksAI || robotsData.missingBots?.length > 0)) {
+    const missingList = robotsData.missingBots?.join('\n') || '';
+    allActions.push({p: robotsData.blocksAI ? 'high' : 'medium', effort:'30 Min',
+      title: robotsData.blocksAI ? 'KI-Bot-Sperre in robots.txt aufheben' : 'KI-Bots in robots.txt explizit erlauben',
+      desc: robotsData.blocksAI
+        ? 'GPTBot oder PerplexityBot sind blockiert — KI-Suchmaschinen können die Website nicht crawlen.'
+        : 'Fehlende Bot-Einträge: ' + (robotsData.missingBots||[]).join(', ') + '. Ohne explizite Erlaubnis kann der Zugang eingeschränkt sein.',
+      howTo:`<h5>Umsetzung</h5>
+        <p>Folgende Einträge in die <code>/robots.txt</code> einfügen:</p>
+        <pre>
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+        </pre>
+        <p>Datei liegt im Root-Verzeichnis der Website. Bei WordPress: Plugin "Yoast SEO" → Tools → Datei-Editor → robots.txt.</p>
+        <div class="tool-links">
+          <a class="tool-link" href="https://platform.openai.com/docs/gptbot" target="_blank">↗ GPTBot Dokumentation</a>
+          <a class="tool-link" href="https://llmstxt.org" target="_blank">↗ llmstxt.org</a>
+        </div>`
+    });
+  }
+
+  // llms.txt fehlt
+  if(!llmsData?.exists) {
+    allActions.push({p:'medium', effort:'1–2 Stunden',
+      title:'llms.txt erstellen — strukturierter Kontext für KI',
+      desc:'KI-Systeme wie Perplexity lesen llms.txt um die Website besser zu verstehen und als Quelle einzustufen.',
+      howTo:`<h5>Umsetzung</h5>
+        <p>Eine Datei <code>llms.txt</code> im Root der Website ablegen (<code>https://www.domain.at/llms.txt</code>).</p>
+        <p>Inhalt — Vorlage:</p>
+        <pre>
+# ${domain}
+
+> Kurze Beschreibung des Unternehmens in 1-2 Sätzen.
+
+## Leistungen
+- Leistung 1
+- Leistung 2
+- Leistung 3
+
+## Standort
+Region, Land
+
+## Zielgruppe
+Für wen ist das Angebot?
+
+## Kontakt
+https://www.domain.at/kontakt
+        </pre>
+        <p>Bei WordPress: Datei per FTP oder Dateimanager hochladen. Danach prüfen: Browser → <code>/llms.txt</code> aufrufen.</p>
+        <div class="tool-links">
+          <a class="tool-link" href="https://llmstxt.org" target="_blank">↗ llmstxt.org Standard</a>
+        </div>`
+    });
+  }
+
+  // Content-Architektur Maßnahmen (aus neuem Scoring)
+  const ca = scoring?.categories?.contentArchitecture?.detail;
+  if (ca) {
+    if ((ca.faqPages??0) === 0) allActions.push({p:'high', effort:'1–2 Tage',
+      title:'FAQ-Seiten aufbauen',
+      desc:'Keine Frage-Antwort-Seiten gefunden. KI-Systeme bevorzugen Seiten die konkrete Fragen mit konkreten Antworten verbinden.',
+      howTo:`<h5>Umsetzung</h5>
+        <p>Eine eigene FAQ-Seite oder FAQ-Bereich auf Leistungsseiten erstellen. Jede Frage als H2 oder H3 formulieren, Antwort direkt darunter.</p>
+        <pre>Frageformate die gut funktionieren:
+"Was kostet [Leistung]?"
+"Wie lange dauert [Prozess]?"
+"Für wen ist [Produkt] geeignet?"
+"Was unterscheidet Sie von Mitbewerbern?"</pre>
+        <p>Minimum: 5–8 Fragen. Danach FAQPage Schema ergänzen (siehe Maßnahmen).</p>`
+    });
+    if ((ca.howtoPages??0) === 0) allActions.push({p:'medium', effort:'1–2 Tage',
+      title:'HowTo-Content erstellen',
+      desc:'Kein Anleitungs-Content erkannt. "Wie funktioniert X?" Seiten werden von KI-Assistenten überdurchschnittlich häufig zitiert.',
+      howTo:`<h5>Umsetzung</h5>
+        <p>Mindestens 1–2 Seiten mit Schritt-für-Schritt-Erklärung zu einer Kernleistung. Überschriften als nummerierte Schritte formulieren:</p>
+        <pre>H2: So funktioniert [Leistung] in 4 Schritten
+H3: Schritt 1: [Aktion]
+H3: Schritt 2: [Aktion]</pre>
+        <p>HowTo Schema ergänzen für maximale KI-Sichtbarkeit.</p>`
+    });
+    if ((ca.avgWordCount??0) < 300) allActions.push({p:'medium', effort:'3–5 Tage',
+      title:`Texttiefe erhöhen (∅ ${ca.avgWordCount??0} → min. 400 Wörter)`,
+      desc:'Durchschnittliche Seitenlänge ist zu kurz. KI-Systeme bevorzugen inhaltlich tiefe Seiten mit vollständigen Antworten.',
+      howTo:`<h5>Umsetzung</h5>
+        <p>Priorität: Die 5–10 wichtigsten Leistungsseiten auf min. 400 Wörter ausbauen. Checkliste pro Seite:</p>
+        <pre>✓ Was ist die Leistung? (Definition)
+✓ Für wen ist sie geeignet?
+✓ Wie läuft der Prozess ab?
+✓ Was kostet es ca.?
+✓ Häufige Fragen dazu
+✓ Regionale Relevanz</pre>`
+    });
+  }
+  if(aeo.totalImgsWithoutAlt>0) allActions.push({p:'low',effort:'1–2 Tage',
+    title:`Alt-Texte ergänzen (\${aeo.totalImgsWithoutAlt} Bilder)`,
+    desc:'Für multimodale KI-Systeme zunehmend relevant. Beschreibende Alt-Texte verbessern Kontextverständnis.',
+    howTo:`<h5>Umsetzung</h5>
+      <p>Jedes Bild braucht ein <code>alt</code>-Attribut das den Bildinhalt beschreibt:</p>
+      <pre>
+✗ &lt;img src="maschine.jpg" /&gt;
+✓ &lt;img src="maschine.jpg" alt="CNC-Fräsmaschine für Aluminiumbearbeitung" /&gt;
+      </pre>
+      <p><strong>Guter Alt-Text:</strong> Was ist auf dem Bild? Welches Produkt/Leistung? Kein Keyword-Stuffing.</p>
+      <p>Bei WordPress: Mediathek → Bild anklicken → Alternativtext Feld. Bei Wix: Bild anklicken → Einstellungen → Alt-Text.</p>`
+  });
+  if(!aeo.hasOgTags) allActions.push({p:'low',effort:'2h',
+    title:'Open Graph Tags hinzufügen',
+    desc:'Relevant für Social Sharing und Linkvorschauen. Kein direkter AEO-Faktor, aber Teil der technischen Basis.',
+    howTo:`<h5>Umsetzung</h5>
+      <p>Im <code>&lt;head&gt;</code> jeder Seite einfügen:</p>
+      <pre>
+&lt;meta property="og:title" content="Seitentitel" /&gt;
+&lt;meta property="og:description" content="Kurzbeschreibung max. 155 Zeichen" /&gt;
+&lt;meta property="og:image" content="https://domain.at/bild.jpg" /&gt;
+&lt;meta property="og:url" content="https://domain.at/seite" /&gt;
+      </pre>
+      <p>Bei WordPress automatisch via Yoast SEO. Bild-Empfehlung: 1200×630px.</p>`
+  });
+
+  // KI test questions
+  const industry=entities.hasIndustry?'Werkzeugbau':'Ihrer Branche';
+  const region=entities.hasRegion?'Tirol/Österreich':'Ihrer Region';
+  // KI questions — dynamically from crawled content
+  const allTitles = docs.map(d=>d.title||'').join(' ');
+  const allHeadings = docs.flatMap(d=>d.headings||[]).slice(0,20).join(' ');
+  const allText = (allTitles+' '+allHeadings).toLowerCase();
+
+  // Extract meaningful keywords from content
+  const stopwords = /^(und|oder|für|die|der|das|mit|von|bei|ist|ein|eine|einen|einer|im|in|an|auf|zu|zum|zur|als|auch|sich|wir|sie|ihr|ihre|uns|den|dem|des|wird|sind|haben|hat|kann|nach|über|unter|vor|durch|aus|bei|wird|werden|nicht|nur|noch|mehr|alle|ohne|aber|wenn|dann|wie|was|wer|wo|wann|warum|unser|unsere|unserem|unseren)/i;
+  const words = (allTitles+' '+allHeadings).split(/[\s,&-]+/).map(w=>w.replace(/[^a-zA-ZäöüÄÖÜß]/g,'')).filter(w=>w.length>4&&!stopwords.test(w));
+  const freq = {};
+  words.forEach(w=>{const k=w.toLowerCase();freq[k]=(freq[k]||0)+1;});
+  const topKeywords = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,8).map(e=>e[0]);
+  const kw1 = topKeywords[0]||industry;
+  const kw2 = topKeywords[1]||'Leistungen';
+  const kw3 = topKeywords[2]||'Lösungen';
+
+  const kiQuestions=[
+    {label:'Lokale Suche', q:`Wer ist Spezialist für ${kw1} in ${region}?`},
+    {label:'Produktsuche', q:`Welche Unternehmen bieten ${kw2} in ${region} an?`},
+    {label:'Problemsuche', q:`Wie funktioniert ${kw1} und was kostet es?`},
+    {label:'Anbietervergleich', q:`Welche Firmen bieten ${kw3} und ${kw1} an?`}
+  ];
+
+  sc.innerHTML = `
+
+  <!-- ===== MANAGEMENT SUMMARY ===== -->
+  <div class="mgmt-summary">
+    <div class="mgmt-header">
+      <div>
+        <div class="mgmt-title">Management Summary · AEO Report</div>
+        <div class="mgmt-company">${esc(domain)}</div>
+        <div style="font-size:12px;opacity:.6;margin-top:4px;font-style:italic;">Dieser Report zeigt eine Momentaufnahme der aktuellen KI-Sichtbarkeit dieser Website – und welche Faktoren diese Sichtbarkeit beeinflussen.</div>
+        <div class="mgmt-meta">${docs.length} Seiten analysiert · ${dateStr}</div>
+      </div>
+      <div class="mgmt-rating-block">
+        <div class="mgmt-score-big">${dims.total}</div>
+        <div class="mgmt-score-label">AEO SCORE / 100</div>
+        <div><span class="mgmt-badge ${dims.ratingClass}">${ratingEmoji} ${ratingLabel}</span></div>
+        <div style="font-family:var(--mono);font-size:9px;opacity:.45;margin-top:8px;line-height:1.8;text-align:right;">
+          <span style="opacity:${dims.total<40?1:.4}">0–40 · geringe Sichtbarkeit</span><br>
+          <span style="opacity:${dims.total>=40&&dims.total<70?1:.4}">40–70 · teilweise sichtbar</span><br>
+          <span style="opacity:${dims.total>=70?1:.4}">70–100 · gute Sichtbarkeit</span>
+        </div>
+      </div>
+    </div>
+
+    ${kiVisibility?.aiCitationRate != null ? `
+    <!-- AI CITATION RATE — HERO KPI -->
+    <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;opacity:.5;text-transform:uppercase;margin-bottom:6px;">AI Citation Rate — wichtigster KPI</div>
+        <div style="display:flex;align-items:baseline;gap:10px;">
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-size:52px;font-weight:800;line-height:1;letter-spacing:-2px;color:${kiVisibility.aiCitationRate>=70?'#4ade80':kiVisibility.aiCitationRate>=40?'#fbbf24':'#f87171'};">${kiVisibility.aiCitationRate}%</span>
+          <div>
+            <div style="font-size:14px;font-weight:600;">${kiVisibility.aiCitationRateLabel||''}</div>
+            <div style="font-family:var(--mono);font-size:11px;opacity:.5;margin-top:2px;">${kiVisibility.citedCount} von ${kiVisibility.totalCount} Fragen</div>
+            <div style="font-size:11px;opacity:.7;margin-top:6px;line-height:1.4;">
+              ${kiVisibility.aiCitationRate<100 ? `<span style="color:#f87171;">${kiVisibility.totalCount-(kiVisibility.citedCount??0)} von ${kiVisibility.totalCount} möglichen KI-Erwähnungen bleiben aktuell ungenutzt.</span>` : '<span style="color:#4ade80;">Website erscheint bei allen getesteten KI-Suchanfragen.</span>'}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:220px;border-left:1px solid rgba(255,255,255,.1);padding-left:24px;">
+        <div style="font-size:13px;line-height:1.6;opacity:.75;font-style:italic;">"${esc(kiVisibility.aiCitationRateText||scoring?.summary?.hookText||'')}"</div>
+      </div>
+    </div>` : scoring?.summary?.hookText ? `
+    <!-- HOOK TEXT (kein KI-Test) -->
+    <div style="background:rgba(255,255,255,.07);border-radius:6px;padding:16px 20px;margin-bottom:20px;border-left:3px solid rgba(255,255,255,.2);">
+      <div style="font-family:var(--mono);font-size:10px;opacity:.4;letter-spacing:1px;margin-bottom:6px;">PRAXISTEST-ERGEBNIS</div>
+      <div style="font-size:14px;line-height:1.6;opacity:.8;font-style:italic;">"${esc(scoring.summary.hookText)}"</div>
+    </div>` : ''}
+
+    <!-- Score Breakdown v3 — 5 Kategorien -->
+    <div class="score-breakdown">
+      ${Object.entries(WEIGHTS).map(([key,w])=>{
+        const rawScore = useNewScoring ? (dims.raw?.[key]??0) : (dims[key]??0);
+        const pct = Math.round(rawScore);
+        const cls = pct>=80?'green':pct>=50?'yellow':'red';
+        const weighted = useNewScoring ? dims[key] : rawScore;
+        return `<div class="score-dim">
+          <div class="score-dim-label">${w.label} <span style="opacity:.4">${w.weight}%</span></div>
+          <div class="score-dim-bar"><div class="score-dim-fill ${cls}" style="width:${pct}%"></div></div>
+          <div><span class="score-dim-val">${weighted}</span><span class="score-dim-max"> / ${w.weight}</span></div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <!-- Strategic KPIs -->
+    <div class="mgmt-kpis">
+      <div class="kpi-card">
+        <div class="kpi-label">KI-Sichtbarkeitsrisiko</div>
+        <div class="kpi-value"><span class="kpi-indicator ${riskClass}"></span>${riskLevel}</div>
+        <div class="kpi-desc">${dims.total>=75?'Website wird von KI-Systemen gut verstanden':dims.total>=45?'Wichtige Signale fehlen noch':'Kaum AEO-Signale vorhanden'}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Optimierungspotenzial</div>
+        <div class="kpi-value"><span class="kpi-indicator ${potenzialClass}"></span>${potenzial}</div>
+        <div class="kpi-desc">${dims.total>=75?'Gezielte Quick Wins möglich':'Strukturelle Maßnahmen nötig'}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Wettbewerbsposition</div>
+        <div class="kpi-value"><span class="kpi-indicator ${wettbewerbClass}"></span>${wettbewerb}</div>
+        <div class="kpi-desc">${aeo.hasLocalBusiness?'LocalBusiness Schema vorhanden':'Wettbewerber mit Schema haben Vorteil'}</div>
+      </div>
+    </div>
+
+    <!-- Monetäre Übersetzung -->
+    <div style="background:rgba(255,255,255,.07);border-radius:6px;padding:20px;margin-bottom:20px;">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;opacity:.4;text-transform:uppercase;margin-bottom:14px;">Potenzial-Einschätzung</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;" id="potenzialGrid"></div>
+      <div style="font-family:var(--mono);font-size:9px;opacity:.25;margin-top:10px;line-height:1.6;">* Schätzwerte basierend auf AEO-Score-Delta und Branchendurchschnittswerten. Keine Garantie. Dient als Gesprächsgrundlage.</div>
+    </div>
+
+    <!-- Top 3 Actions -->
+    <div class="mgmt-actions">
+      <div class="mgmt-actions-title">Top ${top3.length} Potenziale zur KI-Sichtbarkeit</div>
+      ${top3.map((a,i)=>`
+        <div class="mgmt-action-row">
+          <div class="mgmt-action-num">${i+1}</div>
+          <div class="mgmt-action-text"><h4>${esc(a.title)}</h4><p>${esc(a.desc)}</p></div>
+          <span class="mgmt-action-effort ${a.effort}">${a.effort==='low'?'QUICK WIN':a.effort==='medium'?'1–3 TAGE':'PROJEKT'}</span>
+        </div>`).join('')}
+    </div>
+  </div>
+
+  <!-- ===== KI PRAXISTEST ===== -->
+  <div class="ki-test-section">
+    <h3>KI-Praxistest <span class="section-tag">NEU</span></h3>
+    ${kiVisibility ? `
+      <!-- AUTOMATISCH: Perplexity Ergebnisse vorhanden -->
+      <p class="ki-test-sub">Automatisch geprüft: Erscheint ${esc(domain)} in KI-Antworten? Getestet mit ${kiVisibility.totalCount} realen Suchanfragen via Perplexity.</p>
+
+      <!-- Citation Rate Summary Bar -->
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:4px;">AI Citation Rate</div>
+          <div style="display:flex;align-items:baseline;gap:8px;">
+            <span style="font-family:'Bricolage Grotesque',sans-serif;font-size:40px;font-weight:800;line-height:1;color:${(kiVisibility.aiCitationRate||0)>=70?'var(--green)':(kiVisibility.aiCitationRate||0)>=40?'var(--yellow)':'var(--red)'};">${kiVisibility.aiCitationRate??kiVisibility.visibleCount*100/kiVisibility.totalCount|0}%</span>
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.4;">${kiVisibility.citedCount??kiVisibility.visibleCount} Erwähnungen<br>bei ${kiVisibility.totalCount} Fragen</div>
+          </div>
+        </div>
+        <div style="flex:1;min-width:180px;">
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <div style="text-align:center;">
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;color:var(--green);">${kiVisibility.primaryCount??0}</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:1px;">PRIMÄR</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;color:var(--yellow);">${kiVisibility.secondaryCount??0}</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:1px;">AM RAND</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;color:var(--red);">${kiVisibility.notFoundCount??0}</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:1px;">NICHT SICHTBAR</div>
+            </div>
+          </div>
+        </div>
+        ${kiVisibility.typeScores?.length ? `
+        <div style="flex:1;min-width:200px;border-left:1px solid var(--border);padding-left:16px;">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px;">Score nach Fragetyp</div>
+          ${kiVisibility.typeScores.map(t=>`
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);width:80px;letter-spacing:.5px;">${esc(t.type.toUpperCase())}</div>
+              <div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;">
+                <div style="height:100%;width:${t.score}%;background:${t.score>=70?'var(--green)':t.score>=40?'var(--yellow)':'var(--red)'};border-radius:2px;"></div>
+              </div>
+              <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);width:32px;text-align:right;">${t.score}%</div>
+            </div>`).join('')}
+        </div>` : ''}
+      </div>
+
+      <!-- Fragen Grid — position-aware -->
+      <div class="ki-test-grid">
+        ${kiVisibility.results.map(r=>{
+          const posColor = r.position==='primary'?'var(--green)':r.position==='secondary'?'var(--yellow)':'var(--red)';
+          const posLabel = r.position==='primary'?'✓ PRIMÄR ERWÄHNT':r.position==='secondary'?'◐ AM RAND ERWÄHNT':'✗ NICHT SICHTBAR';
+          const borderCol = r.position==='primary'?'var(--green)':r.position==='secondary'?'var(--yellow)':'var(--border)';
+          return `<div class="ki-question" style="border-color:${borderCol};">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+              <div>
+                <div class="ki-q-label">${esc(r.label||'')}</div>
+                ${r.type?`<div style="font-family:var(--mono);font-size:8px;opacity:.4;letter-spacing:1px;text-transform:uppercase;margin-top:1px;">${esc(r.type)}</div>`:''}
+              </div>
+              <span style="font-family:var(--mono);font-size:10px;font-weight:700;color:${posColor};white-space:nowrap;">${posLabel}</span>
+            </div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:6px;line-height:1.4;">${esc(r.question)}</div>
+            ${r.contextSnippet||r.snippet ? `<div style="font-size:11px;color:var(--text-dim);line-height:1.5;border-top:1px solid var(--border);padding-top:8px;font-style:italic;">"${esc((r.contextSnippet||r.snippet||'').substring(0,180))}..."</div>` : ''}
+          </div>`;
+        }).join('')}
+      </div>` : `
+      <!-- MANUELL: Kein Perplexity Ergebnis — Links zum selbst testen -->
+      <p class="ki-test-sub">Teste jetzt ob ${esc(domain)} in KI-Antworten erscheint. Öffne die Links und prüfe ob die Website genannt wird.</p>
+      <div class="ki-test-grid">
+        ${kiQuestions.map(q=>`
+          <div class="ki-question">
+            <div class="ki-q-label">${esc(q.label)}</div>
+            <div class="ki-q-text">${esc(q.q)}</div>
+            <div class="ki-q-links">
+              <a class="ki-link" href="https://chat.openai.com/?q=${encodeURIComponent(q.q)}" target="_blank">↗ ChatGPT</a>
+              <a class="ki-link perplexity" href="https://www.perplexity.ai/search?q=${encodeURIComponent(q.q)}" target="_blank">↗ Perplexity</a>
+              <a class="ki-link gemini" href="https://gemini.google.com/app?q=${encodeURIComponent(q.q)}" target="_blank">↗ Gemini</a>
+            </div>
+          </div>`).join('')}
+      </div>
+      <div style="margin-top:16px;background:var(--surface2);border-radius:6px;padding:16px;border:1px solid var(--border);">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase;margin-bottom:12px;">Testergebnis dokumentieren</div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;" id="kiResultGrid"></div>
+        <div style="margin-top:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+          <span style="font-size:13px;color:var(--text-dim);">Sichtbarkeit:</span>
+          <span id="kiVisScore" style="font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;color:var(--text-dim);">—</span>
+          <span style="font-size:12px;color:var(--text-dim);" id="kiVisLabel"></span>
+        </div>
+      </div>
+    `}
+  </div>
+
+  <!-- ===== TECHNISCHE ANALYSE ===== -->
+  <div class="tech-section">
+    <h3>Technische Signale <span class="section-tag">DETAILANALYSE</span></h3>
+    <div class="checks-grid">
+      ${checkCard('Schema Markup','AEO-KERN','high',aeo.hasAnySchema?'green':'red',
+        aeo.hasAnySchema?`${aeo.pagesWithSchema} von ${docs.length} Seiten mit Schema`:'Kein Schema Markup gefunden',
+        aeo.hasAnySchema?'Strukturierte Daten vorhanden ✓':'Kritisch: Schema fehlt komplett',
+        aeo.hasAnySchema?'green':'red',
+        `<div class="schema-tags">${schemaTagsHtml}</div>`)}
+      ${checkCard('Entitäten-Klarheit','AEO-KERN','high',
+        (entities.hasIndustry&&entities.hasRegion)?'green':entities.hasIndustry?'yellow':'red',
+        `Branche: ${entities.hasIndustry?'✓':'✗'} · Region: ${entities.hasRegion?'✓':'✗'} · Zielgruppe: ${entities.hasTarget?'✓':'✗'}`,
+        (entities.hasIndustry&&entities.hasRegion)?'KI-Kontext klar definiert ✓':'Regionale/Branchensignale stärken',
+        (entities.hasIndustry&&entities.hasRegion)?'green':'yellow')}
+      ${checkCard('FAQ-Inhalte','AEO-KERN','high',
+        aeo.hasFaqSchema?'green':aeo.hasFaqContent?'yellow':'red',
+        aeo.hasFaqSchema?'FAQPage Schema vorhanden':aeo.hasFaqContent?'FAQ-Texte ohne Schema':'Keine FAQ-Struktur',
+        aeo.hasFaqSchema?'FAQPage Schema ✓':aeo.hasFaqContent?'Quick Win: Schema ergänzen':'FAQ-Sektion einbauen',
+        aeo.hasFaqSchema?'green':aeo.hasFaqContent?'yellow':'red')}
+      ${checkCard('Meta Description','STRUKTUR','medium',
+        aeo.metaCoverage>=80?'green':aeo.metaCoverage>=50?'yellow':'red',
+        `${aeo.metaCoverage}% Abdeckung (${aeo.pagesWithMeta}/${docs.length} Seiten)`,
+        aeo.metaCoverage>=80?`${aeo.pagesWithMeta} Seiten crawlbar analysiert ✓`:`${100-aeo.metaCoverage}% fehlen noch`,
+        aeo.metaCoverage>=80?'green':aeo.metaCoverage>=50?'yellow':'red')}
+      ${checkCard('H1-Struktur','STRUKTUR','medium',
+        aeo.pagesWithoutH1===0?'green':aeo.pagesWithoutH1<=2?'yellow':'red',
+        `${aeo.pagesWithSingleH1} korrekt · ${aeo.pagesWithoutH1} ohne H1 · ${aeo.pagesWithMultiH1} mit mehreren`,
+        aeo.pagesWithoutH1===0?'H1-Struktur korrekt ✓':`${aeo.pagesWithoutH1} Seiten ohne H1`,
+        aeo.pagesWithoutH1===0?'green':aeo.pagesWithoutH1<=2?'yellow':'red')}
+      ${checkCard('LocalBusiness Schema','LOKAL','high',
+        aeo.hasLocalBusiness?'green':'red',
+        aeo.hasLocalBusiness?'LocalBusiness/Organization gefunden':'Kein lokales Schema',
+        aeo.hasLocalBusiness?'Lokale AEO-Basis ✓':'Für lokale KI-Suchen kritisch',
+        aeo.hasLocalBusiness?'green':'red')}
+      ${checkCard('Open Graph Tags','HYGIENE','low',
+        aeo.hasOgTags?'green':'yellow',
+        aeo.hasOgTags?`${aeo.pagesWithOg} Seiten mit OG Tags`:'Keine OG Tags',
+        'Social Sharing / Linkvorschau — kein AEO-Kernfaktor, technische Hygiene',
+        aeo.hasOgTags?'green':'yellow')}
+      ${checkCard('Bilder Alt-Texte','TECHNISCH','low',
+        aeo.totalImgsWithoutAlt===0?'green':aeo.totalImgsWithoutAlt<=10?'yellow':'red',
+        `${aeo.totalImgsWithoutAlt} Bilder ohne Alt-Text`,
+        aeo.totalImgsWithoutAlt===0?'Alle Bilder beschriftet ✓':'Für multimodale KI relevant',
+        aeo.totalImgsWithoutAlt===0?'green':aeo.totalImgsWithoutAlt<=10?'yellow':'red')}
+    </div>
+  </div>
+
+  <!-- ===== CONTENT-ARCHITEKTUR ===== -->
+  ${scoring?.categories?.contentArchitecture?.detail ? (() => {
+    const ca = scoring.categories.contentArchitecture.detail;
+    const caScore = ca.score ?? 0;
+    const caColor = caScore>=80?'var(--green)':caScore>=50?'var(--yellow)':'var(--red)';
+    return `<div class="tech-section">
+      <h3>Content-Architektur <span class="section-tag">NEU</span></h3>
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:20px;">Beantwortet die Website echte Kundenfragen? KI-Systeme bevorzugen Seiten mit klarer Antwort-Struktur, ausreichender Texttiefe und thematischer Vielfalt.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:20px;">
+
+        <!-- Score Overview -->
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:12px;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;">Gesamtscore Content</div>
+          <div style="display:flex;align-items:baseline;gap:8px;">
+            <span style="font-family:'Bricolage Grotesque',sans-serif;font-size:36px;font-weight:800;color:${caColor};line-height:1;">${caScore}</span>
+            <span style="font-size:13px;color:var(--text-dim);">/ 100</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            ${[['Vielfalt (Breadth)',ca.scores?.breadth??0,40],['Tiefe (Depth)',ca.scores?.depth??0,35],['Struktur',ca.scores?.structure??0,25]].map(([lbl,val,max])=>`
+            <div>
+              <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:2px;"><span>${lbl}</span><span>${val}/${max}</span></div>
+              <div style="height:3px;background:var(--border);border-radius:2px;overflow:hidden;"><div style="height:100%;width:${Math.round(val/max*100)}%;background:${val/max>=.8?'var(--green)':val/max>=.5?'var(--yellow)':'var(--red)'};"></div></div>
+            </div>`).join('')}
+          </div>
+        </div>
+
+        <!-- Content-Typen gefunden -->
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:18px;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;margin-bottom:12px;">Content-Typen</div>
+          ${[
+            ['FAQ-Seiten',ca.faqPages??0,'Frage-Antwort-Seiten vorhanden','Keine FAQ-Struktur gefunden'],
+            ['HowTo-Seiten',ca.howtoPages??0,'Anleitungs-Content vorhanden','Kein HowTo-Content gefunden'],
+            ['Vergleichs-Seiten',ca.comparePages??0,'Vergleichsseiten vorhanden','Keine Vergleichsseiten'],
+            ['Frage-Überschriften',ca.questionHeadedPages??0,'Seiten mit Frage-H2/H3','Keine Frage-Überschriften']
+          ].map(([lbl,count,ok,missing])=>`
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">
+              <span style="font-size:12px;font-weight:500;">${lbl}</span>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-family:var(--mono);font-size:11px;color:var(--text-dim);">${count} Seiten</span>
+                <span style="font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:3px;background:${count>0?'var(--green-bg)':'var(--red-bg)'};color:${count>0?'var(--green)':'var(--red)'};">${count>0?'✓':'✗'}</span>
+              </div>
+            </div>`).join('')}
+        </div>
+
+        <!-- Texttiefe -->
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:18px;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;margin-bottom:12px;">Texttiefe</div>
+          <div style="margin-bottom:12px;">
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:1px;margin-bottom:4px;">∅ WÖRTER PRO SEITE</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:28px;font-weight:800;color:${(ca.avgWordCount??0)>=400?'var(--green)':(ca.avgWordCount??0)>=200?'var(--yellow)':'var(--red)'};">${ca.avgWordCount??0}</div>
+            <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">${(ca.avgWordCount??0)>=600?'Sehr gut — KI-freundliche Tiefe':(ca.avgWordCount??0)>=400?'Gut — ausbaubar':(ca.avgWordCount??0)>=200?'Dünn — mehr Inhalt nötig':'Zu kurz für KI-Sichtbarkeit'}</div>
+          </div>
+          <div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:1px;margin-bottom:4px;">TIEFE SEITEN (>600 Wörter)</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;">${ca.deepContentPages??0}</div>
+            <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">von ${docs.length} analysierten Seiten</div>
+          </div>
+        </div>
+
+      </div>
+    </div>`;
+  })() : ''}
+
+  <!-- ===== ENTITY CHECK ===== -->
+  <div class="tech-section">
+    <h3>Entitäten-Analyse <span class="section-tag">NEU</span></h3>
+    <p style="font-size:13px;color:var(--text-dim);margin-bottom:16px;">KI-Systeme arbeiten entitätsbasiert. Diese Signale bestimmen wie gut die Website kategorisiert wird.</p>
+    <div class="entity-grid">
+      <div class="entity-card">
+        <div class="entity-label">Branche</div>
+        <div class="entity-value">${entities.hasIndustry?'Erkannt':'Nicht klar'}</div>
+        <div class="entity-status ${entities.hasIndustry?'found':'missing'}">${entities.hasIndustry?'✓ Branchensignale im Content':'✗ Branche unklar formuliert'}</div>
+      </div>
+      <div class="entity-card">
+        <div class="entity-label">Region / Standort</div>
+        <div class="entity-value">${entities.hasRegion?'Erkannt':'Nicht klar'}</div>
+        <div class="entity-status ${entities.hasRegion?'found':'missing'}">${entities.hasRegion?'✓ Regionale Signale vorhanden':'✗ Kein Standortbezug erkannt'}</div>
+      </div>
+      <div class="entity-card">
+        <div class="entity-label">Zielgruppe</div>
+        <div class="entity-value">${entities.hasTarget?'Erkannt':'Nicht klar'}</div>
+        <div class="entity-status ${entities.hasTarget?'found':'missing'}">${entities.hasTarget?'✓ Zielgruppe erkennbar':'✗ Für wen? Unklar'}</div>
+      </div>
+      <div class="entity-card">
+        <div class="entity-label">Kernleistung</div>
+        <div class="entity-value">${entities.hasService?'Erkannt':'Nicht klar'}</div>
+        <div class="entity-status ${entities.hasService?'found':'missing'}">${entities.hasService?'✓ Leistungen klar':'✗ Was wird angeboten?'}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE TABLE ===== -->
+  <div class="page-table">
+    <div class="page-table-header">
+      <h3>Seiten im Detail</h3>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--text-dim)">${docs.length} Seiten</span>
+    </div>
+    <table>
+      <thead><tr>
+        <th>Seite</th><th>Schema</th><th>Meta</th><th>OG</th><th>H1</th><th>FAQ</th><th>Alt ✗</th>
+      </tr></thead>
+      <tbody>${(aeo.pageDetails||[]).map(p=>`<tr>
+        <td class="td-title" title="${esc(p.url)}">${esc(p.title||p.url||'—')}</td>
+        <td class="check-icon">${p.schemaTypes&&p.schemaTypes.length?`<span style="color:var(--green);font-size:11px">✓ ${p.schemaTypes.map(t=>t==='unknown'?'Custom':t).join(', ')}</span>`:'<span style="color:var(--red)">✗</span>'}</td>
+        <td class="check-icon">${p.hasMetaDescription?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--red)">✗</span>'}</td>
+        <td class="check-icon">${p.hasOgTags?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--text-dim)">—</span>'}</td>
+        <td class="check-icon">${p.h1Count===1?'<span style="color:var(--green)">✓</span>':p.h1Count===0?'<span style="color:var(--red)">✗</span>':`<span style="color:var(--yellow)">${p.h1Count}×</span>`}</td>
+        <td class="check-icon">${p.hasFaqContent?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--text-dim)">—</span>'}</td>
+        <td style="font-family:var(--mono);font-size:11px;color:${p.imgsWithoutAlt>0?'var(--yellow)':'var(--text-dim)'}">${p.imgsWithoutAlt||'—'}</td>
+      </tr>`).join('')}</tbody>
+    </table>
+  </div>
+
+  <!-- ===== SEARCH ===== -->
+  <div class="search-section">
+    <h3>Inhalte durchsuchen</h3>
+    <div class="search-wrap">
+      <span class="s-icon">⌕</span>
+      <input type="text" id="searchInput" placeholder="${docs.length} Seiten durchsuchen..." autocomplete="off" spellcheck="false" />
+    </div>
+    <div class="search-meta-line" id="searchMeta">FUSE.JS · ${docs.length} DOCS INDEXIERT</div>
+    <div id="searchResults"></div>
+  </div>
+
+  <!-- ===== METHODIK ===== -->
+  <div id="methodologySection" style="margin:0;padding:20px 24px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text-dim);line-height:1.7;">
+    <strong style="font-family:var(--mono);font-size:11px;letter-spacing:.5px;color:var(--text);">WIE WIRD DIESER REPORT ERSTELLT?</strong>
+    <p style="margin:8px 0 10px;">Der AEO Report analysiert automatisiert bis zu 20 Unterseiten der angegebenen Website und bewertet, wie gut diese für KI-Suchsysteme vorbereitet ist.</p>
+    <p style="margin:0 0 8px;font-family:var(--mono);font-size:10px;letter-spacing:.5px;color:var(--text);">DIE ANALYSE ERFOLGT IN FÜNF KATEGORIEN:</p>
+    <table style="width:100%;border-collapse:collapse;">
+      <tr><td style="padding:5px 10px 5px 0;vertical-align:top;font-weight:600;white-space:nowrap;color:var(--text);">KI-Sichtbarkeit</td><td style="padding:5px 0;">Praxistest mit 10 branchenrelevanten Fragen in KI-Suchsystemen (z.&#8201;B. Perplexity). Geprüft wird, ob und wie häufig die Website in den Antworten erscheint.</td></tr>
+      <tr><td style="padding:5px 10px 5px 0;vertical-align:top;font-weight:600;white-space:nowrap;color:var(--text);">Content-Architektur</td><td style="padding:5px 0;">Analyse der inhaltlichen Struktur, insbesondere FAQ-, HowTo- und Vergleichsseiten sowie der inhaltlichen Tiefe der Inhalte.</td></tr>
+      <tr><td style="padding:5px 10px 5px 0;vertical-align:top;font-weight:600;white-space:nowrap;color:var(--text);">Strukturierte Daten</td><td style="padding:5px 0;">Prüfung von Schema-Markup, Überschriftenstruktur und weiteren Signalen, die KI-Systeme beim Verstehen von Websites unterstützen.</td></tr>
+      <tr><td style="padding:5px 10px 5px 0;vertical-align:top;font-weight:600;white-space:nowrap;color:var(--text);">Technische Zugänglichkeit</td><td style="padding:5px 0;">Überprüfung technischer Faktoren wie Meta-Tags, robots.txt und llms.txt, die den Zugriff von KI-Crawlern beeinflussen.</td></tr>
+      <tr><td style="padding:5px 10px 5px 0;vertical-align:top;font-weight:600;white-space:nowrap;color:var(--text);">Entity-Präsenz</td><td style="padding:5px 0;">Analyse zentraler Begriffe und Themen der Website, um zu bewerten, wie klar Unternehmen und Leistungen für KI-Systeme erkennbar sind.</td></tr>
+    </table>
+    <p style="margin:10px 0 0;">Der Gesamtscore ergibt sich aus einer gewichteten Bewertung dieser fünf Kategorien. Alle Ergebnisse beziehen sich auf den Zeitpunkt der Analyse.</p>
+  </div>
+
+  <!-- ===== FRAGEN ZUM REPORT ===== -->
+  <div style="margin-top:12px;padding:20px 24px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text-dim);line-height:1.7;">
+    <strong style="font-family:var(--mono);font-size:11px;letter-spacing:.5px;color:var(--text);">FRAGEN ZUM REPORT?</strong>
+    <p style="margin:8px 0 16px;font-size:13px;line-height:1.8;">
+      Der AEO Report enthält teilweise neue Begriffe aus dem Bereich der KI-Suche und der Websiteoptimierung. Wenn Sie einzelne Ergebnisse besser verstehen möchten, können Sie diesen Report auch in ein KI-System Ihrer Wahl (z.&#8201;B. ChatGPT oder Perplexity) hochladen und Fragen dazu stellen.
+    </p>
+    <p style="font-family:var(--mono);font-size:10px;letter-spacing:.5px;margin:0 0 8px;color:var(--text);">BEISPIEL-PROMPT <span style="opacity:.4;font-size:9px;">(zum Kopieren)</span></p>
+    <div style="position:relative;">
+      <button onclick="copyPrompt(event)" id="copyPromptBtn" style="position:absolute;top:10px;right:10px;background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:4px 10px;border-radius:4px;cursor:pointer;">KOPIEREN</button>
+      <pre id="promptText" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:16px 20px;font-family:var(--mono);font-size:11px;line-height:1.8;color:var(--text-dim);white-space:pre-wrap;margin:0;">Du bist Experte für Websiteoptimierung und KI-Suche.
+
+Analysiere den folgenden AEO Report und erkläre mir verständlich:
+
+1. Was bedeuten die wichtigsten Ergebnisse dieses Reports?
+2. Warum erscheint die Website aktuell nur begrenzt in KI-Suchergebnissen?
+3. Welche konkreten Maßnahmen würden die KI-Sichtbarkeit der Website verbessern?
+
+Erkläre die Ergebnisse bitte in einfacher Sprache.</pre>
+    </div>
+    <p style="font-size:11px;color:var(--text-dim);line-height:1.7;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--border);">
+      <strong style="color:var(--text);font-family:var(--mono);font-size:10px;letter-spacing:.5px;">HINWEIS</strong> &nbsp;·&nbsp;
+      KI-Systeme können helfen, die Inhalte des Reports besser zu verstehen. Für eine konkrete Umsetzung der empfohlenen Maßnahmen wenden Sie sich bitte an Ihre Marketingagentur.
+    </p>
+  </div>
+
+  <!-- ===== BRAND FOOTER (Abschluss Cluster 1) ===== -->
+  <div style="text-align:center;padding:20px 0 4px;font-family:var(--mono);font-size:11px;color:var(--text-dim);" id="reportBrandFooter"></div>
+
+  <!-- ===== MASSNAHMEN ===== -->
+  <div class="actions-section">
+    <h3>Maßnahmen zur Optimierung (${allActions.length})</h3>
+    <p style="font-size:13px;color:var(--text-dim);line-height:1.7;margin:0 0 20px;padding-bottom:16px;border-bottom:1px solid var(--border);">Basierend auf den Analyseergebnissen wurden folgende Maßnahmen identifiziert, die die KI-Sichtbarkeit der Website gezielt verbessern können.</p>
+    ${allActions.map((a,i)=>`
+      <div class="action-item" style="grid-template-columns:100px 1fr auto;display:grid;gap:16px;padding:14px 0;border-bottom:1px solid var(--border);align-items:start;">
+        <span class="action-priority ${a.p}">${a.p==='high'?'KRITISCH':a.p==='medium'?'WICHTIG':'OPTIONAL'}</span>
+        <div class="action-content">
+          <h4>${esc(a.title)}</h4>
+          <p>${esc(a.desc)}</p>
+          ${a.howTo ? `<button class="how-to-toggle" onclick="toggleHowTo('howto-${i}',this)">
+            <span>▶</span> Wie umsetzen?
+          </button>
+          <div class="how-to-panel" id="howto-${i}">${a.howTo}</div>` : ''}
+        </div>
+        <span class="effort-tag">~${esc(a.effort)}</span>
+      </div>`).join('')}
+  </div>
+
+  <!-- ===== PDF EXPORT FOOTER ===== -->
+  <div class="export-btn-footer">
+    <strong style="font-family:var(--mono);font-size:11px;letter-spacing:.5px;color:var(--text);display:block;margin-bottom:12px;">REPORT ALS PDF SPEICHERN</strong>
+    <div class="export-btn-footer-btns">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+        <button class="export-btn" id="pdfBtnFooterAnalyse" onclick="exportPdf('analyse', this)" title="Kompakter Report für den Kunden — Befunde &amp; Potenziale">↓ Kundenexemplar</button>
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:.5px;">Analyse</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+        <button class="export-btn" id="pdfBtnFooterFull" onclick="exportPdf('full', this)" style="background:var(--bg);color:var(--text);" title="Vollständiger Report für die Agentur — inkl. Umsetzungsanleitungen">↓ Agenturexemplar</button>
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:.5px;">inkl. Umsetzungsleitfaden</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== AKQUISE / ANSCHREIBEN ===== -->
+  <div class="ki-test-section no-print" style="background:#fff;margin-top:24px;">
+    <h3>Gewinnen Sie mit diesem Report neue Kunden</h3>
+    <p class="ki-test-sub">E-Mail-Vorlage für das Anschreiben des auditierten Unternehmens</p>
+
+    <p style="font-size:13px;color:var(--text-dim);line-height:1.75;margin:0 0 20px;">
+      Viele Marketingagenturen nutzen diesen Report als Gesprächsanlass mit bestehenden oder potenziellen Kunden, um auf Veränderungen der Websuche durch KI-Systeme hinzuweisen und Optimierungspotenziale der Website zu besprechen.<br><br>
+      Senden Sie diesen Report jetzt an das analysierte Unternehmen und starten Sie ein Gespräch über die Optimierung der Website für KI-Suchsysteme.
+    </p>
+
+    <div id="foundEmailsBlock" style="display:none;margin-bottom:20px;padding:14px 18px;background:var(--bg);border:1px solid var(--border);border-radius:6px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px;">Gefundene Kontakt-E-Mail-Adressen</div>
+      <div id="foundEmailsList" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+    </div>
+
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;">E-Mail-Vorlage</div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:20px 24px;font-size:13px;line-height:1.9;position:relative;margin-bottom:20px;">
+      <button onclick="copyAnschreiben(event)" style="position:absolute;top:12px;right:12px;background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:5px 12px;border-radius:4px;cursor:pointer;" id="copyAnschreibenBtn">KOPIEREN</button>
+      <div id="anschreibenText">
+        <span style="font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--text-dim);">BETREFF: Analyse der KI-Sichtbarkeit Ihrer Website</span><br><br>
+        Sehr geehrter Herr / Frau [Name],<br><br>
+        die zunehmende Nutzung von KI-Systemen wie ChatGPT, Perplexity oder Google AI verändert derzeit, wie Menschen im Internet nach Informationen und Anbietern suchen.<br><br>
+        Wir haben deshalb einen AEO Report erstellt, der analysiert, wie gut Ihre Website aktuell auf diese Entwicklung vorbereitet ist und wie sichtbar sie in KI-Suchergebnissen erscheint.<br><br>
+        Den Report finden Sie im Anhang. Gerne erläutern wir Ihnen die wichtigsten Ergebnisse und mögliche Optimierungsschritte in einem kurzen Gespräch.<br><br>
+        Wir freuen uns auf Ihre Rückmeldung.<br><br>
+        Mit freundlichen Grüßen<br>
+        [Agenturname]
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text-dim);line-height:1.6;margin:0 0 20px;padding-bottom:20px;border-bottom:1px solid var(--border);">Kopieren Sie die Vorlage und senden Sie den Report jetzt an das Unternehmen.</p>
+
+    <div style="display:flex;justify-content:center;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <button class="export-btn" id="pdfBtnVertrieb" onclick="exportPdf('vertrieb', this)" style="padding:14px 40px;font-size:13px;letter-spacing:1px;" title="Report inkl. Akquise-Sektion für den Vertrieb">↓ Vertriebsexemplar</button>
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:.5px;">Analyse · Maßnahmen · Anschreiben</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== NEUE ANALYSE (no-print) ===== -->
+  <div class="no-print" style="margin-top:32px;padding:40px 36px;background:var(--text);border-radius:8px;text-align:center;">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.4);margin-bottom:14px;text-transform:uppercase;">Weitere Website analysieren</div>
+    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;color:#fff;margin:0 0 14px;line-height:1.3;">WEITERE WEBSITE ANALYSIEREN</h3>
+    <p style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.75;max-width:540px;margin:0 auto 28px;">
+      Der AEO Report zeigt eine Momentaufnahme der aktuellen KI-Sichtbarkeit einer Website.<br>
+      Viele Marketingagenturen nutzen den Report, um mehrere Websites aus einer Branche zu analysieren und Unternehmen mit Optimierungspotenzial für KI-Suchsysteme zu identifizieren.<br><br>
+      Starten Sie jetzt eine neue Analyse und erstellen Sie einen weiteren AEO Report.
+    </p>
+    <button onclick="resetForNewAnalysis()" style="background:#fff;color:var(--text);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:2px;padding:16px 40px;border:none;border-radius:5px;cursor:pointer;transition:opacity .15s;" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">NEUEN AEO REPORT ERSTELLEN</button>
+    <p style="font-size:11px;color:rgba(255,255,255,.3);font-family:var(--mono);letter-spacing:.5px;margin:16px 0 0;">Analysieren Sie beliebige Websites und entdecken Sie neue Potenziale für KI-Sichtbarkeit.</p>
+  </div>`;
+
+  // Insert print-only brand footer at very end of rendered scorecard
+  const bfPrint = document.createElement('div');
+  bfPrint.id = 'reportBrandFooterPrint';
+  bfPrint.style.cssText = 'display:none;text-align:center;padding:28px 0 8px;font-family:\'DM Mono\',monospace;font-size:11px;color:#8a8880;border-top:1px solid #e8e4de;margin-top:40px;';
+  document.getElementById('scorecard').appendChild(bfPrint);
+
+  updateBranding();
+  renderPotenzial(dims, docs);
+  if(!kiVisibility) renderKiResultGrid(kiQuestions);
+  document.getElementById('searchInput').addEventListener('input',function(e){
+    clearTimeout(window._st);
+    window._st=setTimeout(()=>doSearch(e.target.value),80);
+  });
+}
+
+function doSearch(q){
+  const el=document.getElementById('searchResults');
+  const meta=document.getElementById('searchMeta');
+  if(!fuse||!q.trim()){el.innerHTML='';return;}
+  const results=fuse.search(q);
+  meta.textContent=results.length+' Ergebnisse für "'+q+'"';
+  el.innerHTML=results.slice(0,8).map(({item,matches})=>{
+    const mm={};(matches||[]).forEach(m=>mm[m.key]=m.indices);
+    return `<div class="res-card" onclick="window.open('${esc(item.url||'')}','_blank')">
+      <div class="res-cat">${esc(item.category||'page')}</div>
+      <div class="res-title">${hl(item.title,mm['title'])}</div>
+      <div class="res-desc">${hl(item.description,mm['description'])}</div>
+    </div>`;
+  }).join('');
+}
+
+function hl(text,indices){if(!text)return'';if(!indices?.length)return esc(text);let r='',last=0;const m=[...indices].sort((a,b)=>a[0]-b[0]);for(const[s,e]of m){r+=esc(text.slice(last,s));r+=`<mark>${esc(text.slice(s,e+1))}</mark>`;last=e+1;}return r+esc(text.slice(last));}
+// POTENZIAL SCHÄTZMODELL
+function renderPotenzial(dims, docs) {
+  const grid = document.getElementById('potenzialGrid');
+  if (!grid) return;
+  const delta = 100 - dims.total;
+  const pagesCount = docs.length;
+  // Grobe Schätzlogik basierend auf Score-Delta
+  const visibilityGain = delta >= 40 ? 'bis +60%' : delta >= 20 ? 'bis +30%' : 'bis +15%';
+  const leadPotenzial = delta >= 40 ? 'Hoch' : delta >= 20 ? 'Mittel' : 'Gering';
+  const leadClass = delta >= 40 ? 'var(--green)' : delta >= 20 ? 'var(--yellow)' : 'var(--text-dim)';
+  const timeToEffect = delta >= 40 ? '3–6 Monate' : delta >= 20 ? '1–3 Monate' : '2–4 Wochen';
+
+  grid.innerHTML = `
+    <div style="background:rgba(255,255,255,.07);border-radius:5px;padding:12px;">
+      <div style="font-family:var(--mono);font-size:9px;opacity:.4;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">KI-Sichtbarkeit</div>
+      <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;">${visibilityGain}</div>
+      <div style="font-size:11px;opacity:.4;margin-top:3px;">geschätztes Potenzial</div>
+    </div>
+    <div style="background:rgba(255,255,255,.07);border-radius:5px;padding:12px;">
+      <div style="font-family:var(--mono);font-size:9px;opacity:.4;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Lead-Potenzial</div>
+      <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;color:${leadClass};">${leadPotenzial}</div>
+      <div style="font-size:11px;opacity:.4;margin-top:3px;">durch bessere KI-Präsenz</div>
+    </div>
+    <div style="background:rgba(255,255,255,.07);border-radius:5px;padding:12px;">
+      <div style="font-family:var(--mono);font-size:9px;opacity:.4;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Time to Effect</div>
+      <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;">${timeToEffect}</div>
+      <div style="font-size:11px;opacity:.4;margin-top:3px;">nach Umsetzung</div>
+    </div>`;
+}
+
+// KI PRAXISTEST TRACKER
+function renderKiResultGrid(questions) {
+  const grid = document.getElementById('kiResultGrid');
+  if (!grid) return;
+  // Init with clickable yes/no buttons per question
+  grid.innerHTML = questions.map((q,i) => `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:10px;">
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:1px;margin-bottom:5px;text-transform:uppercase;">${q.label}</div>
+      <div style="font-size:11px;color:var(--text-dim);margin-bottom:8px;line-height:1.3;">${q.q.substring(0,50)}...</div>
+      <div style="display:flex;gap:6px;">
+        <button onclick="setKiResult(${i},true)" id="ki-yes-${i}" style="flex:1;padding:4px;border:1px solid var(--border);border-radius:3px;font-family:var(--mono);font-size:10px;cursor:pointer;background:var(--bg);color:var(--text-dim);transition:.15s;">✓ Sichtbar</button>
+        <button onclick="setKiResult(${i},false)" id="ki-no-${i}" style="flex:1;padding:4px;border:1px solid var(--border);border-radius:3px;font-family:var(--mono);font-size:10px;cursor:pointer;background:var(--bg);color:var(--text-dim);transition:.15s;">✗ Fehlt</button>
+      </div>
+    </div>`).join('');
+  window._kiResults = {};
+  updateKiScore();
+}
+
+function setKiResult(i, visible) {
+  window._kiResults[i] = visible;
+  const yes = document.getElementById('ki-yes-'+i);
+  const no = document.getElementById('ki-no-'+i);
+  if (visible) {
+    yes.style.background='var(--green-bg)'; yes.style.color='var(--green)'; yes.style.borderColor='var(--green)';
+    no.style.background='var(--bg)'; no.style.color='var(--text-dim)'; no.style.borderColor='var(--border)';
+  } else {
+    no.style.background='var(--red-bg)'; no.style.color='var(--red)'; no.style.borderColor='var(--red)';
+    yes.style.background='var(--bg)'; yes.style.color='var(--text-dim)'; yes.style.borderColor='var(--border)';
+  }
+  updateKiScore();
+}
+
+function initPinGate() {
+  const pin = document.getElementById('clientPin').value.trim();
+  if (pin) {
+    document.getElementById('pinGate').style.display = 'block';
+    document.getElementById('mainForm').style.display = 'none';
+  }
+}
+
+function unlockWithPin() {
+  const entered = document.getElementById('pinInput').value.trim();
+  const stored  = document.getElementById('clientPin').value.trim();
+  if (entered === stored) {
+    document.getElementById('pinGate').style.display = 'none';
+    document.getElementById('mainForm').style.display = 'block';
+  } else {
+    document.getElementById('pinError').style.display = 'block';
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinInput').focus();
+  }
+}
+
+// Run PIN gate check on load
+document.addEventListener('DOMContentLoaded', function(){ initPinGate(); updateBranding(); updatePlaceholder(); });
+
+function generateToken() {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  const rand = (n) => Array.from({length:n}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
+  const brandSlug = (document.getElementById('brandName').value.trim() || 'client')
+    .toLowerCase()
+    .replace(/[äöüÄÖÜ]/g, c => ({ä:'ae',ö:'oe',ü:'ue',Ä:'ae',Ö:'oe',Ü:'ue'}[c]||c))
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').substring(0,16);
+  document.getElementById('clientToken').value = `${brandSlug}-${rand(6)}`;
+}
+
+async function exportBrandedHtml() {
+  const brandName    = document.getElementById('brandName').value.trim();
+  const placeholder  = document.getElementById('customPlaceholder').value.trim();
+  const clientToken  = document.getElementById('clientToken').value.trim();
+
+  if (!brandName) {
+    alert('Bitte zuerst einen Agentur-/Brandnamen im Einstellungsfeld eintragen.');
+    return;
+  }
+
+  // Aktuelle HTML-Datei als Text laden
+  let html;
+  try {
+    const res = await fetch(window.location.href);
+    html = await res.text();
+  } catch(e) {
+    alert('Export funktioniert nur wenn das Tool über HTTP/S läuft (nicht lokal via file://).');
+    return;
+  }
+
+  // 1. Branding-Name als Default-Wert einsetzen
+  html = html.replace(
+    /(<input[^>]*id="brandName"[^>]*value=")[^"]*"/,
+    `$1${brandName.replace(/"/g,'&quot;')}"`
+  );
+  if (!html.match(/id="brandName"[^>]*value=/)) {
+    html = html.replace('id="brandName"', `id="brandName" value="${brandName.replace(/"/g,'&quot;')}"`);
+  }
+
+  // 1b. brandDisplay Text direkt ersetzen — Regex ersetzt gesamten Inhalt inkl. nested spans
+  const brandDisplayText = brandName + ' <span style="opacity:.55;font-size:16px;">/// <a href="https://aeo-report.com" target="_blank" style="color:inherit;text-decoration:none;">aeo-report.com</a></span>';
+  html = html.replace(
+    /(<div[^>]*id="brandDisplay"[^>]*>)[\s\S]*?(<\/div>)/,
+    `$1${brandDisplayText}$2`
+  );
+
+  // 2. Platzhalter-URL vorausfüllen
+  if (placeholder) {
+    html = html.replace(
+      /(<input[^>]*id="customPlaceholder"[^>]*value=")[^"]*"/,
+      `$1${placeholder.replace(/"/g,'&quot;')}"`
+    );
+    if (!html.match(/id="customPlaceholder"[^>]*value=/)) {
+      html = html.replace('id="customPlaceholder"', `id="customPlaceholder" value="${placeholder.replace(/"/g,'&quot;')}"`);
+    }
+  }
+
+  // 3. Client Token einbetten
+  if (clientToken) {
+    html = html.replace(
+      /(<input[^>]*id="clientToken"[^>]*value=")[^"]*"/,
+      `$1${clientToken.replace(/"/g,'&quot;')}"`
+    );
+    if (!html.match(/id="clientToken"[^>]*value=/)) {
+      html = html.replace('id="clientToken"', `id="clientToken" value="${clientToken.replace(/"/g,'&quot;')}"`);
+    }
+  }
+
+  // 4. PIN einbetten
+  const pinCode = document.getElementById('pinCode').value.trim();
+  if (pinCode) {
+    html = html.replace(
+      /(<input[^>]*id="clientPin"[^>]*value=")[^"]*"/,
+      `$1${pinCode.replace(/"/g,'&quot;')}"`
+    );
+    if (!html.match(/id="clientPin"[^>]*value=/)) {
+      html = html.replace('id="clientPin"', `id="clientPin" value="${pinCode.replace(/"/g,'&quot;')}"`);
+    }
+    // Auch pinCode-Feld selbst einbetten (für Re-Export aus branded Version)
+    html = html.replace(
+      /(<input[^>]*id="pinCode"[^>]*value=")[^"]*"/,
+      `$1${pinCode.replace(/"/g,'&quot;')}"`
+    );
+  }
+
+  // 5. Zahnrad-Button ausblenden
+  html = html.replace(
+    /(<button[^>]*class="settings-btn"[^>]*)(>)/,
+    '$1 style="display:none"$2'
+  );
+
+  // 6. Dateiname aus Brandnamen ableiten
+  const slug = brandName.toLowerCase()
+    .replace(/[äöüÄÖÜ]/g, c => ({ä:'ae',ö:'oe',ü:'ue',Ä:'ae',Ö:'oe',Ü:'ue'}[c]))
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-|-$/g,'');
+  const filename = `aeo-tool-${slug}.html`;
+
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+async function exportPdf(reportMode, sourceBtn) {
+  reportMode = reportMode || 'full';
+  const aeoData = window._lastAeoData;
+
+  // Fallback: kein n8n → Browser Print
+  if (!aeoData) { window.print(); return; }
+
+  // Sicherheitscheck: Kann aeoData serialisiert werden?
+  try { JSON.stringify(aeoData); } catch(e) { console.error('Serialisierungsfehler:', e); window.print(); return; }
+
+  // Label für den geklickten Button bestimmen
+  const originalLabel = reportMode === 'analyse' ? '↓ Kundenexemplar'
+                      : reportMode === 'vertrieb' ? '↓ Vertriebsexemplar'
+                      : '↓ Agenturexemplar';
+
+  // Alle 5 Buttons sperren — geklickter Button bekommt Spinner
+  const allBtnIds = ['pdfBtnAnalyse','pdfBtnFull','pdfBtnFooterAnalyse','pdfBtnFooterFull','pdfBtnVertrieb'];
+  allBtnIds.forEach(id => {
+    const b = document.getElementById(id);
+    if(b) b.disabled = true;
+  });
+  if(sourceBtn) sourceBtn.innerHTML = '<span class="spinner"></span>PDF wird erstellt...';
+
+  try {
+    const pdfWebhookUrl = 'https://steewee.app.n8n.cloud/webhook/generate-pdf';
+    const brandName = document.getElementById('brandName')?.value?.trim() || '';
+    const payload = Object.assign({}, aeoData, { reportMode, brandName });
+    const res = await fetch(pdfWebhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload, (key, val) => {
+        if (key === 'content' && typeof val === 'string' && val.length > 5000) return val.substring(0, 5000);
+        return val;
+      })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    // Binary PDF direkt als Blob empfangen
+    const blob = await res.blob();
+    console.log('PDF Blob:', blob.type, blob.size, 'bytes');
+    if (!blob || blob.size < 100) throw new Error('Kein PDF erhalten — Blob: ' + blob.type + ' ' + blob.size + 'B');
+    const domain = aeoData.meta?.domain || 'aeo-report';
+    const suffix = reportMode === 'analyse' ? '-Analyse' : reportMode === 'vertrieb' ? '-Vertrieb' : '-Agentur';
+    const filename = 'AEO-Report-' + domain.replace(/[^a-z0-9]/gi,'-') + suffix + '-' + new Date().toISOString().slice(0,10) + '.pdf';
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+    if(sourceBtn) sourceBtn.innerHTML = '✓ PDF heruntergeladen';
+  } catch(err) {
+    console.error('PDF Fehler:', err);
+    if(sourceBtn) sourceBtn.innerHTML = '↓ Fehler — nochmal versuchen';
+    alert('PDF Fehler: ' + err.message + '\nDetails in der Browser-Konsole (F12)');
+  } finally {
+    // Alle Buttons wieder freigeben
+    allBtnIds.forEach(id => {
+      const b = document.getElementById(id);
+      if(b) b.disabled = false;
+    });
+    // Label des geklickten Buttons nach 3s zurücksetzen
+    setTimeout(() => {
+      if(sourceBtn) sourceBtn.innerHTML = originalLabel;
+    }, 3000);
+  }
+}
+
+function toggleLlmsTemplate(btn) {
+  const box = btn.nextElementSibling;
+  const open = box.style.display !== 'none';
+  box.style.display = open ? 'none' : 'block';
+  btn.textContent = open ? '▶ Generiertes Template anzeigen' : '▼ Template einklappen';
+}
+
+function copyLlms(btn) {
+  const text = btn.getAttribute('data-content');
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ Kopiert!';
+    setTimeout(() => { btn.textContent = '⎘ Inhalt kopieren'; }, 2000);
+  });
+}
+
+function updateKiScore() {
+  const results = window._kiResults || {};
+  const keys = Object.keys(results);
+  if (!keys.length) { document.getElementById('kiVisScore').textContent='—'; document.getElementById('kiVisLabel').textContent=''; return; }
+  const visible = keys.filter(k=>results[k]).length;
+  const total = keys.length;
+  const pct = Math.round(visible/total*100);
+  const scoreEl = document.getElementById('kiVisScore');
+  const labelEl = document.getElementById('kiVisLabel');
+  scoreEl.textContent = visible+'/'+total+' Suchanfragen';
+  scoreEl.style.color = pct>=75?'var(--green)':pct>=40?'var(--yellow)':'var(--red)';
+  labelEl.textContent = pct>=75?'✓ Gute KI-Sichtbarkeit':pct>=40?'⚠ Teilweise sichtbar':'✗ Kaum sichtbar — hohes Risiko';
+  labelEl.style.color = pct>=75?'var(--green)':pct>=40?'var(--yellow)':'var(--red)';
+}
+
+// copyAnschreiben — single clean implementation
+function copyAnschreiben(e) {
+  e.stopPropagation();
+  const el = document.getElementById('anschreibenText');
+  const btn = document.getElementById('copyAnschreibenBtn');
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    btn.textContent = '✓ KOPIERT';
+    setTimeout(()=>btn.textContent='KOPIEREN', 2000);
+  }).catch(()=>{
+    const range = document.createRange();
+    range.selectNode(el);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+    btn.textContent = '✓ KOPIERT';
+    setTimeout(()=>btn.textContent='KOPIEREN', 2000);
+  });
+}
+
+function copyPrompt(e) {
+  e.stopPropagation();
+  const text = document.getElementById('promptText').innerText;
+  const btn = document.getElementById('copyPromptBtn');
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent = '✓ KOPIERT';
+    setTimeout(()=>btn.textContent='KOPIEREN', 2000);
+  }).catch(()=>{
+    const el = document.getElementById('promptText');
+    const range = document.createRange();
+    range.selectNode(el);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+    btn.textContent = '✓ KOPIERT';
+    setTimeout(()=>btn.textContent='KOPIEREN', 2000);
+  });
+}
+
+function resetForNewAnalysis() {
+  // Clear scorecard
+  document.getElementById('scorecard').innerHTML = '';
+  // Clear URL input and status log
+  const urlInput = document.getElementById('targetUrl');
+  if (urlInput) { urlInput.value = ''; }
+  const log = document.getElementById('statusLog');
+  if (log) { log.innerHTML = ''; }
+  // Reset global state
+  window.aeoData = null;
+  // Scroll to top / input form
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(() => { if (urlInput) urlInput.focus(); }, 400);
+}
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+</script>
+<footer style="background:#0e0d0b;color:white;padding:24px 16px;margin-top:32px;border-top:1px solid #2e2b25;">
+  <div style="max-width:900px;margin:0 auto;text-align:center;">
+    <p style="font-size:11px;opacity:.7;margin:0 0 8px;line-height:1.6;">
+      Dieses Tool richtet sich an Unternehmen und Marketingagenturen im deutschsprachigen Raum (DACH).<br>
+      Die Analyse erfolgt automatisiert auf Basis öffentlich zugänglicher Website-Inhalte. Es werden keine personenbezogenen Daten gespeichert.
+    </p>
+    <div style="font-size:11px;opacity:.7;margin-bottom:8px;">
+      <span>AEO Report (aeo-report.com)</span>
+      <span style="opacity:.4;margin:0 6px;">·</span>
+      <span>© 2026 Stefan Wurzer</span>
+    </div>
+    <div style="font-size:11px;">
+      <a href="https://www.wkoecg.at/Ecg.aspx?FirmaID=f18d9b7a-0310-436a-a9f0-1f35002ee26a" target="_blank" rel="noopener noreferrer" style="color:white;opacity:.6;text-decoration:none;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">Impressum</a>
+      <span style="opacity:.3;margin:0 6px;">·</span>
+      <a href="/cdn-cgi/l/email-protection#0c636a6a656f694c7f78696a6d627b797e76697e226d78" style="color:white;opacity:.6;text-decoration:none;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">Kontakt</a>
+ 
