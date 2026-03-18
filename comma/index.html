@@ -499,7 +499,7 @@ mark{background:rgba(212,138,0,.15);color:var(--yellow);border-bottom:1px solid 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
         <div>
           <div class="section-label">Platzhaltertext URL-Feld</div>
-          <input class="inp" id="customPlaceholder" value="https://www.comma.info" placeholder="z.B. https://ihre-website.at" style="margin-bottom:0;" oninput="updatePlaceholder()" />
+          <input class="inp" id="customPlaceholder" value="https://comma.info" placeholder="z.B. https://ihre-website.at" style="margin-bottom:0;" oninput="updatePlaceholder()" />
         </div>
         <div>
           <div class="section-label">Absender / Branding</div>
@@ -509,7 +509,7 @@ mark{background:rgba(212,138,0,.15);color:var(--yellow);border-bottom:1px solid 
       <div style="margin-bottom:10px;">
         <div class="section-label">Client Token <span style="font-weight:400;opacity:.6;">(für Kontingent-Steuerung)</span></div>
         <div style="display:flex;gap:8px;align-items:center;">
-          <input class="inp" id="clientToken" value="comma-pr-marketi-kdsz5h" placeholder="z.B. agentur-xy-a3f9k2" style="margin-bottom:0;font-family:var(--mono);font-size:11px;" />
+          <input class="inp" id="clientToken" value="comma-pr-marketi-xayyr5" placeholder="z.B. agentur-xy-a3f9k2" style="margin-bottom:0;font-family:var(--mono);font-size:11px;" />
           <button class="export-btn" onclick="generateToken()" style="padding:8px 12px;font-size:10px;white-space:nowrap;flex-shrink:0;">🔄 Generieren</button>
         </div>
       </div>
@@ -582,10 +582,13 @@ function updateBranding() {
     display.innerHTML = 'AEO REPORT <span>///</span> MASTER';
   }
   // Also update footer in scorecard if visible
+  const footerText = name 
+    ? `Erstellt von: ${name} · <a href="https://aeo-report.com" style="color:inherit;text-decoration:underline;">aeo-report.com</a>`
+    : `<a href="https://aeo-report.com" style="color:inherit;text-decoration:underline;">aeo-report.com</a>`;
   const footer = document.getElementById('reportBrandFooter');
-  if (footer) footer.textContent = name ? ('Erstellt von: ' + name) : '';
+  if (footer) footer.innerHTML = footerText;
   const footerPrint = document.getElementById('reportBrandFooterPrint');
-  if (footerPrint) footerPrint.textContent = name ? ('Erstellt von: ' + name) : '';
+  if (footerPrint) footerPrint.innerHTML = footerText;
 }
 
 function toggleExplainer() {
@@ -1133,9 +1136,9 @@ H3: Schritt 2: [Aktion]</pre>
     <div class="mgmt-header">
       <div>
         <div class="mgmt-title">Management Summary · AEO Report</div>
-        <div class="mgmt-company">${esc(domain)}</div>
+        <div class="mgmt-company"><a href="${targetUrl.startsWith('http') ? targetUrl : 'https://'+domain}" target="_blank" style="color:inherit;text-decoration:none;border-bottom:2px solid rgba(255,255,255,.2);">${esc(domain)}</a></div>
         <div style="font-size:12px;opacity:.6;margin-top:4px;font-style:italic;">Dieser Report zeigt eine Momentaufnahme der aktuellen KI-Sichtbarkeit dieser Website – und welche Faktoren diese Sichtbarkeit beeinflussen.</div>
-        <div class="mgmt-meta">${docs.length} Seiten analysiert · ${dateStr}</div>
+        <div class="mgmt-meta">${docs.length} Seiten analysiert · ${dateStr} · <a href="https://aeo-report.com" style="color:inherit;text-decoration:underline;">aeo-report.com</a></div>
       </div>
       <div class="mgmt-rating-block">
         <div class="mgmt-score-big">${dims.total}</div>
