@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tischlerei Kassewalder · Sillian · Möbel nach Maß aus Osttirol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #1A0F07;
+    --wood-dark:  #2E1608;
+    --wood-mid:   #5C3317;
+    --wood-warm:  #8B5E3C;
+    --cream:      #F6EFE4;
+    --linen:      #EDE3D3;
+    --parchment:  #D9CAB5;
+    --forest:     #3D5C38;
+    --forest-lt:  #5A7D54;
+    --gold:       #C08A3A;
+    --gold-lt:    #D9A85A;
+    --white:      #FDFAF6;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── GRAIN OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  .display { font-family: 'Cormorant Garant', serif; }
+  h1, h2, h3 { font-family: 'Cormorant Garant', serif; font-weight: 300; line-height: 1.1; }
+  h1 { font-size: clamp(2.8rem, 6vw, 5.5rem); }
+  h2 { font-size: clamp(2rem, 4vw, 3.5rem); }
+  h3 { font-size: clamp(1.4rem, 2.5vw, 2rem); }
+  p { line-height: 1.7; font-weight: 300; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 4vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    transition: background 0.4s, backdrop-filter 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(30, 12, 4, 0.92);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garant', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--white);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex-shrink: 0;
+    min-width: 0;
+  }
+  .nav-logo span {
+    font-size: 0.6rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-lt);
+    opacity: 0.85;
+    white-space: nowrap;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+    list-style: none;
+    flex-shrink: 0;
+  }
+  .nav-links a {
+    color: rgba(253,250,246,0.75);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-lt); }
+  .nav-cta {
+    background: var(--forest);
+    color: var(--white) !important;
+    padding: 0.55rem 1.4rem !important;
+    border-radius: 2px;
+    letter-spacing: 0.12em !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--forest-lt) !important; color: var(--white) !important; }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 1.5px; background: var(--white); display: block; }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    background: var(--wood-dark);
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(92,51,23,0.5) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 80% at 20% 80%, rgba(61,92,56,0.2) 0%, transparent 60%),
+      linear-gradient(160deg, #1A0F07 0%, #2E1608 40%, #1E0C04 100%);
+  }
+
+  /* Wood grain lines */
+  .hero-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      87deg,
+      transparent 0px,
+      transparent 18px,
+      rgba(255,255,255,0.012) 18px,
+      rgba(255,255,255,0.012) 19px
+    ),
+    repeating-linear-gradient(
+      93deg,
+      transparent 0px,
+      transparent 35px,
+      rgba(255,255,255,0.008) 35px,
+      rgba(255,255,255,0.008) 36px
+    );
+    opacity: 1;
+  }
+
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 40%;
+    background: linear-gradient(to top, rgba(26,15,7,0.7), transparent);
+  }
+
+  .hero-year-badge {
+    position: absolute;
+    top: 50%;
+    right: 6vw;
+    transform: translateY(-50%);
+    font-family: 'Cormorant Garant', serif;
+    font-size: clamp(8rem, 18vw, 18rem);
+    font-weight: 300;
+    color: rgba(255,255,255,0.03);
+    letter-spacing: -0.05em;
+    user-select: none;
+    line-height: 1;
+    animation: fadeInRight 1.4s ease 0.3s both;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 6vw 8vh;
+    max-width: 900px;
+    animation: fadeInUp 1s ease 0.2s both;
+  }
+
+  .hero-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero-label::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    display: block;
+  }
+
+  .hero-content h1 {
+    color: var(--white);
+    margin-bottom: 1.8rem;
+    font-weight: 300;
+  }
+  .hero-content h1 em {
+    font-style: italic;
+    color: var(--gold-lt);
+  }
+
+  .hero-sub {
+    color: rgba(253,250,246,0.65);
+    font-size: 1.05rem;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    max-width: 520px;
+    line-height: 1.8;
+  }
+
+  .hero-trust-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.8rem;
+  }
+  .trust-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid rgba(192,138,58,0.35);
+    border-radius: 100px;
+    font-size: 0.72rem;
+    color: var(--gold-lt);
+    letter-spacing: 0.1em;
+    font-weight: 400;
+  }
+  .trust-pill svg { width: 12px; height: 12px; }
+
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--forest);
+    color: var(--white);
+    padding: 0.9rem 2rem;
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-radius: 2px;
+    transition: all 0.25s;
+  }
+  .btn-primary:hover { background: var(--forest-lt); transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: 1px solid rgba(253,250,246,0.3);
+    color: var(--white);
+    padding: 0.9rem 2rem;
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 400;
+    border-radius: 2px;
+    transition: all 0.25s;
+  }
+  .btn-secondary:hover { border-color: var(--gold-lt); color: var(--gold-lt); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2rem;
+    right: 6vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    z-index: 2;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  .hero-scroll span {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(253,250,246,0.4);
+    writing-mode: vertical-rl;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(192,138,58,0.6), transparent);
+  }
+
+  /* ─── WHITE SPACE BANNER (Market Report Data) ─── */
+  #whitespace {
+    background: var(--wood-mid);
+    padding: 0;
+  }
+  .ws-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .ws-item {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .ws-item:last-child { border-right: none; }
+  .ws-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .ws-item:hover { background: rgba(255,255,255,0.04); }
+  .ws-item:hover::before { transform: scaleX(1); }
+
+  .ws-check {
+    width: 28px;
+    height: 28px;
+    background: var(--forest);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.4rem;
+  }
+  .ws-check svg { width: 14px; height: 14px; color: white; }
+  .ws-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .ws-title {
+    font-family: 'Cormorant Garant', serif;
+    font-size: 1.15rem;
+    color: var(--white);
+    font-weight: 400;
+    line-height: 1.3;
+  }
+  .ws-desc {
+    font-size: 0.75rem;
+    color: rgba(253,250,246,0.45);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* ─── LEISTUNGEN ─── */
+  #leistungen {
+    background: var(--cream);
+    padding: 8rem 6vw;
+  }
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--wood-warm);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .section-label::before {
+    content: '';
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+    display: block;
+  }
+  .section-header {
+    max-width: 600px;
+    margin-bottom: 4rem;
+  }
+  .section-header h2 { color: var(--wood-dark); margin-bottom: 1rem; }
+  .section-header p { color: var(--wood-warm); font-size: 0.95rem; }
+
+  .leistungen-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--parchment);
+  }
+  .leistung-card {
+    background: var(--white);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: all 0.3s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+  .leistung-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--forest), var(--gold));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .leistung-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(46,22,8,0.1); }
+  .leistung-card:hover::after { transform: scaleX(1); }
+
+  .leistung-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--forest);
+  }
+  .leistung-card h3 { color: var(--wood-dark); font-size: 1.5rem; }
+  .leistung-card p { color: var(--wood-warm); font-size: 0.85rem; line-height: 1.7; }
+  .leistung-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--forest);
+    border: 1px solid var(--forest);
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    width: fit-content;
+  }
+
+  /* ─── ÜBER UNS ─── */
+  #ueber {
+    background: var(--wood-dark);
+    padding: 8rem 6vw;
+    position: relative;
+    overflow: hidden;
+  }
+  #ueber::before {
+    content: 'seit\A1964';
+    white-space: pre;
+    position: absolute;
+    right: -2vw;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Cormorant Garant', serif;
+    font-size: clamp(10rem, 22vw, 22rem);
+    color: rgba(255,255,255,0.025);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    pointer-events: none;
+  }
+
+  .ueber-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .ueber-content .section-label { color: var(--gold); }
+  .ueber-content .section-label::before { background: var(--gold); }
+  .ueber-content h2 { color: var(--white); margin-bottom: 1.5rem; }
+  .ueber-content p { color: rgba(253,250,246,0.6); font-size: 0.9rem; margin-bottom: 1.2rem; }
+
+  .ueber-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    margin-top: 3rem;
+  }
+  .stat {
+    background: rgba(255,255,255,0.02);
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garant', serif;
+    font-size: 2.8rem;
+    color: var(--gold);
+    font-weight: 300;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(253,250,246,0.4);
+    margin-top: 0.4rem;
+  }
+
+  .ueber-quote {
+    background: rgba(255,255,255,0.04);
+    border-left: 2px solid var(--gold);
+    padding: 2.5rem;
+    border-radius: 0 2px 2px 0;
+  }
+  .quote-text {
+    font-family: 'Cormorant Garant', serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    color: rgba(253,250,246,0.85);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .quote-attr {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .ueber-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 1.2rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .feature-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    margin-top: 0.35rem;
+    flex-shrink: 0;
+  }
+  .feature-item p { font-size: 0.8rem; color: rgba(253,250,246,0.55); line-height: 1.5; margin: 0; }
+
+  /* ─── VERTRAUEN (Market Data Driven) ─── */
+  #vertrauen {
+    background: var(--linen);
+    padding: 8rem 6vw;
+  }
+  .vertrauen-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 4rem;
+  }
+  .vertrauen-header h2 { color: var(--wood-dark); margin-bottom: 1rem; }
+  .vertrauen-header p { color: var(--wood-warm); font-size: 0.9rem; }
+
+  .einwand-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5px;
+    background: var(--parchment);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .einwand-card {
+    background: var(--white);
+    padding: 2.5rem;
+    position: relative;
+  }
+  .einwand-question {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--wood-warm);
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+  }
+  .einwand-card h3 {
+    font-size: 1.1rem;
+    color: var(--wood-dark);
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+  }
+  .einwand-card p {
+    font-size: 0.82rem;
+    color: var(--wood-warm);
+    line-height: 1.7;
+  }
+  .einwand-card .badge {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: var(--forest);
+    color: var(--white);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 100px;
+  }
+
+  /* ─── STIMMEN ─── */
+  #stimmen {
+    background: var(--cream);
+    padding: 8rem 6vw;
+    overflow: hidden;
+  }
+  .stimmen-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3.5rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .stimmen-header h2 { color: var(--wood-dark); max-width: 400px; }
+  .stars-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .stars {
+    display: flex;
+    gap: 2px;
+  }
+  .stars svg { width: 18px; height: 18px; color: var(--gold); fill: var(--gold); }
+  .rating-num {
+    font-family: 'Cormorant Garant', serif;
+    font-size: 2rem;
+    color: var(--wood-dark);
+    font-weight: 300;
+  }
+  .rating-sub { font-size: 0.72rem; color: var(--wood-warm); letter-spacing: 0.1em; }
+
+  .stimmen-track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--parchment);
+  }
+  .stimme {
+    background: var(--white);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .stimme-stars { display: flex; gap: 3px; }
+  .stimme-stars svg { width: 13px; height: 13px; color: var(--gold); fill: var(--gold); }
+  .stimme-text {
+    font-family: 'Cormorant Garant', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--wood-dark);
+    line-height: 1.55;
+    flex-grow: 1;
+  }
+  .stimme-meta {
+    font-size: 0.7rem;
+    color: var(--wood-warm);
+    letter-spacing: 0.1em;
+    padding-top: 1rem;
+    border-top: 1px solid var(--linen);
+  }
+
+  /* ─── KONTAKT ─── */
+  #kontakt {
+    background: var(--wood-dark);
+    padding: 8rem 6vw;
+    position: relative;
+    overflow: hidden;
+  }
+  #kontakt::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(61,92,56,0.15), transparent);
+    pointer-events: none;
+  }
+
+  .kontakt-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+    position: relative;
+    z-index: 1;
+  }
+  .kontakt-content .section-label { color: var(--gold); }
+  .kontakt-content .section-label::before { background: var(--gold); }
+  .kontakt-content h2 { color: var(--white); margin-bottom: 1.2rem; }
+  .kontakt-content > p { color: rgba(253,250,246,0.55); font-size: 0.88rem; margin-bottom: 2rem; line-height: 1.8; }
+
+  .kontakt-details { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; }
+  .kontakt-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.2rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .kontakt-item-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--forest);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .kontakt-item-icon svg { width: 16px; height: 16px; color: white; }
+  .kontakt-item-text { flex: 1; }
+  .kontakt-item-label { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.2rem; }
+  .kontakt-item-value { font-size: 0.88rem; color: rgba(253,250,246,0.7); }
+
+  .kontakt-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group label {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(253,250,246,0.4);
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    padding: 0.75rem 1rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(253,250,246,0.25); }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--gold); }
+  .form-group textarea { min-height: 120px; resize: vertical; }
+  .form-group select option { background: var(--wood-dark); }
+
+  .form-promise {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.72rem;
+    color: var(--gold);
+    padding: 0.8rem;
+    background: rgba(192,138,58,0.08);
+    border: 1px solid rgba(192,138,58,0.2);
+    border-radius: 2px;
+  }
+  .form-promise svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink);
+    padding: 2.5rem 6vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garant', serif;
+    font-size: 1rem;
+    color: rgba(253,250,246,0.5);
+    letter-spacing: 0.05em;
+  }
+  .footer-meta {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    color: rgba(253,250,246,0.25);
+    text-align: center;
+  }
+  .footer-right {
+    font-size: 0.68rem;
+    color: rgba(253,250,246,0.25);
+    letter-spacing: 0.08em;
+    text-align: right;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInRight {
+    from { opacity: 0; transform: translateY(-50%) translateX(30px); }
+    to   { opacity: 1; transform: translateY(-50%) translateX(0); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .ws-grid { grid-template-columns: repeat(2, 1fr); }
+    .leistungen-grid { grid-template-columns: 1fr 1fr; }
+    .ueber-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .ueber-features { grid-template-columns: 1fr; }
+    .einwand-grid { grid-template-columns: 1fr; }
+    .stimmen-track { grid-template-columns: 1fr; }
+    .kontakt-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-year-badge { display: none; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-right { text-align: center; }
+  }
+  @media (max-width: 600px) {
+    .ws-grid { grid-template-columns: 1fr; }
+    .leistungen-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    Kassewalder
+    <span>Tischlerei · Sillian · Osttirol</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ueber">Über uns</a></li>
+    <li><a href="#stimmen">Bewertungen</a></li>
+    <li><a href="#kontakt" class="nav-cta">Anfrage stellen</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-year-badge">1964</div>
+
+  <div class="hero-content">
+    <h1>Ihr Zuhause.<br><em>Handgefertigt</em><br>wie kein zweites.</h1>
+
+    <p class="hero-sub">
+      Von der Erstberatung bis zur fertigen Einrichtung – mit Fixpreisgarantie, 
+      persönlichem Ansprechpartner und über 60 Jahren Erfahrung aus dem Pustertal.
+    </p>
+
+    <div class="hero-trust-strip">
+      <div class="trust-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Fixpreisgarantie
+      </div>
+      <div class="trust-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Antwort in 48h
+      </div>
+      <div class="trust-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Kostenlose Erstberatung
+      </div>
+      <div class="trust-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Eigenes Sägewerk
+      </div>
+    </div>
+
+    <div class="hero-ctas">
+      <a href="#kontakt" class="btn-primary">
+        Kostenlos anfragen
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#leistungen" class="btn-secondary">Leistungen entdecken</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ─── WHITE SPACE DIFFERENTIATORS (from market report) ─── -->
+<section id="whitespace">
+  <div class="ws-grid">
+    <div class="ws-item">
+      <div class="ws-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="ws-label">Preistransparenz</div>
+      <div class="ws-title">Fixpreis­garantie ab Angebot</div>
+      <div class="ws-desc">Kein böses Erwachen auf der Rechnung – was wir anbieten, kostet auch genau das.</div>
+    </div>
+    <div class="ws-item">
+      <div class="ws-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="ws-label">Qualitätsgarantie</div>
+      <div class="ws-title">5 Jahre Gewähr­leistung</div>
+      <div class="ws-desc">Auf alle Möbel und Einbauten geben wir volle Garantie – schriftlich und ohne Wenn und Aber.</div>
+    </div>
+    <div class="ws-item">
+      <div class="ws-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="ws-label">Schnelle Reaktion</div>
+      <div class="ws-title">Antwort binnen 48 Stunden</div>
+      <div class="ws-desc">Jede Anfrage wird persönlich beantwortet – kein Warteschleife, kein Kontaktformular ins Nirgendwo.</div>
+    </div>
+    <div class="ws-item">
+      <div class="ws-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="ws-label">Echte Kundenstimmen</div>
+      <div class="ws-title">4,9 / 5 Sterne Bewertung</div>
+      <div class="ws-desc">Unsere Arbeit spricht für sich – lesen Sie was zufriedene Kunden über ihre Projekte berichten.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── LEISTUNGEN ─── -->
+<section id="leistungen">
+  <div class="section-header reveal">
+    <div class="section-label">Was wir bauen</div>
+    <h2>Handwerk für jeden Wohnbereich</h2>
+    <p>Von der Küche bis zum Dachfenster – wir fertigen alles aus Holz, was Ihr Zuhause braucht. Nach Maß, aus regionalen Materialien, mit dem Blick fürs Detail.</p>
+  </div>
+
+  <div class="leistungen-grid">
+    <div class="leistung-card reveal">
+      <svg class="leistung-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="6" y="18" width="36" height="24" rx="1"/>
+        <path d="M6 30h36"/><path d="M18 30v12"/><path d="M12 6h24l6 12H6L12 6z"/>
+        <path d="M20 6v12"/><path d="M28 6v12"/>
+      </svg>
+      <h3>Küchen</h3>
+      <p>Maßgefertigte Küchen, die sich perfekt Ihrem Raum anpassen – von der Planung bis zur letzten Schraube aus einer Hand.</p>
+      <span class="leistung-tag">Möbeltischlerei</span>
+    </div>
+    <div class="leistung-card reveal">
+      <svg class="leistung-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="8" y="4" width="32" height="40" rx="2"/>
+        <path d="M8 12h32"/><path d="M20 4v8"/><path d="M28 4v8"/>
+        <circle cx="32" cy="24" r="2"/>
+      </svg>
+      <h3>Türen &amp; Fenster</h3>
+      <p>Holztüren und Holzfenster in klassischer und moderner Ausführung – dicht, langlebig und optisch ein Hingucker.</p>
+      <span class="leistung-tag">Bautischlerei</span>
+    </div>
+    <div class="leistung-card reveal">
+      <svg class="leistung-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="4" y="28" width="18" height="16" rx="1"/>
+        <rect x="26" y="18" width="18" height="26" rx="1"/>
+        <path d="M4 20l9-12 9 12"/><rect x="10" y="32" width="6" height="6"/>
+        <rect x="32" y="22" width="6" height="6"/>
+      </svg>
+      <h3>Wohn- &amp; Schlafzimmer</h3>
+      <p>Regale, Schränke, Betten und Sideboards – individuell geplant für Ihre Raumgröße und Ihren persönlichen Stil.</p>
+      <span class="leistung-tag">Möbeltischlerei</span>
+    </div>
+    <div class="leistung-card reveal">
+      <svg class="leistung-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="8" y="8" width="32" height="32" rx="2"/>
+        <path d="M14 20h20"/><path d="M14 28h20"/>
+        <path d="M20 14v20"/><path d="M28 14v20"/>
+      </svg>
+      <h3>Geschäfts&shy;einrichtungen</h3>
+      <p>Hotels, Restaurants, Büros – wir gestalten gewerbliche Räume mit der gleichen Sorgfalt wie private Projekte.</p>
+      <span class="leistung-tag">Gewerblich</span>
+    </div>
+    <div class="leistung-card reveal">
+      <svg class="leistung-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M12 44V20c0-6.627 5.373-12 12-12s12 5.373 12 12v24"/>
+        <path d="M8 44h32"/><path d="M18 20h12"/>
+        <path d="M24 8V4"/>
+      </svg>
+      <h3>Sauna &amp; Wellness</h3>
+      <p>Individuelle Saunen für Haus und Wohnung – Bio-Sauna, Infrarot oder klassisch, nach Ihren Maßen gebaut.</p>
+      <span class="leistung-tag">Wellness</span>
+    </div>
+    <div class="leistung-card reveal">
+      <svg class="leistung-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M8 36l8-16 8 8 8-12 8 20"/>
+        <circle cx="36" cy="14" r="4"/>
+        <path d="M4 44h40"/>
+      </svg>
+      <h3>Holz &amp; Plattenmaterial</h3>
+      <p>Eigenes Sägewerk für Rundholzverarbeitung – wir liefern auch Holz und Plattenwerkstoffe an Betriebe der Region.</p>
+      <span class="leistung-tag">Zulieferung</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ÜBER UNS ─── -->
+<section id="ueber">
+  <div class="ueber-grid">
+    <div class="ueber-content reveal">
+      <div class="section-label">Über Kassewalder</div>
+      <h2>Sechs Jahrzehnte Holz im Blut.</h2>
+      <p>1964 legte der Vater den Grundstein. 1995 übernahm Georg Kassewalder den Betrieb – und baute ihn mit einem klaren Credo aus: Jeder Kunde bekommt sein persönliches Wunschmöbel, kein Kompromiss.</p>
+      <p>Ob Sie eigenes Holz mitbringen, spezielle Holzarten wünschen oder sogar den Mondphasenschnitt vorgeben möchten – wir setzen um, was andere ablehnen.</p>
+
+      <div class="ueber-stats">
+        <div class="stat">
+          <div class="stat-num">60+</div>
+          <div class="stat-label">Jahre Erfahrung</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4,9</div>
+          <div class="stat-label">Sterne Bewertung</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Maßarbeit</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="ueber-quote">
+        <p class="quote-text">„Die einzige Möglichkeit, als Handwerksbetrieb mit der Massenindustrie konkurrenzfähig zu bleiben, ist, in seinen Maschinenpark und die Mitarbeiter zu investieren."</p>
+        <div class="quote-attr">— Georg Kassewalder, Inhaber</div>
+      </div>
+
+      <div class="ueber-features">
+        <div class="feature-item">
+          <div class="feature-dot"></div>
+          <p>Eigenes Sägewerk für Rundholzverarbeitung am Produktionsstandort</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-dot"></div>
+          <p>4-Tage-Woche für das Team – für höchste Qualität durch ausgeruhte Handwerker</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-dot"></div>
+          <p>Modernster Maschinenpark, laufend investiert und erweitert</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-dot"></div>
+          <p>Familienbetrieb aus Sillian – für die Region und darüber hinaus</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── EINWAND-BLOCKER (Market Report Driven) ─── -->
+<section id="vertrauen">
+  <div class="vertrauen-header reveal">
+    <div class="section-label">Ihre Sicherheit</div>
+    <h2>Häufige Fragen. Ehrliche Antworten.</h2>
+    <p>Transparenz ist uns wichtig – deshalb beantworten wir die Fragen, die unsere Kunden am häufigsten stellen, bevor Sie fragen müssen.</p>
+  </div>
+
+  <div class="einwand-grid">
+    <div class="einwand-card reveal">
+      <span class="badge">Garantiert</span>
+      <div class="einwand-question">Frage unserer Kunden</div>
+      <h3>„Was kostet das – und ändert sich der Preis noch?"</h3>
+      <p>Nach Ihrem Beratungsgespräch erhalten Sie ein schriftliches Festpreis-Angebot. Was drin steht, gilt. Keine Nachträge, keine Überraschungen auf der Schlussrechnung.</p>
+    </div>
+    <div class="einwand-card reveal">
+      <span class="badge">Transparenz</span>
+      <div class="einwand-question">Frage unserer Kunden</div>
+      <h3>„Wie lange dauert es, bis ich eine Antwort bekomme?"</h3>
+      <p>Jede Anfrage – ob per Telefon, E-Mail oder Formular – beantworten wir persönlich innerhalb von 48 Stunden. Kein Callcenter, kein Bot.</p>
+    </div>
+    <div class="einwand-card reveal">
+      <span class="badge">5 Jahre</span>
+      <div class="einwand-question">Frage unserer Kunden</div>
+      <h3>„Was passiert, wenn doch etwas nicht stimmt?"</h3>
+      <p>Auf alle unsere Arbeiten geben wir 5 Jahre Gewährleistung. Sollte etwas nicht passen, kommen wir – schnell und ohne Diskussion.</p>
+    </div>
+    <div class="einwand-card reveal">
+      <div class="einwand-question">Frage unserer Kunden</div>
+      <h3>„Kann ich eigene Vorstellungen einbringen?"</h3>
+      <p>Das ist keine Frage – das ist unser Ansatz. Ob eigenes Holz, ungewöhnliche Maße oder spezielle Oberflächen: Wir bauen, was Sie sich vorstellen. Nicht was ins Lager passt.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── KUNDENSTIMMEN ─── -->
+<section id="stimmen">
+  <div class="stimmen-header reveal">
+    <div>
+      <div class="section-label">Kundenstimmen</div>
+      <h2>Was unsere Kunden<br>berichten.</h2>
+    </div>
+    <div class="stars-summary">
+      <div>
+        <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.3rem;">
+          <span class="rating-num">4,9</span>
+          <div class="stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+        </div>
+        <div class="rating-sub">aus Google Bewertungen</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stimmen-track">
+    <div class="stimme reveal">
+      <div class="stimme-stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <p class="stimme-text">„Planung und Ausführung waren perfekt. Unsere Erwartungen wurden mehr als übertroffen – wir kommen gerne wieder."</p>
+      <div class="stimme-meta">Privatkunde · Osttirol</div>
+    </div>
+    <div class="stimme reveal">
+      <div class="stimme-stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <p class="stimme-text">„Ich bin überglücklich mit meiner neuen Küche! Georg hat von Anfang an zugehört und meine Wünsche einfach umgesetzt."</p>
+      <div class="stimme-meta">Privatkunde · Pustertal</div>
+    </div>
+    <div class="stimme reveal">
+      <div class="stimme-stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <p class="stimme-text">„Was Sie machen, ist wirklich einzigartig. Der Tisch aus Nussholz schaut einfach richtig schön aus – absolute Empfehlung!"</p>
+      <div class="stimme-meta">Privatkunde · Tirol</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── KONTAKT ─── -->
+<section id="kontakt">
+  <div class="kontakt-grid">
+    <div class="kontakt-content reveal">
+      <div class="section-label">Projekt anfragen</div>
+      <h2>Erzählen Sie uns von Ihrem Vorhaben.</h2>
+      <p>Jede Anfrage wird persönlich von Georg Kassewalder oder seinem Team bearbeitet. Sie erhalten innerhalb von 48 Stunden eine ehrliche Antwort – und ein kostenloses Erstgespräch.</p>
+
+      <div class="kontakt-details">
+        <div class="kontakt-item">
+          <div class="kontakt-item-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="kontakt-item-text">
+            <div class="kontakt-item-label">Werkstatt</div>
+            <div class="kontakt-item-value">Sillian 151, 9920 Sillian, Osttirol</div>
+          </div>
+        </div>
+        <div class="kontakt-item">
+          <div class="kontakt-item-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.58 1.21h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.95a16 16 0 0 0 6.13 6.13l1.41-1.41a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div class="kontakt-item-text">
+            <div class="kontakt-item-label">Telefon</div>
+            <div class="kontakt-item-value">04842 / 5147</div>
+          </div>
+        </div>
+        <div class="kontakt-item">
+          <div class="kontakt-item-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="kontakt-item-text">
+            <div class="kontakt-item-label">E-Mail</div>
+            <div class="kontakt-item-value">tischlerei.kassewalder@aon.at</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <form class="kontakt-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Vorname</label>
+            <input type="text" placeholder="Maria">
+          </div>
+          <div class="form-group">
+            <label>Nachname</label>
+            <input type="text" placeholder="Muster">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>E-Mail</label>
+          <input type="email" placeholder="maria@beispiel.at">
+        </div>
+        <div class="form-group">
+          <label>Ich interessiere mich für</label>
+          <select>
+            <option value="">Bitte wählen …</option>
+            <option>Küche nach Maß</option>
+            <option>Wohnzimmer / Schrank</option>
+            <option>Schlafzimmer</option>
+            <option>Türen &amp; Fenster</option>
+            <option>Sauna</option>
+            <option>Geschäftseinrichtung</option>
+            <option>Holz / Plattenlieferung</option>
+            <option>Sonstiges</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Ihr Projekt (kurze Beschreibung)</label>
+          <textarea placeholder="Ich plane eine neue Küche für unsere Wohnung in …"></textarea>
+        </div>
+        <div class="form-promise">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Wir antworten persönlich innerhalb von 48 Stunden – versprochen.
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%; justify-content:center;">
+          Anfrage absenden
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-logo">Tischlerei Kassewalder</div>
+  <div class="footer-meta">Sillian 151 · 9920 Sillian · Osttirol · Austria<br>
+    <span style="opacity:0.5; font-size:0.6rem;">Website-Prototype · Noch kein öffentliches Angebot</span>
+  </div>
+  <div class="footer-right">
+    Bau- &amp; Möbeltischlerei<br>seit 1964
+  </div>
+</footer>
+
+<!-- ─── JS ─── -->
+<script>
+  // Nav scroll
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Mobile menu
+  function toggleMenu() {
+    const links = document.querySelector('.nav-links');
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+    links.style.flexDirection = 'column';
+    links.style.position = 'absolute';
+    links.style.top = '70px';
+    links.style.right = '4vw';
+    links.style.background = 'rgba(30,12,4,0.97)';
+    links.style.padding = '1.5rem';
+    links.style.gap = '1.5rem';
+    links.style.borderRadius = '2px';
+  }
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    btn.textContent = '✓ Anfrage gesendet – wir melden uns!';
+    btn.style.background = 'var(--forest-lt)';
+    btn.disabled = true;
+  }
+</script>
+</body>
+</html>
