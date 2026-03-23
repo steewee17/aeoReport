@@ -10,19 +10,36 @@
 
 <style>
 :root {
-  --sand:      #EEF4F0;
-  --sand-lt:   #F5FAF7;
-  --sand-dk:   #D8E8DC;
-  --chalk:     #FAFCFB;
-  --bark:      #0C2318;
-  --bark-lt:   #163D28;
-  --mahogany:  #2D5A3F;
+  /* Grün – Logo-Farbe, bleibt für CTAs/Icons/Badges */
+  --green:     #0C7532;
+  --green-dk:  #094D22;
+  --green-lt:  #1A9944;
+
+  /* Holztöne – neue warme Komponente */
+  --wood:      #6B3D1E;
+  --wood-lt:   #9B5E35;
+  --wood-pale: #F2E8DC;
+  --wood-linen:#EAD9C6;
+  --wood-mid:  #C49A6C;
+
+  /* Neutral */
+  --chalk:     #FDFAF6;
+  --sand:      #F5EDE0;
+  --sand-lt:   #FAF4EC;
+  --sand-dk:   #E5D4BE;
+
+  /* Dunkeltöne */
+  --bark:      #2A1A0A;
+  --bark-lt:   #3D2710;
+  --mahogany:  #6B3D1E;
+  --warm-white:#FDFAF6;
+  --ink:       #1C0F04;
+  --line:      rgba(42,26,10,0.1);
+
+  /* Alias für bestehenden Code */
   --terracotta:#0C7532;
   --moss:      #094D22;
   --moss-lt:   #1A9944;
-  --warm-white:#F8FBF9;
-  --ink:       #091A10;
-  --line:      rgba(12,35,24,0.1);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -64,9 +81,9 @@ nav {
   transition: background 0.4s, box-shadow 0.4s;
 }
 nav.scrolled {
-  background: rgba(253,252,250,0.96);
+  background: rgba(253,250,246,0.97);
   backdrop-filter: blur(16px);
-  box-shadow: 0 1px 0 var(--line);
+  box-shadow: 0 1px 0 rgba(107,61,30,0.1);
 }
 .nav-logo {
   font-family: 'DM Serif Display', serif;
@@ -122,6 +139,24 @@ nav.scrolled {
   overflow: hidden;
 }
 
+/* wood grain lines in hero */
+#hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    88deg,
+    transparent 0px, transparent 22px,
+    rgba(107,61,30,0.04) 22px, rgba(107,61,30,0.04) 23px
+  ),
+  repeating-linear-gradient(
+    91deg,
+    transparent 0px, transparent 45px,
+    rgba(107,61,30,0.025) 45px, rgba(107,61,30,0.025) 46px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* organic wood-ring pattern */
 .hero-pattern {
   position: absolute;
@@ -134,7 +169,7 @@ nav.scrolled {
 }
 .hero-pattern circle {
   fill: none;
-  stroke: var(--terracotta);
+  stroke: var(--wood);
   stroke-width: 1;
 }
 
@@ -170,7 +205,7 @@ nav.scrolled {
 .hero-left h1 { color: var(--bark); margin-bottom: 1.8rem; }
 .hero-left h1 em {
   font-style: italic;
-  color: var(--mahogany);
+  color: var(--wood);
 }
 
 .hero-desc {
@@ -212,7 +247,8 @@ nav.scrolled {
 .hero-trust {
   display: flex; flex-wrap: wrap; gap: 1.5rem;
   padding-top: 2.5rem;
-  border-top: 1px solid var(--sand-dk);
+  border-top: 1px solid var(--wood-mid);
+  opacity: 0.9;
 }
 .htrust-item {
   display: flex; align-items: center; gap: 0.5rem;
@@ -236,11 +272,12 @@ nav.scrolled {
 }
 
 .hero-card-main {
-  background: var(--warm-white);
+  background: var(--wood-pale);
   border-radius: 4px 4px 0 0;
   padding: 2.5rem;
-  border: 1px solid var(--sand-dk);
+  border: 1px solid var(--wood-mid);
   border-bottom: none;
+  border-top: 3px solid var(--wood);
 }
 .hero-card-label {
   font-size: 0.62rem;
@@ -267,7 +304,7 @@ nav.scrolled {
 .hero-stats-bar {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  background: var(--bark);
+  background: var(--wood);
   border-radius: 0 0 4px 4px;
 }
 .hstat {
@@ -397,6 +434,8 @@ nav.scrolled {
   gap: 1px;
   background: var(--sand-dk);
 }
+.leis-item { border-left: 3px solid transparent; }
+.leis-item:hover { border-left-color: var(--wood); }
 .leis-item {
   background: var(--chalk);
   display: grid;
@@ -409,13 +448,13 @@ nav.scrolled {
   position: relative;
   overflow: hidden;
 }
-.leis-item:hover { background: var(--sand-lt); }
+.leis-item:hover { background: var(--wood-pale); }
 .leis-item:hover .leis-arrow { transform: translateX(4px); opacity: 1; }
 
 .leis-num {
   font-family: 'DM Serif Display', serif;
   font-size: 2.5rem;
-  color: rgba(42,31,20,0.12);
+  color: rgba(107,61,30,0.18);
   line-height: 1;
   font-style: italic;
   user-select: none;
@@ -443,8 +482,20 @@ nav.scrolled {
 
 /* ─── ÜBER UNS ─── */
 #ueber {
-  background: var(--sand);
+  background: var(--wood-linen);
   padding: 7rem 5vw;
+  position: relative;
+  overflow: hidden;
+}
+#ueber::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    89deg,
+    transparent 0px, transparent 28px,
+    rgba(107,61,30,0.06) 28px, rgba(107,61,30,0.06) 29px
+  );
+  pointer-events: none;
 }
 .ueber-grid {
   display: grid;
@@ -462,13 +513,14 @@ nav.scrolled {
   gap: 1.2rem;
   margin-top: 2.5rem;
   padding: 1.5rem;
-  background: var(--warm-white);
+  background: var(--wood-pale);
   border-radius: 4px;
-  border: 1px solid var(--sand-dk);
+  border: 1px solid var(--wood-mid);
+  border-left: 3px solid var(--wood);
 }
 .sig-avatar {
   width: 52px; height: 52px;
-  background: var(--terracotta);
+  background: var(--wood);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
@@ -510,20 +562,21 @@ nav.scrolled {
   left: 24px;
   top: 28px; bottom: 0;
   width: 1px;
-  background: var(--sand-dk);
+  background: var(--wood-mid);
+  opacity: 0.4;
 }
 .timeline-item:last-child::after { display: none; }
 .t-year {
   font-size: 0.72rem;
   letter-spacing: 0.1em;
-  color: var(--terracotta);
+  color: var(--wood);
   font-weight: 500;
   padding-top: 0.1rem;
   white-space: nowrap;
 }
 .t-dot {
   width: 10px; height: 10px;
-  background: var(--terracotta);
+  background: var(--wood);
   border-radius: 50%;
   position: absolute;
   left: 20px; top: 6px;
@@ -656,7 +709,7 @@ nav.scrolled {
 
 /* ─── KONTAKT ─── */
 #kontakt {
-  background: var(--warm-white);
+  background: var(--sand-lt);
   padding: 7rem 5vw;
 }
 .kontakt-grid {
@@ -672,17 +725,18 @@ nav.scrolled {
 .k-item {
   display: flex; align-items: center; gap: 1rem;
   padding: 1.1rem 1.2rem;
-  background: var(--sand);
+  background: var(--wood-pale);
   border-radius: 4px;
+  border-left: 2px solid var(--wood-mid);
 }
 .k-icon {
   width: 34px; height: 34px;
-  background: var(--bark);
+  background: var(--wood);
   border-radius: 4px;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .k-icon svg { width: 15px; height: 15px; color: white; }
-.k-label { font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--terracotta); }
+.k-label { font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--wood); }
 .k-val { font-size: 0.85rem; color: var(--bark); margin-top: 0.1rem; }
 
 .kontakt-form { display: flex; flex-direction: column; gap: 1rem; }
@@ -707,9 +761,9 @@ nav.scrolled {
 
 .form-note {
   display: flex; align-items: center; gap: 0.5rem;
-  font-size: 0.72rem; color: var(--moss);
-  background: rgba(74,94,64,0.08);
-  border: 1px solid rgba(74,94,64,0.2);
+  font-size: 0.72rem; color: var(--wood);
+  background: var(--wood-pale);
+  border: 1px solid var(--wood-mid);
   padding: 0.75rem 1rem; border-radius: 4px;
 }
 .form-note svg { width: 14px; height: 14px; flex-shrink: 0; }
