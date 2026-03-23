@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tischlerei Großlercher · Gaimberg · Massivholzmöbel nach Maß</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --sand:      #EEF4F0;
+  --sand-lt:   #F5FAF7;
+  --sand-dk:   #D8E8DC;
+  --chalk:     #FAFCFB;
+  --bark:      #0C2318;
+  --bark-lt:   #163D28;
+  --mahogany:  #2D5A3F;
+  --terracotta:#0C7532;
+  --moss:      #094D22;
+  --moss-lt:   #1A9944;
+  --warm-white:#F8FBF9;
+  --ink:       #091A10;
+  --line:      rgba(12,35,24,0.1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--chalk);
+  color: var(--bark);
+  overflow-x: hidden;
+}
+
+/* ─── TEXTURE ─── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.018;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ─── TYPOGRAPHY ─── */
+h1, h2, h3, .serif { font-family: 'DM Serif Display', serif; }
+h1 { font-size: clamp(3rem, 6.5vw, 6rem); line-height: 1.0; font-weight: 400; }
+h2 { font-size: clamp(2rem, 4vw, 3.8rem); line-height: 1.1; font-weight: 400; }
+h3 { font-size: clamp(1.3rem, 2vw, 1.8rem); line-height: 1.2; font-weight: 400; }
+p  { line-height: 1.75; font-weight: 300; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.4rem 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  transition: background 0.4s, box-shadow 0.4s;
+}
+nav.scrolled {
+  background: rgba(253,252,250,0.96);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 var(--line);
+}
+.nav-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.9rem;
+  color: var(--bark);
+  text-decoration: none;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+.nav-logo span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  white-space: nowrap;
+}
+.nav-links {
+  display: flex; gap: 2.5rem;
+  align-items: center;
+  list-style: none;
+  flex-shrink: 0;
+}
+.nav-links a {
+  color: var(--bark-lt);
+  text-decoration: none;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  font-weight: 400;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--terracotta); }
+.nav-cta {
+  background: var(--bark) !important;
+  color: var(--warm-white) !important;
+  padding: 0.55rem 1.4rem !important;
+  border-radius: 100px;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--bark-lt) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { width: 22px; height: 1.5px; background: var(--bark); display: block; }
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  background: var(--sand);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+/* organic wood-ring pattern */
+.hero-pattern {
+  position: absolute;
+  right: -5vw; top: 50%;
+  transform: translateY(-50%);
+  width: min(70vh, 60vw);
+  height: min(70vh, 60vw);
+  opacity: 0.07;
+  pointer-events: none;
+}
+.hero-pattern circle {
+  fill: none;
+  stroke: var(--terracotta);
+  stroke-width: 1;
+}
+
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 5vw 8vh 5vw;
+  padding-top: 120px;
+  position: relative;
+  z-index: 2;
+  animation: fadeUp 0.9s ease both;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  font-weight: 500;
+  margin-bottom: 1.8rem;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 32px; height: 1px;
+  background: var(--terracotta);
+  display: block;
+}
+
+.hero-left h1 { color: var(--bark); margin-bottom: 1.8rem; }
+.hero-left h1 em {
+  font-style: italic;
+  color: var(--mahogany);
+}
+
+.hero-desc {
+  color: var(--mahogany);
+  font-size: 1rem;
+  max-width: 420px;
+  margin-bottom: 3rem;
+  line-height: 1.8;
+}
+
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 3.5rem; }
+.btn-dark {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: var(--bark);
+  color: var(--warm-white);
+  padding: 0.85rem 1.8rem;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  border-radius: 100px;
+  transition: all 0.25s;
+}
+.btn-dark:hover { background: var(--bark-lt); transform: translateY(-1px); }
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  border: 1.5px solid var(--bark);
+  color: var(--bark);
+  padding: 0.85rem 1.8rem;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  border-radius: 100px;
+  transition: all 0.25s;
+}
+.btn-outline:hover { background: var(--bark); color: var(--warm-white); }
+
+.hero-trust {
+  display: flex; flex-wrap: wrap; gap: 1.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--sand-dk);
+}
+.htrust-item {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--bark-lt);
+}
+.htrust-item svg { width: 16px; height: 16px; color: var(--moss); flex-shrink: 0; }
+
+.hero-right {
+  display: flex;
+  align-items: flex-end;
+  padding: 120px 5vw 0 0;
+  position: relative;
+  z-index: 2;
+  animation: fadeUp 0.9s ease 0.15s both;
+}
+
+.hero-card-stack {
+  width: 100%;
+  position: relative;
+}
+
+.hero-card-main {
+  background: var(--warm-white);
+  border-radius: 4px 4px 0 0;
+  padding: 2.5rem;
+  border: 1px solid var(--sand-dk);
+  border-bottom: none;
+}
+.hero-card-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 1.2rem;
+  font-weight: 500;
+}
+.hero-card-quote {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--bark);
+  line-height: 1.55;
+  margin-bottom: 1.2rem;
+}
+.hero-card-meta {
+  font-size: 0.72rem;
+  color: var(--mahogany);
+  letter-spacing: 0.05em;
+}
+
+.hero-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: var(--bark);
+  border-radius: 0 0 4px 4px;
+}
+.hstat {
+  padding: 1.2rem;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+.hstat:last-child { border-right: none; }
+.hstat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.8rem;
+  color: var(--warm-white);
+  display: block;
+  line-height: 1;
+}
+.hstat-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(253,252,250,0.45);
+  margin-top: 0.3rem;
+  display: block;
+}
+
+/* ─── DIFFERENTIATORS BAND ─── */
+#trust-band {
+  background: var(--bark);
+  padding: 0;
+}
+.trust-band-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.tb-item {
+  padding: 2rem 1.8rem;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+.tb-item:last-child { border-right: none; }
+.tb-item:hover { background: rgba(255,255,255,0.04); }
+.tb-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--terracotta);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+.tb-item:hover::after { transform: scaleX(1); }
+
+.tb-icon {
+  width: 32px; height: 32px;
+  background: var(--terracotta);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 0.9rem;
+}
+.tb-icon svg { width: 16px; height: 16px; color: white; }
+.tb-cap {
+  font-size: 0.6rem; letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 0.3rem; font-weight: 500;
+}
+.tb-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.05rem;
+  color: var(--warm-white);
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+}
+.tb-desc {
+  font-size: 0.72rem;
+  color: rgba(253,252,250,0.45);
+  line-height: 1.6;
+}
+
+/* ─── LEISTUNGEN ─── */
+#leistungen {
+  background: var(--chalk);
+  padding: 7rem 5vw;
+}
+
+.leis-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 4rem;
+}
+.leis-header h2 { color: var(--bark); }
+.leis-header-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1.5rem;
+}
+.leis-header-right p {
+  color: var(--mahogany);
+  font-size: 0.9rem;
+}
+
+.eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.8rem;
+}
+.eyebrow::before {
+  content: '';
+  width: 24px; height: 1px;
+  background: var(--terracotta);
+}
+
+/* staggered list layout */
+.leis-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--sand-dk);
+}
+.leis-item {
+  background: var(--chalk);
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.8rem 2rem;
+  transition: all 0.25s;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.leis-item:hover { background: var(--sand-lt); }
+.leis-item:hover .leis-arrow { transform: translateX(4px); opacity: 1; }
+
+.leis-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.5rem;
+  color: rgba(42,31,20,0.12);
+  line-height: 1;
+  font-style: italic;
+  user-select: none;
+}
+.leis-body h3 { color: var(--bark); font-size: 1.15rem; margin-bottom: 0.3rem; }
+.leis-body p { color: var(--mahogany); font-size: 0.8rem; line-height: 1.6; }
+.leis-tag {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--moss);
+  background: rgba(74,94,64,0.1);
+  padding: 0.25rem 0.7rem;
+  border-radius: 100px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.leis-arrow {
+  width: 20px; height: 20px;
+  color: var(--terracotta);
+  transition: all 0.25s;
+  opacity: 0;
+  flex-shrink: 0;
+}
+
+/* ─── ÜBER UNS ─── */
+#ueber {
+  background: var(--sand);
+  padding: 7rem 5vw;
+}
+.ueber-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: start;
+}
+
+.ueber-left h2 { color: var(--bark); margin-bottom: 1.5rem; }
+.ueber-left p { color: var(--mahogany); font-size: 0.9rem; margin-bottom: 1rem; }
+
+.signature-block {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  background: var(--warm-white);
+  border-radius: 4px;
+  border: 1px solid var(--sand-dk);
+}
+.sig-avatar {
+  width: 52px; height: 52px;
+  background: var(--terracotta);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.sig-avatar span {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  color: var(--warm-white);
+  font-style: italic;
+}
+.sig-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1rem;
+  color: var(--bark);
+}
+.sig-title {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+}
+
+.ueber-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.timeline-item {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+  position: relative;
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-item::after {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 28px; bottom: 0;
+  width: 1px;
+  background: var(--sand-dk);
+}
+.timeline-item:last-child::after { display: none; }
+.t-year {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--terracotta);
+  font-weight: 500;
+  padding-top: 0.1rem;
+  white-space: nowrap;
+}
+.t-dot {
+  width: 10px; height: 10px;
+  background: var(--terracotta);
+  border-radius: 50%;
+  position: absolute;
+  left: 20px; top: 6px;
+  z-index: 1;
+}
+.timeline-body h4 {
+  font-size: 0.88rem;
+  color: var(--bark);
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  font-family: 'DM Sans', sans-serif;
+}
+.timeline-body p {
+  font-size: 0.78rem;
+  color: var(--mahogany);
+  line-height: 1.6;
+}
+
+/* ─── REFERENZ ─── */
+#referenz {
+  background: var(--bark);
+  padding: 5rem 5vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+.ref-left { position: relative; }
+.ref-left .eyebrow { color: var(--terracotta); }
+.ref-left .eyebrow::before { background: var(--terracotta); }
+.ref-left h2 { color: var(--warm-white); margin-bottom: 1.2rem; }
+.ref-left > p { color: rgba(253,252,250,0.55); font-size: 0.88rem; line-height: 1.8; }
+
+.ref-quote-wrap {
+  margin-top: 2.5rem;
+  padding: 2rem;
+  background: rgba(255,255,255,0.05);
+  border-left: 2px solid var(--terracotta);
+}
+.ref-quote-text {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: rgba(253,252,250,0.85);
+  line-height: 1.55;
+  margin-bottom: 0.8rem;
+}
+.ref-quote-attr {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+}
+
+.ref-right { display: flex; flex-direction: column; gap: 1rem; }
+.ref-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  border-radius: 4px;
+  transition: background 0.25s;
+}
+.ref-card:hover { background: rgba(255,255,255,0.07); }
+.ref-card-icon {
+  width: 40px; height: 40px;
+  background: var(--terracotta);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ref-card-icon svg { width: 18px; height: 18px; color: white; }
+.ref-card-title { font-size: 0.85rem; color: var(--warm-white); font-weight: 500; }
+.ref-card-sub { font-size: 0.7rem; color: rgba(253,252,250,0.45); margin-top: 0.1rem; }
+
+/* ─── EINWÄNDE ─── */
+#vertrauen {
+  background: var(--sand-lt);
+  padding: 7rem 5vw;
+}
+.vertrauen-head {
+  text-align: center;
+  max-width: 580px;
+  margin: 0 auto 4rem;
+}
+.vertrauen-head h2 { color: var(--bark); margin-bottom: 1rem; }
+.vertrauen-head p { color: var(--mahogany); font-size: 0.88rem; }
+
+.einwand-list {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--sand-dk);
+}
+.einwand-row {
+  background: var(--chalk);
+  padding: 2rem 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+.einwand-q {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+.einwand-row h4 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.05rem;
+  color: var(--bark);
+  font-weight: 400;
+  line-height: 1.35;
+}
+.einwand-answer {
+  font-size: 0.83rem;
+  color: var(--mahogany);
+  line-height: 1.75;
+  padding-left: 1rem;
+  border-left: 2px solid var(--sand-dk);
+}
+.einwand-answer strong { color: var(--moss); font-weight: 500; display: block; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; }
+
+/* ─── KONTAKT ─── */
+#kontakt {
+  background: var(--warm-white);
+  padding: 7rem 5vw;
+}
+.kontakt-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: start;
+}
+.kontakt-left h2 { color: var(--bark); margin-bottom: 1.2rem; }
+.kontakt-left > p { color: var(--mahogany); font-size: 0.88rem; line-height: 1.8; margin-bottom: 2.5rem; }
+
+.kontakt-items { display: flex; flex-direction: column; gap: 0.8rem; }
+.k-item {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.1rem 1.2rem;
+  background: var(--sand);
+  border-radius: 4px;
+}
+.k-icon {
+  width: 34px; height: 34px;
+  background: var(--bark);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.k-icon svg { width: 15px; height: 15px; color: white; }
+.k-label { font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--terracotta); }
+.k-val { font-size: 0.85rem; color: var(--bark); margin-top: 0.1rem; }
+
+.kontakt-form { display: flex; flex-direction: column; gap: 1rem; }
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.fgroup { display: flex; flex-direction: column; gap: 0.4rem; }
+.fgroup label { font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mahogany); font-weight: 500; }
+.fgroup input, .fgroup textarea, .fgroup select {
+  background: var(--sand);
+  border: 1.5px solid var(--sand-dk);
+  color: var(--bark);
+  padding: 0.75rem 1rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem; font-weight: 300;
+  border-radius: 4px; outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+.fgroup input::placeholder, .fgroup textarea::placeholder { color: rgba(42,31,20,0.3); }
+.fgroup input:focus, .fgroup textarea:focus, .fgroup select:focus { border-color: var(--bark); }
+.fgroup textarea { min-height: 110px; resize: vertical; }
+.fgroup select option { background: white; }
+
+.form-note {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.72rem; color: var(--moss);
+  background: rgba(74,94,64,0.08);
+  border: 1px solid rgba(74,94,64,0.2);
+  padding: 0.75rem 1rem; border-radius: 4px;
+}
+.form-note svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--bark);
+  padding: 2rem 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-logo { font-family: 'DM Serif Display', serif; font-size: 1rem; color: rgba(253,252,250,0.5); }
+.footer-meta { font-size: 0.65rem; color: rgba(253,252,250,0.25); letter-spacing: 0.1em; text-align: center; }
+.footer-right { font-size: 0.65rem; color: rgba(253,252,250,0.25); text-align: right; }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 960px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  #hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .hero-left { padding: 120px 5vw 8vh; }
+  .trust-band-inner { grid-template-columns: repeat(2, 1fr); }
+  .leis-header { grid-template-columns: 1fr; gap: 1.5rem; }
+  .ueber-grid { grid-template-columns: 1fr; gap: 3rem; }
+  #referenz { grid-template-columns: 1fr; }
+  .kontakt-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .frow { grid-template-columns: 1fr; }
+  .einwand-row { grid-template-columns: 1fr; gap: 1rem; }
+  .einwand-answer { border-left: none; padding-left: 0; border-top: 1px solid var(--sand-dk); padding-top: 1rem; }
+  footer { flex-direction: column; text-align: center; }
+  .footer-right { text-align: center; }
+  .hero-pattern { display: none; }
+}
+@media (max-width: 600px) {
+  .trust-band-inner { grid-template-columns: 1fr; }
+  .leis-item { grid-template-columns: 48px 1fr; }
+  .leis-tag { display: none; }
+  .leis-arrow { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    Großlercher
+    <span>Tischlerei · Gaimberg · Osttirol</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ueber">Über uns</a></li>
+    <li><a href="#vertrauen">Garantien</a></li>
+    <li><a href="#kontakt" class="nav-cta">Jetzt anfragen</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+
+  <!-- organic rings -->
+  <svg class="hero-pattern" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="250" cy="250" r="240"/><circle cx="250" cy="250" r="210"/>
+    <circle cx="250" cy="250" r="180"/><circle cx="250" cy="250" r="155"/>
+    <circle cx="250" cy="250" r="130"/><circle cx="250" cy="250" r="108"/>
+    <circle cx="250" cy="250" r="88"/><circle cx="250" cy="250" r="70"/>
+    <circle cx="250" cy="250" r="54"/><circle cx="250" cy="250" r="40"/>
+    <circle cx="250" cy="250" r="28"/><circle cx="250" cy="250" r="18"/>
+    <circle cx="250" cy="250" r="10"/>
+  </svg>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">Meisterbetrieb seit 2012</div>
+
+    <h1>Massivholz.<br><em>Handgemacht.</em><br>Für die Ewigkeit.</h1>
+
+    <p class="hero-desc">
+      Aus Gaimberg, für die ganze Region – Andreas Großlercher fertigt Möbel und baut Räume aus, die so individuell sind wie die Menschen, die darin leben.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#kontakt" class="btn-dark">
+        Kostenlos anfragen
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#leistungen" class="btn-outline">Leistungen ansehen</a>
+    </div>
+
+    <div class="hero-trust">
+      <div class="htrust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Fixpreisgarantie
+      </div>
+      <div class="htrust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Antwort in 48h
+      </div>
+      <div class="htrust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        5 Jahre Gewährleistung
+      </div>
+      <div class="htrust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Meisterbetrieb
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-card-stack">
+      <div class="hero-card-main">
+        <div class="hero-card-label">Kundenstimme</div>
+        <p class="hero-card-quote">„Ob modern, klassisch oder zeitlos – ein junges, motiviertes Team mit viel Geschick und Präzision."</p>
+        <div class="hero-card-meta">Gemeindezeitung Gaimberg</div>
+      </div>
+      <div class="hero-stats-bar">
+        <div class="hstat">
+          <span class="hstat-num">13+</span>
+          <span class="hstat-label">Jahre Betrieb</span>
+        </div>
+        <div class="hstat">
+          <span class="hstat-num">100%</span>
+          <span class="hstat-label">Maßarbeit</span>
+        </div>
+        <div class="hstat">
+          <span class="hstat-num">∞</span>
+          <span class="hstat-label">Ideen</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TRUST BAND (Market Report White Spaces) ─── -->
+<section id="trust-band">
+  <div class="trust-band-inner">
+    <div class="tb-item">
+      <div class="tb-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="tb-cap">Sicherheit</div>
+      <div class="tb-title">Fixpreis­garantie ab Angebot</div>
+      <div class="tb-desc">Was wir anbieten, das kostet auch so. Kein Nachschlag, kein Überraschung.</div>
+    </div>
+    <div class="tb-item">
+      <div class="tb-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </div>
+      <div class="tb-cap">Transparenz</div>
+      <div class="tb-title">5 Jahre Gewähr­leistung</div>
+      <div class="tb-desc">Auf alle Arbeiten – schriftlich, ohne Diskussion.</div>
+    </div>
+    <div class="tb-item">
+      <div class="tb-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="tb-cap">Verlässlichkeit</div>
+      <div class="tb-title">Antwort in 48 Stunden</div>
+      <div class="tb-desc">Jede Anfrage wird persönlich von Andreas beantwortet.</div>
+    </div>
+    <div class="tb-item">
+      <div class="tb-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="tb-cap">Meisterbetrieb</div>
+      <div class="tb-title">Echte Kunden­bewertungen</div>
+      <div class="tb-desc">Sehen Sie selbst, was unsere Kunden über ihre Projekte sagen.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── LEISTUNGEN ─── -->
+<section id="leistungen">
+  <div class="leis-header reveal">
+    <div>
+      <div class="eyebrow">Was wir bauen</div>
+      <h2>Massivholz für<br>jeden Wohnbereich.</h2>
+    </div>
+    <div class="leis-header-right">
+      <p>Ob modern, klassisch oder zeitlos – in der Tischlerei Großlercher arbeiten wir mit Leidenschaft an Ihren individuellen Wünschen. Kein Projekt ist zu groß, keins zu klein.</p>
+      <a href="#kontakt" class="btn-dark" style="width:fit-content;">Projekt besprechen</a>
+    </div>
+  </div>
+
+  <div class="leis-list">
+    <div class="leis-item reveal">
+      <div class="leis-num">01</div>
+      <div class="leis-body">
+        <h3>Massivholzmöbel</h3>
+        <p>Tische, Bänke, Regale, Betten – gefertigt aus massivem Holz, das hält was es verspricht.</p>
+      </div>
+      <span class="leis-tag">Möbelbau</span>
+      <svg class="leis-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+    <div class="leis-item reveal">
+      <div class="leis-num">02</div>
+      <div class="leis-body">
+        <h3>Gesamter Innenausbau</h3>
+        <p>Küchen, Schränke, Bäder, Treppen – wir bauen komplette Innenräume vom Entwurf bis zur Montage.</p>
+      </div>
+      <span class="leis-tag">Innenausbau</span>
+      <svg class="leis-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+    <div class="leis-item reveal">
+      <div class="leis-num">03</div>
+      <div class="leis-body">
+        <h3>Büro- &amp; Restaurant&shy;einrichtungen</h3>
+        <p>Theken, Einbauten, Sitzmöbel für Gastronomie und Gewerbe – mit Referenzen in der Region.</p>
+      </div>
+      <span class="leis-tag">Gewerblich</span>
+      <svg class="leis-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+    <div class="leis-item reveal">
+      <div class="leis-num">04</div>
+      <div class="leis-body">
+        <h3>Möbelreparatur</h3>
+        <p>Lieblingsstücke reparieren statt wegwerfen – wir geben Ihren Möbeln ein zweites Leben.</p>
+      </div>
+      <span class="leis-tag">Reparatur</span>
+      <svg class="leis-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+    <div class="leis-item reveal">
+      <div class="leis-num">05</div>
+      <div class="leis-body">
+        <h3>Polsterservice</h3>
+        <p>Sofas, Stühle und Sitzbänke neu beziehen – mit Stoff und Qualität nach Ihrem Geschmack.</p>
+      </div>
+      <span class="leis-tag">Polsterung</span>
+      <svg class="leis-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ÜBER UNS ─── -->
+<section id="ueber">
+  <div class="ueber-grid">
+    <div class="ueber-left reveal">
+      <div class="eyebrow">Über den Betrieb</div>
+      <h2>Meister. Macher. Gaimberger.</h2>
+      <p>Nach der Meisterprüfung trat Andreas Großlercher 2012 in die Fußstapfen seines Lehrherren Josef Ortner – und startete im selben Gebäude in Gaimberg seine Selbstständigkeit.</p>
+      <p>Was seitdem entstanden ist: ein junges, motiviertes Team, das mit viel Geschick, Präzision und echte Liebe zum Rohstoff Holz arbeitet. Für Privatkunden genauso wie für Hotels und Gewerbebetriebe in der Region.</p>
+
+      <div class="signature-block">
+        <div class="sig-avatar"><span>AG</span></div>
+        <div>
+          <div class="sig-name">Andreas Großlercher</div>
+          <div class="sig-title">Meister der Tischlerei · Inhaber</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="eyebrow" style="margin-bottom:1.5rem;">Meilensteine</div>
+      <div class="ueber-timeline">
+        <div class="timeline-item">
+          <div class="t-year">Vor 2012<div class="t-dot"></div></div>
+          <div class="timeline-body">
+            <h4>Ausbildung &amp; Meisterprüfung</h4>
+            <p>Lehre bei Josef Ortner in Gaimberg – der Grundstein für höchste Handwerksqualität.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="t-year">2012<div class="t-dot"></div></div>
+          <div class="timeline-body">
+            <h4>Gründung des Meisterbetriebs</h4>
+            <p>Übernahme des Standorts – und Beginn einer neuen Ära mit junger Energie und modernem Handwerk.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="t-year">Heute<div class="t-dot"></div></div>
+          <div class="timeline-body">
+            <h4>Wachsendes Team &amp; Region</h4>
+            <p>Lehrlingsausbildung, Gewerbe- &amp; Privatprojekte, Referenzen in Hotels der Region.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── REFERENZ ─── -->
+<section id="referenz">
+  <div class="ref-left reveal">
+    <div class="eyebrow">Referenzprojekt</div>
+    <h2>Hotel Holunderhof –<br>Theke aus eigener Werkstatt.</h2>
+    <p>Von der ersten Skizze bis zur Montage – die Thekenanlage im Hotel Holunderhof ist ein Beispiel dafür, was entsteht, wenn Handwerk auf Vertrauen trifft.</p>
+
+    <div class="ref-quote-wrap">
+      <p class="ref-quote-text">„Massivholzmöbel für den gesamten Wohnbereich – jedes Stück mit Liebe zum Rohstoff und dem Fokus auf Funktionalität."</p>
+      <div class="ref-quote-attr">— Betriebsbeschreibung Großlercher</div>
+    </div>
+  </div>
+
+  <div class="ref-right reveal">
+    <div class="ref-card">
+      <div class="ref-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <div>
+        <div class="ref-card-title">Privater Wohnbereich</div>
+        <div class="ref-card-sub">Küchen, Schlafen, Wohnen, Esszimmer</div>
+      </div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div>
+        <div class="ref-card-title">Hotels &amp; Gastronomie</div>
+        <div class="ref-card-sub">Thekeneinbauten, Möbel, Innenausbau</div>
+      </div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      </div>
+      <div>
+        <div class="ref-card-title">Büro &amp; Gewerbe</div>
+        <div class="ref-card-sub">Einrichtungslösungen für Unternehmen</div>
+      </div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <div>
+        <div class="ref-card-title">Reparatur &amp; Polster</div>
+        <div class="ref-card-sub">Lieblingsstücke erneuern statt ersetzen</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── EINWÄNDE ─── -->
+<section id="vertrauen">
+  <div class="vertrauen-head reveal">
+    <div class="eyebrow" style="justify-content:center;">Ihre Fragen</div>
+    <h2>Was Kunden wissen möchten.</h2>
+    <p>Wir beantworten die häufigsten Fragen – transparent, direkt und ohne Kleingedrucktes.</p>
+  </div>
+
+  <div class="einwand-list">
+    <div class="einwand-row reveal">
+      <div>
+        <div class="einwand-q">Zur Preisfrage</div>
+        <h4>„Wie viel kostet das ungefähr – und bleibt der Preis auch so?"</h4>
+      </div>
+      <div class="einwand-answer">
+        <strong>✓ Fixpreisgarantie</strong>
+        Nach unserem kostenlosen Erstgespräch erhalten Sie ein schriftliches Festpreisangebot. Der Preis ändert sich nicht – auch wenn das Projekt etwas komplexer wird als erwartet.
+      </div>
+    </div>
+    <div class="einwand-row reveal">
+      <div>
+        <div class="einwand-q">Zur Reaktionszeit</div>
+        <h4>„Wann bekomme ich eine Antwort auf meine Anfrage?"</h4>
+      </div>
+      <div class="einwand-answer">
+        <strong>✓ 48h Garantie</strong>
+        Jede Anfrage beantwortet Andreas persönlich – innerhalb von 48 Stunden. Bei dringenden Projekten auch schneller.
+      </div>
+    </div>
+    <div class="einwand-row reveal">
+      <div>
+        <div class="einwand-q">Zur Qualität</div>
+        <h4>„Was passiert, wenn etwas nach der Lieferung nicht stimmt?"</h4>
+      </div>
+      <div class="einwand-answer">
+        <strong>✓ 5 Jahre Gewährleistung</strong>
+        Auf alle unsere Arbeiten. Wenn etwas nicht stimmt, kommen wir – ohne lange Diskussion.
+      </div>
+    </div>
+    <div class="einwand-row reveal">
+      <div>
+        <div class="einwand-q">Zur Individualität</div>
+        <h4>„Kann ich wirklich alles selbst bestimmen – Holzart, Maße, Design?"</h4>
+      </div>
+      <div class="einwand-answer">
+        <strong>✓ 100% nach Maß</strong>
+        Genau das ist unser Anspruch. Ob modern, klassisch oder zeitlos – wir bauen was Sie sich vorstellen, nicht was ins Lager passt.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── KONTAKT ─── -->
+<section id="kontakt">
+  <div class="kontakt-grid">
+    <div class="kontakt-left reveal">
+      <div class="eyebrow">Projekt anfragen</div>
+      <h2>Erzählen Sie Andreas von Ihrer Idee.</h2>
+      <p>Jede Anfrage wird persönlich beantwortet – innerhalb von 48 Stunden. Das Erstgespräch ist kostenlos und unverbindlich.</p>
+
+      <div class="kontakt-items">
+        <div class="k-item">
+          <div class="k-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div>
+            <div class="k-label">Werkstatt</div>
+            <div class="k-val">Zettersfeldstraße 60, 9905 Gaimberg</div>
+          </div>
+        </div>
+        <div class="k-item">
+          <div class="k-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.58 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.95a16 16 0 0 0 6.13 6.13l1.41-1.41a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div>
+            <div class="k-label">Telefon</div>
+            <div class="k-val">0676 / 753 21 05</div>
+          </div>
+        </div>
+        <div class="k-item">
+          <div class="k-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div>
+            <div class="k-label">E-Mail</div>
+            <div class="k-val">tischlerei-grosslercher@gmx.at</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <form class="kontakt-form" onsubmit="handleSubmit(event)">
+        <div class="frow">
+          <div class="fgroup"><label>Vorname</label><input type="text" placeholder="Thomas"></div>
+          <div class="fgroup"><label>Nachname</label><input type="text" placeholder="Huber"></div>
+        </div>
+        <div class="fgroup"><label>E-Mail</label><input type="email" placeholder="thomas@beispiel.at"></div>
+        <div class="fgroup">
+          <label>Ich interessiere mich für</label>
+          <select>
+            <option value="">Bitte wählen …</option>
+            <option>Massivholzmöbel nach Maß</option>
+            <option>Kompletter Innenausbau</option>
+            <option>Küche</option>
+            <option>Büro- / Restauranteinrichtung</option>
+            <option>Möbelreparatur</option>
+            <option>Polsterservice</option>
+            <option>Sonstiges</option>
+          </select>
+        </div>
+        <div class="fgroup">
+          <label>Ihr Projekt</label>
+          <textarea placeholder="Ich suche einen Esstisch aus Massivholz für …"></textarea>
+        </div>
+        <div class="form-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Andreas antwortet persönlich – innerhalb von 48 Stunden.
+        </div>
+        <button type="submit" class="btn-dark" style="width:100%; justify-content:center; border:none; cursor:pointer; padding:0.9rem 1.8rem; font-size:0.8rem;">
+          Anfrage absenden
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-logo">Tischlerei Großlercher</div>
+  <div class="footer-meta">Zettersfeldstraße 60 · 9905 Gaimberg · Osttirol<br>
+    <span style="opacity:0.5; font-size:0.58rem;">Website-Prototype · Noch kein öffentliches Angebot</span>
+  </div>
+  <div class="footer-right">Meisterbetrieb<br>seit 2012</div>
+</footer>
+
+<script>
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  const revels = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 70);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  revels.forEach(el => obs.observe(el));
+
+  function toggleMenu() {
+    const links = document.querySelector('.nav-links');
+    const open = links.style.display === 'flex';
+    Object.assign(links.style, {
+      display: open ? 'none' : 'flex',
+      flexDirection: 'column',
+      position: 'absolute',
+      top: '72px', right: '5vw',
+      background: 'rgba(253,252,250,0.98)',
+      padding: '1.5rem',
+      gap: '1.5rem',
+      borderRadius: '4px',
+      boxShadow: '0 8px 32px rgba(42,31,20,0.12)'
+    });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    btn.textContent = '✓ Anfrage gesendet – Andreas meldet sich!';
+    btn.style.background = 'var(--moss)';
+    btn.disabled = true;
+  }
+</script>
+</body>
+</html>
