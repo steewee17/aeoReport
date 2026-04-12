@@ -86,14 +86,14 @@ section.sec{background:var(--bg-sec)}
 
 /* PROBLEM */
 .pg{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
-.pc{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:28px;position:relative;overflow:hidden;transition:border-color .25s,transform .2s}
+.pc{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:22px;position:relative;overflow:hidden;transition:border-color .25s,transform .2s}
 .pc::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--border);transition:background .25s}
 .pc:hover{border-color:var(--border-gold);transform:translateY(-2px)}
 .pc:hover::before{background:var(--gold)}
 .pi{width:36px;height:36px;background:var(--bg-sec);border-radius:var(--r);display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:var(--gold)}
-.pi svg{width:18px;height:18px}
-.pt{font-size:15px;font-weight:600;color:var(--dark);margin-bottom:8px}
-.pd{font-size:14px;color:var(--text);line-height:1.65}
+.pi svg{width:20px;height:20px}
+.pt{font-size:15px;font-weight:600;color:var(--dark);margin-bottom:6px}
+.pd{font-size:14px;color:var(--text);line-height:1.5}
 
 /* AGITATION */
 .agi{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
@@ -347,7 +347,7 @@ Digitale Systeme werden damit vom Schaufenster zum aktiven Bestandteil von Vertr
 </div>
 
 <div class="pc fu d3">
-  <div class="pi"><i data-lucide="trending-down"></i></div>
+  <div class="pi"><i data-lucide="alert-circle"></i></div>
   <div class="pt">Konsequenz</div>
   <div class="pd">
     Fehlende Struktur und neue Anforderungen<br>
