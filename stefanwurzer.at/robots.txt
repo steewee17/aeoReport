@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# KI-Crawler explizit erlaubt
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://www.stefanwurzer.at/sitemap.xml
