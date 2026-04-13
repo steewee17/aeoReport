@@ -515,6 +515,88 @@ img { display: block; max-width: 100%; }
 .wz-note { font-size: 13px; color: var(--text-3); line-height: 1.65; }
 .wz-fn { display: inline-block; animation: wzup .5s ease-out both; }
 @keyframes wzup { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+/* ── READINESS CHECK ─────────────────── */
+.readiness-section { padding: 88px 0; background: var(--bg-2); border-top: 1px solid var(--border); }
+.readiness-grid { display: grid; grid-template-columns: 1fr 300px; gap: 48px; align-items: start; margin-top: 48px; }
+@media (max-width: 900px) { .readiness-grid { grid-template-columns: 1fr; } }
+.rc-list { display: flex; flex-direction: column; gap: 8px; }
+.rc-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px 16px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: white;
+  cursor: pointer; transition: all 0.15s; user-select: none;
+}
+.rc-item:hover { border-color: var(--border-2); box-shadow: var(--shadow-xs); }
+.rc-item.rc-done { border-color: #bbf7d0; background: #f0fdf4; }
+.rc-check {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid var(--border-2); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.rc-item.rc-done .rc-check { background: #16a34a; border-color: #16a34a; }
+.rc-check-icon { display: none; }
+.rc-item.rc-done .rc-check-icon { display: block; }
+.rc-texts { flex: 1; min-width: 0; }
+.rc-item-title { font-size: 14px; font-weight: 600; color: var(--text); }
+.rc-item-sub { font-size: 12px; color: var(--text-2); margin-top: 2px; line-height: 1.5; }
+.rc-item-tag {
+  flex-shrink: 0; font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+  padding: 3px 8px; border-radius: var(--radius-sm);
+  background: #dcfce7; color: #15803d; display: none;
+}
+.rc-item.rc-done .rc-item-tag { display: block; }
+.rc-reset {
+  background: none; border: none; cursor: pointer;
+  font-size: 12px; color: var(--text-3); margin-top: 10px;
+  padding: 0; text-decoration: underline; font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.rc-reset:hover { color: var(--text-2); }
+
+.rc-sidebar { position: sticky; top: 80px; display: flex; flex-direction: column; gap: 14px; }
+.rc-status-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+}
+.rc-status-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+.rc-status-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 17px; font-weight: 700; }
+.rc-status-count { font-size: 12px; color: var(--text-3); font-weight: 500; margin-top: 3px; }
+.rc-status-desc { font-size: 13px; color: var(--text-2); margin: 0 0 12px; line-height: 1.6; }
+.rc-progress-bg { height: 6px; background: var(--bg-3); border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
+.rc-progress-fill { height: 6px; border-radius: 3px; transition: width 0.4s ease, background 0.4s ease; width: 0%; background: var(--border-2); }
+.rc-progress-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-3); }
+
+.rc-cta-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 18px 22px;
+  box-shadow: var(--shadow-sm);
+}
+.rc-cta-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; }
+.rc-next-text { font-size: 13px; color: var(--text-2); line-height: 1.65; margin-bottom: 14px; }
+.rc-cta-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 11px 18px; border-radius: var(--radius-sm);
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  border: none; transition: all 0.15s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.rc-btn-notready { background: var(--bg-3); color: var(--text-2); border: 1px solid var(--border-2); }
+.rc-btn-notready:hover { background: var(--border); color: var(--text); }
+.rc-btn-almost { background: #fef9c3; color: #a16207; border: 1px solid #fde047; }
+.rc-btn-almost:hover { background: #fef08a; }
+.rc-btn-ready { background: var(--navy); color: white; box-shadow: var(--shadow-sm); }
+.rc-btn-ready:hover { background: var(--navy-mid); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+.rc-guide-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px 16px;
+}
+.rc-guide-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+.rc-guide-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-2); margin-bottom: 6px; }
+.rc-guide-row:last-child { margin-bottom: 0; }
+.rc-guide-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 </style>
 
 <!-- Schema.org: BreadcrumbList -->
@@ -693,6 +775,131 @@ img { display: block; max-width: 100%; }
   </div>
 </section>
 
+<!-- READINESS CHECK -->
+<section class="readiness-section" id="readiness">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">Projektbereitschaft</div>
+      <h2>Sind Sie bereit für<br>Ihr Automatisierungsprojekt?</h2>
+      <p>Damit Frey Automation Ihnen eine fundierte Einschätzung geben kann, sind einige Unterlagen hilfreich. Haken Sie ab, was Sie bereits haben – und sehen Sie sofort, wie vorbereitet Sie sind.</p>
+    </div>
+    <div class="readiness-grid reveal d1">
+      <!-- Checklist -->
+      <div>
+        <div class="rc-list" id="rc-list"></div>
+        <button class="rc-reset" onclick="rcReset()">Zurücksetzen</button>
+      </div>
+      <!-- Sidebar -->
+      <div class="rc-sidebar">
+        <div class="rc-status-card">
+          <div class="rc-status-head">
+            <span class="rc-status-title" id="rc-status-title" style="color:var(--text-3);">Noch nicht bereit</span>
+            <span class="rc-status-count" id="rc-status-count">0 / 8</span>
+          </div>
+          <p class="rc-status-desc" id="rc-status-desc">Stellen Sie die wichtigsten Unterlagen zusammen – das spart Zeit beim Erstgespräch.</p>
+          <div class="rc-progress-bg">
+            <div class="rc-progress-fill" id="rc-progress-fill"></div>
+          </div>
+          <div class="rc-progress-labels">
+            <span>0%</span>
+            <span id="rc-pct">0%</span>
+          </div>
+        </div>
+
+        <div class="rc-cta-card">
+          <div class="rc-cta-label">Nächster Schritt</div>
+          <p class="rc-next-text" id="rc-next-text">Erfassen Sie zunächst Ihre Maschinenspezifikationen und den aktuellen Hallenplan.</p>
+          <a href="#check" class="rc-cta-btn rc-btn-notready" id="rc-cta-btn" onclick="trackEvent('readiness_cta_click')">
+            Erstgespräch vorbereiten
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </a>
+        </div>
+
+        <div class="rc-guide-card">
+          <div class="rc-guide-label">Status-Guide</div>
+          <div class="rc-guide-row"><div class="rc-guide-dot" style="background:var(--border-2);"></div>Noch nicht bereit — 0–49%</div>
+          <div class="rc-guide-row"><div class="rc-guide-dot" style="background:#ca8a04;"></div>Fast bereit — 50–87%</div>
+          <div class="rc-guide-row"><div class="rc-guide-dot" style="background:#16a34a;"></div>Projektbereit — 88–100%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var RC_ITEMS = [
+    { title:'Maschinenspezifikationen', sub:'Technische Datenblätter aller relevanten Anlagen vorhanden', done:false },
+    { title:'Hallenplan / Layout', sub:'Aktueller Grundriss mit Maßangaben und Zugangspunkten', done:false },
+    { title:'Produktionsziele', sub:'Stückzahlen, Taktzeit und Qualitätskriterien definiert', done:false },
+    { title:'Investitionsrahmen freigegeben', sub:'Budget intern genehmigt, Entscheider benannt', done:false },
+    { title:'Technischer Ansprechpartner', sub:'Verantwortliche Person für Projektumsetzung bekannt', done:false },
+    { title:'Sicherheitsanforderungen', sub:'CE-Normen, Schutzzonen und Risikoklasse grob bekannt', done:false },
+    { title:'IT/OT-Infrastruktur', sub:'SPS-Typ, Netzwerk und Datenschnittstellen dokumentiert', done:false },
+    { title:'Projektzeitplan', sub:'Gewünschter Starttermin, Meilensteine und Inbetriebnahme-Ziel', done:false }
+  ];
+
+  function rcRender(){
+    var list = document.getElementById('rc-list');
+    list.innerHTML = '';
+    RC_ITEMS.forEach(function(item, i){
+      var div = document.createElement('div');
+      div.className = 'rc-item' + (item.done ? ' rc-done' : '');
+      div.onclick = function(){ RC_ITEMS[i].done = !RC_ITEMS[i].done; rcRender(); };
+      div.innerHTML = '<div class="rc-check"><svg class="rc-check-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>'
+        + '<div class="rc-texts"><div class="rc-item-title">'+item.title+'</div><div class="rc-item-sub">'+item.sub+'</div></div>'
+        + '<div class="rc-item-tag">✓ Vorhanden</div>';
+      list.appendChild(div);
+    });
+    rcUpdateStatus();
+  }
+
+  function rcUpdateStatus(){
+    var done = RC_ITEMS.filter(function(i){return i.done;}).length;
+    var pct = Math.round(done / RC_ITEMS.length * 100);
+    document.getElementById('rc-status-count').textContent = done + ' / ' + RC_ITEMS.length;
+    document.getElementById('rc-pct').textContent = pct + '%';
+    var fill = document.getElementById('rc-progress-fill');
+    fill.style.width = pct + '%';
+    var title = document.getElementById('rc-status-title');
+    var desc = document.getElementById('rc-status-desc');
+    var next = document.getElementById('rc-next-text');
+    var btn = document.getElementById('rc-cta-btn');
+    if(pct >= 88){
+      fill.style.background = '#16a34a';
+      title.style.color = '#15803d';
+      title.textContent = pct === 100 ? 'Sofort startbereit' : 'Projektbereit';
+      desc.textContent = pct === 100 ? 'Exzellent – alle Unterlagen vollständig. Frey Automation kann sofort eine fundierte Analyse erstellen.' : 'Fast vollständig – die letzten Punkte können beim Erstgespräch noch geklärt werden.';
+      next.textContent = 'Sie sind bestens vorbereitet. Fordern Sie jetzt Ihre individuelle Analyse an – unsere Techniker können direkt loslegen.';
+      btn.className = 'rc-cta-btn rc-btn-ready';
+      btn.innerHTML = 'Jetzt Analyse anfordern <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>';
+      btn.href = '#check';
+    } else if(pct >= 50){
+      fill.style.background = '#ca8a04';
+      title.style.color = '#92400e';
+      title.textContent = 'Fast bereit';
+      desc.textContent = 'Gute Basis – noch einige Unterlagen fehlen für eine vollständige Anfrage.';
+      next.textContent = 'Vervollständigen Sie die offenen Punkte – oder fordern Sie trotzdem ein Erstgespräch an. Frey Automation hilft auch bei der Vorbereitung.';
+      btn.className = 'rc-cta-btn rc-btn-almost';
+      btn.innerHTML = 'Trotzdem Gespräch anfragen <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>';
+      btn.href = '#check';
+    } else {
+      fill.style.background = 'var(--border-2)';
+      title.style.color = 'var(--text-3)';
+      title.textContent = 'Noch nicht bereit';
+      desc.textContent = 'Stellen Sie die wichtigsten Unterlagen zusammen – das spart Zeit beim Erstgespräch.';
+      next.textContent = 'Erfassen Sie zunächst Ihre Maschinenspezifikationen und den aktuellen Hallenplan.';
+      btn.className = 'rc-cta-btn rc-btn-notready';
+      btn.innerHTML = 'Erstgespräch vorbereiten <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>';
+      btn.href = '#check';
+    }
+  }
+
+  window.rcReset = function(){ RC_ITEMS.forEach(function(i){i.done=false;}); rcRender(); };
+  rcRender();
+})();
+</script>
+
 <!-- AFTER / WHAT HAPPENS NEXT -->
 <section class="after">
   <div class="container">
@@ -796,7 +1003,7 @@ img { display: block; max-width: 100%; }
         <p>Sondermaschinenbau, Robotertechnik und Steuerungstechnik aus Lienz, Osttirol. Individuelle Lösungen für produzierende Industrie in Österreich, der Schweiz, Südtirol und Süddeutschland.</p>
         <div style="margin-top:16px;">
           <a href="tel:+43485223111" style="font-size:13px; color:rgba(255,255,255,.55); display:flex; align-items:center; gap:6px; margin-bottom:4px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.29a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.59 1.58h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.14a16 16 0 0 0 6 6l1.82-1.82a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"/></svg> +43 (0)4852 23111-0</a>
-          <a href="mailto:office-automation@frey.at" style="font-size:13px; color:rgba(255,255,255,.55); display:flex; align-items:center; gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> office-automation@frey.at</a>
+          <a href="/cdn-cgi/l/email-protection#711e17171812145c1004051e1c1005181e1f31170314085f1005" style="font-size:13px; color:rgba(255,255,255,.55); display:flex; align-items:center; gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> <span class="__cf_email__" data-cfemail="8ce3eaeae5efe9a1edf9f8e3e1edf8e5e3e2cceafee9f5a2edf8">[email&#160;protected]</span></a>
         </div>
       </div>
       <div class="footer-col">
@@ -837,7 +1044,7 @@ img { display: block; max-width: 100%; }
 </div>
 
 <!-- REACT WIZARD -->
-<script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
 <script>
 const { useState, useEffect } = React;
@@ -1073,10 +1280,4 @@ if(wzEl&&mcta){
 // FAQ accordion
 function faq(btn){
   const open=btn.classList.contains('open');
-  document.querySelectorAll('.faq-q.open').forEach(q=>{q.classList.remove('open');q.nextElementSibling.style.maxHeight=null;});
-  if(!open){btn.classList.add('open');btn.nextElementSibling.style.maxHeight=btn.nextElementSibling.scrollHeight+'px';}
-}
-</script>
-
-</body>
-</html>
+  document.querySelect
