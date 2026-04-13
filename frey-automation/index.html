@@ -1280,4 +1280,12 @@ if(wzEl&&mcta){
 // FAQ accordion
 function faq(btn){
   const open=btn.classList.contains('open');
-  document.querySelect
+  document.querySelectorAll('.faq-q').forEach(b=>{
+    b.classList.remove('open');
+    b.nextElementSibling.style.maxHeight=null;
+  });
+  if(!open){
+    btn.classList.add('open');
+    btn.nextElementSibling.style.maxHeight=btn.nextElementSibling.scrollHeight+'px';
+  }
+}
