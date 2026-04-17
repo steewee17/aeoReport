@@ -1206,12 +1206,63 @@
       opacity: 0.06; pointer-events: none;
     }
     /* Content – identische Positionierung wie Hero */
-    .jubilee-content {
+    .jubilee-inner-wrap {
       position: relative; z-index: 2;
       width: 100%;
       max-width: 1400px;
       margin: 0 auto;
       padding: 0 min(6vw, 72px);
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .jubilee-content {
+      /* left column */
+    }
+    .jubilee-quote-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      position: relative;
+    }
+    .jubilee-quote-col::before {
+      content: '„';
+      font-family: 'Cormorant Garant', serif;
+      font-size: 8rem; font-weight: 300;
+      color: rgba(200,134,10,0.18);
+      position: absolute; top: -1rem; left: 1.5rem;
+      line-height: 1; pointer-events: none;
+    }
+    .jubilee-blockquote {
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(1.2rem, 2vw, 1.6rem);
+      font-style: italic; font-weight: 300;
+      color: rgba(253,250,246,0.88);
+      line-height: 1.55;
+      margin-bottom: 1.4rem;
+    }
+    .jubilee-quote-cite {
+      font-size: 0.68rem; letter-spacing: 0.18em;
+      text-transform: uppercase; font-weight: 400;
+      color: var(--accent);
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .jubilee-quote-cite::before {
+      content: ''; width: 24px; height: 1px;
+      background: var(--accent); display: block;
+    }
+    @media (max-width: 1024px) {
+      .jubilee-inner-wrap { grid-template-columns: 1fr; gap: 48px; }
+      .jubilee-quote-col { padding: 32px; }
+    }
+    @media (max-width: 768px) {
+      .jubilee-quote-col::before { font-size: 5rem; }
+      .jubilee-blockquote { font-size: 1.15rem; }
     }
     .jubilee-eyebrow {
       font-size: 0.68rem; letter-spacing: 0.32em;
@@ -1303,6 +1354,41 @@
       font-size: 12px;
       font-weight: 600;
     }
+
+    /* ─── Portfolio ─── */
+    .portfolio-section {
+      position: relative;
+      overflow: hidden;
+    }
+    /* Ghost "REFERENZEN" wie Kassewalder */
+    .portfolio-section::before {
+      content: 'REFERENZEN';
+      position: absolute;
+      top: 4rem; right: -1vw;
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(4rem, 9vw, 9rem);
+      font-weight: 300;
+      color: rgba(46,22,8,0.055);
+      letter-spacing: 0.25em;
+      pointer-events: none; user-select: none;
+      white-space: nowrap; z-index: 0;
+    }
+    .portfolio-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 3.5rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      position: relative; z-index: 1;
+    }
+    .portfolio-header-left { max-width: 480px; }
+    .portfolio-header-right {
+      max-width: 280px;
+      font-size: 0.85rem; font-weight: 300;
+      color: var(--wood-warm); line-height: 1.7;
+    }
+    .masonry-grid { position: relative; z-index: 1; }
 
     /* ─── Portfolio Masonry ─── */
     .masonry-grid { column-count: 3; column-gap: 12px; }
@@ -1545,10 +1631,8 @@
     <ul class="nav-links">
       <li><a href="#leistungen">Leistungen</a></li>
       <li><a href="#diagnose">Projekt-Check</a></li>
-      <li><a href="#projekte">Projekte</a></li>
       <li><a href="#jubilaeeum">10 Jahre</a></li>
       <li><a href="#team">Team</a></li>
-      <li><a href="#kontakt">Kontakt</a></li>
     </ul>
     <a href="#kontakt" class="nav-cta">Beratung anfragen</a>
     <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menü öffnen">
@@ -1558,10 +1642,8 @@
   <div class="nav-mobile" id="mobileNav">
     <a href="#leistungen"  onclick="toggleNav()">Leistungen</a>
     <a href="#diagnose"    onclick="toggleNav()">Projekt-Check</a>
-    <a href="#projekte"    onclick="toggleNav()">Projekte</a>
     <a href="#jubilaeeum"  onclick="toggleNav()">10 Jahre HLW</a>
     <a href="#team"        onclick="toggleNav()">Team</a>
-    <a href="#kontakt"     onclick="toggleNav()">Kontakt</a>
     <a href="#kontakt" class="nav-cta-mobile" onclick="toggleNav()">Jetzt Beratung anfragen →</a>
   </div>
 </nav>
@@ -1813,10 +1895,17 @@
 </section>
 
 <!-- ===== PORTFOLIO MASONRY ===== -->
-<section id="projekte" style="background:var(--cream);">
+<section id="projekte" class="portfolio-section" style="background:var(--cream);">
   <div class="container">
-    <div class="section-header">
-      <div class="section-label">Referenzarbeiten</div>
+    <div class="portfolio-header">
+      <div class="portfolio-header-left">
+        <div class="section-label">Unsere Arbeiten</div>
+        <h2>Jedes Stück<br>ein Original.</h2>
+      </div>
+      <div class="portfolio-header-right">
+        Einblicke in abgeschlossene Projekte – Küchen, Einbaumöbel, Bäder, Fenster und Betriebsausstattungen, die wir mit Hand und Handwerk gebaut haben.
+      </div>
+    </div>
       <h2>Jedes Stück ein Original.</h2>
       <p>Von der Traumküche in Lienz bis zur Betriebsausstattung im Defereggental – Einblick in unsere Werkstatt.</p>
     </div>
@@ -1869,6 +1958,7 @@
     </svg>
   </div>
 
+  <div class="jubilee-inner-wrap">
   <div class="jubilee-content">
     <div class="jubilee-eyebrow">1. Juli 2016 – 1. Juli 2026</div>
     <h2>Danke für 10 Jahre<br>Vertrauen, Osttirol.</h2>
@@ -2173,9 +2263,7 @@
         <ul>
           <li><a href="#jubilaeeum">10 Jahre HLW</a></li>
           <li><a href="#team">Unser Team</a></li>
-          <li><a href="#projekte">Projekte</a></li>
           <li><a href="#faq">FAQ</a></li>
-          <li><a href="#kontakt">Kontakt</a></li>
         </ul>
       </div>
     </div>
