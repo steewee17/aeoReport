@@ -119,21 +119,33 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
+      /* ── Wood palette ── */
+      --ink:           #1A0F07;
       --primary:       #2E1608;
       --primary-dark:  #1e0e04;
+      --wood-mid:      #5C3317;
+      --wood-warm:     #8B5E3C;
       --primary-rgb:   46, 22, 8;
+      /* ── Accent ── */
       --accent:        #C8860A;
       --accent-dark:   #a36e08;
+      --accent-lt:     #D9A050;
       --accent-rgb:    200, 134, 10;
-      --text:          #2d2d2d;
-      --text-light:    #6b6560;
-      --bg-main:       #ffffff;
-      --bg-warm:       #faf8f5;
-      --white:         #ffffff;
-      --shadow-sm:     0 2px 12px rgba(0,0,0,0.06);
-      --shadow-md:     0 4px 24px rgba(0,0,0,0.10);
-      --shadow-lg:     0 8px 40px rgba(0,0,0,0.16);
-      --radius:        8px;
+      /* ── Backgrounds ── */
+      --cream:         #F6EFE4;
+      --linen:         #EDE3D3;
+      --parchment:     #D9CAB5;
+      --bg-main:       #F6EFE4;
+      --bg-warm:       #EDE3D3;
+      --white:         #FDFAF6;
+      /* ── Text ── */
+      --text:          #1A0F07;
+      --text-light:    #8B5E3C;
+      /* ── Shadows ── */
+      --shadow-sm:     0 2px 12px rgba(46,22,8,0.07);
+      --shadow-md:     0 4px 24px rgba(46,22,8,0.12);
+      --shadow-lg:     0 8px 40px rgba(46,22,8,0.18);
+      --radius:        4px;
       --radius-full:   999px;
     }
 
@@ -144,18 +156,42 @@
       font-size: 16px;
       line-height: 1.7;
       color: var(--text);
-      background: var(--bg-main);
+      background: var(--cream);
+      overflow-x: hidden;
+    }
+
+    /* Paper grain overlay – entire page */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.022;
+      pointer-events: none;
+      z-index: 9999;
     }
 
     h1, h2, h3, h4 {
       font-family: 'Cormorant Garant', serif;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
     }
+    h1 { font-size: clamp(2.6rem, 5.5vw, 5rem); }
+    h2 { font-size: clamp(2rem, 3.5vw, 3.2rem); }
+    h3 { font-size: clamp(1.3rem, 2vw, 1.8rem); }
 
     img { max-width: 100%; display: block; }
     a { text-decoration: none; color: inherit; }
+
+    /* Section label – editorial prefix line */
+    .section-label {
+      font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--wood-warm); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.8rem; font-weight: 400;
+    }
+    .section-label::before {
+      content: ''; width: 30px; height: 1px; background: var(--accent); display: block; flex-shrink: 0;
+    }
 
     .container {
       max-width: 1200px;
@@ -166,20 +202,16 @@
     section { padding: 96px 0; }
 
     .section-header {
-      text-align: center;
-      margin-bottom: 64px;
+      max-width: 680px;
+      margin-bottom: 56px;
     }
-    .section-header h2 {
-      font-size: clamp(34px, 4vw, 48px);
-      color: var(--primary);
-      margin-bottom: 16px;
+    .section-header.centered {
+      text-align: center; max-width: 100%; margin-left: auto; margin-right: auto;
     }
+    .section-header h2 { color: var(--primary); margin-bottom: 14px; }
     .section-header p {
-      font-size: 18px;
-      color: var(--text-light);
-      max-width: 580px;
-      margin: 0 auto;
-      line-height: 1.6;
+      font-size: 1rem; font-weight: 300;
+      color: var(--wood-warm); line-height: 1.75;
     }
 
     /* ─── Lucide icon sizing by context ─── */
@@ -196,39 +228,29 @@
 
     /* ─── Buttons ─── */
     .btn-primary {
-      background: var(--accent);
-      color: white;
-      padding: 16px 36px;
-      border-radius: var(--radius-full);
-      font-family: 'Outfit', sans-serif;
-      font-weight: 700;
-      font-size: 16px;
-      min-height: 52px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s;
-      border: none;
-      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: var(--white);
+      padding: 0.9rem 2rem;
+      border-radius: 2px;
+      font-family: 'Outfit', sans-serif; font-weight: 500;
+      font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase;
+      min-height: 50px;
+      transition: all 0.25s; border: none; cursor: pointer; text-decoration: none;
     }
-    .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: var(--shadow-lg); }
 
     .btn-secondary {
-      background: transparent;
-      color: white;
-      padding: 16px 36px;
-      border-radius: var(--radius-full);
-      font-weight: 600;
-      font-size: 16px;
-      min-height: 52px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 2px solid rgba(255,255,255,0.65);
-      transition: all 0.2s;
-      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--white);
+      padding: 0.9rem 2rem;
+      border-radius: 2px;
+      font-family: 'Outfit', sans-serif; font-weight: 400;
+      font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.35);
+      min-height: 50px;
+      transition: all 0.25s; cursor: pointer; text-decoration: none;
     }
-    .btn-secondary:hover { border-color: white; background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+    .btn-secondary:hover { border-color: var(--accent-lt); color: var(--accent-lt); }
 
     /* ─── Navigation ─── */
     nav {
@@ -329,72 +351,90 @@
 
     /* ─── Hero ─── */
     .hero {
-      min-height: 90vh;
+      min-height: 100vh;
+      background: var(--primary);
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
       background:
-        linear-gradient(rgba(46,22,8,0.72), rgba(46,22,8,0.76)),
-        url('https://picsum.photos/seed/tischlerhero/1920/1080') center/cover no-repeat;
-      display: flex;
-      align-items: center;
-      padding: 80px 0;
+        radial-gradient(ellipse 80% 60% at 65% 35%, rgba(92,51,23,0.55) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 70% at 15% 85%, rgba(200,134,10,0.12) 0%, transparent 60%),
+        linear-gradient(155deg, #1A0F07 0%, #2E1608 45%, #1e0e04 100%);
     }
-    .hero-content { max-width: 700px; }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(200,134,10,0.22);
-      border: 1px solid rgba(200,134,10,0.45);
-      color: #f2c96a;
-      padding: 7px 18px;
-      border-radius: var(--radius-full);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      margin-bottom: 28px;
+    /* Wood grain lines */
+    .hero-bg::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(87deg, transparent 0px, transparent 22px, rgba(255,255,255,0.010) 22px, rgba(255,255,255,0.010) 23px),
+        repeating-linear-gradient(93deg, transparent 0px, transparent 40px, rgba(255,255,255,0.007) 40px, rgba(255,255,255,0.007) 41px);
     }
-    .hero h1 {
-      font-size: clamp(42px, 6vw, 72px);
-      color: white;
-      margin-bottom: 26px;
+    /* Bottom vignette */
+    .hero-bg::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 45%;
+      background: linear-gradient(to top, rgba(26,15,7,0.65), transparent);
     }
-    .hero h1 em {
-      font-style: italic;
-      color: #9ee6b8;
+    /* Ghost watermark */
+    .hero-ghost {
+      position: absolute;
+      top: 50%; right: 5vw;
+      transform: translateY(-50%);
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(7rem, 18vw, 17rem);
+      font-weight: 300;
+      color: rgba(255,255,255,0.028);
+      letter-spacing: 0.04em;
+      user-select: none; pointer-events: none;
+      line-height: 1; white-space: nowrap;
     }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 6vw 9vh;
+      max-width: 860px;
+    }
+    .hero-label {
+      font-size: 0.68rem; letter-spacing: 0.32em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.6rem; font-weight: 400;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .hero-label::before { content: ''; width: 36px; height: 1px; background: var(--accent); display: block; flex-shrink: 0; }
+    .hero h1 { color: var(--white); margin-bottom: 1.6rem; }
+    .hero h1 em { font-style: italic; color: var(--accent-lt); }
     .hero-sub {
-      font-size: 19px;
-      color: rgba(255,255,255,0.85);
-      margin-bottom: 42px;
-      max-width: 580px;
-      line-height: 1.65;
+      font-size: 1.05rem; font-weight: 300;
+      color: rgba(253,250,246,0.70);
+      margin-bottom: 2.4rem;
+      max-width: 560px; line-height: 1.8;
     }
-    .hero-cta {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 44px;
-    }
-    .trust-pills {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+    .trust-pills { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 2.8rem; }
     .trust-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.18);
-      color: rgba(255,255,255,0.88);
-      padding: 6px 15px;
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid rgba(200,134,10,0.38);
       border-radius: var(--radius-full);
-      font-size: 13px;
-      font-weight: 500;
+      color: var(--accent-lt); padding: 5px 14px;
+      font-size: 0.72rem; letter-spacing: 0.08em; font-weight: 400;
+    }
+    .trust-pill svg { width: 11px; height: 11px; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; }
+    /* Hero scroll indicator */
+    .hero-scroll {
+      position: absolute; bottom: 2.2rem; right: 6vw;
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem; z-index: 2;
+    }
+    .hero-scroll-line { width: 1px; height: 56px; background: linear-gradient(to bottom, rgba(200,134,10,0.7), transparent); }
+    .hero-scroll span {
+      font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(253,250,246,0.35); writing-mode: vertical-rl;
     }
 
     /* ─── Transformation Slider + Carousel ─── */
-    .slider-section { background: var(--bg-warm); }
+    .slider-section { background: var(--primary); }
 
     .tf-wrap {
       position: relative;
@@ -762,7 +802,7 @@
     .trust-card p  { color: rgba(255,255,255,0.68); font-size: 14px; line-height: 1.65; }
 
     /* ─── Jubilee ─── */
-    .jubilee-section { background: var(--bg-warm); }
+    .jubilee-section { background: var(--linen); }
     .jubilee-inner {
       display: grid;
       grid-template-columns: 1fr 1.5fr;
@@ -942,79 +982,56 @@
 
     /* ─── Contact ─── */
     .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-    .contact-info h2 { font-size: clamp(30px, 4vw, 46px); color: var(--primary); margin-bottom: 16px; }
-    .contact-info > p { color: var(--text-light); font-size: 16px; margin-bottom: 36px; line-height: 1.7; }
+    .contact-info > p { font-size: 16px; margin-bottom: 36px; line-height: 1.7; }
     .contact-detail { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 22px; }
     .contact-detail-icon { flex-shrink: 0; padding-top: 2px; }
     .contact-detail-text { font-size: 15px; line-height: 1.5; }
     .contact-detail-text strong {
       display: block;
-      color: var(--primary);
-      font-weight: 600;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 3px;
+      color: rgba(255,255,255,0.45);
+      font-weight: 600; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px;
     }
-    .contact-detail-text a { color: var(--accent); font-weight: 600; }
+    .contact-detail-text, .contact-detail-text span { color: rgba(253,250,246,0.82); }
+    .contact-detail-text a { color: var(--accent-lt); font-weight: 500; }
     .contact-detail-text a:hover { text-decoration: underline; }
-    .contact-form-wrap { background: var(--bg-warm); border-radius: var(--radius); padding: 40px; }
+    .contact-form-wrap {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius); padding: 40px;
+    }
     .form-group { margin-bottom: 20px; }
     .form-group label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
+      display: block; font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,0.50); text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 8px;
     }
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 14px 16px;
-      border: 2px solid #e0dbd4;
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 14px 16px;
+      border: 1.5px solid rgba(255,255,255,0.15);
       border-radius: var(--radius);
-      font-family: 'Outfit', sans-serif;
-      font-size: 15px;
-      color: var(--text);
-      background: white;
-      transition: border-color 0.2s;
-      min-height: 48px;
+      font-family: 'Outfit', sans-serif; font-size: 15px;
+      color: white; background: rgba(255,255,255,0.07);
+      transition: border-color 0.2s; min-height: 48px;
     }
-    .form-group input:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(200,134,10,0.10);
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.28); }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(200,134,10,0.15);
     }
     .form-group textarea { min-height: 120px; resize: vertical; }
     .form-submit {
-      width: 100%;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: var(--radius-full);
-      padding: 16px 32px;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 700;
-      font-size: 16px;
-      cursor: pointer;
-      transition: all 0.2s;
-      min-height: 52px;
+      width: 100%; background: var(--accent); color: white; border: none;
+      border-radius: 2px; padding: 16px 32px;
+      font-family: 'Outfit', sans-serif; font-weight: 500;
+      font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.2s; min-height: 52px;
     }
-    .form-submit:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .form-submit:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: var(--shadow-lg); }
     .form-success {
-      display: none;
-      text-align: center;
-      padding: 28px;
-      background: rgba(200,134,10,0.08);
-      border-radius: var(--radius);
-      border: 1px solid rgba(200,134,10,0.20);
-      color: var(--accent);
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 1.6;
+      display: none; text-align: center; padding: 28px;
+      background: rgba(200,134,10,0.12); border-radius: var(--radius);
+      border: 1px solid rgba(200,134,10,0.25);
+      color: var(--accent-lt); font-weight: 500; font-size: 15px; line-height: 1.6;
     }
 
     /* ─── Footer ─── */
@@ -1069,9 +1086,12 @@
       .nav-links  { display: none; }
       .nav-cta    { display: none; }
       .nav-hamburger { display: flex; }
-      .hero { min-height: 80vh; padding: 60px 0; }
-      .hero h1 { font-size: 36px !important; line-height: 1.2; }
-      .hero-sub { font-size: 16px; }
+      .hero { min-height: 85vh; }
+      .hero-content { padding: 0 24px 8vh; }
+      .hero-ghost { display: none; }
+      .hero-scroll { display: none; }
+      .trust-pills { gap: 8px; }
+      .trust-pill  { font-size: 0.65rem; padding: 4px 10px; }
       .hero-cta { flex-direction: column; }
       .hero-cta .btn-primary,
       .hero-cta .btn-secondary { width: 100%; justify-content: center; }
@@ -1086,12 +1106,17 @@
       .jubilee-number    { font-size: 110px; }
       .jubilee-stats     { flex-direction: row; flex-wrap: wrap; justify-content: center; }
       .jubilee-stat      { max-width: 160px; }
-      .section-header h2 { font-size: 28px; }
-      .section-header p  { font-size: 16px; }
+      .section-header    { margin-bottom: 40px; }
       .contact-form-wrap { padding: 24px; }
       .footer-bottom     { flex-direction: column; text-align: center; }
       .footer-legal      { justify-content: center; }
       .wizard-card       { padding: 24px; }
+      /* Prozess 3-col → 1-col on mobile */
+      .prozess-3col      { grid-template-columns: 1fr !important; }
+    }
+    @media (max-width: 1024px) {
+      /* Prozess 3-col → also stack on tablet */
+      .prozess-3col      { grid-template-columns: 1fr !important; }
     }
   </style>
 </head>
@@ -1127,38 +1152,40 @@
 
 <!-- ===== HERO ===== -->
 <section class="hero">
-  <div class="container">
-    <div class="hero-content">
-      <div class="hero-badge">
-        <i data-lucide="hammer"></i>
-        Heinzer · Lukasser · Wurzer &nbsp;·&nbsp; Assling, Osttirol
-      </div>
-      <h1>Drei heimische<br>Tischler. <em>Ein Wort.</em></h1>
-      <p class="hero-sub">
-        Tischlermeister Gerhard Wurzer plant. Oswald Heinzer und Klaus Lukasser bauen.
-        Sie haben einen Ansprechpartner – von der ersten Skizze bis zum letzten Dübel.
-        Erst wenn Sie zufrieden sind, sind wir es auch.
-      </p>
-      <div class="hero-cta">
-        <a href="#kontakt" class="btn-primary">Kostenloses Beratungsgespräch →</a>
-        <a href="#projekte" class="btn-secondary">Unsere Projekte ansehen</a>
-      </div>
-      <div class="trust-pills">
-        <span class="trust-pill"><i data-lucide="check"></i> Tischlermeister Gerhard Wurzer</span>
-        <span class="trust-pill"><i data-lucide="check"></i> 100+ Jahre Berufserfahrung im Team</span>
-        <span class="trust-pill"><i data-lucide="check"></i> Privat &amp; Gewerbe · Osttirol</span>
-        <span class="trust-pill"><i data-lucide="check"></i> 10 Jahre · seit Juli 2016</span>
-      </div>
+  <div class="hero-bg"></div>
+  <div class="hero-ghost">TISCHLEREI</div>
+  <div class="hero-content">
+    <div class="hero-label">Assling · Osttirol · seit 2016</div>
+    <h1>Einbauküchen.<br>Möbel. Fenster.<br><em>Gefertigt in Osttirol.</em></h1>
+    <p class="hero-sub">
+      Vollständiger Innenausbau aus einer Hand – von der Entwurfsplanung über die Fertigung in der eigenen Werkstatt bis zur fachgerechten Montage. Für Privatkunden und Gewerbebetriebe im Pustertal und ganz Osttirol.
+    </p>
+    <div class="trust-pills">
+      <div class="trust-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Tischlermeister Gerhard Wurzer</div>
+      <div class="trust-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>100+ Jahre Berufserfahrung im Team</div>
+      <div class="trust-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Fixpreisangebot · keine Überraschungen</div>
+      <div class="trust-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>10 Jahre Marktpräsenz</div>
     </div>
+    <div class="hero-cta">
+      <a href="#kontakt" class="btn-primary">Kostenloses Beratungsgespräch
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#projekte" class="btn-secondary">Projekte ansehen</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span>Scroll</span>
   </div>
 </section>
 
 <!-- ===== TRANSFORMATION SLIDER ===== -->
 <section class="slider-section" id="slider">
   <div class="container">
-    <div class="section-header">
-      <h2>Von der ersten Skizze bis zum fertigen Raum</h2>
-      <p>Ziehen Sie den Regler und erleben Sie, wie aus Ideen Wohnräume werden – so wie Sie es sich vorstellen.</p>
+    <div class="section-header" style="max-width:100%;text-align:center;">
+      <div class="section-label" style="justify-content:center;color:rgba(200,134,10,0.8);">Ihr Projekt visualisiert</div>
+      <h2 style="color:white;">Von der ersten Skizze bis zum fertigen Raum</h2>
+      <p style="color:rgba(253,250,246,0.60);">Bewegen Sie den Regler – links die Planung, rechts das Ergebnis.</p>
     </div>
     <div class="tf-wrap" id="tfWrap"></div>
     <div class="tf-dots" id="tfDots"></div>
@@ -1166,9 +1193,10 @@
 </section>
 
 <!-- ===== WIZARD ===== -->
-<section id="diagnose" style="background:var(--bg-warm);">
+<section id="diagnose" style="background:var(--linen);">
   <div class="container">
     <div class="section-header">
+      <div class="section-label">Ihr Anliegen</div>
       <h2>Was planen Sie?</h2>
       <p>Vier kurze Fragen – wir ermitteln den passenden Service und bereiten Ihre Anfrage optimal vor.</p>
     </div>
@@ -1182,11 +1210,12 @@
 </section>
 
 <!-- ===== SERVICES ===== -->
-<section id="leistungen" style="background:var(--bg-main);">
+<section id="leistungen" style="background:var(--cream);">
   <div class="container">
     <div class="section-header">
+      <div class="section-label">Leistungsspektrum</div>
       <h2>Was wir für Sie bauen</h2>
-      <p>Privatkunden und Gewerbebetriebe. Gerhard plant. Oswald und Klaus bauen. Ein Ansprechpartner für alles.</p>
+      <p>Einbauküchen, Möbel, Fenster, Türen, Böden – und Betriebsausstattungen für Gewerbebetriebe. Alles aus einer Hand, aus Assling.</p>
     </div>
     <div class="svc-tabs">
       <button class="svc-tab active" onclick="switchSvc('privat',this)">Für Ihr Zuhause</button>
@@ -1240,8 +1269,9 @@
 <section class="trust-section">
   <div class="container">
     <div class="section-header">
-      <h2>Was wir anders machen</h2>
-      <p>Vier Versprechen, die kein anderer Tischler in Osttirol öffentlich kommuniziert – wir tun es.</p>
+      <div class="section-label" style="color:rgba(200,134,10,0.75);">Unser Anspruch</div>
+      <h2 style="color:white;">Was kein Mitbewerber ausspricht</h2>
+      <p style="color:rgba(253,250,246,0.60);">Vier Versprechen die kein anderer Tischler in Osttirol öffentlich kommuniziert – wir tun es, weil wir dahinterstehen.</p>
     </div>
     <div class="trust-grid">
       <div class="trust-card">
@@ -1325,9 +1355,10 @@
 </section>
 
 <!-- ===== TEAM ===== -->
-<section id="team" style="background:var(--bg-warm);">
+<section id="team" style="background:var(--linen);">
   <div class="container">
     <div class="section-header">
+      <div class="section-label">Das Team</div>
       <h2>H · L · W – drei Namen, ein Betrieb</h2>
       <p>Heinzer. Lukasser. Wurzer. Sie haben ihren Familiennamen in das Firmenschild gesetzt – weil sie für ihre Arbeit geradestehen. Persönlich.</p>
     </div>
@@ -1383,66 +1414,50 @@
 </section>
 
 <!-- ===== PROZESS ===== -->
-<section style="background:var(--bg-main);">
+<section style="background:var(--linen);">
   <div class="container">
     <div class="section-header">
-      <h2>So läuft Ihr Projekt ab</h2>
-      <p>Kein Auftrag beginnt ohne Gespräch. Kein Möbel verlässt unsere Werkstatt ohne Gerhard, Oswald und Klaus. So funktioniert HLW – seit 2016, in Assling.</p>
+      <div class="section-label">Wie wir arbeiten</div>
+      <h2>Drei Phasen. Ein Ansprechpartner.</h2>
+      <p>Kein Projekt wandert durch anonyme Hände. Gerhard, Oswald und Klaus begleiten jeden Auftrag von Anfang bis Ende – das ist der Unterschied zwischen Vollservice und Stückwerk.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;">
-      <!-- connector line -->
-      <div style="position:absolute;top:44px;left:calc(12.5% + 4px);right:calc(12.5% + 4px);height:2px;background:linear-gradient(to right,var(--accent),rgba(200,134,10,0.15));z-index:0;"></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--parchment);" class="prozess-3col">
 
-      <div style="text-align:center;padding:0 16px;position:relative;z-index:1;">
-        <div style="width:88px;height:88px;background:var(--bg-warm);border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
-          <div style="font-family:'Cormorant Garant',serif;font-size:32px;font-weight:700;color:var(--accent);">1</div>
-        </div>
-        <h3 style="font-size:19px;color:var(--primary);margin-bottom:10px;">Beratungs&shy;gespräch</h3>
-        <p style="font-size:14px;color:var(--text-light);line-height:1.65;"><strong style="color:var(--text);">Gerhard kommt zu Ihnen.</strong> Er misst aus, hört zu, versteht was Sie brauchen – nicht was gerade auf Lager ist. Kostenlos, unverbindlich, in Osttirol.</p>
+      <div style="background:var(--cream);padding:48px 36px;">
+        <div style="font-family:'Cormorant Garant',serif;font-size:4.5rem;font-weight:300;color:var(--parchment);line-height:1;margin-bottom:24px;">01</div>
+        <div class="section-label" style="margin-bottom:14px;">Phase I</div>
+        <h3 style="color:var(--primary);margin-bottom:16px;font-size:1.6rem;">Planung</h3>
+        <p style="font-size:0.9rem;color:var(--wood-warm);line-height:1.8;margin-bottom:20px;">Gerhard Wurzer kommt zu Ihnen. Bedarfserhebung, Aufmaß, Entwurfsplanung und Detailplanung – bis jeder Beschlag, jede Kante und jeder Laufmeter auf Papier sitzt. Transparentes Fixpreisangebot. Kein versteckter Posten. Erst nach Ihrer Freigabe geht es weiter.</p>
+        <div style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);font-weight:500;">Entwurf · Kalkulation · Angebot</div>
       </div>
 
-      <div style="text-align:center;padding:0 16px;position:relative;z-index:1;">
-        <div style="width:88px;height:88px;background:var(--bg-warm);border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
-          <div style="font-family:'Cormorant Garant',serif;font-size:32px;font-weight:700;color:var(--accent);">2</div>
-        </div>
-        <h3 style="font-size:19px;color:var(--primary);margin-bottom:10px;">Planung &amp; Angebot</h3>
-        <p style="font-size:14px;color:var(--text-light);line-height:1.65;"><strong style="color:var(--text);">Transparentes Fixpreis-Angebot.</strong> Entwurfsplanung, Kalkulation, Materialauswahl. Kein versteckter Posten. Erst nach Ihrer Freigabe geht es weiter.</p>
+      <div style="background:var(--primary);padding:48px 36px;">
+        <div style="font-family:'Cormorant Garant',serif;font-size:4.5rem;font-weight:300;color:rgba(255,255,255,0.08);line-height:1;margin-bottom:24px;">02</div>
+        <div style="font-size:0.68rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:0.8rem;font-weight:400;"><span style="width:30px;height:1px;background:var(--accent);display:block;flex-shrink:0;"></span>Phase II</div>
+        <h3 style="color:white;margin-bottom:16px;font-size:1.6rem;">Produktion &amp; Beschaffung</h3>
+        <p style="font-size:0.9rem;color:rgba(253,250,246,0.62);line-height:1.8;margin-bottom:20px;">Oswald Heinzer und Klaus Lukasser fertigen in der Werkstatt in Unterassling. Hochwertige Materialien, sorgfältig beschafft. Präzise gefertigt – auf den Millimeter. Fertigungszeit: 4 bis 8 Wochen, je nach Umfang. Sie werden informiert, wenn etwas Relevantes passiert.</p>
+        <div style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);font-weight:500;">Fertigung · Materialauswahl · Qualität</div>
       </div>
 
-      <div style="text-align:center;padding:0 16px;position:relative;z-index:1;">
-        <div style="width:88px;height:88px;background:var(--bg-warm);border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
-          <div style="font-family:'Cormorant Garant',serif;font-size:32px;font-weight:700;color:var(--accent);">3</div>
-        </div>
-        <h3 style="font-size:19px;color:var(--primary);margin-bottom:10px;">Produktion</h3>
-        <p style="font-size:14px;color:var(--text-light);line-height:1.65;"><strong style="color:var(--text);">Oswald und Klaus in der Werkstatt.</strong> Gefertigt in Unterassling – präzise, termingerecht. 4 bis 6 Wochen, je nach Projektumfang. Sie werden informiert.</p>
+      <div style="background:var(--cream);padding:48px 36px;">
+        <div style="font-family:'Cormorant Garant',serif;font-size:4.5rem;font-weight:300;color:var(--parchment);line-height:1;margin-bottom:24px;">03</div>
+        <div class="section-label" style="margin-bottom:14px;">Phase III</div>
+        <h3 style="color:var(--primary);margin-bottom:16px;font-size:1.6rem;">Montage</h3>
+        <p style="font-size:0.9rem;color:var(--wood-warm);line-height:1.8;margin-bottom:20px;">Einbau vor Ort in Osttirol. Erst wenn alles sitzt, ist der Auftrag abgeschlossen. Übergabe mit Garantie. „Erst wenn Sie zufrieden sind, sind wir es auch" – das ist nicht Marketingtext, das ist unser Maßstab seit 2016.</p>
+        <div style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);font-weight:500;">Montage · Übergabe · Garantie</div>
       </div>
 
-      <div style="text-align:center;padding:0 16px;position:relative;z-index:1;">
-        <div style="width:88px;height:88px;background:var(--accent);border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
-          <div style="font-family:'Cormorant Garant',serif;font-size:32px;font-weight:700;color:white;">4</div>
-        </div>
-        <h3 style="font-size:19px;color:var(--primary);margin-bottom:10px;">Montage &amp; Übergabe</h3>
-        <p style="font-size:14px;color:var(--text-light);line-height:1.65;"><strong style="color:var(--text);">Erst wenn Sie zufrieden sind.</strong> Montage vor Ort, Übergabe mit Garantie. Wir sind erst fertig, wenn Sie sagen: genau so hab ich mir das vorgestellt.</p>
-      </div>
     </div>
-
-    <style>
-      @media (max-width: 768px) {
-        #prozess-grid { grid-template-columns: 1fr 1fr !important; }
-      }
-      @media (max-width: 480px) {
-        #prozess-grid { grid-template-columns: 1fr !important; }
-      }
-    </style>
   </div>
 </section>
 
 <!-- ===== PORTFOLIO MASONRY ===== -->
-<section id="projekte" style="background:var(--bg-warm);">
+<section id="projekte" style="background:var(--linen);">
   <div class="container">
     <div class="section-header">
-      <h2>Projekte aus Osttirol – jedes ein Unikat</h2>
-      <p>Von der Traumküche in Lienz bis zur Betriebsausstattung im Defereggental – ein Einblick in unsere Arbeit.</p>
+      <div class="section-label">Referenzarbeiten</div>
+      <h2>Jedes Stück ein Original.</h2>
+      <p>Von der Traumküche in Lienz bis zur Betriebsausstattung im Defereggental – Einblick in unsere Werkstatt.</p>
     </div>
     <div class="masonry-grid">
       <div class="masonry-item">
@@ -1483,11 +1498,12 @@
 </section>
 
 <!-- ===== FAQ ===== -->
-<section id="faq" style="background:var(--bg-main);">
+<section id="faq" style="background:var(--cream);">
   <div class="container">
     <div class="section-header">
-      <h2>Häufige Fragen</h2>
-      <p>Antworten auf das, was unsere Kunden in Osttirol am häufigsten fragen – bevor wir gemeinsam loslegen.</p>
+      <div class="section-label">Häufige Fragen</div>
+      <h2>Was unsere Kunden wissen wollen</h2>
+      <p>Ehrlich beantwortet – bevor Sie anrufen.</p>
     </div>
     <div class="faq-list">
       <div class="faq-item">
@@ -1552,6 +1568,7 @@
 <section class="testimonials-section">
   <div class="container">
     <div class="section-header">
+      <div class="section-label">Kundenstimmen</div>
       <h2>Was unsere Kunden sagen</h2>
       <p>Echte Rückmeldungen aus Osttirol – von Menschen, die ihr Zuhause uns anvertraut haben.</p>
     </div>
@@ -1579,12 +1596,13 @@
 </section>
 
 <!-- ===== CONTACT ===== -->
-<section id="kontakt" style="background:var(--bg-main);">
+<section id="kontakt" style="background:var(--primary);">
   <div class="container">
     <div class="contact-inner">
       <div class="contact-info">
-        <h2>Ihr Projekt beginnt mit einem Gespräch.</h2>
-        <p>Rufen Sie an oder schreiben Sie uns. Wir antworten innerhalb von 24 Stunden – und kommen auf Wunsch direkt zu Ihnen nach Hause, um Maß zu nehmen.</p>
+        <div class="section-label" style="color:rgba(200,134,10,0.75);">Anfrage stellen</div>
+        <h2 style="color:white;margin-bottom:16px;">Ihr Projekt beginnt mit einem Gespräch.</h2>
+        <p style="color:rgba(253,250,246,0.65);font-weight:300;">Rufen Sie an oder schreiben Sie uns. Wir antworten innerhalb von 24 Stunden – und kommen auf Wunsch direkt zu Ihnen, um Maß zu nehmen.</p>
         <div class="contact-detail">
           <div class="contact-detail-icon"><i data-lucide="phone"></i></div>
           <div class="contact-detail-text">
