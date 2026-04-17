@@ -1149,6 +1149,118 @@
       line-height: 1.5;
     }
 
+
+      .jubilee-visual { order: -1; }
+      .jubilee-number { font-size: 110px; }
+      .jubilee-stats { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+      .jubilee-stat { max-width: 160px; border-bottom: none; border-right: 1px solid rgba(255,255,255,0.08); padding: 0 16px; }
+      .jubilee-stat:last-child { border-right: none; }
+    }
+
+    /* ─── Jubilee – Hero-Stil ─── */
+    .jubilee-section {
+      background: var(--primary);
+      position: relative;
+      overflow: hidden;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+    }
+    /* Kassewalder BG exakt */
+    .jubilee-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 40%, rgba(92,51,23,0.5) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 80% at 20% 80%, rgba(61,92,56,0.2) 0%, transparent 60%),
+        linear-gradient(160deg, #1A0F07 0%, #2E1608 40%, #1E0C04 100%);
+      pointer-events: none;
+    }
+    /* Wood grain */
+    .jubilee-section::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(87deg, transparent 0px, transparent 18px,
+          rgba(255,255,255,0.010) 18px, rgba(255,255,255,0.010) 19px),
+        repeating-linear-gradient(93deg, transparent 0px, transparent 35px,
+          rgba(255,255,255,0.007) 35px, rgba(255,255,255,0.007) 36px);
+      pointer-events: none;
+    }
+    /* Ghost "10 Jahre" */
+    .jubilee-ghost {
+      position: absolute;
+      top: 50%; right: 3vw;
+      transform: translateY(-50%);
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(9rem, 20vw, 22rem);
+      font-weight: 300;
+      color: rgba(255,255,255,0.032);
+      line-height: 1; letter-spacing: -0.04em;
+      user-select: none; pointer-events: none;
+      white-space: nowrap;
+    }
+    /* Dot-arrow ghost */
+    .jubilee-dot-ghost {
+      position: absolute; bottom: 8vh; left: 5vw;
+      opacity: 0.06; pointer-events: none;
+    }
+    /* Content – identische Positionierung wie Hero */
+    .jubilee-content {
+      position: relative; z-index: 2;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 min(6vw, 72px);
+    }
+    .jubilee-eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.32em;
+      text-transform: uppercase; font-weight: 400;
+      color: var(--accent);
+      margin-bottom: 1.8rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .jubilee-eyebrow::before {
+      content: ''; width: 36px; height: 1px;
+      background: var(--accent); display: block; flex-shrink: 0;
+    }
+    .jubilee-content h2 {
+      color: var(--white);
+      max-width: 720px;
+      margin-bottom: 1.4rem;
+    }
+    .jubilee-sub {
+      font-size: 1.05rem; font-weight: 300;
+      color: rgba(253,250,246,0.62);
+      max-width: 520px; line-height: 1.85;
+      margin-bottom: 3rem;
+    }
+    /* Stats – inline Zeile, kein Card */
+    .jubilee-stats-row {
+      display: flex; gap: 48px; flex-wrap: wrap;
+      margin-bottom: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .jubilee-stat-item { display: flex; flex-direction: column; gap: 4px; }
+    .jubilee-stat-num {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 2.6rem; font-weight: 300;
+      color: var(--accent-lt); line-height: 1;
+    }
+    .jubilee-stat-label {
+      font-size: 0.68rem; font-weight: 300;
+      color: rgba(253,250,246,0.40);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    @media (max-width: 768px) {
+      .jubilee-section { min-height: 70vh; }
+      .jubilee-ghost { display: none; }
+      .jubilee-dot-ghost { display: none; }
+      .jubilee-stats-row { gap: 28px; }
+      .jubilee-stat-num { font-size: 2rem; }
+    }
+
     /* ─── Team ─── */
     .team-grid {
       display: grid;
@@ -1749,68 +1861,43 @@
 <!-- ===== JUBILEE ===== -->
 <section class="jubilee-section" id="jubilaeeum">
 
-  <div class="jubilee-bg"></div>
-
-  <!-- Ghost "10 Jahre" -->
   <div class="jubilee-ghost" aria-hidden="true">10 Jahre</div>
 
-  <!-- Dot-Arrow ghost oben rechts -->
   <div class="jubilee-dot-ghost" aria-hidden="true">
-    <svg width="120" height="120" viewBox="0 0 100 100" fill="none">
+    <svg width="140" height="140" viewBox="0 0 100 100" fill="none">
       <circle cx="14" cy="11" r="8" fill="white"/><circle cx="37" cy="24" r="8" fill="white"/><circle cx="59" cy="37" r="8" fill="white"/><circle cx="82" cy="50" r="8" fill="white"/><circle cx="59" cy="63" r="8" fill="white"/><circle cx="37" cy="76" r="8" fill="white"/><circle cx="14" cy="89" r="8" fill="white"/>
     </svg>
   </div>
 
-  <div class="jubilee-inner">
-
-    <!-- Links: Zahlen & Eyebrow -->
-    <div class="jubilee-visual">
-      <div class="jubilee-eyebrow">1. Juli 2016 – 1. Juli 2026</div>
-      <div class="jubilee-big-num">10</div>
-      <div class="jubilee-num-label">Jahre HLW-Wohnservice</div>
-      <div class="jubilee-stats">
-        <div class="jubilee-stat">
-          <div class="jubilee-stat-num">100+</div>
-          <div class="jubilee-stat-label">Jahre Berufs­erfahrung<br>im Team</div>
-        </div>
-        <div class="jubilee-stat">
-          <div class="jubilee-stat-num">3</div>
-          <div class="jubilee-stat-label">Gründer &amp;<br>Gesellschafter</div>
-        </div>
-        <div class="jubilee-stat">
-          <div class="jubilee-stat-num">2016</div>
-          <div class="jubilee-stat-label">Gründungsjahr<br>in Assling</div>
-        </div>
+  <div class="jubilee-content">
+    <div class="jubilee-eyebrow">1. Juli 2016 – 1. Juli 2026</div>
+    <h2>Danke für 10 Jahre<br>Vertrauen, Osttirol.</h2>
+    <p class="jubilee-sub">
+      Ein Jahrzehnt Planung, Handwerk und Montage – aus einer Hand, aus Assling.
+      Drei Tischler. Ein Versprechen. Jedes Projekt eine Ehre.
+    </p>
+    <div class="jubilee-stats-row">
+      <div class="jubilee-stat-item">
+        <span class="jubilee-stat-num">100+</span>
+        <span class="jubilee-stat-label">Jahre Berufserfahrung</span>
+      </div>
+      <div class="jubilee-stat-item">
+        <span class="jubilee-stat-num">3</span>
+        <span class="jubilee-stat-label">Gründer & Gesellschafter</span>
+      </div>
+      <div class="jubilee-stat-item">
+        <span class="jubilee-stat-num">2016</span>
+        <span class="jubilee-stat-label">Gründungsjahr Assling</span>
       </div>
     </div>
-
-    <!-- Rechts: Text -->
-    <div class="jubilee-text">
-      <h2>10 Jahre – eine kleine<br>Erfolgsgeschichte.</h2>
-      <p>
-        Am 1. Juli 2016 haben Gerhard, Oswald und Klaus den Schritt gewagt –
-        mit einer klaren Idee: den Menschen in Osttirol und dem Pustertal
-        einen Tischlereibetrieb zu bieten, der wirklich alles aus einer Hand liefert.
-        Nicht nur Möbel. Sondern die ganze Geschichte dahinter: Planung, Handwerk,
-        Montage – und einen einzigen Ansprechpartner vom ersten Gespräch bis
-        zum letzten Schrauber.
-      </p>
-      <blockquote>
-        „10 Jahre Stammkunden, die immer wiederkommen –<br>das ist unser schönstes Qualitätszertifikat."
-      </blockquote>
-      <p>
-        An alle Kunden in Assling, Lienz, im Pustertal und im Defereggental,
-        die uns ihr Vertrauen geschenkt haben:
-        <strong style="color:rgba(253,250,246,0.90);">Herzlichen Dank.</strong>
-        Jedes Projekt war eine Ehre.
-      </p>
-      <div class="jubilee-cta-note">
-        <i data-lucide="calendar-heart"></i>
-        <span>Wir feiern das 10-Jahr-Jubiläum am <strong>1. Juli 2026</strong> –<br>gemeinsam mit unseren Kunden aus Osttirol.</span>
-      </div>
-    </div>
-
+    <a href="#kontakt" class="btn-primary">
+      Jetzt Beratungsgespräch vereinbaren
+      <svg width="14" height="14" viewBox="0 0 100 100" fill="none">
+        <circle cx="14" cy="11" r="8" fill="white"/><circle cx="37" cy="24" r="8" fill="white"/><circle cx="59" cy="37" r="8" fill="white"/><circle cx="82" cy="50" r="8" fill="white"/><circle cx="59" cy="63" r="8" fill="white"/><circle cx="37" cy="76" r="8" fill="white"/><circle cx="14" cy="89" r="8" fill="white"/>
+      </svg>
+    </a>
   </div>
+
 </section>
 
 <!-- ===== TEAM ===== -->
