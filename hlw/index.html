@@ -542,6 +542,9 @@
 
     /* ─── Transformation Slider + Carousel ─── */
     .slider-section { background: var(--linen); }
+    .slider-section .section-header h2 { color: var(--primary); }
+    .slider-section .section-header p  { color: var(--wood-warm); font-weight: 300; }
+    .slider-section .section-label     { color: var(--wood-warm); }
 
     .tf-wrap {
       position: relative;
@@ -1485,9 +1488,9 @@
 <section class="slider-section" id="slider">
   <div class="container">
     <div class="section-header" style="max-width:100%;text-align:center;">
-      <div class="section-label" style="justify-content:center;color:var(--wood-warm);">Ihr Projekt visualisiert</div>
-      <h2 style="color:white;">Von der ersten Skizze bis zum fertigen Raum</h2>
-      <p style="color:rgba(253,250,246,0.60);">Bewegen Sie den Regler – links die Planung, rechts das Ergebnis.</p>
+      <div class="section-label" style="justify-content:center;">Vom Entwurf zur Wirklichkeit</div>
+      <h2>Von der ersten Skizze bis zum fertigen Raum</h2>
+      <p>Alles aus einer Hand, von der Planung über die Produktion bis zur Montage. Gemeinsam realisieren wir Ihre Vorstellungen.</p>
     </div>
     <div class="tf-wrap" id="tfWrap"></div>
     <div class="tf-dots" id="tfDots"></div>
@@ -1522,7 +1525,10 @@
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--parchment);" class="prozess-3col">
 
       <div style="background:var(--cream);padding:48px 36px;">
-        <div style="font-family:'Cormorant Garant',serif;font-size:4.5rem;font-weight:300;color:var(--parchment);line-height:1;margin-bottom:24px;">01</div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;">
+          <svg width="28" height="28" viewBox="0 0 100 100" fill="none" style="display:inline-block;vertical-align:middle;flex-shrink:0;"><circle cx="14" cy="11" r="8" fill="var(--accent)"/><circle cx="37" cy="24" r="8" fill="var(--accent)"/><circle cx="59" cy="37" r="8" fill="var(--accent)"/><circle cx="82" cy="50" r="8" fill="var(--accent)"/><circle cx="59" cy="63" r="8" fill="var(--accent)"/><circle cx="37" cy="76" r="8" fill="var(--accent)"/><circle cx="14" cy="89" r="8" fill="var(--accent)"/></svg>
+          <span style="font-family:'Cormorant Garant',serif;font-size:4.5rem;font-weight:300;color:var(--parchment);line-height:1;">01</span>
+        </div>
         <div class="section-label" style="margin-bottom:14px;">Phase I</div>
         <h3 style="color:var(--primary);margin-bottom:16px;font-size:1.6rem;">Planung</h3>
         <p style="font-size:0.9rem;color:var(--wood-warm);line-height:1.8;margin-bottom:20px;">Gerhard Wurzer kommt zu Ihnen. Bedarfserhebung, Aufmaß, Entwurfsplanung und Detailplanung – bis jeder Beschlag, jede Kante und jeder Laufmeter auf Papier sitzt. Transparentes Fixpreisangebot. Kein versteckter Posten. Erst nach Ihrer Freigabe geht es weiter.</p>
@@ -1536,7 +1542,10 @@
           <circle cx="14" cy="11" r="8" fill="white"/><circle cx="37" cy="24" r="8" fill="white"/><circle cx="59" cy="37" r="8" fill="white"/><circle cx="82" cy="50" r="8" fill="white"/><circle cx="59" cy="63" r="8" fill="white"/><circle cx="37" cy="76" r="8" fill="white"/><circle cx="14" cy="89" r="8" fill="white"/>
         </svg>
         </div>
-        <div style="font-family:'Cormorant Garant',serif;font-size:4.5rem;font-weight:300;color:rgba(255,255,255,0.08);line-height:1;margin-bottom:24px;">02</div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;">
+          <svg width="28" height="28" viewBox="0 0 100 100" fill="none" style="display:inline-block;vertical-align:middle;flex-shrink:0;"><circle cx="14" cy="11" r="8" fill="var(--accent-lt)"/><circle cx="37" cy="24" r="8" fill="var(--accent-lt)"/><circle cx="59" cy="37" r="8" fill="var(--accent-lt)"/><circle cx="82" cy="50" r="8" fill="var(--accent-lt)"/><circle cx="59" cy="63" r="8" fill="var(--accent-lt)"/><circle cx="37" cy="76" r="8" fill="var(--accent-lt)"/><circle cx="14" cy="89" r="8" fill="var(--accent-lt)"/></svg>
+          <span style="font-family:'Cormorant Garant',serif;font-size:4.5rem;font-weight:300;color:rgba(255,255,255,0.12);line-height:1;">02</span>
+        </div>
         <div style="font-size:0.68rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:0.8rem;font-weight:400;"><span style="width:30px;height:1px;background:var(--accent);display:block;flex-shrink:0;"></span>Phase II</div>
         <h3 style="color:white;margin-bottom:16px;font-size:1.6rem;">Produktion &amp; Beschaffung</h3>
         <p style="font-size:0.9rem;color:rgba(253,250,246,0.62);line-height:1.8;margin-bottom:20px;">Oswald Heinzer und Klaus Lukasser fertigen in der Werkstatt in Unterassling. Hochwertige Materialien, sorgfältig beschafft. Präzise gefertigt – auf den Millimeter. Fertigungszeit: 4 bis 8 Wochen, je nach Umfang. Sie werden informiert, wenn etwas Relevantes passiert.</p>
@@ -1544,7 +1553,10 @@
       </div>
 
       <div style="background:var(--cream);padding:48px 36px;">
-        <div style="font-family:'Cormorant Garant',serif;font-size:4.5rem;font-weight:300;color:var(--parchment);line-height:1;margin-bottom:24px;">03</div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;">
+          <svg width="28" height="28" viewBox="0 0 100 100" fill="none" style="display:inline-block;vertical-align:middle;flex-shrink:0;"><circle cx="14" cy="11" r="8" fill="var(--accent)"/><circle cx="37" cy="24" r="8" fill="var(--accent)"/><circle cx="59" cy="37" r="8" fill="var(--accent)"/><circle cx="82" cy="50" r="8" fill="var(--accent)"/><circle cx="59" cy="63" r="8" fill="var(--accent)"/><circle cx="37" cy="76" r="8" fill="var(--accent)"/><circle cx="14" cy="89" r="8" fill="var(--accent)"/></svg>
+          <span style="font-family:'Cormorant Garant',serif;font-size:4.5rem;font-weight:300;color:var(--parchment);line-height:1;">03</span>
+        </div>
         <div class="section-label" style="margin-bottom:14px;">Phase III</div>
         <h3 style="color:var(--primary);margin-bottom:16px;font-size:1.6rem;">Montage</h3>
         <p style="font-size:0.9rem;color:var(--wood-warm);line-height:1.8;margin-bottom:20px;">Einbau vor Ort in Osttirol. Erst wenn alles sitzt, ist der Auftrag abgeschlossen. Übergabe mit Garantie. „Erst wenn Sie zufrieden sind, sind wir es auch" – das ist nicht Marketingtext, das ist unser Maßstab seit 2016.</p>
