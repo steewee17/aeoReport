@@ -154,6 +154,7 @@
     body {
       font-family: 'Outfit', sans-serif;
       font-size: 16px;
+      font-weight: 300;
       line-height: 1.7;
       color: var(--text);
       background: var(--cream);
@@ -176,9 +177,9 @@
       letter-spacing: -0.01em;
       line-height: 1.1;
     }
-    h1 { font-size: clamp(2.6rem, 5.5vw, 5rem); }
-    h2 { font-size: clamp(2rem, 3.5vw, 3.2rem); }
-    h3 { font-size: clamp(1.3rem, 2vw, 1.8rem); }
+    h1 { font-size: clamp(2.8rem, 6vw, 5.5rem); }
+    h2 { font-size: clamp(2rem, 4vw, 3.5rem); }
+    h3 { font-size: clamp(1.4rem, 2.5vw, 2rem); }
 
     img { max-width: 100%; display: block; }
     a { text-decoration: none; color: inherit; }
@@ -209,10 +210,7 @@
       text-align: center; max-width: 100%; margin-left: auto; margin-right: auto;
     }
     .section-header h2 { color: var(--primary); margin-bottom: 14px; }
-    .section-header p {
-      font-size: 1rem; font-weight: 300;
-      color: var(--wood-warm); line-height: 1.75;
-    }
+    .section-header p  { line-height: 1.7; font-weight: 300; }
 
     /* ─── Lucide icon sizing by context ─── */
     .hero-badge svg           { width: 14px; height: 14px; stroke-width: 2; flex-shrink: 0; }
@@ -294,42 +292,34 @@
       font-weight: 300;
       letter-spacing: 0.01em;
     }
-    .nav-logo-sep {
-      color: rgba(255,255,255,0.88);
-      font-weight: 300;
-      margin: 0 2px;
-      letter-spacing: 0;
-      font-size: 13px;
-    }
-    .nav-logo-gmbh {
-      color: rgba(255,255,255,0.88);
-      font-size: 15.5px;
-      font-weight: 300;
-      letter-spacing: 0.01em;
-      margin-left: 3px;
-    }
     .nav-links {
       display: flex;
       gap: 28px;
       list-style: none;
     }
-    .nav-links a {
-      color: rgba(255,255,255,0.78);
-      font-size: 14px;
-      font-weight: 500;
+        .nav-links a {
+      color: rgba(253,250,246,0.75);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 400;
       transition: color 0.2s;
     }
-    .nav-links a:hover { color: white; }
-    .nav-cta {
+    .nav-links a:hover { color: var(--accent-lt); }
+        .nav-cta {
       background: var(--accent);
-      color: white;
-      padding: 10px 22px;
-      border-radius: var(--radius-full);
-      font-weight: 600;
-      font-size: 14px;
-      transition: all 0.2s;
-      flex-shrink: 0;
+      color: var(--white);
+      padding: 0.55rem 1.4rem;
+      border-radius: 2px;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: background 0.2s;
+      text-decoration: none;
     }
+    .nav-cta:hover { background: var(--accent-dark); color: var(--white); }
     .nav-cta:hover { background: var(--accent-dark); transform: translateY(-1px); }
     .nav-hamburger {
       display: none;
@@ -442,11 +432,20 @@
       opacity: 0.06; pointer-events: none; z-index: 1;
     }
 
+
+    .hero-inner {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+    }
     /* Hero content: bottom-left wie Kassewalder */
-    .hero-content {
+        .hero-content {
       position: relative; z-index: 2;
-      padding: 14vh 6vw 9vh;
-      max-width: 820px;
+      padding: 14vh min(6vw, 72px) 9vh min(6vw, 72px);
+      max-width: 760px;
+      width: 100%;
       animation: fadeInUp 1s ease 0.2s both;
     }
 
@@ -1315,7 +1314,7 @@
     </svg>
   </div>
 
-  <div class="hero-content">
+  <div class="hero-inner"><div class="hero-content">
 
     <div class="hero-eyebrow">Tischlerei · Innenausbau · Osttirol</div>
 
@@ -1350,7 +1349,7 @@
       <a href="#leistungen" class="btn-secondary">Leistungen entdecken</a>
     </div>
 
-  </div>
+  </div></div>
 
   <div class="hero-scroll">
     <div class="hero-scroll-line"></div>
