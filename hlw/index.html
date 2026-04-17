@@ -122,9 +122,9 @@
       --primary:       #2E1608;
       --primary-dark:  #1e0e04;
       --primary-rgb:   46, 22, 8;
-      --accent:        #0C7532;
-      --accent-dark:   #095c26;
-      --accent-rgb:    12, 117, 50;
+      --accent:        #C8860A;
+      --accent-dark:   #a36e08;
+      --accent-rgb:    200, 134, 10;
       --text:          #2d2d2d;
       --text-light:    #6b6560;
       --bg-main:       #ffffff;
@@ -342,9 +342,9 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(12,117,50,0.22);
-      border: 1px solid rgba(12,117,50,0.45);
-      color: #7de8a4;
+      background: rgba(200,134,10,0.22);
+      border: 1px solid rgba(200,134,10,0.45);
+      color: #f2c96a;
       padding: 7px 18px;
       border-radius: var(--radius-full);
       font-size: 13px;
@@ -567,8 +567,8 @@
       min-height: 44px;
       font-family: 'Outfit', sans-serif;
     }
-    .wizard-option:hover   { border-color: var(--accent); background: rgba(12,117,50,0.04); }
-    .wizard-option.selected { border-color: var(--accent); background: rgba(12,117,50,0.09); }
+    .wizard-option:hover   { border-color: var(--accent); background: rgba(200,134,10,0.04); }
+    .wizard-option.selected { border-color: var(--accent); background: rgba(200,134,10,0.09); }
     .wizard-option-icon {
       flex-shrink: 0;
       width: 20px;
@@ -683,33 +683,47 @@
       font-family: 'Outfit', sans-serif;
     }
 
-    /* ─── Services ─── */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-    }
-    .service-card {
-      background: white;
+    /* ─── Services Tab Layout ─── */
+    .svc-tabs {
+      display: flex;
+      max-width: 480px;
+      margin: 0 auto 48px;
       border-radius: var(--radius);
-      box-shadow: var(--shadow-md);
-      padding: 36px 28px;
-      transition: all 0.25s;
-      border-top: 3px solid transparent;
+      overflow: hidden;
+      border: 2px solid #e5e7eb;
     }
-    .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-top-color: var(--accent); }
-    .service-icon { margin-bottom: 20px; }
-    .service-card h3 { font-size: 22px; color: var(--primary); margin-bottom: 12px; }
-    .service-card p  { color: var(--text-light); font-size: 15px; line-height: 1.65; }
-    .service-tag {
-      display: inline-block;
-      margin-top: 16px;
-      background: rgba(12,117,50,0.10);
-      color: var(--accent);
-      padding: 4px 12px;
-      border-radius: var(--radius-full);
-      font-size: 12px;
-      font-weight: 600;
+    .svc-tab {
+      flex: 1; padding: 16px 20px; background: white; border: none;
+      font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; color: var(--text-light);
+      min-height: 52px; line-height: 1.3;
+    }
+    .svc-tab.active { background: var(--primary); color: white; }
+    .svc-tab:hover:not(.active) { background: var(--bg-warm); color: var(--text); }
+    .svc-panel { display: none; }
+    .svc-panel.active {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    }
+    .svc-content h3 { font-size: 32px; color: var(--primary); margin-bottom: 16px; }
+    .svc-content > p { color: var(--text-light); font-size: 16px; line-height: 1.7; margin-bottom: 24px; }
+    .svc-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+    .svc-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 15px; color: var(--text); line-height: 1.5;
+    }
+    .svc-list li::before {
+      content: ''; display: block; width: 20px; height: 20px; flex-shrink: 0;
+      background: var(--accent); border-radius: 50%; margin-top: 1px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+      background-size: 12px; background-repeat: no-repeat; background-position: center;
+    }
+    .svc-img { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); }
+    .svc-img img { width: 100%; height: 420px; object-fit: cover; display: block; }
+    @media (max-width: 768px) {
+      .svc-panel.active { grid-template-columns: 1fr; gap: 32px; }
+      .svc-img { order: -1; }
+      .svc-img img { height: 240px; }
+      .svc-tabs { max-width: 100%; font-size: 14px; }
     }
 
     /* ─── Trust / White Spaces ─── */
@@ -731,9 +745,9 @@
     }
     .trust-card:hover { background: rgba(255,255,255,0.10); transform: translateY(-2px); }
     .trust-zero-badge {
-      background: rgba(12,117,50,0.22);
-      border: 1px solid rgba(12,117,50,0.45);
-      color: #7de8a4;
+      background: rgba(200,134,10,0.22);
+      border: 1px solid rgba(200,134,10,0.45);
+      color: #f2c96a;
       font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
@@ -820,8 +834,8 @@
       align-items: flex-start;
       gap: 10px;
       margin-top: 8px;
-      background: rgba(12,117,50,0.10);
-      border: 1px solid rgba(12,117,50,0.25);
+      background: rgba(200,134,10,0.10);
+      border: 1px solid rgba(200,134,10,0.25);
       color: var(--accent);
       padding: 12px 20px;
       border-radius: var(--radius);
@@ -834,30 +848,37 @@
     .team-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 36px;
+      gap: 28px;
     }
-    .team-card { text-align: center; }
-    .team-photo {
-      width: 140px; height: 140px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin: 0 auto 20px;
-      border: 4px solid var(--bg-warm);
-      box-shadow: var(--shadow-md);
+    .team-card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: all 0.3s ease;
     }
-    .team-card h3  { font-size: 24px; color: var(--primary); margin-bottom: 4px; }
-    .team-role {
-      color: var(--accent);
-      font-weight: 600;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      margin-bottom: 14px;
+    .team-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .team-card-img { position: relative; }
+    .team-card-img img {
+      width: 100%; height: 240px;
+      object-fit: cover; display: block;
     }
-    .team-card p { color: var(--text-light); font-size: 15px; line-height: 1.65; }
+    .team-card-role-badge {
+      position: absolute; bottom: 14px; left: 14px;
+      background: var(--accent); color: white;
+      border-radius: var(--radius-full);
+      padding: 5px 14px; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .team-card-body { padding: 24px 24px 28px; }
+    .team-card-body h3 { font-size: 26px; color: var(--primary); margin-bottom: 2px; }
+    .team-initial {
+      font-size: 12px; font-weight: 700; color: var(--accent);
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; display: block;
+    }
+    .team-card-body p { color: var(--text-light); font-size: 15px; line-height: 1.65; margin-bottom: 16px; }
     .team-tag {
       display: inline-block;
-      margin-top: 14px;
       background: rgba(46,22,8,0.07);
       color: var(--primary);
       padding: 4px 14px;
@@ -965,7 +986,7 @@
     .form-group textarea:focus {
       outline: none;
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(12,117,50,0.10);
+      box-shadow: 0 0 0 3px rgba(200,134,10,0.10);
     }
     .form-group textarea { min-height: 120px; resize: vertical; }
     .form-submit {
@@ -987,9 +1008,9 @@
       display: none;
       text-align: center;
       padding: 28px;
-      background: rgba(12,117,50,0.08);
+      background: rgba(200,134,10,0.08);
       border-radius: var(--radius);
-      border: 1px solid rgba(12,117,50,0.20);
+      border: 1px solid rgba(200,134,10,0.20);
       color: var(--accent);
       font-weight: 600;
       font-size: 16px;
@@ -1032,11 +1053,11 @@
     /* ─── Responsive ─── */
     @media (max-width: 1024px) {
       .trust-grid { grid-template-columns: repeat(2, 1fr); }
+      .team-grid  { grid-template-columns: repeat(2, 1fr); }
       .footer-inner { grid-template-columns: 1fr 1fr; }
       .footer-inner > div:first-child { grid-column: 1 / -1; }
     }
     @media (min-width: 769px) and (max-width: 1023px) {
-      .services-grid     { grid-template-columns: repeat(2, 1fr); }
       .masonry-grid      { column-count: 2; }
       .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
       .jubilee-inner     { gap: 48px; }
@@ -1054,7 +1075,6 @@
       .hero-cta { flex-direction: column; }
       .hero-cta .btn-primary,
       .hero-cta .btn-secondary { width: 100%; justify-content: center; }
-      .services-grid     { grid-template-columns: 1fr; }
       .trust-grid        { grid-template-columns: 1fr; }
       .team-grid         { grid-template-columns: 1fr; }
       .masonry-grid      { column-count: 1; }
@@ -1110,23 +1130,24 @@
   <div class="container">
     <div class="hero-content">
       <div class="hero-badge">
-        <i data-lucide="award"></i>
-        10 Jahre HLW-Wohnservice · Seit Juli 2016
+        <i data-lucide="hammer"></i>
+        Heinzer · Lukasser · Wurzer &nbsp;·&nbsp; Assling, Osttirol
       </div>
-      <h1>Ihr Zuhause.<br><em>Nach Maß gemacht.</em></h1>
+      <h1>Drei heimische<br>Tischler. <em>Ein Wort.</em></h1>
       <p class="hero-sub">
-        Maßküchen, Bäder, Fenster, Türen und Einbaumöbel – der vollständige Innenausbau aus einer Hand.
-        Von der ersten Skizze bis zur perfekten Montage in Assling und ganz Osttirol.
+        Tischlermeister Gerhard Wurzer plant. Oswald Heinzer und Klaus Lukasser bauen.
+        Sie haben einen Ansprechpartner – von der ersten Skizze bis zum letzten Dübel.
+        Erst wenn Sie zufrieden sind, sind wir es auch.
       </p>
       <div class="hero-cta">
         <a href="#kontakt" class="btn-primary">Kostenloses Beratungsgespräch →</a>
         <a href="#projekte" class="btn-secondary">Unsere Projekte ansehen</a>
       </div>
       <div class="trust-pills">
-        <span class="trust-pill"><i data-lucide="check"></i> 100+ Jahre Berufserfahrung</span>
-        <span class="trust-pill"><i data-lucide="check"></i> Alles aus einer Hand</span>
-        <span class="trust-pill"><i data-lucide="check"></i> Transparente Preise</span>
-        <span class="trust-pill"><i data-lucide="check"></i> Garantie auf alle Leistungen</span>
+        <span class="trust-pill"><i data-lucide="check"></i> Tischlermeister Gerhard Wurzer</span>
+        <span class="trust-pill"><i data-lucide="check"></i> 100+ Jahre Berufserfahrung im Team</span>
+        <span class="trust-pill"><i data-lucide="check"></i> Privat &amp; Gewerbe · Osttirol</span>
+        <span class="trust-pill"><i data-lucide="check"></i> 10 Jahre · seit Juli 2016</span>
       </div>
     </div>
   </div>
@@ -1164,45 +1185,52 @@
 <section id="leistungen" style="background:var(--bg-main);">
   <div class="container">
     <div class="section-header">
-      <h2>Vollständiger Innenausbau – alles aus einer Hand</h2>
-      <p>Drei Tischlermeister, ein nahtloser Prozess. Von der Bedarfserhebung bis zur fachgerechten Montage in Osttirol.</p>
+      <h2>Was wir für Sie bauen</h2>
+      <p>Privatkunden und Gewerbebetriebe. Gerhard plant. Oswald und Klaus bauen. Ein Ansprechpartner für alles.</p>
     </div>
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-icon"><i data-lucide="utensils"></i></div>
-        <h3>Küchen nach Maß</h3>
-        <p>Ihre Traumküche, exakt auf Ihre Raumgeometrie und Ihren Stil zugeschnitten. Planung, Materialbeschaffung und Montage inklusive Geräteintegration – alles aus einer Hand.</p>
-        <span class="service-tag">Planung inklusive</span>
+    <div class="svc-tabs">
+      <button class="svc-tab active" onclick="switchSvc('privat',this)">Für Ihr Zuhause</button>
+      <button class="svc-tab" onclick="switchSvc('gewerbe',this)">Für Ihren Betrieb</button>
+    </div>
+
+    <div class="svc-panel active" id="svc-privat">
+      <div class="svc-content">
+        <h3>Ihr Wohnraum. Auf den Millimeter.</h3>
+        <p>Kein Standardmaß, keine Kompromisse. Gerhard Wurzer nimmt bei Ihnen Maß, entwirft und kalkuliert – Oswald und Klaus fertigen und montieren. Bis alles sitzt. Bis Sie sagen: genau so hab ich mir das vorgestellt.</p>
+        <ul class="svc-list">
+          <li>Einbauküchen – Planung, Fertigung &amp; Montage aus einer Hand</li>
+          <li>Maßmöbel &amp; Einbauschränke – Schlafzimmer, Flur, Wohnzimmer</li>
+          <li>Bäder &amp; Badmöbel – maßgefertigt für jeden Grundriss</li>
+          <li>Fenster &amp; Türen – Einbau, Tausch, Reparatur in Osttirol</li>
+          <li>Holztreppen &amp; Stiegenanlagen nach Maß</li>
+          <li>Böden &amp; Edelholzböden – Verlegung und Sanierung</li>
+          <li>Sonnenschutz – passgenau zum Fenster</li>
+        </ul>
+        <a href="#kontakt" class="btn-primary" style="background:var(--primary);">Projekt besprechen</a>
       </div>
-      <div class="service-card">
-        <div class="service-icon"><i data-lucide="shower-head"></i></div>
-        <h3>Bäder & Badmöbel</h3>
-        <p>Komplette Badsanierungen und individuelle Badmöbel für Osttirol. Waschtischanlagen, Spiegelschränke und Einbaulösungen – maßgefertigt für jeden Grundriss.</p>
-        <span class="service-tag">Komplettlösung</span>
+      <div class="svc-img">
+        <img src="https://picsum.photos/seed/tischler3/800/600" loading="lazy"
+             alt="Maßgefertigte Einbauküche aus der Werkstatt – HLW-Wohnservice GmbH Assling, Osttirol">
       </div>
-      <div class="service-card">
-        <div class="service-icon"><i data-lucide="door-open"></i></div>
-        <h3>Fenster & Türen</h3>
-        <p>Fachgerechte Montage und Reparatur von Fenstern und Türen im Raum Assling und Lienz. Holz, Holz-Alu und Kunststoff – wir beraten zu Material und Wärmedämmung.</p>
-        <span class="service-tag">Montage & Reparatur</span>
+    </div>
+
+    <div class="svc-panel" id="svc-gewerbe">
+      <div class="svc-content">
+        <h3>Was in keinem Katalog steht.</h3>
+        <p>Sonderlösungen für Unternehmen aus produzierendem Gewerbe und Industrie. Komplexe Anforderungen sind unser Heimspiel – Klaus Lukasser und Oswald Heinzer lösen auch das, wofür es keine Vorlage gibt. Pünktlich. Solide. Mit Garantie.</p>
+        <ul class="svc-list">
+          <li>Produktions- &amp; Betriebsausstattungen – individuell geplant</li>
+          <li>Büro- &amp; Empfangseinrichtungen nach Maß</li>
+          <li>Tresen, Theken &amp; Ladenbau für Osttirol</li>
+          <li>Lager- &amp; Werkstatteinrichtungen – funktional und robust</li>
+          <li>Schrankwände, Trennwände &amp; Raumlösungen für Gewerbe</li>
+          <li>Komplette Innenausbauten für Gewerbe- und Industrieobjekte</li>
+        </ul>
+        <a href="#kontakt" class="btn-primary" style="background:var(--primary);">Betriebsprojekt anfragen</a>
       </div>
-      <div class="service-card">
-        <div class="service-icon"><i data-lucide="layout-template"></i></div>
-        <h3>Maßmöbel & Einbauschränke</h3>
-        <p>Kleiderschränke, Regale, Wohnwände und Holztreppen – maßgefertigt für Ihre Räume. Kein Standardmaß, keine Kompromisse. Jeder Millimeter genutzt.</p>
-        <span class="service-tag">Jedes Maß möglich</span>
-      </div>
-      <div class="service-card">
-        <div class="service-icon"><i data-lucide="building-2"></i></div>
-        <h3>Betriebsausstattung B2B</h3>
-        <p>Sonderlösungen für Unternehmen aus produzierendem Gewerbe und Industrie in Osttirol. Komplexe Anforderungen an Produktions- und Betriebsausstattung – wir lösen sie.</p>
-        <span class="service-tag">Firmenkunden</span>
-      </div>
-      <div class="service-card">
-        <div class="service-icon"><i data-lucide="pencil-ruler"></i></div>
-        <h3>Planung & Beratung</h3>
-        <p>Entwurfsplanung, Detailplanung und Werkstattplanung – geführt von Gerhard Wurzer. Wir visualisieren Ihre Idee, bevor ein einziger Nagel gesetzt wird. Kostenlos und unverbindlich.</p>
-        <span class="service-tag">Kostenlos</span>
+      <div class="svc-img">
+        <img src="https://picsum.photos/seed/tischler5/800/600" loading="lazy"
+             alt="Maßgefertigte Betriebsausstattung für Gewerbebetrieb – HLW-Wohnservice Osttirol Tirol">
       </div>
     </div>
   </div>
@@ -1297,41 +1325,115 @@
 </section>
 
 <!-- ===== TEAM ===== -->
-<section id="team" style="background:var(--bg-main);">
+<section id="team" style="background:var(--bg-warm);">
   <div class="container">
     <div class="section-header">
-      <h2>Drei Handwerker. Ein Versprechen.</h2>
-      <p>Gerhard, Oswald und Klaus – zusammen bringen sie über 100 Jahre Berufs- und Branchenerfahrung in jeden Auftrag ein.</p>
+      <h2>H · L · W – drei Namen, ein Betrieb</h2>
+      <p>Heinzer. Lukasser. Wurzer. Sie haben ihren Familiennamen in das Firmenschild gesetzt – weil sie für ihre Arbeit geradestehen. Persönlich.</p>
     </div>
     <div class="team-grid">
       <div class="team-card">
-        <img src="https://picsum.photos/seed/teamwurzer/300/300"
-             alt="Gerhard Wurzer – Planung & Projektleitung, HLW-Wohnservice GmbH Assling Osttirol"
-             class="team-photo" loading="lazy">
-        <h3>Gerhard Wurzer</h3>
-        <div class="team-role">Planung & Projektleitung</div>
-        <p>Bedarfserhebung, Entwurfs- und Detailplanung, Kalkulation und Angebotserstellung. Gerhard begleitet Sie von der ersten Idee bis zur abgeschlossenen Umsetzung.</p>
-        <span class="team-tag">Planung · Kalkulation · Rechnungslegung</span>
+        <div class="team-card-img">
+          <img src="https://picsum.photos/seed/teamwurzer/600/360" loading="lazy"
+               alt="Tischlermeister Gerhard Wurzer – Planung & Beratung, HLW-Wohnservice GmbH Assling Osttirol">
+          <span class="team-card-role-badge">Planung &amp; Beratung</span>
+        </div>
+        <div class="team-card-body">
+          <h3>Gerhard Wurzer</h3>
+          <span class="team-initial">W – der Meister dahinter</span>
+          <p>Tischlermeister Gerhard Wurzer ist Ihr erster Ansprechpartner. Er erhebt Ihren Bedarf, entwirft, kalkuliert und legt das Angebot vor – transparent, ohne Überraschungen. Erst nach Ihrer Freigabe geht es in die Werkstatt. Er führt die Gesellschaft und zeichnet für jeden Auftrag verantwortlich.</p>
+          <span class="team-tag">Meistertitel · Planung · Kalkulation · GF</span>
+        </div>
       </div>
       <div class="team-card">
-        <img src="https://picsum.photos/seed/teamheinzer/300/300"
-             alt="Oswald Heinzer – Produktion & Montage, HLW-Wohnservice Tischlerei Osttirol"
-             class="team-photo" loading="lazy">
-        <h3>Oswald Heinzer</h3>
-        <div class="team-role">Produktion & Montage</div>
-        <p>Handwerkliches Können auf höchstem Niveau. Oswald verantwortet die Fertigung und bringt jahrzehntelange Tischlererfahrung in jedes Projekt ein.</p>
-        <span class="team-tag">Fertigung · Vor-Ort-Montage</span>
+        <div class="team-card-img">
+          <img src="https://picsum.photos/seed/teamheinzer/600/360" loading="lazy"
+               alt="Oswald Heinzer – Produktion & Montage, HLW-Wohnservice Tischlerei Osttirol">
+          <span class="team-card-role-badge">Produktion &amp; Montage</span>
+        </div>
+        <div class="team-card-body">
+          <h3>Oswald Heinzer</h3>
+          <span class="team-initial">H – der erste Buchstabe</span>
+          <p>Jahrzehntelange Tischlererfahrung, die man sieht. Oswald fertigt und montiert – und er ist erst zufrieden, wenn der Schrank auf den Millimeter sitzt und die Küchentür beim zwanzigsten Öffnen noch genauso leichtgängig ist wie beim ersten.</p>
+          <span class="team-tag">Fertigung · Montage · Qualitätskontrolle</span>
+        </div>
       </div>
       <div class="team-card">
-        <img src="https://picsum.photos/seed/teamlukasser/300/300"
-             alt="Klaus Lukasser – Produktion & Montage, HLW-Wohnservice Tischlerei Assling"
-             class="team-photo" loading="lazy">
-        <h3>Klaus Lukasser</h3>
-        <div class="team-role">Produktion & Montage</div>
-        <p>Präzision und Detailtreue als Markenzeichen. Klaus stellt sicher, dass jedes Möbelstück und jede Montage bis ins kleinste Detail perfekt sitzt – wie abgesprochen.</p>
-        <span class="team-tag">Fertigung · Qualitätskontrolle</span>
+        <div class="team-card-img">
+          <img src="https://picsum.photos/seed/teamlukasser/600/360" loading="lazy"
+               alt="Klaus Lukasser – Produktion & Montage, HLW-Wohnservice Tischlerei Assling">
+          <span class="team-card-role-badge">Produktion &amp; Montage</span>
+        </div>
+        <div class="team-card-body">
+          <h3>Klaus Lukasser</h3>
+          <span class="team-initial">L – der Spezialist für Sonderlösungen</span>
+          <p>Wenn andere abwinken, fängt Klaus erst an. Ungewöhnliche Konstruktionen, enge Zeitpläne, industrielle Sonderlösungen – er ist der Grund, dass Gewerbekunden aus Osttirol immer wieder kommen. Seine Handschrift: „wie abgesprochen – und besser."</p>
+          <span class="team-tag">Fertigung · Gewerbe · Sonderlösungen</span>
+        </div>
       </div>
     </div>
+    <div style="margin-top:48px;background:var(--primary);border-radius:var(--radius);padding:32px 40px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
+      <div>
+        <p style="color:rgba(255,255,255,0.55);font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin:0 0 6px;">Das Team in Zahlen</p>
+        <p style="color:white;font-size:18px;margin:0;line-height:1.6;">Drei Gesellschafter · <strong style="color:var(--accent);">100+ Jahre</strong> Berufserfahrung · ein einziger Ansprechpartner für Ihr Projekt</p>
+      </div>
+      <a href="#kontakt" class="btn-primary">Jetzt anfragen</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROZESS ===== -->
+<section style="background:var(--bg-main);">
+  <div class="container">
+    <div class="section-header">
+      <h2>So läuft Ihr Projekt ab</h2>
+      <p>Kein Auftrag beginnt ohne Gespräch. Kein Möbel verlässt unsere Werkstatt ohne Gerhard, Oswald und Klaus. So funktioniert HLW – seit 2016, in Assling.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;">
+      <!-- connector line -->
+      <div style="position:absolute;top:44px;left:calc(12.5% + 4px);right:calc(12.5% + 4px);height:2px;background:linear-gradient(to right,var(--accent),rgba(200,134,10,0.15));z-index:0;"></div>
+
+      <div style="text-align:center;padding:0 16px;position:relative;z-index:1;">
+        <div style="width:88px;height:88px;background:var(--bg-warm);border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+          <div style="font-family:'Cormorant Garant',serif;font-size:32px;font-weight:700;color:var(--accent);">1</div>
+        </div>
+        <h3 style="font-size:19px;color:var(--primary);margin-bottom:10px;">Beratungs&shy;gespräch</h3>
+        <p style="font-size:14px;color:var(--text-light);line-height:1.65;"><strong style="color:var(--text);">Gerhard kommt zu Ihnen.</strong> Er misst aus, hört zu, versteht was Sie brauchen – nicht was gerade auf Lager ist. Kostenlos, unverbindlich, in Osttirol.</p>
+      </div>
+
+      <div style="text-align:center;padding:0 16px;position:relative;z-index:1;">
+        <div style="width:88px;height:88px;background:var(--bg-warm);border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+          <div style="font-family:'Cormorant Garant',serif;font-size:32px;font-weight:700;color:var(--accent);">2</div>
+        </div>
+        <h3 style="font-size:19px;color:var(--primary);margin-bottom:10px;">Planung &amp; Angebot</h3>
+        <p style="font-size:14px;color:var(--text-light);line-height:1.65;"><strong style="color:var(--text);">Transparentes Fixpreis-Angebot.</strong> Entwurfsplanung, Kalkulation, Materialauswahl. Kein versteckter Posten. Erst nach Ihrer Freigabe geht es weiter.</p>
+      </div>
+
+      <div style="text-align:center;padding:0 16px;position:relative;z-index:1;">
+        <div style="width:88px;height:88px;background:var(--bg-warm);border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+          <div style="font-family:'Cormorant Garant',serif;font-size:32px;font-weight:700;color:var(--accent);">3</div>
+        </div>
+        <h3 style="font-size:19px;color:var(--primary);margin-bottom:10px;">Produktion</h3>
+        <p style="font-size:14px;color:var(--text-light);line-height:1.65;"><strong style="color:var(--text);">Oswald und Klaus in der Werkstatt.</strong> Gefertigt in Unterassling – präzise, termingerecht. 4 bis 6 Wochen, je nach Projektumfang. Sie werden informiert.</p>
+      </div>
+
+      <div style="text-align:center;padding:0 16px;position:relative;z-index:1;">
+        <div style="width:88px;height:88px;background:var(--accent);border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+          <div style="font-family:'Cormorant Garant',serif;font-size:32px;font-weight:700;color:white;">4</div>
+        </div>
+        <h3 style="font-size:19px;color:var(--primary);margin-bottom:10px;">Montage &amp; Übergabe</h3>
+        <p style="font-size:14px;color:var(--text-light);line-height:1.65;"><strong style="color:var(--text);">Erst wenn Sie zufrieden sind.</strong> Montage vor Ort, Übergabe mit Garantie. Wir sind erst fertig, wenn Sie sagen: genau so hab ich mir das vorgestellt.</p>
+      </div>
+    </div>
+
+    <style>
+      @media (max-width: 768px) {
+        #prozess-grid { grid-template-columns: 1fr 1fr !important; }
+      }
+      @media (max-width: 480px) {
+        #prozess-grid { grid-template-columns: 1fr !important; }
+      }
+    </style>
   </div>
 </section>
 
@@ -1591,10 +1693,6 @@
 // ═══════════════════════════════════════
 // MOBILE NAV
 // ═══════════════════════════════════════
-function toggleNav() {
-  document.getElementById('mobileNav').classList.toggle('open');
-}
-
 // ═══════════════════════════════════════
 // TRANSFORMATION SLIDER + CAROUSEL
 // ═══════════════════════════════════════
@@ -1966,6 +2064,26 @@ function handleFormSubmit(e) {
   e.preventDefault();
   document.getElementById('contactForm').style.display = 'none';
   document.getElementById('formSuccess').style.display = 'block';
+}
+
+// ═══════════════════════════════════════
+// SERVICE TABS
+// ═══════════════════════════════════════
+function switchSvc(id, btn) {
+  document.querySelectorAll('.svc-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.svc-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('svc-' + id).classList.add('active');
+}
+
+// ═══════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════
+function toggleNav() {
+  const m = document.getElementById('mobileNav');
+  const h = document.querySelector('.nav-hamburger');
+  m.classList.toggle('open');
+  if (h) h.classList.toggle('open');
 }
 
 // ═══════════════════════════════════════
