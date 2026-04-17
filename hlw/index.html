@@ -923,18 +923,151 @@
     .trust-card h3 { font-size: 18px; color: white; margin-bottom: 10px; }
     .trust-card p  { color: rgba(255,255,255,0.68); font-size: 14px; line-height: 1.65; }
 
-    /* ─── Jubilee ─── */
-    .jubilee-section { background: var(--primary); }
-    .jubilee-section .jubilee-inner h2 { color: white; }
-    .jubilee-section .jubilee-text h2 { color: white; }
-    .jubilee-section .jubilee-text p { color: rgba(253,250,246,0.70); }
-    .jubilee-section .jubilee-year-label { color: var(--accent-lt); }
-    .jubilee-section .jubilee-number { -webkit-text-stroke-color: var(--accent); }
-    .jubilee-section .jubilee-stat { background: rgba(255,255,255,0.06); box-shadow: none; }
-    .jubilee-section .jubilee-stat-num { color: var(--accent-lt); }
-    .jubilee-section .jubilee-stat-label { color: rgba(255,255,255,0.55); }
-    .jubilee-section blockquote { border-left-color: var(--accent); color: rgba(253,250,246,0.85); }
-    .jubilee-cta-note { background: rgba(200,134,10,0.15) !important; border-color: rgba(200,134,10,0.3) !important; }
+    /* ─── Jubilee – Hero-Charakter ─── */
+    .jubilee-section {
+      background: var(--primary);
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+      min-height: 88vh;
+      display: flex;
+      align-items: center;
+    }
+    /* Kassewalder BG-Gradienten */
+    .jubilee-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 40%, rgba(92,51,23,0.5) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 80% at 20% 80%, rgba(61,92,56,0.15) 0%, transparent 60%),
+        linear-gradient(160deg, #1A0F07 0%, #2E1608 40%, #1E0C04 100%);
+    }
+    .jubilee-bg::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(87deg, transparent 0px, transparent 18px,
+          rgba(255,255,255,0.010) 18px, rgba(255,255,255,0.010) 19px),
+        repeating-linear-gradient(93deg, transparent 0px, transparent 35px,
+          rgba(255,255,255,0.007) 35px, rgba(255,255,255,0.007) 36px);
+    }
+    .jubilee-bg::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 35%;
+      background: linear-gradient(to top, rgba(26,15,7,0.6), transparent);
+    }
+    /* Ghost "10 Jahre" */
+    .jubilee-ghost {
+      position: absolute;
+      top: 50%; right: 3vw;
+      transform: translateY(-50%);
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(8rem, 18vw, 20rem);
+      font-weight: 300;
+      color: rgba(255,255,255,0.032);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      user-select: none; pointer-events: none;
+      white-space: nowrap;
+    }
+    /* Dot-arrow ghost */
+    .jubilee-dot-ghost {
+      position: absolute; top: 6vh; right: 6vw;
+      opacity: 0.055; pointer-events: none;
+    }
+    /* Content */
+    .jubilee-inner {
+      position: relative; z-index: 2;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 10vh min(6vw, 72px);
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
+      align-items: center;
+    }
+    /* Linke Seite: Zahlen */
+    .jubilee-visual {
+      display: flex; flex-direction: column; gap: 32px;
+    }
+    .jubilee-eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.32em; text-transform: uppercase;
+      color: var(--accent); font-weight: 400;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .jubilee-eyebrow::before {
+      content: ''; width: 36px; height: 1px; background: var(--accent);
+      display: block; flex-shrink: 0;
+    }
+    .jubilee-big-num {
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(6rem, 14vw, 13rem);
+      font-weight: 300;
+      color: transparent;
+      -webkit-text-stroke: 2px var(--accent);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+    .jubilee-num-label {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 1.6rem; font-weight: 300;
+      color: rgba(255,255,255,0.65);
+      margin-top: -16px;
+      letter-spacing: 0.02em;
+    }
+    .jubilee-stats {
+      display: flex; gap: 32px; flex-wrap: wrap;
+    }
+    .jubilee-stat {
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .jubilee-stat-num {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 2.4rem; font-weight: 300;
+      color: var(--accent-lt); line-height: 1;
+    }
+    .jubilee-stat-label {
+      font-size: 0.72rem; font-weight: 300;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      line-height: 1.4;
+    }
+    /* Rechte Seite: Text */
+    .jubilee-text h2 {
+      color: white; margin-bottom: 1.4rem;
+    }
+    .jubilee-text p {
+      font-size: 0.95rem; font-weight: 300;
+      color: rgba(253,250,246,0.65);
+      line-height: 1.85; margin-bottom: 1.2rem;
+    }
+    .jubilee-text blockquote {
+      border-left: 2px solid var(--accent);
+      padding: 0.4rem 0 0.4rem 1.4rem;
+      font-family: 'Cormorant Garant', serif;
+      font-size: 1.4rem; font-style: italic;
+      color: rgba(253,250,246,0.88);
+      line-height: 1.5; margin: 1.8rem 0;
+    }
+    .jubilee-cta-note {
+      display: inline-flex; align-items: flex-start; gap: 10px;
+      margin-top: 1.2rem;
+      background: rgba(200,134,10,0.12);
+      border: 1px solid rgba(200,134,10,0.28);
+      color: var(--accent-lt);
+      padding: 14px 20px; border-radius: var(--radius);
+      font-size: 0.88rem; font-weight: 400; line-height: 1.5;
+    }
+    @media (max-width: 1024px) {
+      .jubilee-inner { grid-template-columns: 1fr; gap: 40px; }
+      .jubilee-ghost { font-size: 8rem; opacity: 0.025; }
+    }
+    @media (max-width: 768px) {
+      .jubilee-section { min-height: auto; }
+      .jubilee-big-num { font-size: 6rem; }
+      .jubilee-ghost, .jubilee-dot-ghost { display: none; }
+      .jubilee-stats { gap: 20px; }
+    }
     .jubilee-inner {
       display: grid;
       grid-template-columns: 1fr 1.5fr;
@@ -1615,53 +1748,68 @@
 
 <!-- ===== JUBILEE ===== -->
 <section class="jubilee-section" id="jubilaeeum">
-  <div class="container">
-    <div class="jubilee-inner">
-      <div class="jubilee-visual">
-        <div class="jubilee-number">10</div>
-        <div class="jubilee-year-label">Jahre HLW-Wohnservice</div>
-        <div class="jubilee-stats">
-          <div class="jubilee-stat">
-            <div class="jubilee-stat-num">100+</div>
-            <div class="jubilee-stat-label">Jahre Berufserfahrung vereint</div>
-          </div>
-          <div class="jubilee-stat">
-            <div class="jubilee-stat-num">3</div>
-            <div class="jubilee-stat-label">Gründer & Gesellschafter</div>
-          </div>
-          <div class="jubilee-stat">
-            <div class="jubilee-stat-num">2016</div>
-            <div class="jubilee-stat-label">Gründungsjahr in Assling</div>
-          </div>
+
+  <div class="jubilee-bg"></div>
+
+  <!-- Ghost "10 Jahre" -->
+  <div class="jubilee-ghost" aria-hidden="true">10 Jahre</div>
+
+  <!-- Dot-Arrow ghost oben rechts -->
+  <div class="jubilee-dot-ghost" aria-hidden="true">
+    <svg width="120" height="120" viewBox="0 0 100 100" fill="none">
+      <circle cx="14" cy="11" r="8" fill="white"/><circle cx="37" cy="24" r="8" fill="white"/><circle cx="59" cy="37" r="8" fill="white"/><circle cx="82" cy="50" r="8" fill="white"/><circle cx="59" cy="63" r="8" fill="white"/><circle cx="37" cy="76" r="8" fill="white"/><circle cx="14" cy="89" r="8" fill="white"/>
+    </svg>
+  </div>
+
+  <div class="jubilee-inner">
+
+    <!-- Links: Zahlen & Eyebrow -->
+    <div class="jubilee-visual">
+      <div class="jubilee-eyebrow">1. Juli 2016 – 1. Juli 2026</div>
+      <div class="jubilee-big-num">10</div>
+      <div class="jubilee-num-label">Jahre HLW-Wohnservice</div>
+      <div class="jubilee-stats">
+        <div class="jubilee-stat">
+          <div class="jubilee-stat-num">100+</div>
+          <div class="jubilee-stat-label">Jahre Berufs­erfahrung<br>im Team</div>
         </div>
-      </div>
-      <div class="jubilee-text">
-        <h2>Danke für 10 Jahre Vertrauen, Osttirol.</h2>
-        <p>
-          Am 1. Juli 2016 haben Gerhard, Oswald und Klaus den Schritt gewagt – mit einer klaren Idee:
-          den Menschen in Osttirol und dem Pustertal einen Tischlereibetrieb zu bieten,
-          der wirklich alles aus einer Hand liefert. Nicht nur Möbel.
-          Sondern die ganze Geschichte dahinter: Planung, Handwerk, Montage –
-          und einen einzigen Ansprechpartner vom ersten Gespräch bis zum letzten Schrauber.
-        </p>
-        <blockquote>
-          „10 Jahre Stammkunden, die immer wiederkommen – das ist unser schönstes Qualitätszertifikat."
-        </blockquote>
-        <p>
-          Was wir in einem Jahrzehnt gelernt haben: Qualität auf höchstem Niveau und ein fairer Preis
-          sind kein Widerspruch. Und dass die besten Aufträge jene sind, bei denen der Kunde am Ende sagt:
-          <em>„Genau so hab ich mir das vorgestellt – und sogar noch besser."</em>
-        </p>
-        <p>
-          An alle Kunden in Assling, Lienz, im Pustertal und im Defereggental, die uns in diesen zehn Jahren ihr Vertrauen geschenkt haben:
-          <strong>Herzlichen Dank.</strong> Jedes Projekt war eine Ehre.
-        </p>
-        <div class="jubilee-cta-note">
-          <i data-lucide="calendar-heart"></i>
-          <span>Wir feiern das 10-Jahr-Jubiläum am <strong>1. Juli 2026</strong> –<br>gemeinsam mit unseren Kunden aus Osttirol.</span>
+        <div class="jubilee-stat">
+          <div class="jubilee-stat-num">3</div>
+          <div class="jubilee-stat-label">Gründer &amp;<br>Gesellschafter</div>
+        </div>
+        <div class="jubilee-stat">
+          <div class="jubilee-stat-num">2016</div>
+          <div class="jubilee-stat-label">Gründungsjahr<br>in Assling</div>
         </div>
       </div>
     </div>
+
+    <!-- Rechts: Text -->
+    <div class="jubilee-text">
+      <h2>10 Jahre – eine kleine<br>Erfolgsgeschichte.</h2>
+      <p>
+        Am 1. Juli 2016 haben Gerhard, Oswald und Klaus den Schritt gewagt –
+        mit einer klaren Idee: den Menschen in Osttirol und dem Pustertal
+        einen Tischlereibetrieb zu bieten, der wirklich alles aus einer Hand liefert.
+        Nicht nur Möbel. Sondern die ganze Geschichte dahinter: Planung, Handwerk,
+        Montage – und einen einzigen Ansprechpartner vom ersten Gespräch bis
+        zum letzten Schrauber.
+      </p>
+      <blockquote>
+        „10 Jahre Stammkunden, die immer wiederkommen –<br>das ist unser schönstes Qualitätszertifikat."
+      </blockquote>
+      <p>
+        An alle Kunden in Assling, Lienz, im Pustertal und im Defereggental,
+        die uns ihr Vertrauen geschenkt haben:
+        <strong style="color:rgba(253,250,246,0.90);">Herzlichen Dank.</strong>
+        Jedes Projekt war eine Ehre.
+      </p>
+      <div class="jubilee-cta-note">
+        <i data-lucide="calendar-heart"></i>
+        <span>Wir feiern das 10-Jahr-Jubiläum am <strong>1. Juli 2026</strong> –<br>gemeinsam mit unseren Kunden aus Osttirol.</span>
+      </div>
+    </div>
+
   </div>
 </section>
 
