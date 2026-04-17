@@ -186,7 +186,7 @@
 
     /* Section label – editorial prefix line */
     .section-label {
-      font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase;
+      font-size: 0.78rem; letter-spacing: 0.28em; text-transform: uppercase;
       color: var(--wood-warm); margin-bottom: 1rem;
       display: flex; align-items: center; gap: 0.8rem; font-weight: 400;
     }
@@ -451,7 +451,7 @@
 
     /* Eyebrow */
     .hero-eyebrow {
-      font-size: 0.68rem; letter-spacing: 0.32em;
+      font-size: 0.78rem; letter-spacing: 0.32em;
       text-transform: uppercase; font-weight: 400;
       color: var(--accent);
       margin-bottom: 1.8rem;
@@ -487,7 +487,7 @@
       border: 1px solid rgba(200,134,10,0.35);
       border-radius: var(--radius-full);
       color: var(--accent-lt); padding: 5px 14px;
-      font-size: 0.7rem; letter-spacing: 0.09em;
+      font-size: 0.81rem; letter-spacing: 0.09em;
       font-family: 'Outfit', sans-serif; font-weight: 400;
     }
     .hero-trust-pill svg { width: 10px; height: 10px; }
@@ -907,7 +907,7 @@
     .trust-card:hover { background: rgba(255,255,255,0.04); }
     .trust-card:hover::before { transform: scaleX(1); }
     .trust-zero-badge {
-      font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
       color: var(--accent); font-weight: 500;
       margin-bottom: 0.5rem; display: block;
     }
@@ -991,7 +991,7 @@
       display: flex; flex-direction: column; gap: 32px;
     }
     .jubilee-eyebrow {
-      font-size: 0.68rem; letter-spacing: 0.32em; text-transform: uppercase;
+      font-size: 0.78rem; letter-spacing: 0.32em; text-transform: uppercase;
       color: var(--accent); font-weight: 400;
       display: flex; align-items: center; gap: 1rem;
     }
@@ -1268,7 +1268,7 @@
       .jubilee-blockquote { font-size: 1.15rem; }
     }
     .jubilee-eyebrow {
-      font-size: 0.68rem; letter-spacing: 0.32em;
+      font-size: 0.78rem; letter-spacing: 0.32em;
       text-transform: uppercase; font-weight: 400;
       color: var(--accent);
       margin-bottom: 1.8rem;
@@ -1389,20 +1389,22 @@
       margin-bottom: 3.5rem;
       gap: 1.5rem;
       position: relative; z-index: 1;
+      min-height: 140px;
     }
     .portfolio-header-left { max-width: 540px; }
     .portfolio-header-right {
       max-width: 260px;
       font-size: 0.82rem; font-weight: 300;
       color: var(--wood-warm); line-height: 1.75;
-      padding-bottom: 4px;
       align-self: flex-end;
+      padding-bottom: 0;
+      margin-bottom: -8px;
     }
     @media (max-width: 768px) {
       .portfolio-header { flex-direction: column; align-items: flex-start; }
       .portfolio-header-right { max-width: 100%; align-self: auto; }
     }
-    .masonry-grid { position: relative; z-index: 1; }
+    .masonry-grid { position: relative; z-index: 1; margin-top: 8px; }
 
     /* ─── Portfolio Masonry ─── */
     .masonry-grid { column-count: 3; column-gap: 12px; }
@@ -1841,16 +1843,27 @@
 <!-- ===== WIZARD ===== -->
 <section id="diagnose" style="background:var(--cream);">
   <div class="container">
-    <div class="section-header">
-      <div class="section-label">Ihr Anliegen</div>
+    <div class="section-header" style="text-align:center;max-width:100%;">
+      <div class="section-label" style="justify-content:center;">Ihr Anliegen</div>
       <h2>Was planen Sie?</h2>
-      <p>Vier kurze Fragen – wir ermitteln den passenden Service und bereiten Ihre Anfrage optimal vor.</p>
+      <p style="margin:0 auto;max-width:560px;">Vier kurze Fragen – wir ermitteln den passenden Service und bereiten Ihre Anfrage optimal vor.</p>
     </div>
     <div id="wizard-root"></div>
-    <div class="trust-pills" style="justify-content:center;margin-top:28px;">
-      <span class="trust-pill wizard-trust-pill" style="background:rgba(46,22,8,0.07);border:1px solid rgba(46,22,8,0.14);color:var(--primary);"><i data-lucide="check"></i> Kostenlose Erstberatung</span>
-      <span class="trust-pill wizard-trust-pill" style="background:rgba(46,22,8,0.07);border:1px solid rgba(46,22,8,0.14);color:var(--primary);"><i data-lucide="check"></i> Unverbindlich anfragen</span>
-      <span class="trust-pill wizard-trust-pill" style="background:rgba(46,22,8,0.07);border:1px solid rgba(46,22,8,0.14);color:var(--primary);"><i data-lucide="check"></i> Antwort innerhalb 24 Std.</span>
+    <div style="display:flex;justify-content:center;align-items:center;gap:0;margin-top:32px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:10px;padding:0 28px;color:var(--wood-warm);font-size:0.82rem;font-weight:300;letter-spacing:0.04em;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>
+        Kostenlose Erstberatung
+      </div>
+      <span style="width:1px;height:16px;background:var(--parchment);"></span>
+      <div style="display:flex;align-items:center;gap:10px;padding:0 28px;color:var(--wood-warm);font-size:0.82rem;font-weight:300;letter-spacing:0.04em;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>
+        Unverbindlich anfragen
+      </div>
+      <span style="width:1px;height:16px;background:var(--parchment);"></span>
+      <div style="display:flex;align-items:center;gap:10px;padding:0 28px;color:var(--wood-warm);font-size:0.82rem;font-weight:300;letter-spacing:0.04em;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>
+        Antwort innerhalb 24 Std.
+      </div>
     </div>
   </div>
 </section>
@@ -1876,7 +1889,7 @@
         <div style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);font-weight:500;">Entwurf · Kalkulation · Angebot</div>
       </div>
 
-      <div style="background:var(--primary);padding:48px 36px;position:relative;overflow:hidden;">
+      <div style="background:var(--parchment);padding:48px 36px;position:relative;overflow:hidden;">
         <!-- Dot-Arrow Watermark im dunklen Panel -->
         <div style="position:absolute;bottom:24px;right:24px;opacity:0.09;pointer-events:none;">
           <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
@@ -1887,21 +1900,21 @@
           <svg width="28" height="28" viewBox="0 0 100 100" fill="none" style="display:inline-block;vertical-align:middle;flex-shrink:0;"><circle cx="14" cy="11" r="8" fill="var(--accent-lt)"/><circle cx="37" cy="24" r="8" fill="var(--accent-lt)"/><circle cx="59" cy="37" r="8" fill="var(--accent-lt)"/><circle cx="82" cy="50" r="8" fill="var(--accent-lt)"/><circle cx="59" cy="63" r="8" fill="var(--accent-lt)"/><circle cx="37" cy="76" r="8" fill="var(--accent-lt)"/><circle cx="14" cy="89" r="8" fill="var(--accent-lt)"/></svg>
           <span style="font-family:'Cormorant Garant',serif;font-size:4.5rem;font-weight:300;color:rgba(255,255,255,0.12);line-height:1;">02</span>
         </div>
-        <div style="font-size:0.68rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:0.8rem;font-weight:400;"><span style="width:30px;height:1px;background:var(--accent);display:block;flex-shrink:0;"></span>Phase II</div>
-        <h3 style="color:white;margin-bottom:16px;font-size:1.6rem;">Produktion &amp; Beschaffung</h3>
-        <p style="font-size:0.9rem;color:rgba(253,250,246,0.62);line-height:1.8;margin-bottom:20px;">Oswald Heinzer und Klaus Lukasser fertigen in der Werkstatt in Unterassling. Hochwertige Materialien, sorgfältig beschafft. Präzise gefertigt – auf den Millimeter. Fertigungszeit: 4 bis 8 Wochen, je nach Umfang. Sie werden informiert, wenn etwas Relevantes passiert.</p>
+        <div style="font-size:0.78rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--wood-warm);margin-bottom:14px;display:flex;align-items:center;gap:0.8rem;font-weight:400;"><span style="width:30px;height:1px;background:var(--accent);display:block;flex-shrink:0;"></span>Phase II</div>
+        <h3 style="color:var(--primary);margin-bottom:16px;font-size:1.6rem;">Produktion &amp; Beschaffung</h3>
+        <p style="font-size:0.9rem;color:var(--wood-warm);line-height:1.8;margin-bottom:20px;">Oswald Heinzer und Klaus Lukasser fertigen in der Werkstatt in Unterassling. Hochwertige Materialien, sorgfältig beschafft. Präzise gefertigt – auf den Millimeter. Fertigungszeit: 4 bis 8 Wochen, je nach Umfang. Sie werden informiert, wenn etwas Relevantes passiert.</p>
         <div style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);font-weight:500;">Fertigung · Materialauswahl · Qualität</div>
       </div>
 
-      <div style="background:var(--cream);padding:48px 36px;">
+      <div style="background:var(--wood-mid);padding:48px 36px;">
         <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;">
-          <svg width="28" height="28" viewBox="0 0 100 100" fill="none" style="display:inline-block;vertical-align:middle;flex-shrink:0;"><circle cx="14" cy="11" r="8" fill="var(--accent)"/><circle cx="37" cy="24" r="8" fill="var(--accent)"/><circle cx="59" cy="37" r="8" fill="var(--accent)"/><circle cx="82" cy="50" r="8" fill="var(--accent)"/><circle cx="59" cy="63" r="8" fill="var(--accent)"/><circle cx="37" cy="76" r="8" fill="var(--accent)"/><circle cx="14" cy="89" r="8" fill="var(--accent)"/></svg>
-          <span style="font-family:'Cormorant Garant',serif;font-size:4.5rem;font-weight:300;color:var(--parchment);line-height:1;">03</span>
+          <svg width="28" height="28" viewBox="0 0 100 100" fill="none" style="display:inline-block;vertical-align:middle;flex-shrink:0;"><circle cx="14" cy="11" r="8" fill="var(--accent-lt)"/><circle cx="37" cy="24" r="8" fill="var(--accent-lt)"/><circle cx="59" cy="37" r="8" fill="var(--accent-lt)"/><circle cx="82" cy="50" r="8" fill="var(--accent-lt)"/><circle cx="59" cy="63" r="8" fill="var(--accent-lt)"/><circle cx="37" cy="76" r="8" fill="var(--accent-lt)"/><circle cx="14" cy="89" r="8" fill="var(--accent-lt)"/></svg>
+          <span style="font-family:'Cormorant Garant',serif;font-size:4.5rem;font-weight:300;color:rgba(255,255,255,0.10);line-height:1;">03</span>
         </div>
-        <div class="section-label" style="margin-bottom:14px;">Phase III</div>
-        <h3 style="color:var(--primary);margin-bottom:16px;font-size:1.6rem;">Montage</h3>
-        <p style="font-size:0.9rem;color:var(--wood-warm);line-height:1.8;margin-bottom:20px;">Einbau vor Ort in Osttirol. Erst wenn alles sitzt, ist der Auftrag abgeschlossen. Übergabe mit Garantie. „Erst wenn Sie zufrieden sind, sind wir es auch" – das ist nicht Marketingtext, das ist unser Maßstab seit 2016.</p>
-        <div style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);font-weight:500;">Montage · Übergabe · Garantie</div>
+        <div class="section-label" style="margin-bottom:14px;color:rgba(253,250,246,0.55);">Phase III</div>
+        <h3 style="color:white;margin-bottom:16px;font-size:1.6rem;">Montage</h3>
+        <p style="font-size:0.9rem;color:rgba(253,250,246,0.65);line-height:1.8;margin-bottom:20px;">Einbau vor Ort in Osttirol. Erst wenn alles sitzt, ist der Auftrag abgeschlossen. Übergabe mit Garantie. „Erst wenn Sie zufrieden sind, sind wir es auch" – das ist nicht Marketingtext, das ist unser Maßstab seit 2016.</p>
+        <div style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-lt);font-weight:500;">Montage · Übergabe · Garantie</div>
       </div>
 
     </div>
@@ -1916,7 +1929,7 @@
         <div class="section-label">Unsere Arbeiten</div>
         <h2>Jedes Projekt –<br>für sich einzigartig.</h2>
       </div>
-      <div class="portfolio-header-right">
+      <div class="portfolio-header-right" style="margin-top:auto;padding-top:40px;">
         Einblicke in abgeschlossene Projekte – Küchen, Einbaumöbel, Bäder, Fenster und Betriebsausstattungen, die wir mit Hand und Handwerk gebaut haben.
       </div>
     </div>
@@ -2260,11 +2273,12 @@
   <div class="container">
     <div class="footer-inner">
       <div>
-        <div class="footer-brand" style="display:flex;align-items:center;gap:10px;">
+        <div class="footer-brand" style="display:flex;align-items:center;gap:7px;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:300;color:rgba(255,255,255,0.90);">
           <svg width="18" height="18" viewBox="0 0 100 100" fill="none" style="flex-shrink:0;opacity:0.65;">
-          <circle cx="14" cy="11" r="8" fill="white"/><circle cx="37" cy="24" r="8" fill="white"/><circle cx="59" cy="37" r="8" fill="white"/><circle cx="82" cy="50" r="8" fill="white"/><circle cx="59" cy="63" r="8" fill="white"/><circle cx="37" cy="76" r="8" fill="white"/><circle cx="14" cy="89" r="8" fill="white"/>
-        </svg>
-          HLW <span>Wohnservice</span></div>
+            <circle cx="14" cy="11" r="8" fill="white"/><circle cx="37" cy="24" r="8" fill="white"/><circle cx="59" cy="37" r="8" fill="white"/><circle cx="82" cy="50" r="8" fill="white"/><circle cx="59" cy="63" r="8" fill="white"/><circle cx="37" cy="76" r="8" fill="white"/><circle cx="14" cy="89" r="8" fill="white"/>
+          </svg>
+          <span class="nav-logo-hlw">HLW Wohnservice GmbH</span>
+        </div>
         <p class="footer-tagline">Vollständiger Innenausbau aus einer Hand – Tischlerei, Küchen, Bäder, Fenster, Türen und Maßmöbel in Assling und ganz Osttirol. Seit 1. Juli 2016.</p>
         <a href="tel:+436645655029" class="footer-phone">
           <i data-lucide="phone"></i>
