@@ -958,8 +958,8 @@
     /* Ghost "10 Jahre" */
     .jubilee-ghost {
       position: absolute;
-      top: 50%; right: 3vw;
-      transform: translateY(-50%);
+      top: 12%; right: 3vw;
+      transform: none;
       font-family: 'Cormorant Garant', serif;
       font-size: clamp(8rem, 18vw, 20rem);
       font-weight: 300;
@@ -1190,8 +1190,8 @@
     /* Ghost "10 Jahre" */
     .jubilee-ghost {
       position: absolute;
-      top: 50%; right: 3vw;
-      transform: translateY(-50%);
+      top: 12%; right: 3vw;
+      transform: none;
       font-family: 'Cormorant Garant', serif;
       font-size: clamp(9rem, 20vw, 22rem);
       font-weight: 300;
@@ -1207,6 +1207,7 @@
     }
     /* Content – identische Positionierung wie Hero */
     .jubilee-inner-wrap {
+      overflow: hidden;
       position: relative; z-index: 2;
       width: 100%;
       max-width: 1400px;
@@ -1228,6 +1229,7 @@
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.07);
       border-radius: var(--radius);
+      margin-top: 48px;
       position: relative;
     }
     .jubilee-quote-col::before {
@@ -1257,7 +1259,8 @@
       background: var(--accent); display: block;
     }
     @media (max-width: 1024px) {
-      .jubilee-inner-wrap { grid-template-columns: 1fr; gap: 48px; }
+      .jubilee-inner-wrap {
+      overflow: hidden; grid-template-columns: 1fr; gap: 48px; }
       .jubilee-quote-col { padding: 32px; }
     }
     @media (max-width: 768px) {
@@ -1279,6 +1282,10 @@
       color: var(--white);
       max-width: 720px;
       margin-bottom: 1.4rem;
+    }
+    .jubilee-content h2 em {
+      font-style: italic;
+      color: var(--accent-lt);
     }
     .jubilee-sub {
       font-size: 1.05rem; font-weight: 300;
@@ -1963,7 +1970,7 @@
   <div class="jubilee-inner-wrap">
   <div class="jubilee-content">
     <div class="jubilee-eyebrow">1. Juli 2016 – 1. Juli 2026</div>
-    <h2>Danke für 10 Jahre<br>Vertrauen, Osttirol.</h2>
+    <h2>10 Jahre HLW.<br><em>Wir sagen Danke</em><br>für Ihr Vertrauen.</h2>
     <p class="jubilee-sub">
       Ein Jahrzehnt Planung, Handwerk und Montage – aus einer Hand, aus Assling.
       Drei Tischler. Ein Versprechen. Jedes Projekt eine Ehre.
