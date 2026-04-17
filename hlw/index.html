@@ -280,7 +280,7 @@
             .nav-logo {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 5px;
       font-family: 'Montserrat', sans-serif;
       font-size: 15.5px;
       font-weight: 300;
@@ -297,8 +297,9 @@
     .nav-logo-sep {
       color: rgba(255,255,255,0.88);
       font-weight: 300;
-      margin: 0;
-      letter-spacing: -0.02em;
+      margin: 0 2px;
+      letter-spacing: 0;
+      font-size: 13px;
     }
     .nav-logo-gmbh {
       color: rgba(255,255,255,0.88);
@@ -417,13 +418,14 @@
     }
 
     /* Ghost "10" – das Jubiläum als visueller Anker */
-            .hero-ghost-num {
+                .hero-ghost-num {
       position: absolute;
       top: 8%; right: 4vw;
       font-family: 'Cormorant Garant', serif;
       font-size: clamp(10rem, 22vw, 22rem);
       font-weight: 300;
-      color: rgba(255,255,255,0.032);
+      color: white;
+      opacity: 0.032;
       line-height: 1;
       letter-spacing: -0.04em;
       user-select: none; pointer-events: none;
@@ -513,13 +515,14 @@
 
     @media (max-width: 768px) {
       .hero-content { padding: 12vh 24px 8vh; }
-              .hero-ghost-num {
+                  .hero-ghost-num {
       position: absolute;
       top: 8%; right: 4vw;
       font-family: 'Cormorant Garant', serif;
       font-size: clamp(10rem, 22vw, 22rem);
       font-weight: 300;
-      color: rgba(255,255,255,0.032);
+      color: white;
+      opacity: 0.032;
       line-height: 1;
       letter-spacing: -0.04em;
       user-select: none; pointer-events: none;
@@ -1267,7 +1270,7 @@
       <svg width="22" height="22" viewBox="0 0 100 100" fill="none" opacity="0.9">
           <circle cx="14" cy="11" r="8" fill="white"/><circle cx="37" cy="24" r="8" fill="white"/><circle cx="59" cy="37" r="8" fill="white"/><circle cx="82" cy="50" r="8" fill="white"/><circle cx="59" cy="63" r="8" fill="white"/><circle cx="37" cy="76" r="8" fill="white"/><circle cx="14" cy="89" r="8" fill="white"/>
         </svg>
-      <span class="nav-logo-hlw">HLW</span><span class="nav-logo-sep"> – </span>Wohnservice <span class="nav-logo-gmbh">GmbH</span></a>
+      <span class="nav-logo-hlw">HLW</span><span class="nav-logo-sep">–</span>Wohnservice <span class="nav-logo-gmbh">GmbH</span></a>
     <ul class="nav-links">
       <li><a href="#leistungen">Leistungen</a></li>
       <li><a href="#diagnose">Projekt-Check</a></li>
