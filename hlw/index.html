@@ -1212,7 +1212,7 @@
       width: 100%;
       max-width: 1400px;
       margin: 0 auto;
-      padding: 0 min(6vw, 72px);
+      padding: 10vh min(6vw, 72px);
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
       gap: 80px;
@@ -1312,11 +1312,13 @@
       letter-spacing: 0.08em; text-transform: uppercase;
     }
     @media (max-width: 768px) {
-      .jubilee-section { min-height: 70vh; }
+      .jubilee-section { min-height: auto; }
+      .jubilee-inner-wrap { padding: 64px 24px; }
       .jubilee-ghost { display: none; }
       .jubilee-dot-ghost { display: none; }
-      .jubilee-stats-row { gap: 28px; }
+      .jubilee-stats-row { gap: 20px; }
       .jubilee-stat-num { font-size: 2rem; }
+      .jubilee-quote-col { margin-top: 0; padding: 28px; }
     }
 
     /* ─── Team ─── */
