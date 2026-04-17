@@ -270,33 +270,33 @@
       max-width: 1440px;
       margin: 0 auto;
     }
-        .nav-logo {
+            .nav-logo {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 15px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15.5px;
       font-weight: 300;
-      color: rgba(255,255,255,0.90);
-      letter-spacing: 0.03em;
+      color: rgba(255,255,255,0.88);
+      letter-spacing: 0.01em;
       text-decoration: none;
       flex-shrink: 0;
+      white-space: nowrap;
     }
     .nav-logo-hlw {
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      color: white;
+      font-weight: 300;
+      letter-spacing: 0.01em;
     }
     .nav-logo-sep {
-      color: rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.88);
       font-weight: 300;
-      margin: 0 2px;
+      margin: 0 1px;
     }
     .nav-logo-gmbh {
-      color: rgba(255,255,255,0.42);
-      font-size: 13px;
+      color: rgba(255,255,255,0.88);
+      font-size: 15.5px;
       font-weight: 300;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.01em;
     }
     .nav-links {
       display: flex;
@@ -382,57 +382,46 @@
       overflow: hidden;
     }
 
-    /* Foto-Layer */
-    .hero-photo {
-      position: absolute; inset: 0;
-      background:
-        url('https://picsum.photos/seed/holzwerkstatt/1920/1080') center/cover no-repeat;
-      opacity: 0.28;
-    }
-
-    /* Gradient-Layer über Foto */
+    /* Kassewalder BG – exakt */
     .hero-bg {
-      position: absolute; inset: 0;
+      position: absolute;
+      inset: 0;
       background:
-        radial-gradient(ellipse 90% 70% at 70% 30%, rgba(46,22,8,0.55) 0%, transparent 65%),
-        radial-gradient(ellipse 60% 90% at 5% 95%, rgba(26,15,7,0.80) 0%, transparent 50%),
-        linear-gradient(160deg,
-          rgba(26,15,7,0.95) 0%,
-          rgba(46,22,8,0.65) 40%,
-          rgba(30,14,4,0.75) 100%);
+        radial-gradient(ellipse 80% 60% at 60% 40%, rgba(92,51,23,0.5) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 80% at 20% 80%, rgba(61,92,56,0.2) 0%, transparent 60%),
+        linear-gradient(160deg, #1A0F07 0%, #2E1608 40%, #1E0C04 100%);
     }
-
-    /* Wood grain lines */
+    /* Wood grain */
     .hero-bg::before {
       content: '';
       position: absolute; inset: 0;
       background-image:
-        repeating-linear-gradient(87deg, transparent 0px, transparent 22px,
-          rgba(255,255,255,0.008) 22px, rgba(255,255,255,0.008) 23px),
-        repeating-linear-gradient(93deg, transparent 0px, transparent 40px,
-          rgba(255,255,255,0.006) 40px, rgba(255,255,255,0.006) 41px);
+        repeating-linear-gradient(87deg, transparent 0px, transparent 18px,
+          rgba(255,255,255,0.012) 18px, rgba(255,255,255,0.012) 19px),
+        repeating-linear-gradient(93deg, transparent 0px, transparent 35px,
+          rgba(255,255,255,0.008) 35px, rgba(255,255,255,0.008) 36px);
     }
-
-    /* Bottom fade */
+    /* Bottom vignette */
     .hero-bg::after {
       content: '';
-      position: absolute; bottom: 0; left: 0; right: 0; height: 50%;
-      background: linear-gradient(to top, rgba(26,15,7,0.80), transparent);
+      position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+      background: linear-gradient(to top, rgba(26,15,7,0.7), transparent);
     }
 
     /* Ghost "10" – das Jubiläum als visueller Anker */
-    .hero-ghost-num {
+        .hero-ghost-num {
       position: absolute;
-      top: 50%; right: 3vw;
-      transform: translateY(-55%);
+      top: 50%; right: 4vw;
+      transform: translateY(-52%);
       font-family: 'Cormorant Garant', serif;
-      font-size: clamp(14rem, 28vw, 28rem);
+      font-size: clamp(10rem, 22vw, 22rem);
       font-weight: 300;
-      color: rgba(255,255,255,0.032);
+      color: rgba(255,255,255,0.03);
       line-height: 1;
-      letter-spacing: -0.06em;
+      letter-spacing: -0.04em;
       user-select: none; pointer-events: none;
       animation: fadeInRight 1.6s ease 0.5s both;
+      white-space: nowrap;
     }
 
     /* Dot-Arrow ghost */
@@ -516,7 +505,20 @@
 
     @media (max-width: 768px) {
       .hero-content { padding: 0 24px 8vh; }
-      .hero-ghost-num { font-size: 10rem; opacity: 0.025; right: -2vw; }
+          .hero-ghost-num {
+      position: absolute;
+      top: 50%; right: 4vw;
+      transform: translateY(-52%);
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(10rem, 22vw, 22rem);
+      font-weight: 300;
+      color: rgba(255,255,255,0.03);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      user-select: none; pointer-events: none;
+      animation: fadeInRight 1.6s ease 0.5s both;
+      white-space: nowrap;
+    }
       .hero-dot-ghost { display: none; }
       .hero-scroll { display: none; }
       .hero-trust { gap: 8px; }
@@ -1284,60 +1286,57 @@
 
 <!-- ===== HERO ===== -->
 <section class="hero">
-  <div class="hero-photo"></div>
   <div class="hero-bg"></div>
 
-  <!-- Ghost "10" – Jubiläum als visueller Anker -->
-  <div class="hero-ghost-num" aria-hidden="true">10</div>
+  <!-- Ghost "◦◦◦ 2016" – Dot-Arrow + Gründungsjahr -->
+  <div class="hero-ghost-num" aria-hidden="true">
+    <span style="display:inline-flex;align-items:center;gap:0.18em;vertical-align:middle;opacity:0.85;margin-right:0.12em;">
+      <svg width="0.38em" height="0.38em" viewBox="0 0 100 100" fill="none" style="display:inline-block;">
+        <circle cx="14" cy="11" r="8" fill="white"/><circle cx="37" cy="24" r="8" fill="white"/><circle cx="59" cy="37" r="8" fill="white"/><circle cx="82" cy="50" r="8" fill="white"/><circle cx="59" cy="63" r="8" fill="white"/><circle cx="37" cy="76" r="8" fill="white"/><circle cx="14" cy="89" r="8" fill="white"/>
+      </svg>
+    </span>2016
+  </div>
 
-  <!-- Dot-Arrow Ghost -->
+  <!-- Dot-Arrow Ghost unten links -->
   <div class="hero-dot-ghost" aria-hidden="true">
     <svg width="148" height="148" viewBox="0 0 100 100" fill="none">
       <circle cx="14" cy="11" r="8" fill="white"/><circle cx="37" cy="24" r="8" fill="white"/><circle cx="59" cy="37" r="8" fill="white"/><circle cx="82" cy="50" r="8" fill="white"/><circle cx="59" cy="63" r="8" fill="white"/><circle cx="37" cy="76" r="8" fill="white"/><circle cx="14" cy="89" r="8" fill="white"/>
     </svg>
   </div>
 
-  <!-- Content: bottom-left -->
   <div class="hero-content">
 
-    <div class="hero-eyebrow">Tischlerei · Innenausbau · Assling · Osttirol</div>
+    <div class="hero-eyebrow">Tischlerei · Innenausbau · Osttirol</div>
 
-    <h1>Küchen. Möbel.<br>Fenster &amp; Türen.<br><em>Aus einer Hand.</em></h1>
+    <h1>Ihr Zuhause.<br><em>Nach Maß gefertigt</em><br>wie kein zweites.</h1>
 
-    <p class="hero-sub">
-      Vollständiger Innenausbau – von der Entwurfsplanung über die Fertigung
-      in der eigenen Werkstatt bis zur fachgerechten Montage.
-      Tischlermeister Gerhard Wurzer und sein Team.
-      Privat- und Gewerbekunden in Osttirol seit 2016.
-    </p>
+    <p class="hero-sub">Von der Erstberatung bis zur fertigen Einrichtung – mit Fixpreisgarantie, persönlichem Ansprechpartner und über 100 Jahren Berufserfahrung aus Osttirol.</p>
 
     <div class="hero-trust">
       <div class="hero-trust-pill">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        Tischlermeister · Meisterqualität
+        Fixpreisgarantie
       </div>
       <div class="hero-trust-pill">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        100+ Jahre Berufserfahrung im Team
+        Antwort innerhalb 24h
       </div>
       <div class="hero-trust-pill">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        Fixpreisangebot – keine Überraschungen
+        Kostenlose Erstberatung
       </div>
       <div class="hero-trust-pill">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        10 Jahre Marktpräsenz in Osttirol
+        Tischlermeister Gerhard Wurzer
       </div>
     </div>
 
     <div class="hero-ctas">
       <a href="#kontakt" class="btn-primary">
-        Kostenloses Beratungsgespräch
-        <svg width="14" height="14" viewBox="0 0 100 100" fill="none">
-          <circle cx="14" cy="11" r="8" fill="white"/><circle cx="37" cy="24" r="8" fill="white"/><circle cx="59" cy="37" r="8" fill="white"/><circle cx="82" cy="50" r="8" fill="white"/><circle cx="59" cy="63" r="8" fill="white"/><circle cx="37" cy="76" r="8" fill="white"/><circle cx="14" cy="89" r="8" fill="white"/>
-        </svg>
+        Kostenlos anfragen
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
-      <a href="#projekte" class="btn-secondary">Projekte ansehen</a>
+      <a href="#leistungen" class="btn-secondary">Leistungen entdecken</a>
     </div>
 
   </div>
