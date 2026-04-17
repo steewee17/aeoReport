@@ -1378,15 +1378,20 @@
       align-items: flex-end;
       justify-content: space-between;
       margin-bottom: 3.5rem;
-      flex-wrap: wrap;
       gap: 1.5rem;
       position: relative; z-index: 1;
     }
-    .portfolio-header-left { max-width: 480px; }
+    .portfolio-header-left { max-width: 540px; }
     .portfolio-header-right {
-      max-width: 280px;
-      font-size: 0.85rem; font-weight: 300;
-      color: var(--wood-warm); line-height: 1.7;
+      max-width: 260px;
+      font-size: 0.82rem; font-weight: 300;
+      color: var(--wood-warm); line-height: 1.75;
+      padding-bottom: 4px;
+      align-self: flex-end;
+    }
+    @media (max-width: 768px) {
+      .portfolio-header { flex-direction: column; align-items: flex-start; }
+      .portfolio-header-right { max-width: 100%; align-self: auto; }
     }
     .masonry-grid { position: relative; z-index: 1; }
 
@@ -1900,14 +1905,11 @@
     <div class="portfolio-header">
       <div class="portfolio-header-left">
         <div class="section-label">Unsere Arbeiten</div>
-        <h2>Jedes Stück<br>ein Original.</h2>
+        <h2>Jedes Projekt –<br>für sich einzigartig.</h2>
       </div>
       <div class="portfolio-header-right">
         Einblicke in abgeschlossene Projekte – Küchen, Einbaumöbel, Bäder, Fenster und Betriebsausstattungen, die wir mit Hand und Handwerk gebaut haben.
       </div>
-    </div>
-      <h2>Jedes Stück ein Original.</h2>
-      <p>Von der Traumküche in Lienz bis zur Betriebsausstattung im Defereggental – Einblick in unsere Werkstatt.</p>
     </div>
     <div class="masonry-grid">
       <div class="masonry-item">
@@ -1986,7 +1988,19 @@
         <circle cx="14" cy="11" r="8" fill="white"/><circle cx="37" cy="24" r="8" fill="white"/><circle cx="59" cy="37" r="8" fill="white"/><circle cx="82" cy="50" r="8" fill="white"/><circle cx="59" cy="63" r="8" fill="white"/><circle cx="37" cy="76" r="8" fill="white"/><circle cx="14" cy="89" r="8" fill="white"/>
       </svg>
     </a>
+  </div><!-- /jubilee-content -->
+
+  <!-- Rechts: Zitat -->
+  <div class="jubilee-quote-col">
+    <div>
+      <p class="jubilee-blockquote">
+        „Die schönsten Aufträge sind jene, bei denen der Kunde am Ende sagt: Genau so hab ich mir das vorgestellt – und sogar noch besser."
+      </p>
+      <div class="jubilee-quote-cite">Gerhard Wurzer · Tischlermeister &amp; Gründer</div>
+    </div>
   </div>
+
+  </div><!-- /jubilee-inner-wrap -->
 
 </section>
 
