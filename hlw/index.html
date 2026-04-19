@@ -978,14 +978,13 @@
     /* Ghost "10 Jahre" */
     .jubilee-ghost {
       position: absolute;
-      top: 12%; right: 3vw;
-      transform: none;
+      top: 10%; right: 3vw;
+      z-index: 3;
       font-family: 'Cormorant Garant', serif;
-      font-size: clamp(8rem, 18vw, 20rem);
+      font-size: clamp(9rem, 20vw, 22rem);
       font-weight: 300;
       color: rgba(255,255,255,0.032);
-      line-height: 1;
-      letter-spacing: -0.04em;
+      line-height: 1; letter-spacing: -0.04em;
       user-select: none; pointer-events: none;
       white-space: nowrap;
     }
@@ -1208,18 +1207,6 @@
       pointer-events: none;
     }
     /* Ghost "10 Jahre" */
-    .jubilee-ghost {
-      position: absolute;
-      top: 12%; right: 3vw;
-      transform: none;
-      font-family: 'Cormorant Garant', serif;
-      font-size: clamp(9rem, 20vw, 22rem);
-      font-weight: 300;
-      color: rgba(255,255,255,0.032);
-      line-height: 1; letter-spacing: -0.04em;
-      user-select: none; pointer-events: none;
-      white-space: nowrap;
-    }
     /* Dot-arrow ghost */
     .jubilee-dot-ghost {
       position: absolute; bottom: 8vh; left: 5vw;
@@ -1227,7 +1214,7 @@
     }
     /* Content – identische Positionierung wie Hero */
     .jubilee-inner-wrap {
-      overflow: hidden;
+      overflow: visible;
       position: relative; z-index: 2;
       width: 100%;
       max-width: 1400px;
@@ -1280,7 +1267,7 @@
     }
     @media (max-width: 1024px) {
       .jubilee-inner-wrap {
-      overflow: hidden; grid-template-columns: 1fr; gap: 48px; }
+      overflow: visible; grid-template-columns: 1fr; gap: 48px; }
       .jubilee-quote-col { padding: 32px; }
     }
     @media (max-width: 768px) {
@@ -1338,15 +1325,15 @@
         font-size: 4.5rem;
         top: auto;
         bottom: 3vh;
-        right: 0;
-        left: 0;
+        right: 0; left: 0;
         text-align: right;
         padding-right: 16px;
         opacity: 0.045;
         display: block;
+        z-index: 3;
         letter-spacing: -0.02em;
         white-space: nowrap;
-        overflow: hidden;
+        overflow: visible;
       }
       .jubilee-dot-ghost { display: none; }
       .jubilee-stats-row { gap: 20px; }
