@@ -815,7 +815,16 @@ footer { background: var(--ink); padding: 48px 0 32px; }
   .nav-burger { display: block; }
   .hero-content { padding: 120px 0 60px; }
   .hero-ghost { display: none; }
-  .hero-meisterbetrieb { display: none; }
+  .hero-meisterbetrieb { 
+    display: flex;          /* war: display: none */
+    position: static;       /* nicht mehr absolute */
+    flex-direction: row;    /* nebeneinander statt untereinander */
+    align-items: center;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .hero-meisterbetrieb img { width: 40px; height: 40px; }
+  .hero-meisterbetrieb span { font-size: 0.65rem; } }
   .trust-grid { grid-template-columns: 1fr 1fr; }
   .trust-card:nth-child(3) { border-top: 1px solid rgba(255,255,255,0.07); }
   .faq-grid { grid-template-columns: 1fr; }
@@ -987,7 +996,7 @@ footer { background: var(--ink); padding: 48px 0 32px; }
       </div>
     </div>
   </div>
-  <div class="hero-meisterbetrieb" aria-hidden="true">
+  <div class="hero-meisterbetrieb">
     <img src="meisterbetrieb.svg" alt="Meisterbetrieb Siegel">
     <span>Meisterbetrieb</span>
   </div>
