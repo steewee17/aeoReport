@@ -142,6 +142,7 @@ nav.scrolled {
 .nav-burger span {
   display: block; width: 24px; height: 2px;
   background: white; margin: 5px 0; transition: all 0.3s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);  /* ← NEU */
 }
 .nav-mobile {
   display: none; position: fixed; top: 72px; left: 0; right: 0;
@@ -812,6 +813,10 @@ footer { background: var(--ink); padding: 48px 0 32px; }
   .testimonials-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 768px) {
+  nav {
+    background: rgba(17, 24, 32, 0.85) !important;
+    backdrop-filter: blur(14px);
+  }
   .nav-links { display: none; }
   .nav-burger { display: block; }
   .hero-content { padding: 120px 0 60px; }
