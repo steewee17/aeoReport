@@ -1491,37 +1491,37 @@ footer { background: var(--ink); padding: 48px 0 32px; }
     <div class="carousel-wrapper" style="margin-top:48px; position:relative;">
       <div class="carousel-track-outer" style="overflow:hidden;">
         <div class="carousel-track" id="carousel-track" style="display:flex; transition:transform 0.5s ease; gap:20px;">
-          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+          <div class="testimonial-card" style="flex-shrink:0; flex-grow:0;">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&bdquo;Die komplizierte Lackierung ist ohne sichtbare &Uuml;berg&auml;nge perfekt gelungen &ndash; das Auto sieht aus wie frisch ausgeliefert.&ldquo;</p>
             <div class="testimonial-author">M.H. &ndash; Lienz</div>
           </div>
-          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+          <div class="testimonial-card" style="flex-shrink:0; flex-grow:0;">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&bdquo;Innerhalb von einem Tag repariert. Sofort wurde mir geholfen, alles lief reibungslos &ndash; l&auml;uft alles so ab, wie man es sich w&uuml;nscht.&ldquo;</p>
             <div class="testimonial-author">G.K. &ndash; Pustertal</div>
           </div>
-          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+          <div class="testimonial-card" style="flex-shrink:0; flex-grow:0;">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&bdquo;In famili&auml;rer aber professioneller Beratung &ndash; mega kompetente Einsch&auml;tzung und schnelle L&ouml;sungsvorschl&auml;ge. Kann ich jedem nur w&auml;rmstens empfehlen.&ldquo;</p>
             <div class="testimonial-author">R.S. &ndash; Lienz</div>
           </div>
-          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+          <div class="testimonial-card" style="flex-shrink:0; flex-grow:0;">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&bdquo;Mein Auto sieht wie neu aus &ndash; innen und au&szlig;en. Sehr saubere Arbeit, toller Job. Nette, freundliche Leute.&ldquo;</p>
             <div class="testimonial-author">T.W. &ndash; Osttirol</div>
           </div>
-          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+          <div class="testimonial-card" style="flex-shrink:0; flex-grow:0;">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&bdquo;Sofort einen Notfalltermin am selben Tag angeboten. Schnelle Hilfe und ehrliche Einsch&auml;tzung der Reparaturen &ndash; Mechaniker meines Vertrauens.&ldquo;</p>
             <div class="testimonial-author">B.M. &ndash; Lienz</div>
           </div>
-          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+          <div class="testimonial-card" style="flex-shrink:0; flex-grow:0;">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&bdquo;Bester und freundlichster Betrieb. Werde auf jeden Fall wieder kommen &ndash; absolute Empfehlung f&uuml;r alle im Pustertal.&ldquo;</p>
             <div class="testimonial-author">A.P. &ndash; Pustertal</div>
           </div>
-          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+          <div class="testimonial-card" style="flex-shrink:0; flex-grow:0;">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&bdquo;Ich hatte jederzeit das Gef&uuml;hl, gut aufgehoben zu sein. Transparente Beratung, fairer Preis &ndash; eine klare Empfehlung!&ldquo;</p>
             <div class="testimonial-author">S.H. &ndash; Lienz</div>
@@ -2048,15 +2048,24 @@ renderWizard();
   }
 
   function goTo(page) {
-    const visible = getVisible();
-    const pages   = Math.ceil(total / visible);
-    current = Math.max(0, Math.min(page, pages - 1));
-    const cardW = track.parentElement.offsetWidth / visible;
-    track.style.transform = `translateX(-${current * visible * (cardW + 20)}px)`;
-    dotsWrap.querySelectorAll('.carousel-dot').forEach((d, i) => {
-      d.classList.toggle('active', i === current);
-    });
-  }
+  const visible = getVisible();
+  const pages   = Math.ceil(total / visible);
+  current = Math.max(0, Math.min(page, pages - 1));
+  const outerW = track.parentElement.offsetWidth;
+  const gap    = 20;
+  const cardW  = (outerW - gap * (visible - 1)) / visible;
+
+  // Breite jeder Karte dynamisch setzen
+  cards.forEach(c => {
+    c.style.minWidth = cardW + 'px';
+    c.style.maxWidth = cardW + 'px';
+  });
+
+  track.style.transform = `translateX(-${current * visible * (cardW + gap)}px)`;
+  dotsWrap.querySelectorAll('.carousel-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === current);
+  });
+}
 
   btnPrev.addEventListener('click', () => { goTo(current - 1); resetAuto(); });
   btnNext.addEventListener('click', () => { goTo(current + 1); resetAuto(); });
@@ -2070,7 +2079,7 @@ renderWizard();
   }
 
   window.addEventListener('resize', () => { buildDots(); goTo(0); });
-  buildDots();
+  buildDots(0);
   resetAuto();
 })();
 </script>
