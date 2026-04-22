@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KFZ Ruggenthaler – Werkstatt, Karosserie &amp; Lackierung | Meisterbetrieb Lienz</title>
+  <title>KFZ Ruggenthaler – Werkstatt, Karosserie &amp; Lackierung | Meisterbetrieb Lienz</title>
   <meta name="description" content="KFZ Ruggenthaler in Lienz, Osttirol: Meisterbetrieb für Werkstatt, Karosserie &amp; Lackierung. Alle Marken, 30 Jahre Erfahrung, ehrlicher Kostenvoranschlag. Jetzt Termin: +43 4852 67233.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.hans-ruggenthaler.at/">
@@ -19,926 +19,6 @@
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
 
 <style>
-/* ============================
-   ROOT / DESIGN TOKENS
-   ============================ */
-:root {
-  --primary:      #1A2332;
-  --primary-dark: #111820;
-  --accent:       #E8640A;
-  --accent-dark:  #C45508;
-  --accent-lt:    #F08040;
-  --accent-rgb:   232, 100, 10;
-  --primary-rgb:  26, 35, 50;
-  --text:         #2d2d2d;
-  --text-light:   #6b7280;
-  --white:        #FDFAF6;
-  --shadow-sm:    0 2px 12px rgba(0,0,0,0.06);
-  --shadow-md:    0 4px 24px rgba(0,0,0,0.10);
-  --shadow-lg:    0 8px 40px rgba(0,0,0,0.18);
-  --radius:       4px;
-  --radius-full:  999px;
-  --ink:          #0D1520;
-  --steel-mid:    #2C3E50;
-  --steel-warm:   #4A5568;
-  --cream:        #F4F1EC;
-  --linen:        #ECEAE4;
-  --parchment:    #DDD9D0;
-}
-
-/* ============================
-   RESET / BASE
-   ============================ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Source Serif 4', Georgia, serif;
-  font-weight: 300;
-  color: var(--text);
-  background: var(--cream);
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-}
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.018;
-  pointer-events: none; z-index: 9999;
-}
-img { display: block; max-width: 100%; }
-a { color: inherit; text-decoration: none; }
-ul { list-style: none; }
-
-h1, h2, h3, h4 {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  line-height: 1.1;
-}
-h1 { font-size: clamp(2.4rem, 6vw, 5rem); font-weight: 500; }
-h2 { font-size: clamp(1.8rem, 3.5vw, 3rem); }
-h3 { font-size: clamp(1.1rem, 1.8vw, 1.4rem); }
-p  { line-height: 1.75; font-weight: 300; }
-.hl { color: var(--accent-lt); }
-
-.container { max-width: 1280px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 60px); }
-.section-label {
-  font-size: 0.72rem; letter-spacing: 0.28em;
-  text-transform: uppercase; font-weight: 400;
-  color: var(--accent);
-  display: flex; align-items: center; gap: 0.8rem;
-  margin-bottom: 1rem;
-}
-.section-label::before {
-  content: ''; width: 28px; height: 2px;
-  background: var(--accent); display: block; flex-shrink: 0;
-}
-
-[data-lucide] { width: 20px; height: 20px; stroke-width: 1.75; display: inline-block; vertical-align: middle; }
-.icon-lg [data-lucide], [data-lucide].icon-lg { width: 28px; height: 28px; }
-.icon-xl [data-lucide], [data-lucide].icon-xl { width: 40px; height: 40px; }
-
-/* ============================
-   NAVIGATION
-   ============================ */
-nav {
-  position: fixed; top: 0; left: 0; right: 0;
-  z-index: 100;
-  background: transparent;
-  transition: background 0.4s, backdrop-filter 0.4s;
-  padding: 0 clamp(20px, 5vw, 60px);
-}
-nav.scrolled {
-  background: rgba(17, 24, 32, 0.96);
-  backdrop-filter: blur(14px);
-}
-.nav-inner {
-  max-width: 1280px; margin: 0 auto;
-  display: flex; align-items: center; justify-content: space-between;
-  height: 100px;
-}
-.nav-logo img { height: 72px; width: auto; }
-.nav-links { display: flex; align-items: center; gap: 2.4rem; }
-.nav-links a {
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.8);
-  transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--accent-lt); }
-.nav-cta {
-  background: var(--accent);
-  color: white !important;
-  padding: 9px 22px;
-  border-radius: 2px;
-  font-weight: 500;
-  transition: background 0.2s, transform 0.15s !important;
-}
-.nav-cta:hover { background: var(--accent-dark) !important; transform: translateY(-1px); }
-.nav-burger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
-.nav-burger span {
-  display: block; width: 24px; height: 2px;
-  background: white; margin: 5px 0; transition: all 0.3s;
-}
-.nav-mobile {
-  display: none; position: fixed; top: 72px; left: 0; right: 0;
-  background: rgba(17,24,32,0.98); backdrop-filter: blur(14px);
-  padding: 24px; z-index: 99;
-  flex-direction: column; gap: 0;
-}
-.nav-mobile.open { display: flex; }
-.nav-mobile a {
-  font-family: 'Oswald', sans-serif; letter-spacing: 0.12em;
-  text-transform: uppercase; color: rgba(255,255,255,0.85);
-  padding: 14px 0; font-size: 0.9rem;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-.nav-mobile a:last-child { border: none; }
-
-/* ============================
-   HERO
-   ============================ */
-.hero {
-  min-height: 100vh;
-  position: relative;
-  display: flex; align-items: flex-end;
-  overflow: hidden;
-}
-.hero-bg {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(160deg, rgba(13,21,32,0.93) 0%, rgba(26,35,50,0.80) 42%, rgba(13,21,32,0.55) 100%),
-    url('ruggenthaler-foto_1.webp');
-  background-size: cover;
-  background-position: center 35%;
-}
-.hero-ghost {
-  position: absolute; top: 7%; right: 2vw;
-  font-family: 'Oswald', sans-serif; font-size: clamp(8rem, 20vw, 22rem);
-  font-weight: 200; color: rgba(255,255,255,0.08);
-  line-height: 1; letter-spacing: -0.02em;
-  user-select: none; pointer-events: none; white-space: nowrap; z-index: 0;
-  animation: slideInRight 1.6s ease 0.3s both;
-}
-@keyframes slideInRight {
-  from { transform: translateX(24px); }
-  to   { transform: none; }
-}
-.hero-inner {
-  width: 100%; max-width: 1280px; margin: 0 auto;
-  padding: 0 clamp(20px, 5vw, 60px);
-  position: relative; z-index: 2;
-}
-.hero-content {
-  padding: 20vh 0 9vh;
-  max-width: 760px;
-}
-.hero-eyebrow {
-  font-family: 'Oswald', sans-serif; font-size: 0.72rem;
-  letter-spacing: 0.32em; text-transform: uppercase;
-  color: var(--accent-lt); margin-bottom: 1.4rem;
-  display: flex; align-items: center; gap: 12px;
-}
-.hero-eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--accent); }
-.hero h1 { color: white; margin-bottom: 1.4rem; }
-.hero-sub {
-  font-size: clamp(1rem, 1.4vw, 1.15rem);
-  color: rgba(255,255,255,0.72);
-  max-width: 560px; margin-bottom: 2.4rem;
-  line-height: 1.75;
-}
-.hero-trust {
-  display: flex; flex-wrap: wrap; gap: 10px;
-  margin-bottom: 2.8rem;
-}
-.hero-pill {
-  display: flex; align-items: center; gap: 7px;
-  border: 1px solid rgba(232,100,10,0.35);
-  border-radius: var(--radius-full);
-  color: rgba(255,255,255,0.88); padding: 5px 14px;
-  font-size: 0.72rem; letter-spacing: 0.08em;
-}
-.hero-pill svg { width: 12px; height: 12px; stroke: var(--accent-lt); }
-.hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
-.btn-primary {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--accent); color: white;
-  padding: 0.9rem 2rem; border-radius: 2px;
-  font-family: 'Oswald', sans-serif; font-size: 0.82rem;
-  letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500;
-  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-  cursor: pointer; border: none;
-}
-.btn-primary:hover {
-  background: var(--accent-dark);
-  transform: translateY(-2px); box-shadow: var(--shadow-lg);
-}
-.btn-ghost {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: transparent; color: rgba(255,255,255,0.82);
-  padding: 0.9rem 2rem; border-radius: 2px;
-  border: 1.5px solid rgba(255,255,255,0.28);
-  font-family: 'Oswald', sans-serif; font-size: 0.82rem;
-  letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400;
-  transition: all 0.2s; cursor: pointer;
-}
-.btn-ghost:hover {
-  border-color: var(--accent-lt); color: var(--accent-lt);
-  transform: translateY(-1px);
-}
-.hero-meisterbetrieb {
-  position: absolute; right: clamp(20px, 5vw, 60px); bottom: 48px;
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  z-index: 2;
-}
-.hero-meisterbetrieb img { width: 72px; height: 72px; opacity: 0.9; filter: invert(1); }
-.hero-meisterbetrieb span {
-  font-family: 'Oswald', sans-serif; font-size: 0.6rem; letter-spacing: 0.2em;
-  text-transform: uppercase; color: rgba(255,255,255,0.5);
-}
-
-/* ============================
-   TRUST STRIP
-   ============================ */
-.trust-strip { background: var(--steel-mid); padding: 0; }
-.trust-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  max-width: 1280px; margin: 0 auto;
-}
-.trust-card {
-  padding: 2.4rem clamp(16px,2.5vw,32px);
-  border-right: 1px solid rgba(255,255,255,0.07);
-  position: relative; overflow: hidden;
-  transition: background 0.3s;
-}
-.trust-card:last-child { border-right: none; }
-.trust-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0;
-  height: 2px; background: var(--accent);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform 0.35s ease;
-}
-.trust-card:hover::before { transform: scaleX(1); }
-.trust-card:hover { background: rgba(255,255,255,0.03); }
-.trust-icon { color: var(--accent); margin-bottom: 10px; }
-.trust-title {
-  font-family: 'Oswald', sans-serif; font-size: 0.85rem;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: white; margin-bottom: 4px;
-}
-.trust-desc { font-size: 0.8rem; color: rgba(255,255,255,0.52); line-height: 1.5; }
-
-/* ============================
-   LEISTUNGEN
-   ============================ */
-.leistungen-section { background: var(--cream); padding: 96px 0; }
-.svc-tabs {
-  display: flex; gap: 0; border-bottom: 2px solid var(--parchment);
-  margin-bottom: 48px;
-}
-.svc-tab {
-  font-family: 'Oswald', sans-serif; font-size: 0.82rem; letter-spacing: 0.12em;
-  text-transform: uppercase; font-weight: 400;
-  background: none; border: none; cursor: pointer;
-  padding: 12px 28px;
-  color: var(--steel-warm); border-bottom: 2px solid transparent;
-  margin-bottom: -2px; transition: all 0.2s;
-}
-.svc-tab:hover { color: var(--primary); }
-.svc-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-.svc-panel { display: none; }
-.svc-panel.active { display: block; }
-.svc-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-}
-.svc-card {
-  background: white; border-radius: var(--radius);
-  padding: 28px 24px; position: relative; overflow: hidden;
-  box-shadow: var(--shadow-sm); transition: box-shadow 0.2s, transform 0.2s;
-}
-.svc-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--accent); transform: scaleX(0); transform-origin: left;
-  transition: transform 0.3s;
-}
-.svc-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
-.svc-card:hover::before { transform: scaleX(1); }
-.svc-card-icon { color: var(--accent); margin-bottom: 14px; }
-.svc-card h3 { margin-bottom: 8px; color: var(--primary); }
-.svc-card p { font-size: 0.88rem; color: var(--text-light); }
-
-/* ============================
-   VORHER / NACHHER SLIDER
-   ============================ */
-.slider-section { background: var(--linen); padding: 96px 0; }
-.slider-section .section-header { margin-bottom: 48px; }
-.slider-section .section-label::before { background: var(--primary); }
-.slider-section .section-label { color: var(--primary); }
-.slider-section h2 { color: var(--primary); }
-.slider-section .section-sub { color: var(--steel-warm); max-width: 540px; }
-
-.slider-wrapper { position: relative; max-width: 900px; }
-.slider-container {
-  position: relative; overflow: hidden;
-  border-radius: var(--radius);
-  aspect-ratio: 16/9;
-  cursor: ew-resize;
-  user-select: none;
-  box-shadow: var(--shadow-lg);
-}
-.slider-before, .slider-after {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-}
-.slider-before img {
-  width: 100%; height: 100%; object-fit: cover;
-}
-.slider-after {
-  clip-path: inset(0 50% 0 0);
-}
-.slider-after img {
-  width: 100%; height: 100%; object-fit: cover;
-}
-.slider-handle-line {
-  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-  width: 3px; height: 100%; background: white;
-  z-index: 10; pointer-events: none;
-}
-.slider-handle-btn {
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 48px; height: 48px; border-radius: 50%;
-  background: white; box-shadow: 0 2px 16px rgba(0,0,0,0.25);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 11; pointer-events: none;
-  color: var(--primary);
-}
-.slider-label {
-  position: absolute; bottom: 16px;
-  background: rgba(17,24,32,0.7); color: white;
-  font-family: 'Oswald', sans-serif; font-size: 0.68rem;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  padding: 5px 12px; border-radius: 2px; pointer-events: none;
-}
-.slider-label-left { left: 16px; }
-.slider-label-right { right: 16px; }
-.slider-scenes {
-  display: flex; gap: 12px; margin-top: 24px; justify-content: center;
-}
-.scene-btn {
-  font-family: 'Oswald', sans-serif; font-size: 0.72rem; letter-spacing: 0.12em;
-  text-transform: uppercase; background: none; border: 1.5px solid var(--parchment);
-  padding: 7px 18px; border-radius: 2px; cursor: pointer;
-  color: var(--steel-warm); transition: all 0.2s;
-}
-.scene-btn.active, .scene-btn:hover {
-  border-color: var(--accent); color: var(--accent); background: rgba(232,100,10,0.05);
-}
-
-/* ============================
-   WIZARD / DIAGNOSE
-   ============================ */
-.wizard-section { background: var(--cream); padding: 96px 0; }
-.wizard-header { text-align: center; margin-bottom: 48px; }
-.wizard-header .section-label {
-  justify-content: center;
-  color: var(--primary);
-}
-.wizard-header .section-label::before { display: none; }
-.wizard-header h2 { color: var(--primary); }
-.wizard-header p { color: var(--steel-warm); margin-top: 12px; }
-#wizard-root { max-width: 580px; margin: 0 auto; }
-.wizard-card {
-  background: white; border-radius: var(--radius);
-  box-shadow: var(--shadow-md); padding: 36px 32px;
-}
-.wizard-progress-bar {
-  height: 3px; background: var(--linen);
-  border-radius: 3px; margin-bottom: 32px; overflow: hidden;
-}
-.wizard-progress-fill {
-  height: 100%; background: var(--accent); border-radius: 3px;
-  transition: width 0.4s ease;
-}
-.wizard-step-label {
-  font-family: 'Oswald', sans-serif; font-size: 0.68rem;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 8px;
-}
-.wizard-question { font-family: 'Oswald', sans-serif; font-size: 1.3rem; color: var(--primary); margin-bottom: 6px; }
-.wizard-hint { font-size: 0.84rem; color: var(--text-light); margin-bottom: 24px; }
-.wizard-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-.wizard-option {
-  width: 100%; text-align: left; padding: 14px 16px;
-  border-radius: var(--radius); border: 1.5px solid #e5e7eb;
-  background: var(--white); cursor: pointer;
-  transition: all 0.15s ease;
-  display: flex; flex-direction: column; gap: 2px;
-}
-.wizard-option:hover { border-color: var(--accent); background: rgba(232,100,10,0.04); }
-.wizard-option.selected { border-color: var(--accent); background: rgba(232,100,10,0.07); }
-.wizard-opt-label { font-family: 'Oswald', sans-serif; font-size: 0.9rem; color: var(--primary); font-weight: 400; letter-spacing: 0.04em; }
-.wizard-opt-desc { font-size: 0.78rem; color: var(--text-light); }
-.wizard-nav { display: flex; align-items: center; justify-content: space-between; }
-.wizard-back {
-  background: none; border: 1.5px solid var(--parchment); border-radius: 2px;
-  padding: 10px 20px; cursor: pointer; color: var(--steel-warm);
-  font-family: 'Oswald', sans-serif; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
-  transition: all 0.15s;
-}
-.wizard-back:hover { border-color: var(--primary); color: var(--primary); }
-.wizard-continue {
-  background: var(--accent); color: white; border: none;
-  border-radius: 2px; padding: 12px 28px;
-  font-family: 'Oswald', sans-serif; font-weight: 500; font-size: 0.8rem;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  cursor: pointer; transition: all 0.2s;
-}
-.wizard-continue:hover:not(:disabled) { background: var(--accent-dark); transform: translateY(-1px); }
-.wizard-continue:disabled { background: #e5e7eb; color: #9ca3af; cursor: not-allowed; transform: none; }
-
-/* Result */
-.wizard-result-urgency {
-  border-radius: var(--radius); padding: 18px 20px;
-  display: flex; align-items: center; gap: 14px;
-  margin-bottom: 24px;
-}
-.wizard-urgency-badge {
-  font-family: 'Oswald', sans-serif; font-size: 0.72rem; letter-spacing: 0.14em;
-  font-weight: 500; text-transform: uppercase; padding: 4px 10px;
-  border-radius: 2px; color: white; flex-shrink: 0;
-}
-.wizard-urgency-desc { font-size: 0.88rem; font-weight: 400; }
-.wizard-service-box {
-  background: var(--cream); border-radius: var(--radius);
-  padding: 18px 20px; margin-bottom: 20px;
-}
-.wizard-service-label {
-  font-family: 'Oswald', sans-serif; font-size: 0.68rem; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--accent); margin-bottom: 4px;
-}
-.wizard-service-name { font-family: 'Oswald', sans-serif; font-size: 1.1rem; color: var(--primary); }
-.wizard-details { margin-bottom: 24px; }
-.wizard-detail-row {
-  display: flex; justify-content: space-between;
-  padding: 8px 0; border-bottom: 1px solid var(--parchment);
-  font-size: 0.84rem;
-}
-.wizard-detail-row:last-child { border: none; }
-.wizard-detail-label { color: var(--text-light); }
-.wizard-detail-value { font-weight: 400; color: var(--primary); }
-.wizard-result-cta { width: 100%; text-align: center; justify-content: center; }
-.wizard-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; justify-content: center; }
-.wizard-trust-pill {
-  font-size: 0.72rem; background: var(--linen); color: var(--steel-warm);
-  padding: 5px 12px; border-radius: var(--radius-full); letter-spacing: 0.04em;
-  display: flex; align-items: center; gap: 5px;
-}
-.wizard-trust-pill [data-lucide] { width: 11px; height: 11px; color: var(--accent); }
-
-/* ============================
-   PROZESS
-   ============================ */
-.prozess-section { background: var(--linen); padding: 96px 0; }
-.prozess-section .section-label { color: var(--primary); }
-.prozess-section .section-label::before { background: var(--primary); }
-.prozess-section h2 { color: var(--primary); margin-bottom: 48px; }
-.prozess-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 2px; background: var(--parchment);
-}
-.prozess-phase {
-  padding: 48px 36px; position: relative; overflow: hidden;
-}
-.prozess-phase-1 { background: var(--cream); }
-.prozess-phase-2 { background: var(--parchment); }
-.prozess-phase-3 { background: var(--steel-mid); }
-.prozess-num {
-  font-family: 'Oswald', sans-serif; font-size: clamp(3rem, 5vw, 5rem);
-  font-weight: 200; line-height: 1;
-  margin-bottom: 16px; display: block;
-}
-.prozess-phase-1 .prozess-num, .prozess-phase-2 .prozess-num { color: var(--steel-mid); }
-.prozess-phase-3 .prozess-num { color: rgba(255,255,255,0.1); }
-.prozess-phase h3 { margin-bottom: 12px; }
-.prozess-phase-1 h3, .prozess-phase-2 h3 { color: var(--primary); }
-.prozess-phase-3 h3 { color: white; }
-.prozess-phase p { font-size: 0.88rem; line-height: 1.7; }
-.prozess-phase-1 p, .prozess-phase-2 p { color: var(--steel-warm); }
-.prozess-phase-3 p { color: rgba(255,255,255,0.65); }
-.prozess-icon { margin-bottom: 18px; }
-.prozess-phase-1 .prozess-icon, .prozess-phase-2 .prozess-icon { color: var(--accent); }
-.prozess-phase-3 .prozess-icon { color: var(--accent-lt); }
-
-/* ============================
-   REFERENZEN / PORTFOLIO
-   ============================ */
-.referenzen-section { background: var(--cream); padding: 96px 0; position: relative; }
-.referenzen-section::before {
-  content: 'REFERENZEN';
-  position: absolute; top: 4rem; right: -1vw;
-  font-family: 'Oswald', sans-serif;
-  font-size: clamp(3rem, 8vw, 8rem);
-  font-weight: 200;
-  color: rgba(26,35,50,0.04);
-  letter-spacing: 0.28em;
-  pointer-events: none; white-space: nowrap; z-index: 0;
-  text-transform: uppercase;
-}
-.ref-header {
-  display: flex; align-items: flex-end; justify-content: space-between;
-  min-height: 120px; margin-bottom: 44px; position: relative; z-index: 1;
-}
-.ref-header-right {
-  max-width: 260px; font-size: 0.84rem; color: var(--steel-warm); line-height: 1.75;
-  align-self: flex-end;
-}
-.masonry-grid { column-count: 3; column-gap: 12px; }
-.masonry-item { break-inside: avoid; margin-bottom: 12px; position: relative; overflow: hidden; border-radius: var(--radius); }
-.masonry-item img { width: 100%; display: block; transition: transform 0.4s ease; }
-.masonry-item:hover img { transform: scale(1.04); }
-.masonry-caption {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  background: linear-gradient(to top, rgba(13,21,32,0.85), transparent);
-  padding: 28px 14px 14px;
-  font-size: 0.78rem; letter-spacing: 0.06em; color: rgba(255,255,255,0.9);
-  font-family: 'Oswald', sans-serif; text-transform: uppercase;
-  transform: translateY(4px); opacity: 0; transition: all 0.3s;
-}
-.masonry-item:hover .masonry-caption { opacity: 1; transform: none; }
-
-/* ============================
-   ÜBER HANS
-   ============================ */
-.ueber-section {
-  background: var(--primary);
-  padding: 96px 0; position: relative; overflow: hidden;
-}
-.ueber-ghost {
-  position: absolute; top: 50%; right: -1vw; transform: translateY(-50%);
-  font-family: 'Oswald', sans-serif; font-size: clamp(8rem, 18vw, 20rem);
-  font-weight: 200; color: rgba(255,255,255,0.025);
-  line-height: 1; pointer-events: none; user-select: none; white-space: nowrap; z-index: 0;
-}
-.ueber-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 80px; align-items: center; position: relative; z-index: 1;
-}
-.ueber-img { border-radius: var(--radius); overflow: hidden; }
-.ueber-img img { width: 100%; height: 480px; object-fit: cover; }
-.ueber-content { color: white; }
-.ueber-content .section-label { color: var(--accent-lt); }
-.ueber-content .section-label::before { background: var(--accent); }
-.ueber-content h2 { color: white; margin-bottom: 24px; }
-.ueber-content p { color: rgba(255,255,255,0.70); margin-bottom: 18px; font-size: 0.95rem; }
-.ueber-quote {
-  border-left: 3px solid var(--accent);
-  padding: 18px 24px; margin: 28px 0;
-  background: rgba(255,255,255,0.04);
-  border-radius: 0 var(--radius) var(--radius) 0;
-}
-.ueber-quote blockquote {
-  font-size: 1.05rem; color: rgba(255,255,255,0.88);
-  font-style: italic; line-height: 1.7;
-  font-family: 'Source Serif 4', serif;
-}
-.ueber-quote cite {
-  display: block; margin-top: 10px;
-  font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--accent-lt); font-style: normal;
-  font-family: 'Oswald', sans-serif;
-}
-.ueber-meister {
-  display: flex; align-items: center; gap: 16px; margin-top: 32px;
-}
-.ueber-meister img { width: 52px; height: 52px; }
-.ueber-meister-text span {
-  display: block; font-family: 'Oswald', sans-serif;
-  font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
-}
-.ueber-meister-text .meister-title { color: rgba(255,255,255,0.5); font-size: 0.62rem; }
-.ueber-meister-text .meister-name { color: white; font-size: 0.88rem; }
-.ueber-stats {
-  display: flex; gap: 36px; margin-top: 32px; flex-wrap: wrap;
-}
-.ueber-stat {}
-.ueber-stat-num {
-  font-family: 'Oswald', sans-serif; font-size: 2.2rem; font-weight: 300;
-  color: var(--accent-lt); line-height: 1;
-}
-.ueber-stat-label {
-  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: rgba(255,255,255,0.45); margin-top: 2px;
-}
-
-/* ============================
-   TEAM
-   ============================ */
-.team-section { background: var(--linen); padding: 96px 0; }
-.team-section .section-label { color: var(--primary); }
-.team-section .section-label::before { background: var(--primary); }
-.team-section h2 { color: var(--primary); margin-bottom: 16px; }
-.team-intro { color: var(--steel-warm); max-width: 560px; margin-bottom: 48px; font-size: 0.95rem; }
-.team-photo-wrap {
-  border-radius: var(--radius); overflow: hidden;
-  box-shadow: var(--shadow-md); margin-bottom: 36px;
-  position: relative;
-}
-.team-photo-wrap img { width: 100%; max-height: 720px; object-fit: cover; object-position: center 20%; }
-.team-photo-credit {
-  position: absolute; bottom: 12px; right: 12px;
-  font-size: 0.66rem; color: rgba(255,255,255,0.5);
-  background: rgba(0,0,0,0.4); padding: 3px 8px; border-radius: 2px;
-  font-family: 'Oswald', sans-serif; letter-spacing: 0.08em;
-}
-.team-members {
-  display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;
-}
-.team-member {
-  background: white; border-radius: var(--radius);
-  padding: 20px 16px; box-shadow: var(--shadow-sm);
-  position: relative; overflow: hidden;
-}
-.team-member::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: var(--accent);
-}
-.team-member-role {
-  font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 4px;
-  font-family: 'Oswald', sans-serif;
-}
-.team-member-name { font-family: 'Oswald', sans-serif; font-size: 0.95rem; color: var(--primary); }
-.team-member-icon { color: var(--parchment); margin-bottom: 12px; }
-.team-member-icon [data-lucide] { width: 28px; height: 28px; }
-
-/* ============================
-   FAQ
-   ============================ */
-.faq-section { background: var(--cream); padding: 96px 0; }
-.faq-section .section-label { color: var(--primary); }
-.faq-section h2 { color: var(--primary); }
-.faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 48px; }
-.faq-item {
-  background: white; border-radius: var(--radius);
-  border: 1.5px solid var(--parchment); overflow: hidden;
-}
-.faq-question {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 18px 22px; cursor: pointer; min-height: 44px;
-  font-family: 'Oswald', sans-serif; font-size: 0.9rem; font-weight: 400;
-  letter-spacing: 0.03em; color: var(--primary);
-  transition: background 0.2s; gap: 12px;
-  background: none; border: none; width: 100%; text-align: left;
-}
-.faq-question:hover { background: rgba(232,100,10,0.03); }
-.faq-item.open .faq-question { color: var(--accent); }
-.faq-icon-wrap { flex-shrink: 0; color: var(--accent); transition: transform 0.3s; }
-.faq-item.open .faq-icon-wrap { transform: rotate(45deg); }
-.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
-.faq-answer-inner {
-  padding: 0 22px 18px;
-  font-size: 0.88rem; color: var(--text-light); line-height: 1.75;
-}
-.faq-item.open .faq-answer { max-height: 400px; }
-
-/* ============================
-    KUNDENSTIMMEN KARUSSELL
- ============================ */ 
-<section class="testimonials-section" id="kundenstimmen">
-  <div class="container">
-    <div class="section-label">Was Kunden sagen</div>
-    <h2>Stimmen aus der Region.</h2>
- 
-    <div class="carousel-wrapper" style="margin-top:48px; position:relative;">
- 
-      <!-- Track -->
-      <div class="carousel-track-outer" style="overflow:hidden;">
-        <div class="carousel-track" id="carousel-track" style="display:flex; transition:transform 0.5s ease; gap:20px;">
- 
-          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
-            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="testimonial-text">&bdquo;Die komplizierte Lackierung ist ohne sichtbare &Uuml;berg&auml;nge perfekt gelungen &ndash; das Auto sieht aus wie frisch ausgeliefert.&ldquo;</p>
-            <div class="testimonial-author">M.H. &ndash; Lienz</div>
-          </div>
- 
-          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
-            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="testimonial-text">&bdquo;Innerhalb von einem Tag repariert. Sofort wurde mir geholfen, alles lief reibungslos &ndash; l&auml;uft alles so ab, wie man es sich w&uuml;nscht.&ldquo;</p>
-            <div class="testimonial-author">G.K. &ndash; Pustertal</div>
-          </div>
- 
-          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
-            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="testimonial-text">&bdquo;In famili&auml;rer aber professioneller Beratung &ndash; mega kompetente Einsch&auml;tzung und schnelle L&ouml;sungsvorschl&auml;ge. Kann ich jedem nur w&auml;rmstens empfehlen.&ldquo;</p>
-            <div class="testimonial-author">R.S. &ndash; Lienz</div>
-          </div>
- 
-          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
-            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="testimonial-text">&bdquo;Mein Auto sieht wie neu aus &ndash; innen und au&szlig;en. Sehr saubere Arbeit, toller Job. Nette, freundliche Leute.&ldquo;</p>
-            <div class="testimonial-author">T.W. &ndash; Osttirol</div>
-          </div>
- 
-          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
-            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="testimonial-text">&bdquo;Sofort einen Notfalltermin am selben Tag angeboten. Schnelle Hilfe und ehrliche Einsch&auml;tzung der Reparaturen &ndash; Mechaniker meines Vertrauens.&ldquo;</p>
-            <div class="testimonial-author">B.M. &ndash; Lienz</div>
-          </div>
- 
-          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
-            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="testimonial-text">&bdquo;Bester und freundlichster Betrieb. Werde auf jeden Fall wieder kommen &ndash; absolute Empfehlung f&uuml;r alle im Pustertal.&ldquo;</p>
-            <div class="testimonial-author">A.P. &ndash; Pustertal</div>
-          </div>
- 
-          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
-            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="testimonial-text">&bdquo;Ich hatte jederzeit das Gef&uuml;hl, gut aufgehoben zu sein. Transparente Beratung, fairer Preis &ndash; eine klare Empfehlung!&ldquo;</p>
-            <div class="testimonial-author">S.H. &ndash; Lienz</div>
-          </div>
- 
-        </div>
-      </div>
- 
-      <!-- Prev / Next -->
-      <button class="carousel-btn carousel-prev" id="carousel-prev" aria-label="Vorheriges">
-        <i data-lucide="chevron-left"></i>
-      </button>
-      <button class="carousel-btn carousel-next" id="carousel-next" aria-label="N&auml;chstes">
-        <i data-lucide="chevron-right"></i>
-      </button>
- 
-    </div>
- 
-    <!-- Dots -->
-    <div class="carousel-dots" id="carousel-dots" style="display:flex; justify-content:center; gap:8px; margin-top:28px;"></div>
- 
-  </div>
-</section>
-
-
-/* ============================
-   KONTAKT
-   ============================ */
-.kontakt-section { background: var(--primary); padding: 96px 0; position: relative; overflow: hidden; }
-.kontakt-ghost {
-  position: absolute; bottom: -2%; right: -1vw;
-  font-family: 'Oswald', sans-serif; font-size: clamp(6rem, 16vw, 18rem);
-  font-weight: 200; color: rgba(255,255,255,0.022);
-  pointer-events: none; user-select: none; line-height: 1; white-space: nowrap;
-}
-.kontakt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-.kontakt-info .section-label { color: var(--accent-lt); }
-.kontakt-info .section-label::before { background: var(--accent); }
-.kontakt-info h2 { color: white; margin-bottom: 24px; }
-.kontakt-info p { color: rgba(255,255,255,0.65); margin-bottom: 32px; font-size: 0.95rem; }
-.kontakt-details { display: flex; flex-direction: column; gap: 16px; }
-.kontakt-detail {
-  display: flex; gap: 14px; align-items: flex-start;
-  color: rgba(255,255,255,0.8);
-}
-.kontakt-detail-icon { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
-.kontakt-detail-label {
-  font-family: 'Oswald', sans-serif; font-size: 0.68rem; letter-spacing: 0.16em;
-  text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 2px;
-}
-.kontakt-detail-value { font-size: 0.9rem; color: rgba(255,255,255,0.85); }
-.kontakt-detail-value a:hover { color: var(--accent-lt); }
-.kontakt-hours { font-size: 0.85rem; line-height: 2; color: rgba(255,255,255,0.7); }
-
-.kontakt-form { position: relative; z-index: 1; }
-.form-group { margin-bottom: 18px; }
-.form-group label {
-  display: block; font-family: 'Oswald', sans-serif; font-size: 0.68rem;
-  letter-spacing: 0.16em; text-transform: uppercase;
-  color: rgba(255,255,255,0.45); margin-bottom: 8px;
-}
-.form-group input, .form-group textarea, .form-group select {
-  width: 100%; background: rgba(255,255,255,0.07);
-  border: 1.5px solid rgba(255,255,255,0.12);
-  border-radius: var(--radius); padding: 13px 16px;
-  color: white; font-family: 'Source Serif 4', serif; font-size: 0.9rem;
-  transition: border-color 0.2s;
-  min-height: 48px;
-}
-.form-group input:focus, .form-group textarea:focus {
-  outline: none; border-color: var(--accent);
-}
-.form-group input::placeholder, .form-group textarea::placeholder {
-  color: rgba(255,255,255,0.28);
-}
-.form-group textarea { resize: vertical; min-height: 120px; }
-.form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.form-submit { width: 100%; margin-top: 4px; justify-content: center; }
-.form-privacy {
-  font-size: 0.74rem; color: rgba(255,255,255,0.38); margin-top: 12px;
-  display: flex; align-items: flex-start; gap: 8px;
-}
-.form-privacy input { width: auto; min-height: auto; margin-top: 3px; }
-.form-success {
-  display: none; text-align: center; padding: 28px;
-  background: rgba(16,185,129,0.12); border: 1.5px solid rgba(16,185,129,0.25);
-  border-radius: var(--radius); color: rgba(255,255,255,0.85);
-}
-.form-success h3 { color: #10b981; margin-bottom: 8px; }
-
-/* ============================
-   FOOTER
-   ============================ */
-footer { background: var(--ink); padding: 48px 0 32px; }
-.footer-grid {
-  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px;
-  margin-bottom: 40px;
-}
-.footer-brand img { height: 32px; margin-bottom: 14px; filter: brightness(0.8); }
-.footer-brand p { font-size: 0.82rem; color: rgba(255,255,255,0.38); max-width: 280px; }
-.footer-col h4 {
-  font-family: 'Oswald', sans-serif; font-size: 0.68rem; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
-}
-.footer-col ul { display: flex; flex-direction: column; gap: 8px; }
-.footer-col ul li a { font-size: 0.82rem; color: rgba(255,255,255,0.42); transition: color 0.2s; }
-.footer-col ul li a:hover { color: var(--accent-lt); }
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.06); padding-top: 24px;
-  display: flex; justify-content: space-between; align-items: center; gap: 16px;
-  flex-wrap: wrap;
-}
-.footer-bottom p { font-size: 0.75rem; color: rgba(255,255,255,0.25); }
-.footer-bottom a { color: rgba(255,255,255,0.25); }
-.footer-bottom a:hover { color: var(--accent-lt); }
-
-/* ============================
-   RESPONSIVE
-   ============================ */
-@media (max-width: 1024px) {
-  .ueber-grid { grid-template-columns: 1fr; gap: 48px; }
-  .ueber-img { order: -1; }
-  .ueber-img img { height: 360px; }
-  .kontakt-grid { grid-template-columns: 1fr; gap: 48px; }
-  .prozess-grid { grid-template-columns: 1fr; gap: 2px; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-  .team-members { grid-template-columns: repeat(3, 1fr); }
-  .masonry-grid { column-count: 2; }
-  .testimonials-grid { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 768px) {
-  .nav-links { display: none; }
-  .nav-burger { display: block; }
-  .hero-content { padding: 120px 0 60px; }
-  .hero-ghost { display: none; }
-  .hero-meisterbetrieb { display: none; }
-  .trust-grid { grid-template-columns: 1fr 1fr; }
-  .trust-card:nth-child(3) { border-top: 1px solid rgba(255,255,255,0.07); }
-  .faq-grid { grid-template-columns: 1fr; }
-  .form-2col { grid-template-columns: 1fr; }
-  .masonry-grid { column-count: 1; }
-  .ref-header { flex-direction: column; align-items: flex-start; gap: 16px; min-height: auto; }
-  .team-members { grid-template-columns: 1fr 1fr; }
-  .testimonials-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
-  .hero-ctas { flex-direction: column; }
-  .hero-ctas .btn-primary, .hero-ctas .btn-ghost { width: 100%; justify-content: center; }
-  .slider-scenes { flex-wrap: wrap; }
-  .ueber-stats { gap: 24px; }
-}
-@media (max-width: 480px) {
-  .trust-grid { grid-template-columns: 1fr; }
-  .team-members { grid-template-columns: 1fr; }
-  .svc-tabs { overflow-x: auto; }
-}
-
-  .carousel-btn {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  width: 44px; height: 44px; border-radius: 50%;
-  background: white; border: 1.5px solid var(--parchment);
-  box-shadow: var(--shadow-sm); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--primary); transition: all 0.2s; z-index: 2;
-}
-.carousel-btn:hover { border-color: var(--accent); color: var(--accent); box-shadow: var(--shadow-md); }
-.carousel-prev { left: -22px; }
-.carousel-next { right: -22px; }
-.carousel-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--parchment); border: none; cursor: pointer;
-  transition: all 0.2s; padding: 0;
-}
-.carousel-dot.active { background: var(--accent); transform: scale(1.3); }
- 
-@media (max-width: 768px) {
-  .testimonial-card { min-width: calc(100% - 0px) !important; }
-  .carousel-prev { left: -8px; }
-  .carousel-next { right: -8px; }
-}
-@media (min-width: 769px) and (max-width: 1024px) {
-  .testimonial-card { min-width: calc(50% - 10px) !important; }
-}
-
 /* ============================
    ROOT / DESIGN TOKENS
    ============================ */
@@ -1823,7 +903,6 @@ footer { background: var(--ink); padding: 48px 0 32px; }
   transition: all 0.2s; padding: 0;
 }
 .carousel-dot.active { background: var(--accent); transform: scale(1.3); }
-
 @media (max-width: 768px) {
   .testimonial-card { min-width: calc(100% - 0px) !important; }
   .carousel-prev { left: -8px; }
@@ -2404,7 +1483,61 @@ footer { background: var(--ink); padding: 48px 0 32px; }
   </div>
 </section>
 
-
+<!-- ===== KUNDENSTIMMEN KARUSSELL ===== -->
+<section class="testimonials-section" id="kundenstimmen">
+  <div class="container">
+    <div class="section-label">Was Kunden sagen</div>
+    <h2>Stimmen aus der Region.</h2>
+    <div class="carousel-wrapper" style="margin-top:48px; position:relative;">
+      <div class="carousel-track-outer" style="overflow:hidden;">
+        <div class="carousel-track" id="carousel-track" style="display:flex; transition:transform 0.5s ease; gap:20px;">
+          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="testimonial-text">&bdquo;Die komplizierte Lackierung ist ohne sichtbare &Uuml;berg&auml;nge perfekt gelungen &ndash; das Auto sieht aus wie frisch ausgeliefert.&ldquo;</p>
+            <div class="testimonial-author">M.H. &ndash; Lienz</div>
+          </div>
+          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="testimonial-text">&bdquo;Innerhalb von einem Tag repariert. Sofort wurde mir geholfen, alles lief reibungslos &ndash; l&auml;uft alles so ab, wie man es sich w&uuml;nscht.&ldquo;</p>
+            <div class="testimonial-author">G.K. &ndash; Pustertal</div>
+          </div>
+          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="testimonial-text">&bdquo;In famili&auml;rer aber professioneller Beratung &ndash; mega kompetente Einsch&auml;tzung und schnelle L&ouml;sungsvorschl&auml;ge. Kann ich jedem nur w&auml;rmstens empfehlen.&ldquo;</p>
+            <div class="testimonial-author">R.S. &ndash; Lienz</div>
+          </div>
+          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="testimonial-text">&bdquo;Mein Auto sieht wie neu aus &ndash; innen und au&szlig;en. Sehr saubere Arbeit, toller Job. Nette, freundliche Leute.&ldquo;</p>
+            <div class="testimonial-author">T.W. &ndash; Osttirol</div>
+          </div>
+          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="testimonial-text">&bdquo;Sofort einen Notfalltermin am selben Tag angeboten. Schnelle Hilfe und ehrliche Einsch&auml;tzung der Reparaturen &ndash; Mechaniker meines Vertrauens.&ldquo;</p>
+            <div class="testimonial-author">B.M. &ndash; Lienz</div>
+          </div>
+          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="testimonial-text">&bdquo;Bester und freundlichster Betrieb. Werde auf jeden Fall wieder kommen &ndash; absolute Empfehlung f&uuml;r alle im Pustertal.&ldquo;</p>
+            <div class="testimonial-author">A.P. &ndash; Pustertal</div>
+          </div>
+          <div class="testimonial-card" style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="testimonial-text">&bdquo;Ich hatte jederzeit das Gef&uuml;hl, gut aufgehoben zu sein. Transparente Beratung, fairer Preis &ndash; eine klare Empfehlung!&ldquo;</p>
+            <div class="testimonial-author">S.H. &ndash; Lienz</div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-btn carousel-prev" id="carousel-prev" aria-label="Vorheriges">
+        <i data-lucide="chevron-left"></i>
+      </button>
+      <button class="carousel-btn carousel-next" id="carousel-next" aria-label="N&auml;chstes">
+        <i data-lucide="chevron-right"></i>
+      </button>
+    </div>
+    <div class="carousel-dots" id="carousel-dots" style="display:flex; justify-content:center; gap:8px; margin-top:28px;"></div>
+  </div>
+</section>
 
 <!-- ===== KONTAKT ===== -->
 <section class="kontakt-section" id="kontakt">
@@ -2888,34 +2021,32 @@ renderWizard();
 
 <script>
 (function() {
-  const track     = document.getElementById('carousel-track');
-  const dotsWrap  = document.getElementById('carousel-dots');
-  const btnPrev   = document.getElementById('carousel-prev');
-  const btnNext   = document.getElementById('carousel-next');
-  const cards     = track.querySelectorAll('.testimonial-card');
-  let current     = 0;
+  const track    = document.getElementById('carousel-track');
+  const dotsWrap = document.getElementById('carousel-dots');
+  const btnPrev  = document.getElementById('carousel-prev');
+  const btnNext  = document.getElementById('carousel-next');
+  const cards    = track.querySelectorAll('.testimonial-card');
+  let current    = 0;
   let autoPlay;
- 
+
   function getVisible() {
     if (window.innerWidth < 769)  return 1;
     if (window.innerWidth < 1025) return 2;
     return 3;
   }
- 
   const total = cards.length;
- 
-  // Build dots
+
   function buildDots() {
     dotsWrap.innerHTML = '';
     const pages = Math.ceil(total / getVisible());
     for (let i = 0; i < pages; i++) {
       const d = document.createElement('button');
       d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-      d.addEventListener('click', () => goTo(i));
+      d.addEventListener('click', () => { goTo(i); resetAuto(); });
       dotsWrap.appendChild(d);
     }
   }
- 
+
   function goTo(page) {
     const visible = getVisible();
     const pages   = Math.ceil(total / visible);
@@ -2926,10 +2057,10 @@ renderWizard();
       d.classList.toggle('active', i === current);
     });
   }
- 
+
   btnPrev.addEventListener('click', () => { goTo(current - 1); resetAuto(); });
   btnNext.addEventListener('click', () => { goTo(current + 1); resetAuto(); });
- 
+
   function resetAuto() {
     clearInterval(autoPlay);
     autoPlay = setInterval(() => {
@@ -2937,9 +2068,8 @@ renderWizard();
       goTo(current + 1 < pages ? current + 1 : 0);
     }, 4000);
   }
- 
+
   window.addEventListener('resize', () => { buildDots(); goTo(0); });
- 
   buildDots();
   resetAuto();
 })();
@@ -3064,5 +2194,6 @@ renderWizard();
     if (window.lucide) lucide.createIcons();
   });
 </script>
+
 </body>
 </html>
