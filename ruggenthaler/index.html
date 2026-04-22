@@ -824,6 +824,7 @@ footer { background: var(--ink); padding: 48px 0 32px; }
     margin-top: 28px;
     justify-content: flex-start;  /* ← linksbündig */
     padding-bottom: 48px;         /* ← Abstand nach unten */
+    width: 100%;              /* ← volle Breite, eigene Zeile */
   }
   .hero-meisterbetrieb img { width: 40px; height: 40px; }
   .hero-meisterbetrieb span { font-size: 0.65rem; } }
@@ -995,12 +996,12 @@ footer { background: var(--ink); padding: 48px 0 32px; }
           <i data-lucide="search"></i>
           Problem diagnostizieren
         </a>
+        <div class="hero-meisterbetrieb">
+        <img src="meisterbetrieb.svg" alt="Meisterbetrieb Siegel">
+        <span>Meisterbetrieb</span>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="hero-meisterbetrieb">
-    <img src="meisterbetrieb.svg" alt="Meisterbetrieb Siegel">
-    <span>Meisterbetrieb</span>
   </div>
 </section>
 
