@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dolomit Widget</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: #f0ece6;
+    min-height: 100vh;
+  }
+
+  /* ── WIDGET CONTAINER ── */
+  .widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+  }
+
+  /* ── CHAT WINDOW ── */
+  .chat-window {
+    width: 370px;
+    height: 580px;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+    display: flex;
+    flex-direction: column;
+    transform-origin: bottom right;
+    transform: scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .chat-window.open {
+    transform: scale(1);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ── HEADER ── */
+  .chat-header {
+    background: #7A1A1A;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .header-avatar {
+    width: 38px; height: 38px;
+    background: rgba(255,255,255,0.18);
+    border: 1.5px solid rgba(255,255,255,0.35);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .header-avatar svg { width: 22px; height: 22px; }
+  .header-text { flex: 1; min-width: 0; }
+  .header-title {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .header-sub {
+    color: rgba(255,255,255,0.65);
+    font-size: 11px;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .header-close {
+    width: 28px; height: 28px;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: white;
+    font-size: 17px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+    line-height: 1;
+  }
+  .header-close:hover { background: rgba(255,255,255,0.28); }
+
+  /* ── MESSAGES ── */
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #FAFAFA;
+    scroll-behavior: smooth;
+  }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: #E0D0D0; border-radius: 2px; }
+
+  /* Bot message row */
+  .msg-bot {
+    display: flex;
+    align-items: flex-end;
+    gap: 7px;
+    align-self: flex-start;
+    max-width: 88%;
+  }
+  .bot-avatar {
+    width: 26px; height: 26px;
+    background: #7A1A1A;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-bottom: 2px;
+  }
+  .bot-avatar svg { width: 15px; height: 15px; }
+
+  .bubble-bot {
+    background: white;
+    color: #1a1a1a;
+    border: 0.5px solid #EAD8D8;
+    border-radius: 16px 16px 16px 4px;
+    padding: 10px 13px;
+    font-size: 14px;
+    line-height: 1.55;
+    word-break: break-word;
+  }
+  .bubble-bot a {
+    color: #7A1A1A;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+
+  /* User message */
+  .msg-user {
+    align-self: flex-end;
+    max-width: 80%;
+  }
+  .bubble-user {
+    background: #7A1A1A;
+    color: white;
+    border-radius: 16px 16px 4px 16px;
+    padding: 10px 13px;
+    font-size: 14px;
+    line-height: 1.55;
+    word-break: break-word;
+  }
+
+  /* System message */
+  .msg-system {
+    align-self: center;
+    background: #F0E8E8;
+    color: #A08080;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* CTA button */
+  .cta-btn {
+    display: inline-block;
+    margin-top: 8px;
+    background: #7A1A1A;
+    color: white;
+    text-decoration: none;
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.15s;
+  }
+  .cta-btn:hover { background: #5A1212; }
+
+  /* Typing dots */
+  .dots { display: flex; gap: 4px; padding: 3px 0; }
+  .dots span {
+    width: 7px; height: 7px;
+    background: #C08080;
+    border-radius: 50%;
+    animation: bounce 1.2s infinite;
+  }
+  .dots span:nth-child(2) { animation-delay: 0.2s; }
+  .dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-5px); }
+  }
+
+  /* ── INPUT AREA ── */
+  .chat-input-wrap {
+    background: white;
+    border-top: 1px solid #F0E8E8;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .chat-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #1a1a1a;
+    font-family: inherit;
+    background: transparent;
+    min-width: 0;
+  }
+  .chat-input::placeholder { color: #C0A8A8; }
+  .btn-reset {
+    width: 30px; height: 30px;
+    border: none; background: none;
+    cursor: pointer;
+    color: #C0A8A8;
+    font-size: 17px;
+    display: flex; align-items: center; justify-content: center;
+    transition: color 0.15s;
+    flex-shrink: 0;
+  }
+  .btn-reset:hover { color: #7A1A1A; }
+  .btn-send {
+    width: 34px; height: 34px;
+    background: #7A1A1A;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .btn-send:hover { background: #5A1212; }
+  .btn-send:disabled { background: #D0B8B8; cursor: not-allowed; }
+  .btn-send svg { width: 14px; height: 14px; }
+
+  /* ── FOOTER ── */
+  .chat-footer {
+    background: white;
+    padding: 7px 14px 9px;
+    text-align: center;
+    font-size: 11px;
+    color: #C0A8A8;
+    border-top: 1px solid #F8F0F0;
+    flex-shrink: 0;
+  }
+  .chat-footer a { color: #7A1A1A; text-decoration: underline; }
+
+  /* ── TRIGGER BUBBLE ── */
+  .trigger-bubble {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #7A1A1A;
+    color: white;
+    padding: 11px 18px 11px 12px;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(122,26,26,0.4);
+    transition: transform 0.15s, box-shadow 0.15s;
+    user-select: none;
+    position: relative;
+  }
+  .trigger-bubble:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(122,26,26,0.45);
+  }
+  .trigger-logo {
+    width: 34px; height: 34px;
+    background: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .trigger-logo svg { width: 20px; height: 20px; }
+  .trigger-text {
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ── DEBUG PANEL ── */
+  .debug-panel {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    width: 320px;
+    background: #1a1814;
+    border-radius: 10px;
+    overflow: hidden;
+    display: none;
+    font-family: 'Courier New', monospace;
+  }
+  .debug-panel.visible { display: block; }
+  .debug-header {
+    padding: 7px 12px;
+    background: #2a2420;
+    font-size: 11px;
+    color: #8a8078;
+    display: flex;
+    justify-content: space-between;
+  }
+  .debug-header span { cursor: pointer; }
+  .debug-body {
+    padding: 10px 12px;
+    font-size: 10px;
+    color: #a0d8a0;
+    white-space: pre-wrap;
+    word-break: break-all;
+    max-height: 180px;
+    overflow-y: auto;
+    line-height: 1.5;
+  }
+
+  /* Webhook config (hidden by default in production) */
+  .config-bar {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 0.5px solid #e0d8d0;
+    border-radius: 8px;
+    padding: 8px 14px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    z-index: 9998;
+  }
+  .config-bar label { font-size: 11px; color: #8a8078; white-space: nowrap; }
+  .config-bar input {
+    border: 0.5px solid #d0c8c0;
+    border-radius: 5px;
+    padding: 5px 9px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    outline: none;
+    color: #1a1814;
+    width: 340px;
+  }
+  .btn-debug {
+    border: 0.5px solid #d0c8c0;
+    background: #f5f0ea;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    color: #4a4540;
+    white-space: nowrap;
+  }
+  .btn-debug:hover { background: #e8e0d8; }
+</style>
+</head>
+<body>
+
+<!-- Config Bar (Test-Modus) -->
+<div class="config-bar">
+  <label>Webhook</label>
+  <input type="text" id="webhookUrl" value="https://steewee.app.n8n.cloud/webhook-test/leanAgent" />
+  <button class="btn-debug" onclick="toggleDebug()">debug</button>
+</div>
+
+<!-- Widget -->
+<div class="widget">
+
+  <!-- Chat Window -->
+  <div class="chat-window" id="chatWindow">
+
+    <!-- Header -->
+    <div class="chat-header">
+      <div class="header-avatar">
+        <svg viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.2)"/>
+          <text x="12" y="16.5" text-anchor="middle" fill="white" font-size="11" font-weight="800" font-family="Helvetica Neue, Arial">d.</text>
+        </svg>
+      </div>
+      <div class="header-text">
+        <div class="header-title">Dolomit Assistent</div>
+        <div class="header-sub">Speicheröfen aus Tirol · Steinringer Ofenbau</div>
+      </div>
+      <button class="header-close" onclick="toggleChat()">×</button>
+    </div>
+
+    <!-- Messages -->
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg-bot">
+        <div class="bot-avatar">
+          <svg viewBox="0 0 24 24"><text x="12" y="16" text-anchor="middle" fill="white" font-size="10" font-weight="800" font-family="Helvetica Neue">d.</text></svg>
+        </div>
+        <div class="bubble-bot">Servus! Wie kann ich dir helfen?</div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="chat-input-wrap">
+      <input
+        type="text"
+        class="chat-input"
+        id="chatInput"
+        placeholder="Nachricht …"
+        onkeydown="handleKey(event)"
+      />
+      <button class="btn-reset" onclick="resetSession()" title="Neue Unterhaltung">↺</button>
+      <button class="btn-send" id="sendBtn" onclick="sendMessage()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2" fill="white" stroke="none"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="chat-footer">
+      Ein Service der <a href="https://www.kleinkachelofen.net" target="_blank">Steinringer-Ofenbau-GmbH</a>
+    </div>
+
+  </div>
+
+  <!-- Trigger Bubble -->
+  <div class="trigger-bubble" id="triggerBubble" onclick="toggleChat()">
+    <div class="trigger-logo">
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="11" fill="#7A1A1A"/>
+        <text x="12" y="16.5" text-anchor="middle" fill="white" font-size="11" font-weight="800" font-family="Helvetica Neue, Arial">d.</text>
+      </svg>
+    </div>
+    <span class="trigger-text">Servus, wie kann ich dir helfen?</span>
+  </div>
+
+</div>
+
+<!-- Debug Panel -->
+<div class="debug-panel" id="debugPanel">
+  <div class="debug-header">
+    <span>Debug Log</span>
+    <span onclick="clearDebug()">✕</span>
+  </div>
+  <div class="debug-body" id="debugBody"></div>
+</div>
+
+<script>
+  let sessionId   = uuid();
+  let isLoading   = false;
+  let chatOpen    = false;
+
+  function uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      const r = Math.random() * 16 | 0;
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  }
+
+  // ── TOGGLE ──
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    document.getElementById('chatWindow').classList.toggle('open', chatOpen);
+    if (chatOpen) {
+      setTimeout(() => document.getElementById('chatInput').focus(), 250);
+    }
+  }
+
+  // ── RESET ──
+  function resetSession() {
+    sessionId = uuid();
+    const msgs = document.getElementById('chatMessages');
+    msgs.innerHTML = `
+      <div class="msg-system">Neue Unterhaltung gestartet</div>
+      <div class="msg-bot">
+        <div class="bot-avatar"><svg viewBox="0 0 24 24"><text x="12" y="16" text-anchor="middle" fill="white" font-size="10" font-weight="800" font-family="Helvetica Neue">d.</text></svg></div>
+        <div class="bubble-bot">Servus! Wie kann ich dir helfen?</div>
+      </div>`;
+    log('Session reset → ' + sessionId);
+  }
+
+  // ── SEND ──
+  async function sendMessage() {
+    const input   = document.getElementById('chatInput');
+    const message = input.value.trim();
+    if (!message || isLoading) return;
+
+    const webhookUrl = document.getElementById('webhookUrl').value.trim();
+    input.value  = '';
+    isLoading    = true;
+    document.getElementById('sendBtn').disabled = true;
+
+    appendUser(message);
+    const typingId = appendTyping();
+
+    const payload = { session_id: sessionId, tenant_id: 'dolomit-tirol', message };
+    log('→ ' + JSON.stringify(payload));
+
+    try {
+      const res  = await fetch(webhookUrl, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload)
+      });
+
+      removeTyping(typingId);
+
+      if (!res.ok) {
+        const err = await res.text();
+        log('✕ HTTP ' + res.status + '\n' + err);
+        appendSystem('Fehler ' + res.status);
+      } else {
+        const data = await res.json();
+        log('← ' + JSON.stringify(data, null, 2));
+        const text = data.message ?? data[0]?.message ?? '';
+        const cta  = data.cta    ?? data[0]?.cta    ?? null;
+        appendBot(text, cta);
+      }
+
+    } catch (err) {
+      removeTyping(typingId);
+      log('✕ ' + err.message);
+      appendSystem('Verbindungsfehler');
+    }
+
+    isLoading = false;
+    document.getElementById('sendBtn').disabled = false;
+    document.getElementById('chatInput').focus();
+  }
+
+  // ── DOM HELPERS ──
+  function appendUser(text) {
+    const msgs = document.getElementById('chatMessages');
+    const div  = document.createElement('div');
+    div.className = 'msg-user';
+    div.innerHTML = `<div class="bubble-user">${esc(text)}</div>`;
+    msgs.appendChild(div);
+    scroll();
+  }
+
+  function appendBot(text, cta) {
+    const msgs = document.getElementById('chatMessages');
+    const div  = document.createElement('div');
+    div.className = 'msg-bot';
+
+    const avatarSvg = `<div class="bot-avatar"><svg viewBox="0 0 24 24"><text x="12" y="16" text-anchor="middle" fill="white" font-size="10" font-weight="800" font-family="Helvetica Neue">d.</text></svg></div>`;
+    const ctaHtml   = cta ? `<a class="cta-btn" href="${cta.url}" target="_blank" rel="noopener">${esc(cta.label)}</a>` : '';
+
+    div.innerHTML = `
+      ${avatarSvg}
+      <div>
+        <div class="bubble-bot">${linkify(esc(text))}</div>
+        ${ctaHtml}
+      </div>`;
+    msgs.appendChild(div);
+    scroll();
+  }
+
+  function appendSystem(text) {
+    const msgs = document.getElementById('chatMessages');
+    const div  = document.createElement('div');
+    div.className = 'msg-system';
+    div.textContent = text;
+    msgs.appendChild(div);
+    scroll();
+  }
+
+  function appendTyping() {
+    const msgs = document.getElementById('chatMessages');
+    const id   = 'typing-' + Date.now();
+    const div  = document.createElement('div');
+    div.className = 'msg-bot';
+    div.id = id;
+    div.innerHTML = `
+      <div class="bot-avatar"><svg viewBox="0 0 24 24"><text x="12" y="16" text-anchor="middle" fill="white" font-size="10" font-weight="800" font-family="Helvetica Neue">d.</text></svg></div>
+      <div class="bubble-bot"><div class="dots"><span></span><span></span><span></span></div></div>`;
+    msgs.appendChild(div);
+    scroll();
+    return id;
+  }
+
+  function removeTyping(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+  }
+
+  function scroll() {
+    const msgs = document.getElementById('chatMessages');
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  // ── TEXT UTILS ──
+  function esc(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\n/g, '<br>');
+  }
+
+  function linkify(str) {
+    return str.replace(
+      /(https?:\/\/[^\s&<]+)/g,
+      '<a href="$1" target="_blank" rel="noopener">$1</a>'
+    );
+  }
+
+  // ── INPUT ──
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  // ── DEBUG ──
+  function toggleDebug() {
+    document.getElementById('debugPanel').classList.toggle('visible');
+  }
+  function log(msg) {
+    const body = document.getElementById('debugBody');
+    const ts   = new Date().toLocaleTimeString('de-AT');
+    body.textContent += '[' + ts + '] ' + msg + '\n\n';
+    body.scrollTop = body.scrollHeight;
+  }
+  function clearDebug() {
+    document.getElementById('debugBody').textContent = '';
+  }
+</script>
+</body>
+</html>
