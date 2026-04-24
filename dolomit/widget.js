@@ -69,8 +69,9 @@
       }
       #vg-chat.vg-open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
       .vg-header {
-        background: ${C.p600}; padding: 12px 14px;
+        background: ${C.p600}; padding: 16px 16px 14px 16px;
         display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+        min-height: 64px;
       }
       .vg-header-text { flex: 1; min-width: 0; }
       .vg-header-title { color: white; font-size: 15px; font-weight: 700; line-height: 1.2; }
@@ -84,19 +85,19 @@
       }
       .vg-header-close:hover { background: rgba(255,255,255,0.3); }
       #vg-messages {
-        flex: 1; overflow-y: auto; padding: 14px 12px;
-        display: flex; flex-direction: column; gap: 12px;
+        flex: 1; overflow-y: auto; padding: 16px 14px;
+        display: flex; flex-direction: column; gap: 14px;
         background: white; scroll-behavior: smooth;
       }
       #vg-messages::-webkit-scrollbar { width: 3px; }
       #vg-messages::-webkit-scrollbar-thumb { background: ${C.p200}; border-radius: 2px; }
-      .vg-row-bot { display: flex; align-items: flex-end; gap: 8px; align-self: flex-start; max-width: 86%; }
-      .vg-avatar { width: 28px; height: 28px; flex-shrink: 0; margin-bottom: 2px; }
+      .vg-row-bot { display: flex; align-items: flex-end; gap: 10px; align-self: flex-start; max-width: 88%; }
+      .vg-avatar { width: 30px; height: 30px; flex-shrink: 0; margin-bottom: 2px; }
       .vg-bubble-bot {
         background: white; color: #1a1a1a;
         border: 1px solid ${C.p100};
         border-radius: 14px 14px 14px 3px;
-        padding: 10px 13px; font-size: 14px; line-height: 1.55; word-break: break-word;
+        padding: 11px 14px; font-size: 14px; line-height: 1.6; word-break: break-word;
       }
       .vg-bubble-bot a { color: ${C.primary}; text-decoration: underline; word-break: break-all; }
       .vg-row-user { align-self: flex-end; max-width: 80%; }
@@ -128,12 +129,12 @@
         30% { transform: translateY(-5px); }
       }
       .vg-input-area {
-        background: ${C.p50}; padding: 10px 12px;
-        display: flex; align-items: center; gap: 8px;
+        background: ${C.p50}; padding: 10px 14px;
+        display: flex; align-items: center; gap: 10px;
         flex-shrink: 0; border-top: 1px solid ${C.p100};
       }
-      .vg-input-icon { color: ${C.p400}; flex-shrink: 0; display: flex; align-items: center; }
-      .vg-input-icon svg { width: 16px; height: 16px; }
+      .vg-input-icon { color: ${C.p400}; flex-shrink: 0; display: flex; align-items: center; margin-left: 2px; }
+      .vg-input-icon svg { width: 17px; height: 17px; }
       #vg-input {
         flex: 1; border: none; outline: none; background: transparent;
         font-size: 14px; font-family: 'Alegreya Sans', sans-serif;
