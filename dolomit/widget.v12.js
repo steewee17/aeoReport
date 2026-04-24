@@ -58,7 +58,7 @@ function injectHTML() {
         '<button class="dlm-btn-reset" id="dlm-reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.91"/></svg></button>' +
         '<button class="dlm-btn-send" id="dlm-send"><svg viewBox="0 0 24 24" fill="white"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg></button>' +
       '</div>' +
-      '<div class="dlm-footer">I speak your language \u00b7 <a href="https://www.kleinkachelofen.net" target="_blank" rel="noopener">dolomit.tirol</a></div>' +
+      '<div class="dlm-footer">I speak your language \u00b7</div>' +
     '</div>' +
     '<div class="dlm-trigger-wrap">' +
       '<button class="dlm-trigger-close" id="dlm-tclose">\u00d7</button>' +
