@@ -33,13 +33,14 @@
     document.head.appendChild(l);
   }
 
-  // ── CSS ── exact copy from working HTML, variables inlined
+  // ── CSS ──
   function injectCSS() {
     if (document.getElementById('vg-css')) return;
     var s = document.createElement('style');
     s.id = 'vg-css';
     s.textContent = '\
-#vg-w{position:fixed;bottom:20px;right:20px;z-index:2147483647;display:flex;flex-direction:column;align-items:flex-end;gap:0;font-family:"Alegreya Sans",sans-serif;}\
+#vg-w{position:fixed;bottom:20px;right:20px;z-index:2147483647;display:flex;flex-direction:column;align-items:flex-end;gap:0;font-family:"Alegreya Sans",sans-serif;pointer-events:none;}\
+#vg-w *{pointer-events:auto;}\
 #vg-w *,#vg-w *::before,#vg-w *::after{box-sizing:border-box;margin:0;padding:0;}\
 #vg-c{width:370px;height:580px;background:white;border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.18);display:flex;flex-direction:column;transform-origin:bottom right;transform:scale(0.9) translateY(10px);opacity:0;pointer-events:none;transition:transform 0.22s cubic-bezier(.34,1.3,.64,1),opacity 0.18s ease;margin-bottom:12px;}\
 #vg-c.vg-open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}\
@@ -75,11 +76,11 @@
 .vg-bs:hover{background:#953937;}.vg-bs:disabled{background:#E3B5B5;cursor:not-allowed;}.vg-bs svg{width:13px;height:13px;}\
 .vg-ft{background:white;padding:6px 14px 8px;text-align:center;font-size:11px;font-family:"Alegreya Sans",sans-serif;color:#D6908F;border-top:1px solid #F8EDEC;flex-shrink:0;}\
 .vg-ft a{color:#ae4341;text-decoration:underline;}\
-.vg-tw{position:relative;display:flex;flex-direction:column;align-items:flex-end;gap:6px;}\
-.vg-tx{width:24px;height:24px;background:white;border:none;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.15);cursor:pointer;font-size:13px;color:#666;display:none;align-items:center;justify-content:center;align-self:flex-end;margin-right:4px;transition:background 0.15s;line-height:1;}\
-.vg-tx.visible{display:flex;}.vg-tx:hover{background:#f0f0f0;}\
-.vg-tr{display:flex;align-items:flex-end;gap:0;}\
-.vg-pl{background:#ae4341;color:white;font-family:"Alegreya Sans",sans-serif;font-size:14px;font-weight:500;padding:11px 20px;border-radius:50px;cursor:pointer;box-shadow:0 4px 16px rgba(174,67,65,0.4);white-space:nowrap;transition:transform 0.15s,box-shadow 0.15s;user-select:none;display:flex;align-items:center;}\
+.vg-tw{position:relative;display:flex;flex-direction:column;align-items:flex-end;gap:6px;pointer-events:none;}\
+.vg-tx{width:24px;height:24px;background:white;border:none;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.15);cursor:pointer;font-size:13px;color:#666;display:none;align-items:center;justify-content:center;align-self:flex-end;margin-right:4px;transition:background 0.15s;line-height:1;pointer-events:auto;}\
+.vg-tx.visible{display:flex;}\
+.vg-tr{display:flex;align-items:flex-end;gap:0;pointer-events:auto;}\
+.vg-pl{background:#ae4341;color:white;font-family:"Alegreya Sans",sans-serif;font-size:14px;font-weight:500;padding:11px 20px;border-radius:50px;cursor:pointer;box-shadow:0 4px 16px rgba(174,67,65,0.4);white-space:nowrap;transition:transform 0.15s,box-shadow 0.15s;user-select:none;display:flex;align-items:center;z-index:2147483647;}\
 .vg-pl:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(174,67,65,0.45);}\
 @media(max-width:480px){#vg-c{width:100vw;height:100dvh;border-radius:0;position:fixed;top:0;left:0;margin-bottom:0;}#vg-w{bottom:16px;right:16px;}.vg-pl{font-size:13px;padding:9px 16px;}}';
     document.head.appendChild(s);
@@ -88,7 +89,7 @@
   // ── HTML ──
   function injectHTML() {
     if (document.getElementById('vg-w')) return;
-    var av = '<svg width="28" height="28" viewBox="0 0 100 100"><defs><clipPath id="vgc"><circle cx="50" cy="50" r="50"/></clipPath></defs><g clip-path="url(#vgc)"><rect width="100" height="100" fill="#ae4341"/><path d="M46,19 L59,19 L59,73 L23,73 A26,26 0 0 1 23,37 L46,37 Z" fill="white"/><rect x="29" y="48" width="17" height="14" fill="#ae4341"/><rect x="71" y="59" width="12" height="13" fill="white"/><rect x="15" y="81" width="68" height="3" fill="white" rx="1"/></g></svg>';
+    var av = avatarSvg();
     var d = document.createElement('div');
     d.id = 'vg-w';
     d.innerHTML =
@@ -116,10 +117,11 @@
       '</div>';
     document.body.appendChild(d);
 
-    // events
-    document.getElementById('vg-pl').addEventListener('click', toggleChat);
-    document.getElementById('vg-tx').addEventListener('click', toggleChat);
-    document.getElementById('vg-hx').addEventListener('click', toggleChat);
+    // Event Listeners mit Stop Propagation zur Sicherheit
+    document.getElementById('vg-pl').onclick = toggleChat;
+    document.getElementById('vg-tx').onclick = toggleChat;
+    document.getElementById('vg-hx').onclick = toggleChat;
+    
     document.getElementById('vg-bs').addEventListener('click', sendMessage);
     document.getElementById('vg-br').addEventListener('click', resetSession);
     document.getElementById('vg-i').addEventListener('keydown', function(e) {
@@ -128,14 +130,26 @@
   }
 
   // ── LOGIC ──
-  function toggleChat() {
-    chatOpen = !chatOpen;
-    document.getElementById('vg-c').classList.toggle('vg-open', chatOpen);
-    document.getElementById('vg-tx').classList.toggle('visible', chatOpen);
-    var tr = document.getElementById('vg-tr');
-    tr.style.opacity = chatOpen ? '0.5' : '1';
-    tr.style.pointerEvents = chatOpen ? 'none' : 'all';
-    if (chatOpen) setTimeout(function() { document.getElementById('vg-i').focus(); }, 260);
+  function toggleChat(e) {
+    if (e) e.stopPropagation();
+    var chatWindow = document.getElementById('vg-c');
+    var closeBtn = document.getElementById('vg-tx');
+    var triggerRow = document.getElementById('vg-tr');
+    
+    chatOpen = !chatWindow.classList.contains('vg-open');
+
+    if (chatOpen) {
+      chatWindow.classList.add('vg-open');
+      closeBtn.classList.add('visible');
+      triggerRow.style.opacity = '0.5';
+      triggerRow.style.pointerEvents = 'none';
+      setTimeout(function() { document.getElementById('vg-i').focus(); }, 260);
+    } else {
+      chatWindow.classList.remove('vg-open');
+      closeBtn.classList.remove('visible');
+      triggerRow.style.opacity = '1';
+      triggerRow.style.pointerEvents = 'all';
+    }
   }
 
   function resetSession() {
@@ -174,6 +188,7 @@
     });
   }
 
+  // ── HELPER ──
   function avatarSvg() {
     return '<svg width="28" height="28" viewBox="0 0 100 100"><defs><clipPath id="vgc"><circle cx="50" cy="50" r="50"/></clipPath></defs><g clip-path="url(#vgc)"><rect width="100" height="100" fill="#ae4341"/><path d="M46,19 L59,19 L59,73 L23,73 A26,26 0 0 1 23,37 L46,37 Z" fill="white"/><rect x="29" y="48" width="17" height="14" fill="#ae4341"/><rect x="71" y="59" width="12" height="13" fill="white"/><rect x="15" y="81" width="68" height="3" fill="white" rx="1"/></g></svg>';
   }
