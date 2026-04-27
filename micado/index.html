@@ -36,7 +36,7 @@
   --hdr-text2:     #64748b;
   --text:          #f0f4f8;
   --text-2:        #94a3b8;
-  --text-3:        #4b6070;
+  --text-3:        #7a94a8;
   --green:         #10b981;
   --green-bg:      rgba(16,185,129,0.08);
   --error:         #ef4444;
@@ -60,9 +60,9 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
 
 /* HEADER */
 header{position:sticky;top:0;z-index:200;background:var(--hdr-bg);border-bottom:3px solid var(--blue);box-shadow:0 2px 20px rgba(0,0,0,0.12);}
-.hdr-inner{max-width:1080px;margin:0 auto;padding:0 40px;height:80px;display:flex;align-items:center;justify-content:space-between;}
+.hdr-inner{max-width:1080px;margin:0 auto;padding:0 40px;height:96px;display:flex;align-items:center;justify-content:space-between;}
 .logo{text-decoration:none;display:flex;align-items:center;}
-.logo-img{height:76px;width:auto;display:block;object-fit:contain;}
+.logo-img{height:114px;width:auto;display:block;object-fit:contain;}
 .logo-fb{display:flex;align-items:center;gap:10px;}
 .logo-fb-mark{width:44px;height:44px;background:rgba(0,129,194,0.1);border:2px solid var(--blue);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;}
 .logo-fb-mark svg{width:26px;height:26px;}
@@ -88,8 +88,8 @@ header{position:sticky;top:0;z-index:200;background:var(--hdr-bg);border-bottom:
 .btn-p:hover{background:var(--blue-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,129,194,0.28);}
 .btn-g{display:inline-flex;align-items:center;gap:8px;padding:15px 28px;background:transparent;color:var(--text-2);font-family:var(--head);font-weight:600;font-size:0.88rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:var(--radius-lg);border:1.5px solid var(--border-2);text-decoration:none;cursor:pointer;transition:all 0.2s var(--ease);}
 .btn-g:hover{border-color:var(--blue);color:var(--blue-light);}
-.hero-note{margin-top:16px;font-size:0.8rem;color:var(--text-3);display:flex;align-items:center;gap:6px;}
-.hero-note::before{content:'🔒';font-size:0.75rem;}
+.hero-note{margin-top:16px;font-size:0.8rem;color:var(--text-3);display:flex;align-items:center;gap:6px;list-style:none;}
+
 
 /* STAT STRIP */
 .stat-strip{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:32px 0;}
@@ -115,7 +115,7 @@ header{position:sticky;top:0;z-index:200;background:var(--hdr-bg);border-bottom:
 .prob-cards{display:flex;flex-direction:column;gap:14px;}
 .prob-card{background:var(--bg-2);border:1px solid var(--border);border-left:3px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;display:flex;gap:16px;align-items:flex-start;transition:all 0.22s var(--ease);}
 .prob-card:hover{border-left-color:var(--blue);background:var(--bg-3);transform:translateX(4px);}
-.prob-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px;}
+.prob-icon{flex-shrink:0;margin-top:1px;color:var(--blue-light);}
 .prob-t{font-family:var(--head);font-weight:700;font-size:1rem;margin-bottom:4px;}
 .prob-d{font-size:0.85rem;color:var(--text-2);line-height:1.55;}
 
@@ -126,7 +126,7 @@ header{position:sticky;top:0;z-index:200;background:var(--hdr-bg);border-bottom:
 .feat-card:hover{background:var(--bg-3);border-color:var(--border-2);transform:translateY(-3px);}
 .feat-card:hover::before{opacity:1;}
 .feat-num{font-family:var(--head);font-weight:800;font-size:2rem;line-height:1;color:rgba(0,129,194,0.18);margin-bottom:10px;}
-.feat-icon{font-size:1.6rem;margin-bottom:10px;display:block;}
+.feat-icon{margin-bottom:12px;display:block;color:var(--blue-light);}
 .feat-t{font-family:var(--head);font-weight:700;font-size:1.05rem;margin-bottom:8px;}
 .feat-d{font-size:0.85rem;color:var(--text-2);line-height:1.6;}
 
@@ -217,7 +217,7 @@ input[type=number].inv{border-color:var(--error);}
 .res-card{background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 20px;position:relative;overflow:hidden;}
 .res-card.hl{background:var(--blue-glow);border-color:rgba(0,129,194,0.3);}
 .res-card.hl::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--blue);}
-.res-ico{font-size:1.4rem;margin-bottom:10px;display:block;}
+.res-ico{margin-bottom:10px;display:block;color:var(--blue-light);}
 .res-lbl{font-family:var(--head);font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;}
 .res-card.hl .res-lbl{color:rgba(0,129,194,0.7);}
 .res-val{font-family:var(--head);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;line-height:1;color:var(--text);margin-bottom:4px;}
@@ -256,7 +256,7 @@ select option{background:var(--bg-3);}
 
 /* Thank you */
 .ty{text-align:center;padding:40px 0;}
-.ty-ico{width:72px;height:72px;background:var(--green-bg);border:2px solid var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:1.8rem;}
+.ty-ico{width:72px;height:72px;background:var(--green-bg);border:2px solid var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;}
 .ty h2{font-family:var(--head);font-size:2rem;font-weight:800;margin-bottom:10px;}
 .ty p{color:var(--text-2);max-width:480px;margin:0 auto 32px;line-height:1.7;}
 .sum-box{background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 32px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:left;margin-top:32px;}
@@ -269,7 +269,7 @@ select option{background:var(--bg-3);}
 .proc-step:first-child{padding-left:0;}
 .proc-step:last-child{padding-right:0;border-right:none;}
 .proc-num{font-family:var(--head);font-weight:800;font-size:3.5rem;line-height:1;color:rgba(0,129,194,0.15);margin-bottom:12px;}
-.proc-icon{font-size:1.6rem;margin-bottom:12px;display:block;}
+.proc-icon{margin-bottom:12px;display:block;color:var(--blue-light);}
 .proc-t{font-family:var(--head);font-weight:700;font-size:1.05rem;margin-bottom:8px;}
 .proc-d{font-size:0.85rem;color:var(--text-2);line-height:1.6;}
 
@@ -288,7 +288,8 @@ select option{background:var(--bg-3);}
 footer{background:var(--bg-2);border-top:1px solid var(--border);padding:48px 0 32px;}
 .ft-in{max-width:1080px;margin:0 auto;padding:0 40px;}
 .ft-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;padding-bottom:40px;border-bottom:1px solid var(--border);margin-bottom:28px;}
-.ft-logo{height:48px;width:auto;margin-bottom:16px;filter:brightness(0) invert(1);opacity:0.45;}
+
+.ft-wordmark{font-family:var(--head);font-weight:800;font-size:1.4rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:14px;}
 .ft-tag{font-size:0.88rem;color:var(--text-3);line-height:1.65;max-width:320px;}
 .ft-col-t{font-family:var(--head);font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:14px;}
 .ft-links{list-style:none;display:flex;flex-direction:column;gap:8px;}
@@ -429,15 +430,15 @@ footer{background:var(--bg-2);border-top:1px solid var(--border);padding:48px 0 
       </div>
       <div class="prob-cards">
         <div class="prob-card reveal d1">
-          <div class="prob-icon">⏱</div>
+          <div class="prob-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
           <div><div class="prob-t" data-t="p1t">Manuelle Rüstzeiten bis 90 min/Bauteil</div><div class="prob-d" data-t="p1d">Jeder Spannpunkt muss einzeln positioniert, ausgerichtet und fixiert werden — bei komplexen Geometrien mehrfach.</div></div>
         </div>
         <div class="prob-card reveal d2">
-          <div class="prob-icon">🔧</div>
+          <div class="prob-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
           <div><div class="prob-t" data-t="p2t">Starre Vorrichtungen für jedes Bauteil</div><div class="prob-d" data-t="p2d">Dedizierte Fixtures binden Kapital, brauchen Lagerfläche und werden bei Bauteiländerungen sofort obsolet.</div></div>
         </div>
         <div class="prob-card reveal d3">
-          <div class="prob-icon">📉</div>
+          <div class="prob-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg></div>
           <div><div class="prob-t" data-t="p3t">Rüstkosten unsichtbar in der Kalkulation</div><div class="prob-d" data-t="p3d">Weil Rüstzeit zum Gemeinkosten-Block gehört, bleibt das wahre Einsparpotenzial verborgen.</div></div>
         </div>
       </div>
@@ -452,15 +453,15 @@ footer{background:var(--bg-2);border-top:1px solid var(--border);padding:48px 0 
       <div class="sec-eye" data-t="fe.eye">Octopus FlexGrid</div>
       <h2 class="sec-title" data-t="fe.title">Modular. Flexibel.<br>Für jede Geometrie.</h2>
       <p class="sec-desc" data-t="fe.desc">Das FlexGrid-System kombiniert ein präzises Grundraster mit individuell positionierbaren Spannpunkten — ohne Sondervorrichtung, ohne Umbau.</p>
-      <div class="pat-badge" data-t="fe.pat">🛡 Patent angemeldet · Markteinführung JEC World 2026</div>
+      <div class="pat-badge" data-t="fe.pat">Patent angemeldet · Markteinführung JEC World 2026</div>
     </div>
     <div class="feat-grid">
-      <div class="feat-card reveal"><div class="feat-num">01</div><span class="feat-icon">🔩</span><div class="feat-t" data-t="f1t">Universelles Raster</div><div class="feat-d" data-t="f1d">Standardisierte Basisplatte mit definierten Aufnahmepunkten. Kein Sonderwerkzeug, keine Umbauzeit zwischen Bauteiltypen.</div></div>
-      <div class="feat-card reveal d1"><div class="feat-num">02</div><span class="feat-icon">📐</span><div class="feat-t" data-t="f2t">Flexible Spannpunkte</div><div class="feat-d" data-t="f2d">Frei positionierbar, in Höhe, Winkel und Kraft einstellbar — auch bei großformatigen oder gewölbten Bauteilen.</div></div>
-      <div class="feat-card reveal d2"><div class="feat-num">03</div><span class="feat-icon">⚡</span><div class="feat-t" data-t="f3t">65% weniger Rüstzeit</div><div class="feat-d" data-t="f3d">In Validierungsläufen bei Tier-1-Zulieferern konservativ bestätigt — typische Range 60–75%.</div></div>
-      <div class="feat-card reveal"><div class="feat-num">04</div><span class="feat-icon">🏭</span><div class="feat-t" data-t="f4t">Skalierbar S bis XL</div><div class="feat-d" data-t="f4d">Kleinserie bis Großstruktur: von unter 0,2 m² bis mehrere Quadratmeter.</div></div>
-      <div class="feat-card reveal d1"><div class="feat-num">05</div><span class="feat-icon">🛡</span><div class="feat-t" data-t="f5t">Composite-optimiert</div><div class="feat-d" data-t="f5d">Für CFK, GFK und Hybridlaminate entwickelt. Keine Druckstellen, kein Verzug.</div></div>
-      <div class="feat-card reveal d2"><div class="feat-num">06</div><span class="feat-icon">📊</span><div class="feat-t" data-t="f6t">ROI ab Monat 12</div><div class="feat-d" data-t="f6d">Bei typischen DACH-Fertigungskosten amortisiert sich die Investition in 12–18 Monaten.</div></div>
+      <div class="feat-card reveal"><div class="feat-num">01</div><span class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span><div class="feat-t" data-t="f1t">Universelles Raster</div><div class="feat-d" data-t="f1d">Standardisierte Basisplatte mit definierten Aufnahmepunkten. Kein Sonderwerkzeug, keine Umbauzeit zwischen Bauteiltypen.</div></div>
+      <div class="feat-card reveal d1"><div class="feat-num">02</div><span class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg></span><div class="feat-t" data-t="f2t">Flexible Spannpunkte</div><div class="feat-d" data-t="f2d">Frei positionierbar, in Höhe, Winkel und Kraft einstellbar — auch bei großformatigen oder gewölbten Bauteilen.</div></div>
+      <div class="feat-card reveal d2"><div class="feat-num">03</div><span class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><div class="feat-t" data-t="f3t">65% weniger Rüstzeit</div><div class="feat-d" data-t="f3d">In Validierungsläufen bei Tier-1-Zulieferern konservativ bestätigt — typische Range 60–75%.</div></div>
+      <div class="feat-card reveal"><div class="feat-num">04</div><span class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span><div class="feat-t" data-t="f4t">Skalierbar S bis XL</div><div class="feat-d" data-t="f4d">Kleinserie bis Großstruktur: von unter 0,2 m² bis mehrere Quadratmeter.</div></div>
+      <div class="feat-card reveal d1"><div class="feat-num">05</div><span class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><div class="feat-t" data-t="f5t">Composite-optimiert</div><div class="feat-d" data-t="f5d">Für CFK, GFK und Hybridlaminate entwickelt. Keine Druckstellen, kein Verzug.</div></div>
+      <div class="feat-card reveal d2"><div class="feat-num">06</div><span class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><div class="feat-t" data-t="f6t">ROI ab Monat 12</div><div class="feat-d" data-t="f6d">Bei typischen DACH-Fertigungskosten amortisiert sich die Investition in 12–18 Monaten.</div></div>
     </div>
   </div>
 </section>
@@ -560,10 +561,10 @@ footer{background:var(--bg-2);border-top:1px solid var(--border);padding:48px 0 
             <div class="inp-wrap"><input type="number" id="ins" value="2400" min="100" max="50000" oninput="live()" /><span class="inp-unit" data-t="pcs">Stk.</span></div>
           </div>
         </div>
-        <div class="calc-prev">💡&nbsp;<span data-t="pva">Aktuell:</span>&nbsp;<strong id="pvh">—</strong>&nbsp;<span data-t="pvb">Rüststunden/Jahr</span>&nbsp;—&nbsp;<span data-t="pvc">Einsparpotenzial:</span>&nbsp;<strong id="pvs">—</strong></div>
+        <div class="calc-prev"><span data-t="pva">Aktuell:</span>&nbsp;<strong id="pvh">—</strong>&nbsp;<span data-t="pvb">Rüststunden/Jahr</span>&nbsp;—&nbsp;<span data-t="pvc">Einsparpotenzial:</span>&nbsp;<strong id="pvs">—</strong></div>
         <div class="btn-row" style="margin-top:32px">
           <button class="wbtn wbtn-g" onclick="go(2)">← <span data-t="bk">Zurück</span></button>
-          <button class="wbtn wbtn-p wbtn-lg" onclick="go(4)"><span data-t="calc">ROI berechnen</span> ⚡</button>
+          <button class="wbtn wbtn-p wbtn-lg" onclick="go(4)"><span data-t="calc">ROI berechnen</span></button>
         </div>
       </div>
 
@@ -573,9 +574,9 @@ footer{background:var(--bg-2);border-top:1px solid var(--border);padding:48px 0 
         <h2 data-t="c4.h">Einsparpotenzial</h2>
         <p class="card-desc" data-t="c4.d">Konservative Berechnung · Stundensatz €85/h (DACH Composite-Fertigung)</p>
         <div class="res-grid">
-          <div class="res-card"><span class="res-ico">⏱</span><div class="res-lbl" data-t="rhl">Rüststunden / Jahr</div><div class="res-val" id="rh">—</div><div class="res-sub" data-t="rhs">aktuell gesamt</div></div>
-          <div class="res-card hl"><span class="res-ico">💶</span><div class="res-lbl" data-t="rsl">Einsparung / Jahr</div><div class="res-val" id="rs">—</div><div class="res-sub" data-t="rss">durch FlexGrid</div></div>
-          <div class="res-card"><span class="res-ico">📈</span><div class="res-lbl" data-t="ral">Amortisation</div><div class="res-val" id="ra">—</div><div class="res-sub" data-t="ras">Monate bis Break-even</div></div>
+          <div class="res-card"><span class="res-ico"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><div class="res-lbl" data-t="rhl">Rüststunden / Jahr</div><div class="res-val" id="rh">—</div><div class="res-sub" data-t="rhs">aktuell gesamt</div></div>
+          <div class="res-card hl"><span class="res-ico"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span><div class="res-lbl" data-t="rsl">Einsparung / Jahr</div><div class="res-val" id="rs">—</div><div class="res-sub" data-t="rss">durch FlexGrid</div></div>
+          <div class="res-card"><span class="res-ico"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><div class="res-lbl" data-t="ral">Amortisation</div><div class="res-val" id="ra">—</div><div class="res-sub" data-t="ras">Monate bis Break-even</div></div>
         </div>
         <div class="div-line" data-l="KONKRETES ANGEBOT"></div>
         <p style="font-size:.9rem;color:var(--text-2);margin-bottom:20px" data-t="c4.intro">Erhalten Sie ein individuelles Angebot auf Basis Ihrer Kalkulation — kostenlos und unverbindlich.</p>
@@ -609,7 +610,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--border);padding:48px 0 
       <!-- THANK YOU -->
       <div class="card" id="stty" style="display:none">
         <div class="ty">
-          <div class="ty-ico">✓</div>
+          <div class="ty-ico"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points='20 6 9 12 4 9'/></svg></div>
           <h2 data-t="ty.h">Danke für Ihre Anfrage!</h2>
           <p data-t="ty.p">Antoine Dubois meldet sich in Kürze mit einem konkreten Angebot auf Basis Ihrer Kalkulation.</p>
           <a href="https://micado.at" class="btn-g" style="display:inline-flex;margin:0 auto" target="_blank" data-t="ty.btn">micado.at besuchen ↗</a>
@@ -633,9 +634,9 @@ footer{background:var(--bg-2);border-top:1px solid var(--border);padding:48px 0 
       <h2 class="sec-title" style="text-align:center" data-t="pc.title">In 3 Schritten zum Angebot</h2>
     </div>
     <div class="proc-grid">
-      <div class="proc-step reveal"><div class="proc-num">01</div><span class="proc-icon">📋</span><div class="proc-t" data-t="pc1t">Kalkulation erhalten</div><div class="proc-d" data-t="pc1d">Sobald Sie das Formular abschicken, erhält Antoine Dubois Ihre Bauteilgröße, Spannpunkte und ROI-Werte direkt in sein Sales-System.</div></div>
-      <div class="proc-step reveal d1"><div class="proc-num">02</div><span class="proc-icon">📞</span><div class="proc-t" data-t="pc2t">Erstgespräch in 24h</div><div class="proc-d" data-t="pc2d">Kurzes Technik-Gespräch (30 min) zur Validierung Ihrer Anforderungen. Kein Verkaufsgespräch — konkrete Fragen zu Ihrem Bauteil.</div></div>
-      <div class="proc-step reveal d2"><div class="proc-num">03</div><span class="proc-icon">📄</span><div class="proc-t" data-t="pc3t">Konkretes Angebot</div><div class="proc-d" data-t="pc3d">Technische Spezifikation des FlexGrid-Systems inkl. Investitionsrahmen und dokumentierter ROI-Berechnung.</div></div>
+      <div class="proc-step reveal"><div class="proc-num">01</div><span class="proc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg></span><div class="proc-t" data-t="pc1t">Kalkulation erhalten</div><div class="proc-d" data-t="pc1d">Sobald Sie das Formular abschicken, erhält Antoine Dubois Ihre Bauteilgröße, Spannpunkte und ROI-Werte direkt in sein Sales-System.</div></div>
+      <div class="proc-step reveal d1"><div class="proc-num">02</div><span class="proc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.71 4.34a2 2 0 0 1 1.99-2.18H6.5a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.9a16 16 0 0 0 6.07 6.07l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><div class="proc-t" data-t="pc2t">Erstgespräch in 24h</div><div class="proc-d" data-t="pc2d">Kurzes Technik-Gespräch (30 min) zur Validierung Ihrer Anforderungen. Kein Verkaufsgespräch — konkrete Fragen zu Ihrem Bauteil.</div></div>
+      <div class="proc-step reveal d2"><div class="proc-num">03</div><span class="proc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span><div class="proc-t" data-t="pc3t">Konkretes Angebot</div><div class="proc-d" data-t="pc3d">Technische Spezifikation des FlexGrid-Systems inkl. Investitionsrahmen und dokumentierter ROI-Berechnung.</div></div>
     </div>
   </div>
 </section>
@@ -662,7 +663,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--border);padding:48px 0 
   <div class="ft-in">
     <div class="ft-top">
       <div>
-        <img class="ft-logo" src="sp_at_micado-smart-engineering-gmbh-2.jpg" alt="MICADO" onerror="this.outerHTML='<div style=\'font-family:var(--head);font-size:1.1rem;font-weight:800;letter-spacing:0.08em;color:rgba(255,255,255,0.35);margin-bottom:16px\'>MICADO</div>'"/>
+        <div class="ft-wordmark">MICADO</div>
         <p class="ft-tag" data-t="ft.tag">MICADO Smart Engineering GmbH — Composite Engineering, Werkzeugbau und Automatisierungstechnik für die Luftfahrt-, Automotive- und Industriefertigung.</p>
       </div>
       <div>
@@ -715,7 +716,7 @@ de:{
 'p1t':'Manuelle Rüstzeiten bis 90 min/Bauteil','p1d':'Jeder Spannpunkt muss einzeln positioniert, ausgerichtet und fixiert werden.',
 'p2t':'Starre Vorrichtungen für jedes Bauteil','p2d':'Dedizierte Fixtures binden Kapital und werden bei Bauteiländerungen obsolet.',
 'p3t':'Rüstkosten unsichtbar in der Kalkulation','p3d':'Weil Rüstzeit zum Gemeinkosten-Block gehört, bleibt das Einsparpotenzial verborgen.',
-'fe.eye':'Octopus FlexGrid','fe.title':'Modular. Flexibel.\nFür jede Geometrie.','fe.desc':'Das FlexGrid-System kombiniert ein präzises Grundraster mit individuell positionierbaren Spannpunkten — ohne Sondervorrichtung.','fe.pat':'🛡 Patent angemeldet · JEC World 2026',
+'fe.eye':'Octopus FlexGrid','fe.title':'Modular. Flexibel.\nFür jede Geometrie.','fe.desc':'Das FlexGrid-System kombiniert ein präzises Grundraster mit individuell positionierbaren Spannpunkten — ohne Sondervorrichtung.','fe.pat':'Patent angemeldet · JEC World 2026',
 'f1t':'Universelles Raster','f1d':'Standardisierte Basisplatte mit definierten Aufnahmepunkten.','f2t':'Flexible Spannpunkte','f2d':'Frei positionierbar, einstellbar — auch bei gewölbten Bauteilen.','f3t':'65% weniger Rüstzeit','f3d':'In Validierungsläufen bei Tier-1-Zulieferern konservativ bestätigt.','f4t':'Skalierbar S bis XL','f4d':'Von 0,2 m² bis mehrere Quadratmeter.','f5t':'Composite-optimiert','f5d':'Für CFK, GFK und Hybridlaminate. Keine Druckstellen, kein Verzug.','f6t':'ROI ab Monat 12','f6d':'Bei typischen DACH-Fertigungskosten amortisiert sich die Investition in 12–18 Monaten.',
 'cl.lbl':'Referenzkunden & Branchen — MICADO Smart Engineering',
 'wi.eye':'ROI-Kalkulator','wi.title':'Berechnen Sie Ihr Einsparpotenzial','wi.desc':'3 Eingaben. Sofortiges Ergebnis. Kein Login.',
@@ -759,7 +760,7 @@ en:{
 'p1t':'Manual setup times up to 90 min/part','p1d':'Each clamping point must be positioned, aligned and fixed individually.',
 'p2t':'Rigid fixtures for every part','p2d':'Dedicated fixtures tie up capital and become obsolete with design changes.',
 'p3t':'Setup costs hidden in overheads','p3d':'Because setup time is buried in overheads, the true savings potential remains invisible.',
-'fe.eye':'Octopus FlexGrid','fe.title':'Modular. Flexible.\nFor any geometry.','fe.desc':'The FlexGrid system combines a precision base grid with individually positionable clamping points — no special fixtures.','fe.pat':'🛡 Patent pending · Market launch JEC World 2026',
+'fe.eye':'Octopus FlexGrid','fe.title':'Modular. Flexible.\nFor any geometry.','fe.desc':'The FlexGrid system combines a precision base grid with individually positionable clamping points — no special fixtures.','fe.pat':'Patent pending · Market launch JEC World 2026',
 'f1t':'Universal grid','f1d':'Standardized base plate with defined mounting points.','f2t':'Flexible clamping points','f2d':'Freely positionable and adjustable — even for curved parts.','f3t':'65% less setup time','f3d':'Conservatively validated with Tier-1 suppliers.','f4t':'Scalable S to XL','f4d':'From 0.2 m² small parts to multi-square-meter structures.','f5t':'Composite-optimized','f5d':'For CFRP, GFRP and hybrid laminates. No pressure marks, no distortion.','f6t':'ROI from month 12','f6d':'Investment pays back in 12–18 months at typical DACH manufacturing costs.',
 'cl.lbl':'Reference customers & industries — MICADO Smart Engineering',
 'wi.eye':'ROI Calculator','wi.title':'Calculate Your Savings Potential','wi.desc':'3 inputs. Instant result. No login.',
