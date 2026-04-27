@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Octopus FlexGrid Kalkulator — MICADO Smart Engineering</title>
+
+<!-- ============================================================
+     MICADO Octopus FlexGrid ROI Calculator
+     Build: April 2026 · stefanwurzer innovationservice
+     Webhook URL: change WEBHOOK_URL constant below
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+/* =============================================
+   CSS CUSTOM PROPERTIES — MICADO CI
+   Brand blue extracted: #0081C2 (RGB 0,129,194)
+   ============================================= */
+:root {
+  /* Dark content area */
+  --bg:           #090d12;
+  --bg-2:         #0f1620;
+  --bg-3:         #16202e;
+  --bg-4:         #1d2a3a;
+  --border:       rgba(255,255,255,0.07);
+  --border-2:     rgba(255,255,255,0.14);
+
+  /* MICADO Brand Blue (extracted from CI swatch) */
+  --amber:        #0081C2;   /* primary accent — renamed alias kept for token compatibility */
+  --amber-dark:   #006ba3;   /* darker hover state */
+  --amber-glow:   rgba(0,129,194,0.13);
+  --amber-glow2:  rgba(0,129,194,0.07);
+  --blue-light:   #00a3e0;   /* lighter variant for text-on-dark */
+
+  /* Header (white — logo is black on white) */
+  --header-bg:    #ffffff;
+  --header-border:#e5e7eb;
+  --header-text:  #111827;
+  --header-text2: #6b7280;
+
+  --text:         #f0f4f8;
+  --text-2:       #94a3b8;
+  --text-3:       #4b6070;
+  --success:      #10b981;
+  --success-bg:   rgba(16,185,129,0.08);
+  --error:        #ef4444;
+
+  --radius-sm:    4px;
+  --radius:       8px;
+  --radius-lg:    14px;
+  --radius-xl:    20px;
+
+  --head:         'Barlow Condensed', sans-serif;
+  --body:         'Barlow', sans-serif;
+
+  --trans:        all 0.22s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* =============================================
+   RESET & BASE
+   ============================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-weight: 400;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* =============================================
+   BACKGROUND TEXTURE
+   ============================================= */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 0%, rgba(0,129,194,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 100%, rgba(0,163,224,0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Grid overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* =============================================
+   LAYOUT WRAPPER
+   ============================================= */
+.page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =============================================
+   HEADER / NAV — WHITE for logo compatibility
+   (MICADO logo: black text on white background)
+   ============================================= */
+header {
+  padding: 0 40px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--header-bg);
+  border-bottom: 3px solid var(--amber);  /* MICADO blue stripe = brand bar */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  text-decoration: none;
+}
+
+/* Real logo: sp_at_micado-smart-engineering-gmbh-2.jpg
+   Max height constrained, white background header ensures visibility */
+.logo-img {
+  height: 38px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Fallback if image path not yet resolved */
+.logo-fallback {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-mark {
+  width: 36px;
+  height: 36px;
+  background: var(--amber);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.logo-mark svg { width: 22px; height: 22px; }
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.logo-name {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--header-text);
+}
+.logo-sub {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--header-text2);
+}
+
+/* Language toggle — white header version */
+.lang-toggle {
+  display: flex;
+  border: 1.5px solid var(--header-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.lang-btn {
+  padding: 6px 14px;
+  font-family: var(--head);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--trans);
+  border: none;
+  background: transparent;
+  color: var(--header-text2);
+}
+.lang-btn.active {
+  background: var(--amber);
+  color: #ffffff;
+}
+
+/* =============================================
+   HERO SECTION
+   ============================================= */
+.hero {
+  padding: 72px 40px 56px;
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--amber-glow);
+  border: 1px solid rgba(0,129,194,0.25);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-family: var(--head);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue-light);
+  margin-bottom: 24px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--blue-light);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.7); }
+}
+
+.hero h1 {
+  font-family: var(--head);
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.hero h1 span { color: var(--blue-light); }
+
+.hero p {
+  font-size: 1.05rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* =============================================
+   WIZARD CONTAINER
+   ============================================= */
+.wizard-wrap {
+  flex: 1;
+  max-width: 820px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+/* Progress bar */
+.progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 40px;
+}
+.progress-step {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.progress-step:not(:last-child)::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-2);
+  margin: 0 4px;
+  transition: var(--trans);
+}
+.progress-step.done::after {
+  background: var(--amber);
+}
+
+.step-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  color: var(--text-3);
+  background: var(--bg-2);
+  transition: var(--trans);
+  flex-shrink: 0;
+}
+.step-label {
+  font-family: var(--head);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+  transition: var(--trans);
+}
+
+.progress-step.active .step-dot {
+  border-color: var(--amber);
+  color: var(--amber);
+  background: var(--amber-glow);
+  box-shadow: 0 0 0 4px var(--amber-glow2);
+}
+.progress-step.active .step-label { color: var(--text); }
+
+.progress-step.done .step-dot {
+  border-color: var(--amber);
+  background: var(--amber);
+  color: var(--bg);
+}
+.progress-step.done .step-label { color: var(--amber); }
+
+/* =============================================
+   CARD
+   ============================================= */
+.card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 48px;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245,158,11,0.3), transparent);
+}
+
+.card-step-num {
+  font-family: var(--head);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-step-num::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--amber);
+}
+
+.card h2 {
+  font-family: var(--head);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.card-desc {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  margin-bottom: 36px;
+  line-height: 1.6;
+}
+
+/* =============================================
+   STEP 1: SIZE CARDS
+   ============================================= */
+.size-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.size-card {
+  background: var(--bg-3);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 16px;
+  cursor: pointer;
+  transition: var(--trans);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.size-card:hover {
+  border-color: var(--border-2);
+  background: var(--bg-4);
+}
+.size-card.selected {
+  border-color: var(--amber);
+  background: var(--amber-glow);
+}
+.size-card.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 8px; right: 10px;
+  font-size: 0.7rem;
+  color: var(--amber);
+  font-weight: 700;
+}
+
+.size-icon {
+  margin: 0 auto 12px;
+  display: block;
+}
+
+.size-label {
+  font-family: var(--head);
+  font-weight: 800;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--text);
+  margin-bottom: 4px;
+  transition: var(--trans);
+}
+.size-card.selected .size-label { color: var(--amber); }
+
+.size-desc {
+  font-size: 0.72rem;
+  color: var(--text-3);
+  line-height: 1.4;
+  transition: var(--trans);
+}
+.size-card.selected .size-desc { color: var(--text-2); }
+
+.size-area {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 2px 8px;
+  background: rgba(255,255,255,0.04);
+  border-radius: var(--radius-sm);
+  font-family: var(--head);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-3);
+}
+.size-card.selected .size-area {
+  background: rgba(245,158,11,0.15);
+  color: var(--amber);
+}
+
+/* =============================================
+   STEP 2: SLIDER
+   ============================================= */
+.slider-wrap {
+  margin-bottom: 40px;
+}
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+}
+.slider-label {
+  font-family: var(--head);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+.slider-value {
+  font-family: var(--head);
+  font-weight: 800;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--amber);
+}
+.slider-unit {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-2);
+  margin-left: 4px;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--bg-4);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+input[type=range]::-webkit-slider-track {
+  height: 4px;
+  background: var(--bg-4);
+  border-radius: 2px;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--amber);
+  cursor: pointer;
+  border: 3px solid var(--bg-2);
+  box-shadow: 0 0 0 2px rgba(245,158,11,0.3);
+  transition: var(--trans);
+  margin-top: -9px;
+}
+input[type=range]::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 0 5px rgba(245,158,11,0.2);
+}
+input[type=range]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--amber);
+  cursor: pointer;
+  border: 3px solid var(--bg-2);
+}
+input[type=range]::-moz-range-track {
+  height: 4px;
+  background: var(--bg-4);
+  border-radius: 2px;
+}
+
+.slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+.slider-tick {
+  font-family: var(--head);
+  font-size: 0.7rem;
+  color: var(--text-3);
+  letter-spacing: 0.05em;
+}
+
+/* Visual spannpunkte preview */
+.spannpunkt-visual {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 6px;
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.sp-dot {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 3px;
+  background: var(--bg-4);
+  border: 1px solid var(--border);
+  transition: var(--trans);
+}
+.sp-dot.active {
+  background: var(--amber);
+  border-color: var(--amber);
+  box-shadow: 0 0 6px rgba(245,158,11,0.4);
+}
+
+/* =============================================
+   STEP 3: DUAL INPUTS
+   ============================================= */
+.input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.input-label {
+  font-family: var(--head);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+.input-hint {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  margin-top: -4px;
+}
+
+.input-field-wrap {
+  position: relative;
+}
+input[type=number] {
+  width: 100%;
+  background: var(--bg-3);
+  border: 1.5px solid var(--border-2);
+  border-radius: var(--radius);
+  padding: 14px 50px 14px 16px;
+  color: var(--text);
+  font-family: var(--head);
+  font-size: 1.5rem;
+  font-weight: 700;
+  outline: none;
+  transition: var(--trans);
+  -moz-appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+input[type=number]:focus {
+  border-color: var(--amber);
+  background: var(--bg-4);
+  box-shadow: 0 0 0 3px var(--amber-glow);
+}
+input[type=number].invalid {
+  border-color: var(--error);
+}
+
+.input-unit {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--head);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-3);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* Inline calc preview */
+.calc-preview {
+  margin-top: 20px;
+  padding: 18px 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.88rem;
+  color: var(--text-2);
+  transition: var(--trans);
+}
+.calc-preview strong {
+  font-family: var(--head);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--amber);
+}
+
+/* =============================================
+   STEP 4: RESULTS
+   ============================================= */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.result-card {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--trans);
+}
+.result-card.highlight {
+  background: var(--amber-glow);
+  border-color: rgba(245,158,11,0.3);
+}
+.result-card.highlight::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--amber);
+}
+
+.result-icon {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.result-label {
+  font-family: var(--head);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 6px;
+}
+.result-card.highlight .result-label { color: rgba(245,158,11,0.7); }
+
+.result-value {
+  font-family: var(--head);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.result-card.highlight .result-value { color: var(--amber); }
+
+.result-sub {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  line-height: 1.4;
+}
+
+/* Divider */
+.results-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+  position: relative;
+}
+.results-divider::after {
+  content: 'LEAD CAPTURE';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-2);
+  padding: 0 12px;
+  font-family: var(--head);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--text-3);
+}
+
+/* Lead form */
+.lead-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-label {
+  font-family: var(--head);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+.form-label .required {
+  color: var(--amber);
+  margin-left: 2px;
+}
+
+input[type=text],
+input[type=email],
+input[type=tel],
+select {
+  width: 100%;
+  background: var(--bg-3);
+  border: 1.5px solid var(--border-2);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: var(--trans);
+  -webkit-appearance: none;
+}
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=tel]:focus,
+select:focus {
+  border-color: var(--amber);
+  background: var(--bg-4);
+  box-shadow: 0 0 0 3px var(--amber-glow);
+}
+input[type=text].invalid,
+input[type=email].invalid { border-color: var(--error); }
+
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234b6070' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+select option { background: var(--bg-3); }
+
+.form-error {
+  font-size: 0.75rem;
+  color: var(--error);
+  margin-top: 2px;
+  display: none;
+}
+.form-error.visible { display: block; }
+
+/* Consent */
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  background: var(--bg-3);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.consent input[type=checkbox] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--amber);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.consent-text {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  line-height: 1.5;
+}
+
+/* =============================================
+   BUTTONS
+   ============================================= */
+.btn-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  font-family: var(--head);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: var(--trans);
+  white-space: nowrap;
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--amber);
+  color: var(--bg);
+  border-color: var(--amber);
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--amber-dark);
+  border-color: var(--amber-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(245,158,11,0.25);
+}
+.btn-primary:active { transform: translateY(0); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-2);
+  border-color: var(--border-2);
+}
+.btn-ghost:hover {
+  background: var(--bg-3);
+  color: var(--text);
+}
+
+.btn-lg {
+  padding: 18px 36px;
+  font-size: 1rem;
+  border-radius: var(--radius-lg);
+}
+
+.btn-icon { font-size: 1rem; }
+
+/* Submit state */
+.btn-loading { opacity: 0.7; }
+
+/* =============================================
+   THANK YOU SCREEN
+   ============================================= */
+.thankyou {
+  text-align: center;
+  padding: 40px 0;
+}
+.thankyou-icon {
+  width: 72px;
+  height: 72px;
+  background: var(--success-bg);
+  border: 2px solid var(--success);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  font-size: 1.8rem;
+}
+.thankyou h2 {
+  font-family: var(--head);
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.thankyou p {
+  color: var(--text-2);
+  max-width: 480px;
+  margin: 0 auto 32px;
+  line-height: 1.7;
+}
+
+.summary-box {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  text-align: left;
+  margin-top: 32px;
+}
+.summary-item {}
+.summary-item-label {
+  font-family: var(--head);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 4px;
+}
+.summary-item-value {
+  font-family: var(--head);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--amber);
+}
+
+/* =============================================
+   FOOTER
+   ============================================= */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-3);
+}
+
+/* =============================================
+   ANIMATIONS
+   ============================================= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.card { animation: fadeIn 0.35s ease; }
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 680px) {
+  header { padding: 16px 20px; }
+  .hero { padding: 48px 20px 36px; }
+  .wizard-wrap { padding: 0 16px 60px; }
+  .card { padding: 28px 20px; }
+  .size-grid { grid-template-columns: repeat(2, 1fr); }
+  .results-grid { grid-template-columns: 1fr 1fr; }
+  .results-grid .result-card:nth-child(3) { grid-column: span 2; }
+  .input-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .summary-box { grid-template-columns: 1fr; }
+  .progress-step .step-label { display: none; }
+  footer { flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header>
+    <a class="logo" href="#">
+      <!-- Logo: sp_at_micado-smart-engineering-gmbh-2.jpg
+           Place file in same directory as this HTML.
+           White header ensures black-on-white logo is fully visible. -->
+      <img
+        class="logo-img"
+        src="sp_at_micado-smart-engineering-gmbh-2.jpg"
+        alt="MICADO Smart Engineering"
+        onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';"
+      />
+      <!-- Fallback if image file not yet present -->
+      <div class="logo-fallback" id="logo-fallback" style="display:none">
+        <div class="logo-mark">
+          <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="11" cy="11" r="4" fill="#ffffff"/>
+            <path d="M11 2v3M11 17v3M2 11h3M17 11h3M4.22 4.22l2.12 2.12M15.66 15.66l2.12 2.12M4.22 17.78l2.12-2.12M15.66 6.34l2.12-2.12" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">MICADO</span>
+          <span class="logo-sub">Smart Engineering</span>
+        </div>
+      </div>
+    </a>
+
+    <div class="lang-toggle" role="group" aria-label="Language toggle">
+      <button class="lang-btn active" id="btn-de" onclick="setLang('de')" aria-pressed="true">DE</button>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')" aria-pressed="false">EN</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow" data-t="hero.eyebrow">Octopus FlexGrid · ROI-Kalkulator</div>
+    <h1 data-t="hero.h1">Wie viel Zeit<br><span data-t="hero.h1-span">verlieren Sie beim Rüsten?</span></h1>
+    <p data-t="hero.desc">Berechnen Sie in 2 Minuten Ihr konkretes Einsparpotenzial — ohne Login, sofort.</p>
+  </section>
+
+  <!-- WIZARD -->
+  <main class="wizard-wrap">
+
+    <!-- Progress -->
+    <div class="progress-bar" id="progress-bar">
+      <div class="progress-step active" id="ps-1">
+        <div class="step-dot">1</div>
+        <span class="step-label" data-t="step.1">Bauteil</span>
+      </div>
+      <div class="progress-step" id="ps-2">
+        <div class="step-dot">2</div>
+        <span class="step-label" data-t="step.2">Spannpunkte</span>
+      </div>
+      <div class="progress-step" id="ps-3">
+        <div class="step-dot">3</div>
+        <span class="step-label" data-t="step.3">Zeiten</span>
+      </div>
+      <div class="progress-step" id="ps-4">
+        <div class="step-dot">4</div>
+        <span class="step-label" data-t="step.4">Ergebnis</span>
+      </div>
+    </div>
+
+    <!-- ====== STEP 1: BAUTEILGRÖSSE ====== -->
+    <div class="card" id="step-1">
+      <div class="card-step-num" data-t="s1.step">Schritt 1 von 3</div>
+      <h2 data-t="s1.title">Bauteilgröße</h2>
+      <p class="card-desc" data-t="s1.desc">Wählen Sie die Größe des Composite-Bauteils, das Sie aktuell spannen.</p>
+
+      <div class="size-grid" role="radiogroup" aria-label="Bauteilgröße">
+        <!-- S -->
+        <div class="size-card" data-size="S" onclick="selectSize(this)" role="radio" tabindex="0">
+          <svg class="size-icon" width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect x="13" y="13" width="14" height="14" rx="2" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 2"/>
+            <circle cx="13" cy="13" r="2" fill="#4b6070"/>
+            <circle cx="27" cy="13" r="2" fill="#4b6070"/>
+            <circle cx="13" cy="27" r="2" fill="#4b6070"/>
+            <circle cx="27" cy="27" r="2" fill="#4b6070"/>
+          </svg>
+          <div class="size-label">S</div>
+          <div class="size-desc" data-t="size.S.desc">Kleinbauteil</div>
+          <div class="size-area" data-t="size.S.area">bis 0,2 m²</div>
+        </div>
+        <!-- M -->
+        <div class="size-card" data-size="M" onclick="selectSize(this)" role="radio" tabindex="0">
+          <svg class="size-icon" width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect x="9" y="9" width="22" height="22" rx="2" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 2"/>
+            <circle cx="9" cy="9" r="2" fill="#4b6070"/>
+            <circle cx="31" cy="9" r="2" fill="#4b6070"/>
+            <circle cx="9" cy="31" r="2" fill="#4b6070"/>
+            <circle cx="31" cy="31" r="2" fill="#4b6070"/>
+          </svg>
+          <div class="size-label">M</div>
+          <div class="size-desc" data-t="size.M.desc">Mittelbauteil</div>
+          <div class="size-area" data-t="size.M.area">bis 1 m²</div>
+        </div>
+        <!-- L -->
+        <div class="size-card" data-size="L" onclick="selectSize(this)" role="radio" tabindex="0">
+          <svg class="size-icon" width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect x="5" y="5" width="30" height="30" rx="2" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 2"/>
+            <circle cx="5" cy="5" r="2" fill="#4b6070"/>
+            <circle cx="35" cy="5" r="2" fill="#4b6070"/>
+            <circle cx="5" cy="35" r="2" fill="#4b6070"/>
+            <circle cx="35" cy="35" r="2" fill="#4b6070"/>
+            <circle cx="20" cy="5" r="1.5" fill="#4b6070"/>
+            <circle cx="5" cy="20" r="1.5" fill="#4b6070"/>
+            <circle cx="35" cy="20" r="1.5" fill="#4b6070"/>
+            <circle cx="20" cy="35" r="1.5" fill="#4b6070"/>
+          </svg>
+          <div class="size-label">L</div>
+          <div class="size-desc" data-t="size.L.desc">Großbauteil</div>
+          <div class="size-area" data-t="size.L.area">bis 3 m²</div>
+        </div>
+        <!-- XL -->
+        <div class="size-card" data-size="XL" onclick="selectSize(this)" role="radio" tabindex="0">
+          <svg class="size-icon" width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect x="3" y="10" width="34" height="20" rx="2" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 2"/>
+            <circle cx="3" cy="10" r="2" fill="#4b6070"/>
+            <circle cx="37" cy="10" r="2" fill="#4b6070"/>
+            <circle cx="3" cy="30" r="2" fill="#4b6070"/>
+            <circle cx="37" cy="30" r="2" fill="#4b6070"/>
+            <circle cx="20" cy="10" r="1.5" fill="#4b6070"/>
+            <circle cx="20" cy="30" r="1.5" fill="#4b6070"/>
+            <circle cx="3" cy="20" r="1.5" fill="#4b6070"/>
+            <circle cx="37" cy="20" r="1.5" fill="#4b6070"/>
+          </svg>
+          <div class="size-label">XL</div>
+          <div class="size-desc" data-t="size.XL.desc">Großstruktur</div>
+          <div class="size-area" data-t="size.XL.area">über 3 m²</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="s1-next" onclick="goStep(2)" disabled>
+          <span data-t="btn.next">Weiter</span>
+          <span class="btn-icon">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ====== STEP 2: SPANNPUNKTE ====== -->
+    <div class="card" id="step-2" style="display:none">
+      <div class="card-step-num" data-t="s2.step">Schritt 2 von 3</div>
+      <h2 data-t="s2.title">Anzahl Spannpunkte</h2>
+      <p class="card-desc" data-t="s2.desc">Wie viele Spannpunkte / Auflagepunkte hat Ihr Bauteil typischerweise?</p>
+
+      <div class="slider-wrap">
+        <div class="slider-header">
+          <span class="slider-label" data-t="s2.label">Spannpunkte</span>
+          <span>
+            <span class="slider-value" id="sp-val">6</span>
+            <span class="slider-unit" data-t="s2.unit">Pkt.</span>
+          </span>
+        </div>
+        <input type="range" id="sp-slider" min="2" max="16" value="6" step="1"
+               oninput="updateSpannpunkte(this.value)" aria-label="Anzahl Spannpunkte" />
+        <div class="slider-ticks">
+          <span class="slider-tick">2</span>
+          <span class="slider-tick">4</span>
+          <span class="slider-tick">6</span>
+          <span class="slider-tick">8</span>
+          <span class="slider-tick">10</span>
+          <span class="slider-tick">12</span>
+          <span class="slider-tick">14</span>
+          <span class="slider-tick">16</span>
+        </div>
+
+        <!-- Visual dot grid -->
+        <div class="spannpunkt-visual" id="sp-visual" aria-hidden="true"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="goStep(1)">
+          <span class="btn-icon">←</span>
+          <span data-t="btn.back">Zurück</span>
+        </button>
+        <button class="btn btn-primary" onclick="goStep(3)">
+          <span data-t="btn.next">Weiter</span>
+          <span class="btn-icon">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ====== STEP 3: ZEITEN + STÜCKZAHL ====== -->
+    <div class="card" id="step-3" style="display:none">
+      <div class="card-step-num" data-t="s3.step">Schritt 3 von 3</div>
+      <h2 data-t="s3.title">Rüstzeit & Produktion</h2>
+      <p class="card-desc" data-t="s3.desc">Ihre aktuellen Produktionsparameter — Basis für die ROI-Berechnung.</p>
+
+      <div class="input-grid">
+        <div class="input-group">
+          <label class="input-label" for="inp-ruestzeit" data-t="s3.ruestzeit-label">Aktuelle Rüstzeit</label>
+          <p class="input-hint" data-t="s3.ruestzeit-hint">Zeit pro Bauteil, inkl. Einspannen</p>
+          <div class="input-field-wrap">
+            <input type="number" id="inp-ruestzeit" value="45" min="5" max="480"
+                   oninput="updateCalcPreview()" aria-label="Rüstzeit in Minuten" />
+            <span class="input-unit" data-t="unit.min">min</span>
+          </div>
+        </div>
+        <div class="input-group">
+          <label class="input-label" for="inp-stueck" data-t="s3.stueck-label">Jahresstückzahl</label>
+          <p class="input-hint" data-t="s3.stueck-hint">Bauteile pro Jahr (gleicher Typ)</p>
+          <div class="input-field-wrap">
+            <input type="number" id="inp-stueck" value="2400" min="100" max="50000"
+                   oninput="updateCalcPreview()" aria-label="Jahresstückzahl" />
+            <span class="input-unit" data-t="unit.pcs">Stk.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live preview -->
+      <div class="calc-preview" id="calc-preview">
+        <span>💡</span>
+        <span data-t="s3.preview-text">Aktuell: </span>
+        <span id="preview-hours">—</span>
+        <span data-t="s3.preview-unit"> Rüststunden/Jahr — </span>
+        <span data-t="s3.preview-savings">Einsparpotenzial: </span>
+        <strong id="preview-savings">—</strong>
+      </div>
+
+      <div class="btn-row" style="margin-top:32px">
+        <button class="btn btn-ghost" onclick="goStep(2)">
+          <span class="btn-icon">←</span>
+          <span data-t="btn.back">Zurück</span>
+        </button>
+        <button class="btn btn-primary btn-lg" onclick="goStep(4)">
+          <span data-t="btn.calculate">ROI berechnen</span>
+          <span class="btn-icon">⚡</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ====== STEP 4: ERGEBNIS + LEAD ====== -->
+    <div class="card" id="step-4" style="display:none">
+      <div class="card-step-num" data-t="s4.step">Ihr Ergebnis</div>
+      <h2 data-t="s4.title">Einsparpotenzial</h2>
+      <p class="card-desc" data-t="s4.desc">Konservative Berechnung auf Basis Ihrer Angaben. Stundensatz: €85/h (DACH-Composite-Fertigung).</p>
+
+      <div class="results-grid">
+        <div class="result-card">
+          <span class="result-icon">⏱</span>
+          <div class="result-label" data-t="r.hours-label">Rüststunden / Jahr</div>
+          <div class="result-value" id="r-hours-total">—</div>
+          <div class="result-sub" data-t="r.hours-sub">aktuell pro Jahr</div>
+        </div>
+        <div class="result-card highlight">
+          <span class="result-icon">💶</span>
+          <div class="result-label" data-t="r.savings-label">Einsparung / Jahr</div>
+          <div class="result-value" id="r-savings">—</div>
+          <div class="result-sub" data-t="r.savings-sub">durch FlexGrid-Einsatz</div>
+        </div>
+        <div class="result-card">
+          <span class="result-icon">📈</span>
+          <div class="result-label" data-t="r.amort-label">Amortisation</div>
+          <div class="result-value" id="r-amort">—</div>
+          <div class="result-sub" data-t="r.amort-sub">Monate bis Break-even</div>
+        </div>
+      </div>
+
+      <!-- Lead form divider -->
+      <div class="results-divider"></div>
+
+      <p style="font-size:0.9rem;color:var(--text-2);margin-bottom:20px" data-t="s4.lead-intro">
+        Erhalten Sie ein konkretes Angebot auf Basis Ihrer Kalkulation — kostenlos und unverbindlich.
+      </p>
+
+      <form class="lead-form" id="lead-form" onsubmit="submitLead(event)" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="f-firstname">
+              <span data-t="form.firstname">Vorname</span>
+              <span class="required">*</span>
+            </label>
+            <input type="text" id="f-firstname" placeholder="Max" required autocomplete="given-name" />
+            <div class="form-error" id="err-firstname" data-t="form.err-required">Pflichtfeld</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-lastname">
+              <span data-t="form.lastname">Nachname</span>
+              <span class="required">*</span>
+            </label>
+            <input type="text" id="f-lastname" placeholder="Mustermann" required autocomplete="family-name" />
+            <div class="form-error" id="err-lastname" data-t="form.err-required">Pflichtfeld</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-email">
+            <span data-t="form.email">E-Mail</span>
+            <span class="required">*</span>
+          </label>
+          <input type="email" id="f-email" placeholder="max.mustermann@company.com" required autocomplete="email" />
+          <div class="form-error" id="err-email" data-t="form.err-email">Bitte gültige E-Mail eingeben</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="f-company" data-t="form.company">Unternehmen</label>
+            <input type="text" id="f-company" placeholder="Musterfirma GmbH" autocomplete="organization" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-position" data-t="form.position">Position</label>
+            <select id="f-position" autocomplete="organization-title">
+              <option value="" data-t="form.pos-select">— auswählen —</option>
+              <option value="engineering" data-t="form.pos-eng">Engineering / Konstruktion</option>
+              <option value="production" data-t="form.pos-prod">Produktionsleitung</option>
+              <option value="management" data-t="form.pos-mgmt">Geschäftsführung</option>
+              <option value="procurement" data-t="form.pos-proc">Einkauf</option>
+              <option value="other" data-t="form.pos-other">Sonstige</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="consent">
+          <input type="checkbox" id="f-consent" required />
+          <p class="consent-text" data-t="form.consent">
+            Ich stimme zu, dass MICADO Smart Engineering mich zu diesem Angebot kontaktieren darf.
+            Datenschutzerklärung: <a href="https://micado.at" style="color:var(--amber)" target="_blank" rel="noopener">micado.at</a>
+          </p>
+        </div>
+
+        <div class="btn-row" style="justify-content:space-between;margin-top:8px">
+          <button type="button" class="btn btn-ghost" onclick="goStep(3)">
+            <span class="btn-icon">←</span>
+            <span data-t="btn.back">Zurück</span>
+          </button>
+          <button type="submit" class="btn btn-primary btn-lg" id="submit-btn">
+            <span data-t="btn.submit">Angebot anfragen</span>
+            <span class="btn-icon">→</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ====== THANK YOU ====== -->
+    <div class="card" id="step-thankyou" style="display:none">
+      <div class="thankyou">
+        <div class="thankyou-icon">✓</div>
+        <h2 data-t="ty.title">Danke für Ihre Anfrage!</h2>
+        <p data-t="ty.desc">Antoine Dubois meldet sich in Kürze mit einem konkreten Angebot auf Basis Ihrer Kalkulation.</p>
+
+        <a href="https://micado.at" class="btn btn-ghost" style="margin:0 auto;display:inline-flex" target="_blank">
+          <span data-t="ty.btn">micado.at besuchen</span>
+          <span class="btn-icon">↗</span>
+        </a>
+
+        <div class="summary-box" id="summary-box">
+          <div class="summary-item">
+            <div class="summary-item-label" data-t="ty.sum.bauteil">Bauteilgröße</div>
+            <div class="summary-item-value" id="sum-size">—</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-item-label" data-t="ty.sum.savings">Einsparung/Jahr</div>
+            <div class="summary-item-value" id="sum-savings">—</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-item-label" data-t="ty.sum.amort">Amortisation</div>
+            <div class="summary-item-value" id="sum-amort">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <span data-t="footer.copy">© 2026 MICADO Smart Engineering GmbH · Oberlienz, Österreich</span>
+    <span data-t="footer.product">Octopus FlexGrid System · Patent angemeldet</span>
+  </footer>
+
+</div><!-- /page -->
+
+<script>
+/* ============================================================
+   CONFIGURATION — swap these before going live
+   ============================================================ */
+const WEBHOOK_URL = 'https://YOUR_N8N_INSTANCE/webhook/micado-flexgrid'; // ← swap
+
+/* Calculation constants */
+const HOURLY_RATE       = 85;       // € / h — DACH Composite manufacturing reference
+const SAVINGS_RATE      = 0.65;     // 65% setup time reduction (conservative)
+
+// Investment base by size + spannpunkte
+const INVEST_BASE = { S: 12000, M: 22000, L: 40000, XL: 72000 };
+const SP_FACTOR   = 800;  // € per additional spannpunkt above base (4)
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = {
+  size:        null,   // 'S' | 'M' | 'L' | 'XL'
+  spannpunkte: 6,
+  ruestzeit:   45,     // minutes
+  stueckzahl:  2400,
+  calc:        null,   // computed result
+  lang:        'de',
+};
+
+/* ============================================================
+   TRANSLATIONS
+   ============================================================ */
+const T = {
+  de: {
+    'hero.eyebrow':       'Octopus FlexGrid · ROI-Kalkulator',
+    'hero.h1':            'Wie viel Zeit',
+    'hero.h1-span':       'verlieren Sie beim Rüsten?',
+    'hero.desc':          'Berechnen Sie in 2 Minuten Ihr konkretes Einsparpotenzial — ohne Login, sofort.',
+    'step.1':             'Bauteil',
+    'step.2':             'Spannpunkte',
+    'step.3':             'Zeiten',
+    'step.4':             'Ergebnis',
+    's1.step':            'Schritt 1 von 3',
+    's1.title':           'Bauteilgröße',
+    's1.desc':            'Wählen Sie die Größe des Composite-Bauteils, das Sie aktuell spannen.',
+    'size.S.desc':        'Kleinbauteil',
+    'size.S.area':        'bis 0,2 m²',
+    'size.M.desc':        'Mittelbauteil',
+    'size.M.area':        'bis 1 m²',
+    'size.L.desc':        'Großbauteil',
+    'size.L.area':        'bis 3 m²',
+    'size.XL.desc':       'Großstruktur',
+    'size.XL.area':       'über 3 m²',
+    's2.step':            'Schritt 2 von 3',
+    's2.title':           'Anzahl Spannpunkte',
+    's2.desc':            'Wie viele Spannpunkte / Auflagepunkte hat Ihr Bauteil typischerweise?',
+    's2.label':           'Spannpunkte',
+    's2.unit':            'Pkt.',
+    's3.step':            'Schritt 3 von 3',
+    's3.title':           'Rüstzeit & Produktion',
+    's3.desc':            'Ihre aktuellen Produktionsparameter — Basis für die ROI-Berechnung.',
+    's3.ruestzeit-label': 'Aktuelle Rüstzeit',
+    's3.ruestzeit-hint':  'Zeit pro Bauteil, inkl. Einspannen',
+    's3.stueck-label':    'Jahresstückzahl',
+    's3.stueck-hint':     'Bauteile pro Jahr (gleicher Typ)',
+    's3.preview-text':    'Aktuell: ',
+    's3.preview-unit':    ' Rüststunden/Jahr — ',
+    's3.preview-savings': 'Einsparpotenzial: ',
+    's4.step':            'Ihr Ergebnis',
+    's4.title':           'Einsparpotenzial',
+    's4.desc':            'Konservative Berechnung auf Basis Ihrer Angaben. Stundensatz: €85/h (DACH-Composite-Fertigung).',
+    'r.hours-label':      'Rüststunden / Jahr',
+    'r.hours-sub':        'aktuell pro Jahr',
+    'r.savings-label':    'Einsparung / Jahr',
+    'r.savings-sub':      'durch FlexGrid-Einsatz',
+    'r.amort-label':      'Amortisation',
+    'r.amort-sub':        'Monate bis Break-even',
+    's4.lead-intro':      'Erhalten Sie ein konkretes Angebot auf Basis Ihrer Kalkulation — kostenlos und unverbindlich.',
+    'form.firstname':     'Vorname',
+    'form.lastname':      'Nachname',
+    'form.email':         'E-Mail',
+    'form.company':       'Unternehmen',
+    'form.position':      'Position',
+    'form.pos-select':    '— auswählen —',
+    'form.pos-eng':       'Engineering / Konstruktion',
+    'form.pos-prod':      'Produktionsleitung',
+    'form.pos-mgmt':      'Geschäftsführung',
+    'form.pos-proc':      'Einkauf',
+    'form.pos-other':     'Sonstige',
+    'form.consent':       'Ich stimme zu, dass MICADO Smart Engineering mich zu diesem Angebot kontaktieren darf.',
+    'form.err-required':  'Pflichtfeld',
+    'form.err-email':     'Bitte gültige E-Mail eingeben',
+    'btn.next':           'Weiter',
+    'btn.back':           'Zurück',
+    'btn.calculate':      'ROI berechnen',
+    'btn.submit':         'Angebot anfragen',
+    'unit.min':           'min',
+    'unit.pcs':           'Stk.',
+    'ty.title':           'Danke für Ihre Anfrage!',
+    'ty.desc':            'Antoine Dubois meldet sich in Kürze mit einem konkreten Angebot auf Basis Ihrer Kalkulation.',
+    'ty.btn':             'micado.at besuchen',
+    'ty.sum.bauteil':     'Bauteilgröße',
+    'ty.sum.savings':     'Einsparung/Jahr',
+    'ty.sum.amort':       'Amortisation',
+    'footer.copy':        '© 2026 MICADO Smart Engineering GmbH · Oberlienz, Österreich',
+    'footer.product':     'Octopus FlexGrid System · Patent angemeldet',
+  },
+  en: {
+    'hero.eyebrow':       'Octopus FlexGrid · ROI Calculator',
+    'hero.h1':            'How much time',
+    'hero.h1-span':       'do you lose on setup?',
+    'hero.desc':          'Calculate your exact savings potential in 2 minutes — no login, instant results.',
+    'step.1':             'Component',
+    'step.2':             'Clamp pts',
+    'step.3':             'Times',
+    'step.4':             'Result',
+    's1.step':            'Step 1 of 3',
+    's1.title':           'Component Size',
+    's1.desc':            'Select the size of the composite part you currently fixture.',
+    'size.S.desc':        'Small part',
+    'size.S.area':        'up to 0.2 m²',
+    'size.M.desc':        'Medium part',
+    'size.M.area':        'up to 1 m²',
+    'size.L.desc':        'Large part',
+    'size.L.area':        'up to 3 m²',
+    'size.XL.desc':       'Large structure',
+    'size.XL.area':       'over 3 m²',
+    's2.step':            'Step 2 of 3',
+    's2.title':           'Clamping Points',
+    's2.desc':            'How many clamping / support points does your component typically require?',
+    's2.label':           'Clamping points',
+    's2.unit':            'pts',
+    's3.step':            'Step 3 of 3',
+    's3.title':           'Setup Time & Volume',
+    's3.desc':            'Your current production parameters — basis for ROI calculation.',
+    's3.ruestzeit-label': 'Current setup time',
+    's3.ruestzeit-hint':  'Time per part incl. clamping',
+    's3.stueck-label':    'Annual volume',
+    's3.stueck-hint':     'Parts per year (same type)',
+    's3.preview-text':    'Currently: ',
+    's3.preview-unit':    ' setup hours/year — ',
+    's3.preview-savings': 'Savings potential: ',
+    's4.step':            'Your Result',
+    's4.title':           'Savings Potential',
+    's4.desc':            'Conservative calculation based on your inputs. Hourly rate: €85/h (DACH composite manufacturing).',
+    'r.hours-label':      'Setup hours / year',
+    'r.hours-sub':        'currently per year',
+    'r.savings-label':    'Savings / year',
+    'r.savings-sub':      'with FlexGrid',
+    'r.amort-label':      'Payback',
+    'r.amort-sub':        'months to break-even',
+    's4.lead-intro':      'Receive a concrete quote based on your calculation — free and non-binding.',
+    'form.firstname':     'First name',
+    'form.lastname':      'Last name',
+    'form.email':         'Email',
+    'form.company':       'Company',
+    'form.position':      'Role',
+    'form.pos-select':    '— select —',
+    'form.pos-eng':       'Engineering / Design',
+    'form.pos-prod':      'Production Management',
+    'form.pos-mgmt':      'CEO / Managing Director',
+    'form.pos-proc':      'Procurement',
+    'form.pos-other':     'Other',
+    'form.consent':       'I agree that MICADO Smart Engineering may contact me regarding this quote.',
+    'form.err-required':  'Required field',
+    'form.err-email':     'Please enter a valid email address',
+    'btn.next':           'Next',
+    'btn.back':           'Back',
+    'btn.calculate':      'Calculate ROI',
+    'btn.submit':         'Request quote',
+    'unit.min':           'min',
+    'unit.pcs':           'pcs',
+    'ty.title':           'Thank you for your inquiry!',
+    'ty.desc':            'Antoine Dubois will be in touch shortly with a concrete quote based on your calculation.',
+    'ty.btn':             'Visit micado.at',
+    'ty.sum.bauteil':     'Component size',
+    'ty.sum.savings':     'Savings/year',
+    'ty.sum.amort':       'Payback',
+    'footer.copy':        '© 2026 MICADO Smart Engineering GmbH · Oberlienz, Austria',
+    'footer.product':     'Octopus FlexGrid System · Patent pending',
+  }
+};
+
+/* ============================================================
+   LANGUAGE
+   ============================================================ */
+function setLang(lang) {
+  state.lang = lang;
+  document.documentElement.lang = lang;
+  document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  applyTranslations();
+}
+
+function applyTranslations() {
+  const tr = T[state.lang];
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const key = el.getAttribute('data-t');
+    if (tr[key] !== undefined) el.textContent = tr[key];
+  });
+  // Re-render dynamic content if on result step
+  if (state.calc) renderResults(state.calc);
+  updateCalcPreview();
+}
+
+function t(key) {
+  return T[state.lang][key] || T.de[key] || key;
+}
+
+/* ============================================================
+   STEP NAVIGATION
+   ============================================================ */
+function goStep(n) {
+  if (n === 3) {
+    // Validate step 3 inputs
+    const r = parseInt(document.getElementById('inp-ruestzeit').value);
+    const s = parseInt(document.getElementById('inp-stueck').value);
+    if (!r || r < 5 || !s || s < 100) return;
+    state.ruestzeit  = r;
+    state.stueckzahl = s;
+  }
+  if (n === 4) {
+    state.calc = calculate();
+    renderResults(state.calc);
+  }
+
+  // Hide all step cards
+  [1,2,3,4,'thankyou'].forEach(i => {
+    const el = document.getElementById(`step-${i}`);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById(`step-${n}`).style.display = 'block';
+
+  // Update progress bar
+  for (let i = 1; i <= 4; i++) {
+    const ps = document.getElementById(`ps-${i}`);
+    if (!ps) continue;
+    ps.classList.remove('active','done');
+    if (i < n)      ps.classList.add('done');
+    else if (i === n) ps.classList.add('active');
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ============================================================
+   STEP 1 — SIZE SELECTION
+   ============================================================ */
+function selectSize(el) {
+  document.querySelectorAll('.size-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.size = el.getAttribute('data-size');
+  document.getElementById('s1-next').disabled = false;
+}
+
+// Keyboard support for size cards
+document.querySelectorAll('.size-card').forEach(card => {
+  card.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectSize(card); }
+  });
+});
+
+/* ============================================================
+   STEP 2 — SPANNPUNKTE
+   ============================================================ */
+function updateSpannpunkte(val) {
+  state.spannpunkte = parseInt(val);
+  document.getElementById('sp-val').textContent = val;
+  renderSpDots(parseInt(val));
+}
+
+function renderSpDots(count) {
+  const visual = document.getElementById('sp-visual');
+  visual.innerHTML = '';
+  for (let i = 0; i < 16; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'sp-dot' + (i < count ? ' active' : '');
+    visual.appendChild(dot);
+  }
+}
+
+/* ============================================================
+   STEP 3 — LIVE PREVIEW
+   ============================================================ */
+function updateCalcPreview() {
+  const r = parseFloat(document.getElementById('inp-ruestzeit').value) || 0;
+  const s = parseFloat(document.getElementById('inp-stueck').value) || 0;
+  const totalHours = (r / 60) * s;
+  const savingsHours = totalHours * SAVINGS_RATE;
+  const savingsEur = savingsHours * HOURLY_RATE;
+
+  document.getElementById('preview-hours').textContent =
+    totalHours.toLocaleString(state.lang === 'de' ? 'de-AT' : 'en-GB', { maximumFractionDigits: 0 });
+  document.getElementById('preview-savings').textContent =
+    formatEur(savingsEur);
+}
+
+/* ============================================================
+   CALCULATION CORE
+   ============================================================ */
+function calculate() {
+  const ruestzeit     = state.ruestzeit;
+  const stueckzahl    = state.stueckzahl;
+  const spannpunkte   = state.spannpunkte;
+  const size          = state.size;
+
+  // Total current setup hours per year
+  const setup_hours_total = (ruestzeit / 60) * stueckzahl;
+
+  // Saved hours = 65% reduction
+  const saved_hours = setup_hours_total * SAVINGS_RATE;
+
+  // ROI in EUR / year
+  const roi_eur_jahr = saved_hours * HOURLY_RATE;
+
+  // Investment estimate
+  const invest_base = INVEST_BASE[size] || INVEST_BASE.M;
+  const invest_sp   = Math.max(0, (spannpunkte - 4)) * SP_FACTOR;
+  const investition = invest_base + invest_sp;
+
+  // Payback in months
+  const amortisation_monate = roi_eur_jahr > 0
+    ? Math.round((investition / roi_eur_jahr) * 12)
+    : null;
+
+  return {
+    setup_hours_total:   Math.round(setup_hours_total),
+    saved_hours:         Math.round(saved_hours),
+    roi_eur_jahr:        Math.round(roi_eur_jahr),
+    investition:         investition,
+    amortisation_monate: amortisation_monate,
+  };
+}
+
+function renderResults(c) {
+  document.getElementById('r-hours-total').textContent =
+    c.setup_hours_total.toLocaleString(state.lang === 'de' ? 'de-AT' : 'en-GB');
+  document.getElementById('r-savings').textContent = formatEur(c.roi_eur_jahr);
+  document.getElementById('r-amort').textContent   =
+    c.amortisation_monate ? `${c.amortisation_monate} ${state.lang === 'de' ? 'Mon.' : 'mo.'}` : '—';
+}
+
+/* ============================================================
+   LEAD FORM SUBMIT
+   ============================================================ */
+async function submitLead(e) {
+  e.preventDefault();
+
+  const firstname = document.getElementById('f-firstname').value.trim();
+  const lastname  = document.getElementById('f-lastname').value.trim();
+  const email     = document.getElementById('f-email').value.trim();
+  const company   = document.getElementById('f-company').value.trim();
+  const position  = document.getElementById('f-position').value;
+  const consent   = document.getElementById('f-consent').checked;
+
+  // Validate
+  let valid = true;
+  if (!firstname) { showErr('firstname'); valid = false; } else hideErr('firstname');
+  if (!lastname)  { showErr('lastname');  valid = false; } else hideErr('lastname');
+  if (!isValidEmail(email)) { showErr('email'); valid = false; } else hideErr('email');
+  if (!consent)   { valid = false; }
+
+  if (!valid) return;
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.classList.add('btn-loading');
+  btn.querySelector('[data-t="btn.submit"]').textContent =
+    state.lang === 'de' ? 'Wird gesendet…' : 'Sending…';
+
+  const c = state.calc || calculate();
+
+  // Payload as specified in MICADO_PROJECT_CONTEXT.md §8
+  const payload = {
+    contact: {
+      firstname,
+      lastname,
+      email,
+      company,
+      position,
+    },
+    wizard: {
+      bauteilgroesse:  state.size,
+      spannpunkte:     state.spannpunkte,
+      ruestzeit_min:   state.ruestzeit,
+      stueckzahl_jahr: state.stueckzahl,
+    },
+    calculated: {
+      einsparung_stunden:  c.saved_hours,
+      roi_eur_jahr:        c.roi_eur_jahr,
+      amortisation_monate: c.amortisation_monate,
+    },
+    meta: {
+      language: state.lang,
+      source:   'rechner.micado.at',
+    }
+  };
+
+  try {
+    await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    // Gracefully continue — lead is captured client-side regardless
+    console.warn('Webhook delivery failed:', err);
+  }
+
+  // Fill thank-you summary
+  document.getElementById('sum-size').textContent    = state.size || '—';
+  document.getElementById('sum-savings').textContent = formatEur(c.roi_eur_jahr);
+  document.getElementById('sum-amort').textContent   =
+    c.amortisation_monate ? `${c.amortisation_monate} ${state.lang === 'de' ? 'Mon.' : 'mo.'}` : '—';
+
+  // Show thank-you
+  document.getElementById('step-4').style.display = 'none';
+  document.getElementById('step-thankyou').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ============================================================
+   UTILS
+   ============================================================ */
+function formatEur(n) {
+  return new Intl.NumberFormat(state.lang === 'de' ? 'de-AT' : 'en-GB', {
+    style: 'currency', currency: 'EUR', maximumFractionDigits: 0
+  }).format(n);
+}
+
+function isValidEmail(e) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+}
+
+function showErr(field) {
+  document.getElementById(`f-${field}`).classList.add('invalid');
+  const err = document.getElementById(`err-${field}`);
+  if (err) err.classList.add('visible');
+}
+function hideErr(field) {
+  document.getElementById(`f-${field}`).classList.remove('invalid');
+  const err = document.getElementById(`err-${field}`);
+  if (err) err.classList.remove('visible');
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  renderSpDots(6);             // Initial dot visualization
+  updateCalcPreview();         // Initial preview values
+  applyTranslations();         // Apply default language
+
+  // Sync slider track fill via CSS custom property
+  const slider = document.getElementById('sp-slider');
+  function updateSliderFill() {
+    const pct = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
+    slider.style.background = `linear-gradient(to right, var(--amber) ${pct}%, var(--bg-4) ${pct}%)`;
+  }
+  slider.addEventListener('input', updateSliderFill);
+  updateSliderFill();
+});
+</script>
+</body>
+</html>
