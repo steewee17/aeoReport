@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sales OS · MICADO Smart Engineering</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230081C2'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='800' font-size='13'%3EOS%3C/text%3E%3C/svg%3E" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#f4f7fa;--bg2:#ffffff;--bg3:#eef2f7;--bg4:#e2e8f0;
+      --bdr:rgba(0,0,0,0.08);--bdr2:rgba(0,0,0,0.14);
+      --tx:#0f172a;--tx2:#475569;--tx3:#94a3b8;
+      --blue:#0081C2;--blue-dk:#006ba3;--blue-lt:#0369a1;
+      --glow:rgba(0,129,194,0.10);--glow2:rgba(0,129,194,0.06);
+      --green:#10b981;--green-bg:rgba(16,185,129,0.10);
+      --amber:#f59e0b;--amber-bg:rgba(245,158,11,0.10);
+      --red:#ef4444;--red-bg:rgba(239,68,68,0.08);
+      --head:'Barlow Condensed',sans-serif;
+      --body:'Barlow',sans-serif;
+      --ease:cubic-bezier(.4,0,.2,1);
+    }
+    html,body,#root{height:100%;overflow:hidden}
+    body{font-family:var(--body);background:var(--bg);color:var(--tx);line-height:1.5;font-size:15px}
+    .app{display:flex;flex-direction:column;height:100vh}
+    .hdr{background:#fff;border-bottom:3px solid var(--blue);height:60px;display:flex;align-items:center;padding:0 24px;gap:14px;flex-shrink:0;position:relative;z-index:50}
+    .hdr-mark{width:30px;height:30px;background:var(--blue);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--head);font-weight:800;font-size:.82rem;letter-spacing:.04em;color:#fff}
+    .hdr-brand{font-family:var(--head);font-weight:800;font-size:1.05rem;letter-spacing:.04em;color:var(--tx)}
+    .hdr-brand span{color:var(--blue)}
+    .hdr-div{width:1px;height:26px;background:var(--bdr2)}
+    .hdr-client{font-family:var(--head);font-weight:700;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+    .hdr-sp{flex:1}
+    .hdr-date{font-size:.8rem;color:var(--tx3)}
+    .hdr-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0}
+    .hdr-av{width:34px;height:34px;border-radius:50%;background:var(--glow);border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-family:var(--head);font-weight:700;font-size:.8rem;color:var(--blue);cursor:pointer;transition:.15s var(--ease)}
+    .hdr-av:hover{background:var(--blue);color:#fff}
+    .layout{display:flex;flex:1;overflow:hidden}
+    .sidebar{width:210px;background:#fff;border-right:1px solid var(--bdr);padding:16px 10px;display:flex;flex-direction:column;flex-shrink:0}
+    .nav-lbl{font-family:var(--head);font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--tx3);padding:0 8px 8px}
+    .nav-btn{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;cursor:pointer;font-size:.875rem;font-weight:500;color:var(--tx2);background:none;border:none;width:100%;text-align:left;transition:.15s var(--ease)}
+    .nav-btn:hover{background:var(--bg3);color:var(--tx)}
+    .nav-btn.active{background:var(--glow);color:var(--blue);font-weight:600}
+    .nav-bdg{margin-left:auto;background:var(--blue);color:#fff;font-family:var(--head);font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:999px}
+    .nav-bdg.red{background:var(--red)}
+    .main{flex:1;overflow-y:auto;padding:24px 28px;background:var(--bg)}
+    .mock-banner{background:var(--amber-bg);border:1px solid rgba(245,158,11,.3);border-radius:8px;padding:9px 14px;margin-bottom:18px;font-size:.8rem;color:#92400e;display:flex;align-items:center;gap:8px}
+    .pg-title{font-family:var(--head);font-weight:800;font-size:1.9rem;letter-spacing:-.01em;color:var(--tx)}
+    .pg-sub{font-size:.84rem;color:var(--tx3);margin-top:3px}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 24px}
+    .stat{background:#fff;border:1px solid var(--bdr);border-radius:12px;padding:14px 18px}
+    .stat-n{font-family:var(--head);font-weight:800;font-size:1.9rem;line-height:1;color:var(--tx)}
+    .stat-n.blue{color:var(--blue)}.stat-n.green{color:var(--green)}.stat-n.amber{color:var(--amber)}
+    .stat-lbl{font-family:var(--head);font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);margin-top:4px}
+    .sec{margin-bottom:24px}
+    .sec-title{font-family:var(--head);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--bdr)}
+    .lead-card{background:#fff;border:1px solid rgba(0,129,194,.22);border-left:4px solid var(--blue);border-radius:13px;padding:18px 22px;margin-bottom:10px;position:relative;overflow:hidden;transition:.18s var(--ease)}
+    .lead-card:hover{box-shadow:0 4px 20px rgba(0,129,194,.10)}
+    .lead-card::before{content:'';position:absolute;top:0;right:0;width:180px;height:100%;background:linear-gradient(to left,rgba(0,129,194,.06),transparent);pointer-events:none}
+    .lc-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+    .lc-av{width:42px;height:42px;border-radius:50%;background:var(--glow);border:2px solid rgba(0,129,194,.22);display:flex;align-items:center;justify-content:center;font-family:var(--head);font-weight:700;font-size:.88rem;color:var(--blue);flex-shrink:0}
+    .lc-name{font-family:var(--head);font-weight:700;font-size:1rem;color:var(--tx)}
+    .lc-co{font-size:.82rem;color:var(--tx3);margin-top:2px}
+    .lc-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+    .lc-time{font-size:.76rem;color:var(--tx3);white-space:nowrap;margin-left:auto}
+    .roi-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;background:var(--bg3);border-radius:8px;padding:12px 16px;margin-bottom:14px}
+    .roi-lbl{font-family:var(--head);font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:3px}
+    .roi-val{font-family:var(--head);font-weight:800;font-size:1.2rem;color:var(--tx);line-height:1}
+    .roi-val.hl{color:var(--blue)}
+    .badge{font-family:var(--head);font-size:.65rem;font-weight:700;letter-spacing:.10em;text-transform:uppercase;padding:3px 9px;border-radius:999px;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+    .b-blue{background:var(--glow);color:var(--blue-lt);border:1px solid rgba(0,129,194,.2)}
+    .b-green{background:var(--green-bg);color:#047857;border:1px solid rgba(16,185,129,.2)}
+    .b-amber{background:var(--amber-bg);color:#b45309;border:1px solid rgba(245,158,11,.2)}
+    .b-red{background:var(--red-bg);color:#b91c1c;border:1px solid rgba(239,68,68,.2)}
+    .b-gray{background:var(--bg3);color:var(--tx3);border:1px solid var(--bdr)}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:7px;font-family:var(--head);font-size:.8rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;transition:.18s var(--ease);border:none;line-height:1;white-space:nowrap}
+    .btn-p{background:var(--blue);color:#fff}
+    .btn-p:hover{background:var(--blue-dk);transform:translateY(-1px);box-shadow:0 5px 16px rgba(0,129,194,.25)}
+    .btn-p:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+    .btn-g{background:transparent;color:var(--tx2);border:1.5px solid var(--bdr2)}
+    .btn-g:hover{border-color:var(--blue);color:var(--blue)}
+    .btn-sm{padding:6px 12px;font-size:.74rem}
+    .btn-full{width:100%;justify-content:center}
+    .task-card{background:#fff;border:1px solid var(--bdr);border-radius:12px;padding:12px 16px;margin-bottom:7px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.15s var(--ease)}
+    .task-card:hover{border-color:var(--bdr2);box-shadow:0 3px 10px rgba(0,0,0,.05)}
+    .task-card.overdue{border-left:3px solid var(--red)}
+    .task-card.today{border-left:3px solid var(--amber)}
+    .tc-name{font-weight:600;font-size:.88rem;color:var(--tx)}
+    .tc-co{font-size:.78rem;color:var(--tx3)}
+    .tc-note{font-size:.76rem;color:var(--tx3);margin-top:3px}
+    .pipeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start}
+    .pl-col-hdr{margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--bdr)}
+    .pl-title{font-family:var(--head);font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--tx3)}
+    .pl-count{font-size:.75rem;color:var(--tx3);margin-top:2px}
+    .deal-card{background:#fff;border:1px solid var(--bdr);border-radius:12px;padding:13px 15px;margin-bottom:8px;cursor:pointer;transition:.15s var(--ease)}
+    .deal-card:hover{border-color:var(--bdr2);box-shadow:0 3px 14px rgba(0,0,0,.07);transform:translateY(-1px)}
+    .deal-co{font-family:var(--head);font-weight:700;font-size:.9rem;color:var(--tx)}
+    .deal-contact{font-size:.76rem;color:var(--tx3);margin-bottom:8px}
+    .deal-val{font-family:var(--head);font-weight:800;font-size:1.15rem;color:var(--tx)}
+    .deal-act{font-size:.73rem;color:var(--tx3);margin-top:3px}
+    .deal-note{font-size:.74rem;color:var(--tx3);border-top:1px solid var(--bdr);padding-top:7px;margin-top:8px}
+    .copilot-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+    .panel{background:#fff;border:1px solid var(--bdr);border-radius:16px;padding:20px 22px}
+    .panel-title{font-family:var(--head);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);margin-bottom:16px;display:flex;align-items:center;gap:7px}
+    .ctx-card{background:var(--glow);border:1px solid rgba(0,129,194,.2);border-radius:8px;padding:12px 14px;margin-bottom:14px}
+    .ctx-lbl{font-family:var(--head);font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-lt);margin-bottom:4px}
+    .ctx-val{font-size:.875rem;font-weight:600;color:var(--tx)}
+    .ctx-sub{font-size:.78rem;color:var(--tx2);margin-top:2px}
+    .f-grp{margin-bottom:14px}
+    .f-lbl{display:block;font-family:var(--head);font-size:.68rem;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--tx3);margin-bottom:5px}
+    .f-input,.f-ta,.f-sel{width:100%;background:var(--bg3);border:1.5px solid var(--bdr2);border-radius:7px;padding:9px 12px;color:var(--tx);font-family:var(--body);font-size:.875rem;outline:none;transition:.15s var(--ease)}
+    .f-input:focus,.f-ta:focus,.f-sel:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(0,129,194,.10)}
+    .f-ta{resize:vertical;min-height:80px}
+    .toggle-grp{display:flex;border:1.5px solid var(--bdr2);border-radius:7px;overflow:hidden}
+    .tog-btn{flex:1;padding:7px 10px;font-family:var(--head);font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;border:none;cursor:pointer;transition:.13s var(--ease);background:transparent;color:var(--tx3)}
+    .tog-btn.on{background:var(--blue);color:#fff}
+    .tog-btn:not(.on):hover{background:var(--bg3);color:var(--tx2)}
+    .draft-box{background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:14px;font-size:.86rem;line-height:1.75;color:var(--tx);min-height:220px;white-space:pre-wrap}
+    .draft-empty{color:var(--tx3);font-style:italic}
+    .draft-actions{display:flex;gap:8px;margin-top:10px}
+    .log-result-item{display:flex;gap:7px;align-items:flex-start;margin-bottom:5px;font-size:.86rem;color:var(--tx2);line-height:1.5}
+    .spin{width:15px;height:15px;border:1.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+    .spin.dark{border:1.5px solid var(--bdr2);border-top-color:var(--blue)}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .overlay{position:fixed;inset:0;background:rgba(15,23,42,.4);display:flex;align-items:center;justify-content:center;z-index:200;backdrop-filter:blur(2px)}
+    .modal{background:#fff;border-radius:18px;padding:26px 28px;width:420px;max-width:92vw;box-shadow:0 20px 60px rgba(0,0,0,.18)}
+    .modal-title{font-family:var(--head);font-weight:800;font-size:1.3rem;color:var(--tx);margin:10px 0 6px}
+    .modal-sub{font-size:.83rem;color:var(--tx3);margin-bottom:18px;line-height:1.6}
+    .loading{display:flex;align-items:center;gap:12px;color:var(--tx3);padding:48px 0;font-size:.9rem}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // ─── Config ────────────────────────────────────────────────────────────────
+    const SUPA_URL = "https://vsxxddotjbocwnysvkqg.supabase.co";
+    const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzeHhkZG90amJvY3dueXN2a3FnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMjA5NDgsImV4cCI6MjA4Nzc5Njk0OH0.SsBL8XdDaWROoIs7k1tgSlrK_yqogQv-jzwBTVEp6cQ";
+    const CLIENT   = "micado";
+
+    // ─── Mock data ─────────────────────────────────────────────────────────────
+    const MOCK_LEADS = [{
+      id:"m1", bauteilgroesse:"M", spannpunkte:6, ruestzeit_min:45, stueckzahl_jahr:2400,
+      einsparung_stunden:702, roi_eur_jahr:48600, amortisation_monate:5,
+      lead_tier:"high", lead_score:11, language:"de",
+      created_at: new Date(Date.now() - 12*60000).toISOString(),
+      contacts:{ firstname:"Thomas", lastname:"Berger", email:"t.berger@airbus.com", company:"Airbus Stade", role:"engineering" }
+    }];
+    const MOCK_TASKS = [
+      { id:"t1", type:"follow_up", status:"open", due_date:new Date(Date.now()-2*86400000).toISOString().split("T")[0], draft_content:"Angebot FlexGrid L-Serie nachfassen", contacts:{ firstname:"Klaus", lastname:"Weber", company:"BMW Group München", email:"k.weber@bmw.com" }},
+      { id:"t2", type:"follow_up", status:"open", due_date:new Date(Date.now()+86400000).toISOString().split("T")[0], draft_content:"Call: Technische Details FlexGrid XL", contacts:{ firstname:"Sophie", lastname:"Laurent", company:"GKN Aerospace", email:"s.laurent@gkn.com" }},
+      { id:"t3", type:"reaktivierung", status:"open", due_date:new Date(Date.now()-8*86400000).toISOString().split("T")[0], draft_content:"Kein Kontakt seit 14 Tagen", contacts:{ firstname:"Jean-Pierre", lastname:"Moreau", company:"Safran", email:"jp.moreau@safran.com" }}
+    ];
+    const MOCK_DEALS = [
+      { id:"d1", stage:"angebot",      value_eur:48000, last_activity:new Date(Date.now()-8*86400000).toISOString(),  notes:"FlexGrid L, 12 Einheiten",      contacts:{ firstname:"Klaus",       lastname:"Weber",   company:"BMW Group München" }},
+      { id:"d2", stage:"qualifiziert", value_eur:72000, last_activity:new Date(Date.now()-2*86400000).toISOString(),  notes:"FlexGrid XL, Serienfertigung",  contacts:{ firstname:"Sophie",      lastname:"Laurent", company:"GKN Aerospace"    }},
+      { id:"d3", stage:"lead",         value_eur:35000, last_activity:new Date(Date.now()-14*86400000).toISOString(), notes:"Erstgespräch ausstehend",        contacts:{ firstname:"Jean-Pierre", lastname:"Moreau",  company:"Safran"           }},
+      { id:"d4", stage:"abschluss",    value_eur:96000, last_activity:new Date(Date.now()-86400000).toISOString(),    notes:"Vertrag in Finalisierung",      contacts:{ firstname:"Marc",        lastname:"Hoffmann",company:"FACC Operations"  }}
+    ];
+
+    // ─── Helpers ───────────────────────────────────────────────────────────────
+    const supa = async (path) => {
+      const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, {
+        headers:{ apikey:SUPA_KEY, Authorization:`Bearer ${SUPA_KEY}` }
+      });
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    };
+    const eur      = (n) => `€ ${Number(n||0).toLocaleString("de-AT")}`;
+    const relTime  = (s) => { const m=Math.floor((Date.now()-new Date(s))/60000); if(m<60) return `vor ${m} Min`; if(m<1440) return `vor ${Math.floor(m/60)} Std`; return `vor ${Math.floor(m/1440)} Tagen`; };
+    const daysDiff = (s) => Math.floor((Date.now()-new Date(s))/86400000);
+    const todayISO = () => new Date().toISOString().split("T")[0];
+    const fmtDate  = (s) => new Date(s).toLocaleDateString("de-AT",{day:"2-digit",month:"2-digit"});
+
+    // ─── Icons ─────────────────────────────────────────────────────────────────
+    const S = {w:"1.75",lc:"round",lj:"round"};
+    const Ic = {
+      today:   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
+      mail:    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>,
+      log:     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
+      pipe:    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>,
+      spark:   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>,
+      copy:    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>,
+      check:   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap={S.lc} strokeLinejoin={S.lj}><polyline points="20 6 9 17 4 12"/></svg>,
+      key:     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>,
+      refresh: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>,
+      calc:    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg>,
+      phone:   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.79a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>,
+      clock:   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+      mailseq: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>,
+      alert:   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>,
+      inbox:   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>,
+      list:    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>,
+    };
+
+    // ─── App ───────────────────────────────────────────────────────────────────
+    function SalesOS() {
+      const [tab,       setTab]       = useState("today");
+      const [apiKey,    setApiKey]    = useState("");
+      const [keyInput,  setKeyInput]  = useState("");
+      const [showModal, setShowModal] = useState(false);
+      const [leads,     setLeads]     = useState([]);
+      const [tasks,     setTasks]     = useState([]);
+      const [deals,     setDeals]     = useState([]);
+      const [loading,   setLoading]   = useState(true);
+      const [isMock,    setIsMock]    = useState(false);
+      const [emailCtx,  setEmailCtx]  = useState(null);
+      const [eLang,     setELang]     = useState("de");
+      const [eTone,     setETone]     = useState("formal");
+      const [eNotes,    setENotes]    = useState("");
+      const [eDraft,    setEDraft]    = useState("");
+      const [eLoading,  setELoading]  = useState(false);
+      const [eCopied,   setECopied]   = useState(false);
+      const [logText,   setLogText]   = useState("");
+      const [logCtact,  setLogCtact]  = useState("");
+      const [logRes,    setLogRes]    = useState(null);
+      const [logLoad,   setLogLoad]   = useState(false);
+
+      useEffect(() => { loadData(); }, []);
+
+      const loadData = async () => {
+        setLoading(true);
+        try {
+          const [l,t,d] = await Promise.all([
+            supa(`sales_infra_wizard_submissions?select=*,sales_infra_contacts(*)&client_slug=eq.${CLIENT}&order=created_at.desc&limit=10`),
+            supa(`sales_infra_tasks?select=*,sales_infra_contacts(*)&status=eq.open&order=due_date.asc&limit=20`),
+            supa(`sales_infra_deals?select=*,sales_infra_contacts(*)&order=last_activity.desc&limit=20`)
+          ]);
+          const hasData = l.length || t.length || d.length;
+          setLeads(l.length ? l : MOCK_LEADS);
+          setTasks(t.length ? t : MOCK_TASKS);
+          setDeals(d.length ? d : MOCK_DEALS);
+          setIsMock(!hasData);
+        } catch {
+          setLeads(MOCK_LEADS); setTasks(MOCK_TASKS); setDeals(MOCK_DEALS); setIsMock(true);
+        }
+        setLoading(false);
+      };
+
+      const openEmail = (lead) => { setEmailCtx(lead); setEDraft(""); setTab("email"); };
+
+      const callClaude = async (system, user) => {
+        const r = await fetch("https://api.anthropic.com/v1/messages", {
+          method:"POST",
+          headers:{"Content-Type":"application/json","x-api-key":apiKey,"anthropic-version":"2023-06-01"},
+          body:JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:1000, system, messages:[{role:"user",content:user}] })
+        });
+        const d = await r.json();
+        if (!d.content?.[0]?.text) throw new Error(d.error?.message||"API Error");
+        return d.content[0].text;
+      };
+
+      const generateEmail = async () => {
+        if (!apiKey) { setShowModal(true); return; }
+        setELoading(true); setEDraft("");
+        try {
+          const c = emailCtx?.contacts || {};
+          const langMap = {de:"Deutsch",en:"English",fr:"Français"};
+          const system = `Du bist Email Copilot für Antoine Dubois, Head of Sales bei MICADO Smart Engineering GmbH (Oberlienz, Österreich).
+Produkt: Octopus FlexGrid — modulares, patentiertes Spannsystem für Composite-Bauteile. Kernnutzen: 65% Rüstzeitreduktion.
+Kunden: Airbus, Boeing, Porsche, GKN, FACC, Carbo-Tech.
+Tonalität: ${eTone==="formal"?"professionell-förmlich":"direkt und klar"}.
+Sprache: ${langMap[eLang]}.
+Schreib NUR die fertige E-Mail — Betreff in der ersten Zeile, dann Leerzeile, dann Text. Kein Preamble.`;
+          const roiCtx = emailCtx?.roi_eur_jahr ? `\nKalkulator-Kontext:\n- Bauteilgröße: ${emailCtx.bauteilgroesse}, ${emailCtx.spannpunkte} Spannpunkte\n- ROI: ${eur(emailCtx.roi_eur_jahr)}/Jahr · Amortisation: ${emailCtx.amortisation_monate} Monate` : "";
+          const notesCtx = eNotes ? `\nHinweis von Antoine: ${eNotes}` : "";
+          setEDraft(await callClaude(system, `Erstmail an ${c.firstname} ${c.lastname}, ${c.company} (${c.email||"–"}).${roiCtx}${notesCtx}`));
+        } catch(e) { setEDraft(`Fehler: ${e.message}`); }
+        setELoading(false);
+      };
+
+      const analyzeInteraction = async () => {
+        if (!apiKey) { setShowModal(true); return; }
+        if (!logText.trim()) return;
+        setLogLoad(true); setLogRes(null);
+        try {
+          const system = `Extrahiere strukturierte Daten aus Vertriebsnotizen für MICADO Smart Engineering.
+Antworte NUR mit JSON (kein Markdown, kein Preamble):
+{"summary":"...","todos":["..."],"next_steps":["..."]}`;
+          const raw = await callClaude(system, `Notiz:\n\n${logText}`);
+          setLogRes(JSON.parse(raw.replace(/\`\`\`json|\`\`\`/g,"").trim()));
+        } catch { setLogRes({summary:"Analysefehler — API Key prüfen.",todos:[],next_steps:[]}); }
+        setLogLoad(false);
+      };
+
+      const copyDraft = () => {
+        navigator.clipboard?.writeText(eDraft);
+        setECopied(true); setTimeout(()=>setECopied(false),2000);
+      };
+
+      const overdue  = tasks.filter(t=>new Date(t.due_date)<new Date()).length;
+      const pipeVal  = deals.reduce((a,d)=>a+(d.value_eur||0),0);
+      const todayStr = new Date().toLocaleDateString("de-AT",{weekday:"long",day:"2-digit",month:"long",year:"numeric"});
+
+      return (
+        <>
+          {/* API Key Modal */}
+          {showModal && (
+            <div className="overlay" onClick={()=>setShowModal(false)}>
+              <div className="modal" onClick={e=>e.stopPropagation()}>
+                <div style={{color:"var(--blue)"}}>{Ic.key}</div>
+                <div className="modal-title">Anthropic API Key</div>
+                <div className="modal-sub">
+                  Einmalig pro Session — wird nicht gespeichert.<br/>
+                  <a href="https://console.anthropic.com" target="_blank" rel="noreferrer" style={{color:"var(--blue)"}}>console.anthropic.com</a> → API Keys
+                </div>
+                <div className="f-grp">
+                  <input className="f-input" type="password" placeholder="sk-ant-..."
+                    value={keyInput} onChange={e=>setKeyInput(e.target.value)}
+                    onKeyDown={e=>e.key==="Enter"&&(setApiKey(keyInput),setShowModal(false))} autoFocus />
+                </div>
+                <div style={{display:"flex",gap:8}}>
+                  <button className="btn btn-p" style={{flex:1}} onClick={()=>{setApiKey(keyInput);setShowModal(false);}}>Bestätigen</button>
+                  <button className="btn btn-g" onClick={()=>setShowModal(false)}>Abbrechen</button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="app">
+            {/* Header */}
+            <header className="hdr">
+              <div className="hdr-mark">OS</div>
+              <div className="hdr-brand">Sales<span>OS</span></div>
+              <div className="hdr-div"/>
+              <div className="hdr-client">MICADO Smart Engineering</div>
+              <div className="hdr-sp"/>
+              <div className="hdr-date">{todayStr}</div>
+              {apiKey && <div className="hdr-dot" title="API Key aktiv"/>}
+              <div className="hdr-av" onClick={()=>setShowModal(true)} title="API Key setzen">AD</div>
+            </header>
+
+            <div className="layout">
+              {/* Sidebar */}
+              <nav className="sidebar">
+                <div className="nav-lbl">Übersicht</div>
+                {[
+                  {id:"today",    label:"Mein Tag",          icon:Ic.today, badge:overdue||null, red:true},
+                  {id:"email",    label:"Email Copilot",      icon:Ic.mail},
+                  {id:"log",      label:"Interaktion loggen", icon:Ic.log},
+                  {id:"pipeline", label:"Pipeline",           icon:Ic.pipe, badge:deals.length},
+                ].map(({id,label,icon,badge,red})=>(
+                  <button key={id} className={`nav-btn ${tab===id?"active":""}`} onClick={()=>setTab(id)}>
+                    {icon}{label}
+                    {badge!=null && <span className={`nav-bdg ${red?"red":""}`}>{badge}</span>}
+                  </button>
+                ))}
+              </nav>
+
+              {/* Main */}
+              <main className="main">
+                {loading ? (
+                  <div className="loading"><div className="spin dark"/> Daten werden geladen…</div>
+                ) : (<>
+                  {isMock && (
+                    <div className="mock-banner">{Ic.alert} Demo-Daten aktiv — Supabase Tabellen angelegt, aber noch keine echten Leads vorhanden.</div>
+                  )}
+
+                  {/* MEIN TAG */}
+                  {tab==="today" && <>
+                    <div style={{marginBottom:20}}>
+                      <div className="pg-title">Guten Morgen, Antoine</div>
+                      <div className="pg-sub">{todayStr}</div>
+                    </div>
+                    <div className="stats">
+                      <div className="stat"><div className={`stat-n ${overdue>0?"amber":"green"}`}>{overdue}</div><div className="stat-lbl">Überfällig</div></div>
+                      <div className="stat"><div className="stat-n blue">{leads.length}</div><div className="stat-lbl">Neue Leads</div></div>
+                      <div className="stat"><div className="stat-n">{deals.length}</div><div className="stat-lbl">Offene Deals</div></div>
+                      <div className="stat"><div className="stat-n green">{eur(pipeVal)}</div><div className="stat-lbl">Pipeline-Wert</div></div>
+                    </div>
+
+                    <div className="sec">
+                      <div className="sec-title">{Ic.inbox} Neue Kalkulator-Leads</div>
+                      {leads.map(lead => {
+                        const c = lead.contacts || {};
+                        return (
+                          <div key={lead.id} className="lead-card">
+                            <div className="lc-top">
+                              <div className="lc-av">{(c.firstname?.[0]||"")+(c.lastname?.[0]||"")}</div>
+                              <div style={{flex:1}}>
+                                <div className="lc-name">{c.firstname} {c.lastname}</div>
+                                <div className="lc-co">{c.company} · {c.email}</div>
+                                <div className="lc-badges">
+                                  <span className="badge b-blue">{Ic.calc} Kalkulator-Lead</span>
+                                  {lead.lead_tier==="high"   && <span className="badge b-red">{Ic.phone} Heute anrufen</span>}
+                                  {lead.lead_tier==="medium" && <span className="badge b-amber">{Ic.clock} Heute kontaktieren</span>}
+                                  {lead.lead_tier==="low"    && <span className="badge b-green">{Ic.mailseq} Email-Sequenz</span>}
+                                </div>
+                              </div>
+                              <div className="lc-time">{relTime(lead.created_at)}</div>
+                            </div>
+                            <div className="roi-strip">
+                              {[
+                                {lbl:"Bauteil",     val:lead.bauteilgroesse||"–"},
+                                {lbl:"Spannpunkte", val:lead.spannpunkte||"–"},
+                                {lbl:"Rüstzeit",    val:`${lead.ruestzeit_min||"–"} min`},
+                                {lbl:"Stück / Jahr",val:(lead.stueckzahl_jahr||0).toLocaleString("de-AT")},
+                                {lbl:"ROI / Jahr",  val:eur(lead.roi_eur_jahr), hl:true},
+                                {lbl:"Amortisation",val:`${lead.amortisation_monate} Mo.`},
+                              ].map((item,i)=>(
+                                <div key={i}><div className="roi-lbl">{item.lbl}</div><div className={`roi-val ${item.hl?"hl":""}`}>{item.val}</div></div>
+                              ))}
+                            </div>
+                            <div style={{display:"flex",gap:8}}>
+                              <button className="btn btn-p" onClick={()=>openEmail(lead)}>{Ic.mail} E-Mail schreiben</button>
+                              <button className="btn btn-g btn-sm">Zum Kontakt</button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    <div className="sec">
+                      <div className="sec-title">{Ic.list} Offene Follow-ups</div>
+                      {tasks.map(task => {
+                        const c = task.contacts || {};
+                        const over  = new Date(task.due_date) < new Date();
+                        const today = task.due_date === todayISO();
+                        return (
+                          <div key={task.id} className={`task-card ${over?"overdue":today?"today":""}`}>
+                            <div style={{flex:1}}>
+                              <div className="tc-name">{c.firstname} {c.lastname}</div>
+                              <div className="tc-co">{c.company}</div>
+                              <div className="tc-note">{task.draft_content}</div>
+                            </div>
+                            <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:6}}>
+                              <span className={`badge ${over?"b-red":today?"b-amber":"b-gray"}`}>
+                                {over?`${daysDiff(task.due_date)} Tage überfällig`:today?"Heute fällig":fmtDate(task.due_date)}
+                              </span>
+                              <button className="btn btn-g btn-sm" onClick={()=>{setEmailCtx({contacts:c});setTab("email");}}>
+                                {Ic.mail} E-Mail
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </>}
+
+                  {/* EMAIL COPILOT */}
+                  {tab==="email" && <>
+                    <div style={{marginBottom:20}}>
+                      <div className="pg-title">Email Copilot</div>
+                      <div className="pg-sub">Personalisierte Erstmails in unter 3 Minuten</div>
+                    </div>
+                    <div className="copilot-grid">
+                      <div className="panel">
+                        <div className="panel-title">{Ic.spark} Kontext & Einstellungen</div>
+                        {emailCtx && (
+                          <div className="ctx-card">
+                            <div className="ctx-lbl">Lead-Kontext aus Kalkulator</div>
+                            <div className="ctx-val">{emailCtx.contacts?.firstname} {emailCtx.contacts?.lastname} · {emailCtx.contacts?.company}</div>
+                            {emailCtx.roi_eur_jahr && <div className="ctx-sub">ROI {eur(emailCtx.roi_eur_jahr)}/Jahr · {emailCtx.amortisation_monate} Mo. Amortisation · Größe {emailCtx.bauteilgroesse}</div>}
+                          </div>
+                        )}
+                        <div className="f-grp">
+                          <label className="f-lbl">Empfänger</label>
+                          <input className="f-input" readOnly={!!emailCtx}
+                            value={emailCtx?`${emailCtx.contacts?.firstname||""} ${emailCtx.contacts?.lastname||""}, ${emailCtx.contacts?.company||""}`.trim():""}
+                            placeholder="Vorname Nachname, Unternehmen…" onChange={()=>{}}/>
+                        </div>
+                        <div className="f-grp">
+                          <label className="f-lbl">Sprache</label>
+                          <div className="toggle-grp">
+                            {[["de","Deutsch"],["en","English"],["fr","Français"]].map(([v,l])=>(
+                              <button key={v} className={`tog-btn ${eLang===v?"on":""}`} onClick={()=>setELang(v)}>{l}</button>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="f-grp">
+                          <label className="f-lbl">Tonalität</label>
+                          <div className="toggle-grp">
+                            <button className={`tog-btn ${eTone==="formal"?"on":""}`} onClick={()=>setETone("formal")}>Formal</button>
+                            <button className={`tog-btn ${eTone==="direkt"?"on":""}`} onClick={()=>setETone("direkt")}>Direkt</button>
+                          </div>
+                        </div>
+                        <div className="f-grp">
+                          <label className="f-lbl">Hinweise (optional)</label>
+                          <textarea className="f-ta" value={eNotes} onChange={e=>setENotes(e.target.value)}
+                            placeholder="Z.B. 'JEC-Treffen erwähnen' oder 'Referenz Airbus einbauen'…"/>
+                        </div>
+                        <button className="btn btn-p btn-full" onClick={generateEmail} disabled={eLoading}>
+                          {eLoading?<><div className="spin"/>Generiere…</>:<>{Ic.spark} Entwurf generieren</>}
+                        </button>
+                        {!apiKey && <div style={{marginTop:9,fontSize:".76rem",color:"var(--tx3)",textAlign:"center"}}>API Key nicht gesetzt — <span style={{color:"var(--blue)",cursor:"pointer"}} onClick={()=>setShowModal(true)}>hier setzen</span></div>}
+                      </div>
+                      <div className="panel">
+                        <div className="panel-title">{Ic.mail} E-Mail Entwurf</div>
+                        <div className="draft-box">
+                          {eLoading
+                            ? <div style={{display:"flex",alignItems:"center",gap:10,color:"var(--tx3)"}}><div className="spin dark"/>Claude schreibt…</div>
+                            : eDraft ? eDraft
+                            : <span className="draft-empty">{emailCtx?`Kontext für ${emailCtx.contacts?.firstname} ${emailCtx.contacts?.lastname} geladen.\n\nAuf "Entwurf generieren" klicken.`:"Lead aus 'Mein Tag' öffnen oder Empfänger eingeben."}</span>
+                          }
+                        </div>
+                        {eDraft && (
+                          <div className="draft-actions">
+                            <button className="btn btn-p btn-sm" onClick={copyDraft}>{eCopied?<>{Ic.check} Kopiert!</>:<>{Ic.copy} Kopieren</>}</button>
+                            <button className="btn btn-g btn-sm" onClick={generateEmail}>{Ic.refresh} Nochmal</button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </>}
+
+                  {/* INTERAKTION LOGGEN */}
+                  {tab==="log" && <>
+                    <div style={{marginBottom:20}}>
+                      <div className="pg-title">Interaktion loggen</div>
+                      <div className="pg-sub">Rohe Notizen rein — strukturierte Daten raus</div>
+                    </div>
+                    <div className="copilot-grid">
+                      <div className="panel">
+                        <div className="panel-title">{Ic.log} Notizen eingeben</div>
+                        <div className="f-grp">
+                          <label className="f-lbl">Kontakt</label>
+                          <input className="f-input" placeholder="Name oder Unternehmen…" value={logCtact} onChange={e=>setLogCtact(e.target.value)}/>
+                        </div>
+                        <div className="f-grp">
+                          <label className="f-lbl">Notiz — frei, alles okay</label>
+                          <textarea className="f-ta" style={{minHeight:160}} value={logText} onChange={e=>setLogText(e.target.value)}
+                            placeholder="Z.B. 'Hatte heute Call mit Klaus Weber BMW. Er will Angebot für 12 FlexGrid L bis Ende Monat. Budget ca. 50k. Nächster Schritt: Spezifikation schicken. Follow-up in 5 Tagen.'"/>
+                        </div>
+                        <button className="btn btn-p btn-full" onClick={analyzeInteraction} disabled={logLoad||!logText.trim()}>
+                          {logLoad?<><div className="spin"/>Analysiere…</>:<>{Ic.spark} Analysieren</>}
+                        </button>
+                        {!apiKey && <div style={{marginTop:9,fontSize:".76rem",color:"var(--tx3)",textAlign:"center"}}>API Key nicht gesetzt — <span style={{color:"var(--blue)",cursor:"pointer"}} onClick={()=>setShowModal(true)}>hier setzen</span></div>}
+                      </div>
+                      <div className="panel">
+                        <div className="panel-title">{Ic.check} Extrahierte Daten</div>
+                        {logRes ? <>
+                          <div style={{marginBottom:14}}>
+                            <div className="f-lbl" style={{marginBottom:5}}>Zusammenfassung</div>
+                            <div style={{fontSize:".875rem",lineHeight:1.65,color:"var(--tx)"}}>{logRes.summary}</div>
+                          </div>
+                          {logRes.todos?.length>0 && <div style={{marginBottom:14}}>
+                            <div className="f-lbl" style={{marginBottom:5}}>To-Dos</div>
+                            {logRes.todos.map((t,i)=><div key={i} className="log-result-item"><span style={{color:"var(--blue)"}}>•</span>{t}</div>)}
+                          </div>}
+                          {logRes.next_steps?.length>0 && <div style={{marginBottom:16}}>
+                            <div className="f-lbl" style={{marginBottom:5}}>Nächste Schritte</div>
+                            {logRes.next_steps.map((s,i)=><div key={i} className="log-result-item"><span style={{color:"var(--green)"}}>→</span>{s}</div>)}
+                          </div>}
+                          <button className="btn btn-p btn-sm">In Supabase speichern</button>
+                        </> : <div style={{color:"var(--tx3)",fontSize:".86rem",fontStyle:"italic"}}>Zusammenfassung, To-Dos und nächste Schritte erscheinen hier nach der Analyse.</div>}
+                      </div>
+                    </div>
+                  </>}
+
+                  {/* PIPELINE */}
+                  {tab==="pipeline" && <>
+                    <div style={{marginBottom:20}}>
+                      <div className="pg-title">Pipeline</div>
+                      <div className="pg-sub">Operative Übersicht · {eur(pipeVal)} Gesamtwert</div>
+                    </div>
+                    <div className="pipeline">
+                      {[{id:"lead",label:"Lead"},{id:"qualifiziert",label:"Qualifiziert"},{id:"angebot",label:"Angebot"},{id:"abschluss",label:"Abschluss"}].map(({id,label})=>{
+                        const col = deals.filter(d=>d.stage===id);
+                        return (
+                          <div key={id}>
+                            <div className="pl-col-hdr">
+                              <div className="pl-title">{label}</div>
+                              <div className="pl-count">{col.length} Deal{col.length!==1?"s":""} · {eur(col.reduce((a,d)=>a+(d.value_eur||0),0))}</div>
+                            </div>
+                            {col.map(deal=>(
+                              <div key={deal.id} className="deal-card">
+                                <div className="deal-co">{deal.contacts?.company}</div>
+                                <div className="deal-contact">{deal.contacts?.firstname} {deal.contacts?.lastname}</div>
+                                <div className="deal-val">{eur(deal.value_eur)}</div>
+                                <div className="deal-act">Letzte Aktivität: {relTime(deal.last_activity)}</div>
+                                {deal.notes && <div className="deal-note">{deal.notes}</div>}
+                              </div>
+                            ))}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </>}
+                </>)}
+              </main>
+            </div>
+          </div>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<SalesOS/>);
+  </script>
+</body>
+</html>
