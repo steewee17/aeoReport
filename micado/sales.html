@@ -60,7 +60,7 @@
     .lead-card::before{content:'';position:absolute;top:0;right:0;width:180px;height:100%;background:linear-gradient(to left,rgba(0,129,194,.06),transparent);pointer-events:none}
     .lc-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
     .lc-av{width:42px;height:42px;border-radius:50%;background:var(--glow);border:2px solid rgba(0,129,194,.22);display:flex;align-items:center;justify-content:center;font-family:var(--head);font-weight:700;font-size:.88rem;color:var(--blue);flex-shrink:0}
-    .lc-name{font-family:var(--head);font-weight:700;font-size:1rem;color:var(--tx)}
+    .lc-name{font-family:var(--head);font-weight:800;font-size:1.25rem;color:var(--tx);letter-spacing:-.01em}
     .lc-co{font-size:.82rem;color:var(--tx3);margin-top:2px}
     .lc-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
     .lc-time{font-size:.76rem;color:var(--tx3);white-space:nowrap;margin-left:auto}
@@ -123,10 +123,11 @@
     .spin{width:15px;height:15px;border:1.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
     .spin.dark{border:1.5px solid var(--bdr2);border-top-color:var(--blue)}
     @keyframes spin{to{transform:rotate(360deg)}}
-    .overlay{position:fixed;inset:0;background:rgba(15,23,42,.4);display:flex;align-items:center;justify-content:center;z-index:200;backdrop-filter:blur(2px)}
-    .modal{background:#fff;border-radius:18px;padding:26px 28px;width:420px;max-width:92vw;box-shadow:0 20px 60px rgba(0,0,0,.18)}
-    .modal-title{font-family:var(--head);font-weight:800;font-size:1.3rem;color:var(--tx);margin:10px 0 6px}
-    .modal-sub{font-size:.83rem;color:var(--tx3);margin-bottom:18px;line-height:1.6}
+    .deal-won{margin-top:10px;font-family:var(--head);font-size:.68rem;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:#047857;background:var(--green-bg);border:1px solid rgba(16,185,129,.2);border-radius:6px;padding:5px 10px;display:inline-block}
+    .btn-advance{margin-top:10px;width:100%;padding:7px 10px;font-family:var(--head);font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;border:1.5px solid var(--bdr2);border-radius:6px;background:transparent;color:var(--tx3);cursor:pointer;transition:.15s var(--ease);display:flex;align-items:center;justify-content:center;gap:6px}
+    .btn-advance:hover:not(:disabled){border-color:var(--blue);color:var(--blue);background:var(--glow)}
+    .btn-advance:disabled{opacity:.5;cursor:not-allowed}
+    .pl-empty{font-size:.8rem;color:var(--tx3);font-style:italic;padding:12px 0;text-align:center}
     .loading{display:flex;align-items:center;gap:12px;color:var(--tx3);padding:48px 0;font-size:.9rem}
   </style>
 </head>
@@ -173,6 +174,24 @@
       if (!r.ok) throw new Error(r.status);
       return r.json();
     };
+    const supaUpdate = async (table, id, data) => {
+      const r = await fetch(`${SUPA_URL}/rest/v1/${table}?id=eq.${id}`, {
+        method:"PATCH",
+        headers:{ apikey:SUPA_KEY, Authorization:`Bearer ${SUPA_KEY}`, "Content-Type":"application/json", Prefer:"return=representation" },
+        body:JSON.stringify(data)
+      });
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    };
+    const supaInsert = async (table, data) => {
+      const r = await fetch(`${SUPA_URL}/rest/v1/${table}`, {
+        method:"POST",
+        headers:{ apikey:SUPA_KEY, Authorization:`Bearer ${SUPA_KEY}`, "Content-Type":"application/json", Prefer:"return=representation" },
+        body:JSON.stringify(data)
+      });
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    };
     const eur      = (n) => `€ ${Number(n||0).toLocaleString("de-AT")}`;
     const relTime  = (s) => { const m=Math.floor((Date.now()-new Date(s))/60000); if(m<60) return `vor ${m} Min`; if(m<1440) return `vor ${Math.floor(m/60)} Std`; return `vor ${Math.floor(m/1440)} Tagen`; };
     const daysDiff = (s) => Math.floor((Date.now()-new Date(s))/86400000);
@@ -203,14 +222,14 @@
     // ─── App ───────────────────────────────────────────────────────────────────
     function SalesOS() {
       const [tab,       setTab]       = useState("today");
-      const [apiKey,    setApiKey]    = useState("");
-      const [keyInput,  setKeyInput]  = useState("");
-      const [showModal, setShowModal] = useState(false);
+      const [apiKey]                  = useState("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");
       const [leads,     setLeads]     = useState([]);
+      const [pipeLeads, setPipeLeads] = useState([]);
       const [tasks,     setTasks]     = useState([]);
       const [deals,     setDeals]     = useState([]);
       const [loading,   setLoading]   = useState(true);
       const [isMock,    setIsMock]    = useState(false);
+      const [advancing, setAdvancing] = useState(null);
       const [emailCtx,  setEmailCtx]  = useState(null);
       const [eLang,     setELang]     = useState("de");
       const [eTone,     setETone]     = useState("formal");
@@ -228,20 +247,54 @@
       const loadData = async () => {
         setLoading(true);
         try {
-          const [l,t,d] = await Promise.all([
+          const [l,pl,t,d] = await Promise.all([
             supa(`sales_infra_wizard_submissions?select=*,sales_infra_contacts(*)&client_slug=eq.${CLIENT}&order=created_at.desc&limit=10`),
+            supa(`sales_infra_wizard_submissions?select=*,sales_infra_contacts(*)&client_slug=eq.${CLIENT}&pipeline_stage=eq.lead&order=created_at.desc`),
             supa(`sales_infra_tasks?select=*,sales_infra_contacts(*)&status=eq.open&order=due_date.asc&limit=20`),
             supa(`sales_infra_deals?select=*,sales_infra_contacts(*)&order=last_activity.desc&limit=20`)
           ]);
           const hasData = l.length || t.length || d.length;
           setLeads(l.length ? l : MOCK_LEADS);
+          setPipeLeads(pl);
           setTasks(t.length ? t : MOCK_TASKS);
           setDeals(d.length ? d : MOCK_DEALS);
           setIsMock(!hasData);
         } catch {
-          setLeads(MOCK_LEADS); setTasks(MOCK_TASKS); setDeals(MOCK_DEALS); setIsMock(true);
+          setLeads(MOCK_LEADS); setPipeLeads([]); setTasks(MOCK_TASKS); setDeals(MOCK_DEALS); setIsMock(true);
         }
         setLoading(false);
+      };
+
+      // Promote wizard lead → qualifiziert (creates deal, removes from lead column)
+      const promoteWizardLead = async (lead) => {
+        setAdvancing(lead.id);
+        try {
+          const c = lead.sales_infra_contacts || {};
+          await supaInsert("sales_infra_deals", {
+            contact_id: lead.contact_id,
+            stage: "qualifiziert",
+            value_eur: lead.roi_eur_jahr ? Math.round(lead.roi_eur_jahr * 0.3) : null,
+            last_activity: new Date().toISOString(),
+            notes: `FlexGrid ${lead.bauteilgroesse} · ${lead.spannpunkte} SP · ROI ${eur(lead.roi_eur_jahr)}/Jahr`,
+            client_slug: CLIENT
+          });
+          await supaUpdate("sales_infra_wizard_submissions", lead.id, { pipeline_stage: "qualifiziert" });
+          await loadData();
+        } catch(e) { console.error(e); }
+        setAdvancing(null);
+      };
+
+      // Promote deal to next stage
+      const STAGES = ["lead","qualifiziert","angebot","abschluss"];
+      const promoteDeal = async (deal) => {
+        const next = STAGES[STAGES.indexOf(deal.stage) + 1];
+        if (!next) return;
+        setAdvancing(deal.id);
+        try {
+          await supaUpdate("sales_infra_deals", deal.id, { stage: next, last_activity: new Date().toISOString() });
+          await loadData();
+        } catch(e) { console.error(e); }
+        setAdvancing(null);
       };
 
       const openEmail = (lead) => {
@@ -261,7 +314,6 @@
       };
 
       const generateEmail = async () => {
-        if (!apiKey) { setShowModal(true); return; }
         setELoading(true); setEDraft("");
         try {
           const c = emailCtx?.contacts || {};
@@ -280,7 +332,6 @@ Schreib NUR die fertige E-Mail — Betreff in der ersten Zeile, dann Leerzeile, 
       };
 
       const analyzeInteraction = async () => {
-        if (!apiKey) { setShowModal(true); return; }
         if (!logText.trim()) return;
         setLogLoad(true); setLogRes(null);
         try {
@@ -298,35 +349,13 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
         setECopied(true); setTimeout(()=>setECopied(false),2000);
       };
 
-      const overdue  = tasks.filter(t=>new Date(t.due_date)<new Date()).length;
-      const pipeVal  = deals.reduce((a,d)=>a+(d.value_eur||0),0);
-      const todayStr = new Date().toLocaleDateString("de-AT",{weekday:"long",day:"2-digit",month:"long",year:"numeric"});
+      const overdue   = tasks.filter(t=>new Date(t.due_date)<new Date()).length;
+      const pipeTotal = pipeLeads.length + deals.length;
+      const pipeVal   = deals.reduce((a,d)=>a+(d.value_eur||0),0);
+      const todayStr  = new Date().toLocaleDateString("de-AT",{weekday:"long",day:"2-digit",month:"long",year:"numeric"});
 
       return (
         <>
-          {/* API Key Modal */}
-          {showModal && (
-            <div className="overlay" onClick={()=>setShowModal(false)}>
-              <div className="modal" onClick={e=>e.stopPropagation()}>
-                <div style={{color:"var(--blue)"}}>{Ic.key}</div>
-                <div className="modal-title">Anthropic API Key</div>
-                <div className="modal-sub">
-                  Einmalig pro Session — wird nicht gespeichert.<br/>
-                  <a href="https://console.anthropic.com" target="_blank" rel="noreferrer" style={{color:"var(--blue)"}}>console.anthropic.com</a> → API Keys
-                </div>
-                <div className="f-grp">
-                  <input className="f-input" type="password" placeholder="sk-ant-..."
-                    value={keyInput} onChange={e=>setKeyInput(e.target.value)}
-                    onKeyDown={e=>e.key==="Enter"&&(setApiKey(keyInput),setShowModal(false))} autoFocus />
-                </div>
-                <div style={{display:"flex",gap:8}}>
-                  <button className="btn btn-p" style={{flex:1}} onClick={()=>{setApiKey(keyInput);setShowModal(false);}}>Bestätigen</button>
-                  <button className="btn btn-g" onClick={()=>setShowModal(false)}>Abbrechen</button>
-                </div>
-              </div>
-            </div>
-          )}
-
           <div className="app">
             {/* Header */}
             <header className="hdr">
@@ -336,8 +365,8 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
               <div className="hdr-client">MICADO Smart Engineering</div>
               <div className="hdr-sp"/>
               <div className="hdr-date">{todayStr}</div>
-              {apiKey && <div className="hdr-dot" title="API Key aktiv"/>}
-              <div className="hdr-av" onClick={()=>setShowModal(true)} title="API Key setzen">AD</div>
+              <div className="hdr-dot" title="Verbunden"/>
+              <div className="hdr-av">AD</div>
             </header>
 
             <div className="layout">
@@ -348,7 +377,7 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                   {id:"today",    label:"Mein Tag",          icon:Ic.today, badge:overdue||null, red:true},
                   {id:"email",    label:"Email Copilot",      icon:Ic.mail},
                   {id:"log",      label:"Interaktion loggen", icon:Ic.log},
-                  {id:"pipeline", label:"Pipeline",           icon:Ic.pipe, badge:deals.length},
+                  {id:"pipeline", label:"Pipeline",           icon:Ic.pipe, badge:pipeTotal},
                 ].map(({id,label,icon,badge,red})=>(
                   <button key={id} className={`nav-btn ${tab===id?"active":""}`} onClick={()=>setTab(id)}>
                     {icon}{label}
@@ -376,7 +405,7 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                       <div className="stat"><div className={`stat-n ${overdue>0?"amber":"green"}`}>{overdue}</div><div className="stat-lbl">Überfällig</div></div>
                       <div className="stat"><div className="stat-n blue">{leads.length}</div><div className="stat-lbl">Neue Leads</div></div>
                       <div className="stat"><div className="stat-n">{deals.length}</div><div className="stat-lbl">Offene Deals</div></div>
-                      <div className="stat"><div className="stat-n green">{eur(pipeVal)}</div><div className="stat-lbl">Pipeline-Wert</div></div>
+                      <div className="stat"><div className="stat-n green" style={{fontSize: isMock ? "1.2rem" : "1.9rem"}}>{isMock ? "–" : eur(pipeVal)}</div><div className="stat-lbl">Pipeline-Wert</div></div>
                     </div>
 
                     <div className="sec">
@@ -498,7 +527,6 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                         <button className="btn btn-p btn-full" onClick={generateEmail} disabled={eLoading}>
                           {eLoading?<><div className="spin"/>Generiere…</>:<>{Ic.spark} Entwurf generieren</>}
                         </button>
-                        {!apiKey && <div style={{marginTop:9,fontSize:".76rem",color:"var(--tx3)",textAlign:"center"}}>API Key nicht gesetzt — <span style={{color:"var(--blue)",cursor:"pointer"}} onClick={()=>setShowModal(true)}>hier setzen</span></div>}
                       </div>
                       <div className="panel">
                         <div className="panel-title">{Ic.mail} E-Mail Entwurf</div>
@@ -540,7 +568,6 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                         <button className="btn btn-p btn-full" onClick={analyzeInteraction} disabled={logLoad||!logText.trim()}>
                           {logLoad?<><div className="spin"/>Analysiere…</>:<>{Ic.spark} Analysieren</>}
                         </button>
-                        {!apiKey && <div style={{marginTop:9,fontSize:".76rem",color:"var(--tx3)",textAlign:"center"}}>API Key nicht gesetzt — <span style={{color:"var(--blue)",cursor:"pointer"}} onClick={()=>setShowModal(true)}>hier setzen</span></div>}
                       </div>
                       <div className="panel">
                         <div className="panel-title">{Ic.check} Extrahierte Daten</div>
@@ -567,26 +594,65 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                   {tab==="pipeline" && <>
                     <div style={{marginBottom:20}}>
                       <div className="pg-title">Pipeline</div>
-                      <div className="pg-sub">Operative Übersicht · {eur(pipeVal)} Gesamtwert</div>
+                      <div className="pg-sub">
+                        {pipeLeads.length + deals.length} Einträge
+                        {!isMock && deals.length > 0 ? ` · ${eur(pipeVal)} Dealwert` : ""}
+                      </div>
                     </div>
                     <div className="pipeline">
-                      {[{id:"lead",label:"Lead"},{id:"qualifiziert",label:"Qualifiziert"},{id:"angebot",label:"Angebot"},{id:"abschluss",label:"Abschluss"}].map(({id,label})=>{
-                        const col = deals.filter(d=>d.stage===id);
+
+                      {/* ── Lead Spalte (aus wizard_submissions) ── */}
+                      <div>
+                        <div className="pl-col-hdr">
+                          <div className="pl-title">Lead</div>
+                          <div className="pl-count">{pipeLeads.length} {pipeLeads.length===1?"Lead":"Leads"}</div>
+                        </div>
+                        {(isMock ? MOCK_DEALS.filter(d=>d.stage==="lead") : pipeLeads).map(lead => {
+                          const c = lead.sales_infra_contacts || lead.contacts || {};
+                          const isAdvancing = advancing === lead.id;
+                          return (
+                            <div key={lead.id} className="deal-card">
+                              <div className="deal-co">{c.company || "–"}</div>
+                              <div className="deal-contact">{c.firstname} {c.lastname}</div>
+                              {lead.roi_eur_jahr && <div className="deal-val">{eur(lead.roi_eur_jahr)}<span style={{fontSize:".7rem",fontWeight:400,color:"var(--tx3)",marginLeft:4}}>ROI/Jahr</span></div>}
+                              <div className="deal-act">{relTime(lead.created_at)}</div>
+                              {lead.bauteilgroesse && <div className="deal-note">FlexGrid {lead.bauteilgroesse} · {lead.spannpunkte} SP · {lead.ruestzeit_min} min</div>}
+                              <button className="btn-advance" onClick={()=>!isMock&&promoteWizardLead(lead)} disabled={isAdvancing}>
+                                {isAdvancing ? <><div className="spin dark" style={{width:11,height:11,borderWidth:1.5}}/>Wird verschoben…</> : <>Qualifiziert →</>}
+                              </button>
+                            </div>
+                          );
+                        })}
+                        {!isMock && pipeLeads.length===0 && <div className="pl-empty">Keine neuen Leads</div>}
+                      </div>
+
+                      {/* ── Qualifiziert / Angebot / Abschluss (aus deals) ── */}
+                      {[{id:"qualifiziert",label:"Qualifiziert",next:"Angebot"},{id:"angebot",label:"Angebot",next:"Abschluss"},{id:"abschluss",label:"Abschluss",next:null}].map(({id,label,next})=>{
+                        const col = (isMock ? MOCK_DEALS : deals).filter(d=>d.stage===id);
                         return (
                           <div key={id}>
                             <div className="pl-col-hdr">
                               <div className="pl-title">{label}</div>
-                              <div className="pl-count">{col.length} Deal{col.length!==1?"s":""} · {eur(col.reduce((a,d)=>a+(d.value_eur||0),0))}</div>
+                              <div className="pl-count">{col.length} Deal{col.length!==1?"s":""}{col.length>0 ? ` · ${eur(col.reduce((a,d)=>a+(d.value_eur||0),0))}` : ""}</div>
                             </div>
-                            {col.map(deal=>(
-                              <div key={deal.id} className="deal-card">
-                                <div className="deal-co">{deal.contacts?.company}</div>
-                                <div className="deal-contact">{deal.contacts?.firstname} {deal.contacts?.lastname}</div>
-                                <div className="deal-val">{eur(deal.value_eur)}</div>
-                                <div className="deal-act">Letzte Aktivität: {relTime(deal.last_activity)}</div>
-                                {deal.notes && <div className="deal-note">{deal.notes}</div>}
-                              </div>
-                            ))}
+                            {col.map(deal=>{
+                              const c = deal.sales_infra_contacts || deal.contacts || {};
+                              const isAdvancing = advancing === deal.id;
+                              return (
+                                <div key={deal.id} className="deal-card">
+                                  <div className="deal-co">{c.company}</div>
+                                  <div className="deal-contact">{c.firstname} {c.lastname}</div>
+                                  {deal.value_eur && <div className="deal-val">{eur(deal.value_eur)}</div>}
+                                  <div className="deal-act">Letzte Aktivität: {relTime(deal.last_activity)}</div>
+                                  {deal.notes && <div className="deal-note">{deal.notes}</div>}
+                                  {next && <button className="btn-advance" onClick={()=>!isMock&&promoteDeal(deal)} disabled={isAdvancing}>
+                                    {isAdvancing ? <><div className="spin dark" style={{width:11,height:11,borderWidth:1.5}}/>Wird verschoben…</> : <>{next} →</>}
+                                  </button>}
+                                  {!next && <div className="deal-won">✓ Gewonnen</div>}
+                                </div>
+                              );
+                            })}
+                            {!isMock && col.length===0 && <div className="pl-empty">Leer</div>}
                           </div>
                         );
                       })}
