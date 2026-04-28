@@ -244,7 +244,10 @@
         setLoading(false);
       };
 
-      const openEmail = (lead) => { setEmailCtx(lead); setEDraft(""); setTab("email"); };
+      const openEmail = (lead) => {
+        const enriched = { ...lead, contacts: lead.sales_infra_contacts || lead.contacts || {} };
+        setEmailCtx(enriched); setEDraft(""); setTab("email");
+      };
 
       const callClaude = async (system, user) => {
         const r = await fetch("https://api.anthropic.com/v1/messages", {
@@ -379,14 +382,20 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                     <div className="sec">
                       <div className="sec-title">{Ic.inbox} Neue Kalkulator-Leads</div>
                       {leads.map(lead => {
-                        const c = lead.contacts || {};
+                        const c = lead.sales_infra_contacts || lead.contacts || {};
+                        const initials = (c.firstname?.[0]||"")+(c.lastname?.[0]||"");
                         return (
                           <div key={lead.id} className="lead-card">
                             <div className="lc-top">
-                              <div className="lc-av">{(c.firstname?.[0]||"")+(c.lastname?.[0]||"")}</div>
+                              <div className="lc-av">{initials||"?"}</div>
                               <div style={{flex:1}}>
-                                <div className="lc-name">{c.firstname} {c.lastname}</div>
-                                <div className="lc-co">{c.company} · {c.email}</div>
+                                <div className="lc-name">
+                                  {c.firstname||"–"} {c.lastname||""}
+                                </div>
+                                <div className="lc-co">
+                                  {c.company||"Unternehmen unbekannt"}
+                                  {c.email ? ` · ${c.email}` : ""}
+                                </div>
                                 <div className="lc-badges">
                                   <span className="badge b-blue">{Ic.calc} Kalkulator-Lead</span>
                                   {lead.lead_tier==="high"   && <span className="badge b-red">{Ic.phone} Heute anrufen</span>}
