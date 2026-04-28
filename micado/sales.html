@@ -146,26 +146,6 @@
     const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzeHhkZG90amJvY3dueXN2a3FnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMjA5NDgsImV4cCI6MjA4Nzc5Njk0OH0.SsBL8XdDaWROoIs7k1tgSlrK_yqogQv-jzwBTVEp6cQ";
     const CLIENT   = "micado";
 
-    // ─── Mock data ─────────────────────────────────────────────────────────────
-    const MOCK_LEADS = [{
-      id:"m1", bauteilgroesse:"M", spannpunkte:6, ruestzeit_min:45, stueckzahl_jahr:2400,
-      einsparung_stunden:702, roi_eur_jahr:48600, amortisation_monate:5,
-      lead_tier:"high", lead_score:11, language:"de",
-      created_at: new Date(Date.now() - 12*60000).toISOString(),
-      contacts:{ firstname:"Thomas", lastname:"Berger", email:"t.berger@airbus.com", company:"Airbus Stade", role:"engineering" }
-    }];
-    const MOCK_TASKS = [
-      { id:"t1", type:"follow_up", status:"open", due_date:new Date(Date.now()-2*86400000).toISOString().split("T")[0], draft_content:"Angebot FlexGrid L-Serie nachfassen", contacts:{ firstname:"Klaus", lastname:"Weber", company:"BMW Group München", email:"k.weber@bmw.com" }},
-      { id:"t2", type:"follow_up", status:"open", due_date:new Date(Date.now()+86400000).toISOString().split("T")[0], draft_content:"Call: Technische Details FlexGrid XL", contacts:{ firstname:"Sophie", lastname:"Laurent", company:"GKN Aerospace", email:"s.laurent@gkn.com" }},
-      { id:"t3", type:"reaktivierung", status:"open", due_date:new Date(Date.now()-8*86400000).toISOString().split("T")[0], draft_content:"Kein Kontakt seit 14 Tagen", contacts:{ firstname:"Jean-Pierre", lastname:"Moreau", company:"Safran", email:"jp.moreau@safran.com" }}
-    ];
-    const MOCK_DEALS = [
-      { id:"d1", stage:"angebot",      value_eur:48000, last_activity:new Date(Date.now()-8*86400000).toISOString(),  notes:"FlexGrid L, 12 Einheiten",      contacts:{ firstname:"Klaus",       lastname:"Weber",   company:"BMW Group München" }},
-      { id:"d2", stage:"qualifiziert", value_eur:72000, last_activity:new Date(Date.now()-2*86400000).toISOString(),  notes:"FlexGrid XL, Serienfertigung",  contacts:{ firstname:"Sophie",      lastname:"Laurent", company:"GKN Aerospace"    }},
-      { id:"d3", stage:"lead",         value_eur:35000, last_activity:new Date(Date.now()-14*86400000).toISOString(), notes:"Erstgespräch ausstehend",        contacts:{ firstname:"Jean-Pierre", lastname:"Moreau",  company:"Safran"           }},
-      { id:"d4", stage:"abschluss",    value_eur:96000, last_activity:new Date(Date.now()-86400000).toISOString(),    notes:"Vertrag in Finalisierung",      contacts:{ firstname:"Marc",        lastname:"Hoffmann",company:"FACC Operations"  }}
-    ];
-
     // ─── Helpers ───────────────────────────────────────────────────────────────
     const supa = async (path) => {
       const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, {
@@ -228,7 +208,6 @@
       const [tasks,     setTasks]     = useState([]);
       const [deals,     setDeals]     = useState([]);
       const [loading,   setLoading]   = useState(true);
-      const [isMock,    setIsMock]    = useState(false);
       const [advancing, setAdvancing] = useState(null);
       const [emailCtx,  setEmailCtx]  = useState(null);
       const [eLang,     setELang]     = useState("de");
@@ -253,15 +232,8 @@
             supa(`sales_infra_tasks?select=*,sales_infra_contacts(*)&status=eq.open&order=due_date.asc&limit=20`),
             supa(`sales_infra_deals?select=*,sales_infra_contacts(*)&order=last_activity.desc&limit=20`)
           ]);
-          const hasData = l.length || t.length || d.length;
-          setLeads(l.length ? l : MOCK_LEADS);
-          setPipeLeads(pl);
-          setTasks(t.length ? t : MOCK_TASKS);
-          setDeals(d.length ? d : MOCK_DEALS);
-          setIsMock(!hasData);
-        } catch {
-          setLeads(MOCK_LEADS); setPipeLeads([]); setTasks(MOCK_TASKS); setDeals(MOCK_DEALS); setIsMock(true);
-        }
+          setLeads(l); setPipeLeads(pl); setTasks(t); setDeals(d);
+        } catch(e) { console.error("Supabase Fehler:", e); }
         setLoading(false);
       };
 
@@ -394,21 +366,11 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                 {loading ? (
                   <div className="loading"><div className="spin dark"/> Daten werden geladen…</div>
                 ) : (<>
-                  {isMock && (
-                    <div className="mock-banner">{Ic.alert} Demo-Daten aktiv — Supabase Tabellen angelegt, aber noch keine echten Leads vorhanden.</div>
-                  )}
-
-                  {/* MEIN TAG */}
-                  {tab==="today" && <>
-                    <div style={{marginBottom:20}}>
-                      <div className="pg-title">Guten Morgen, Antoine</div>
-                      <div className="pg-sub">{todayStr}</div>
-                    </div>
                     <div className="stats">
                       <div className="stat"><div className={`stat-n ${overdue>0?"amber":"green"}`}>{overdue}</div><div className="stat-lbl">Überfällig</div></div>
                       <div className="stat"><div className="stat-n blue">{leads.length}</div><div className="stat-lbl">Neue Leads</div></div>
                       <div className="stat"><div className="stat-n">{deals.length}</div><div className="stat-lbl">Offene Deals</div></div>
-                      <div className="stat"><div className="stat-n green" style={{fontSize: isMock ? "1.2rem" : "1.9rem"}}>{isMock ? "–" : eur(pipeVal)}</div><div className="stat-lbl">Pipeline-Wert</div></div>
+                      <div className="stat"><div className="stat-n green">{eur(pipeVal)}</div><div className="stat-lbl">Pipeline-Wert</div></div>
                     </div>
 
                     <div className="sec">
@@ -610,7 +572,7 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                           <div className="pl-title">Lead</div>
                           <div className="pl-count">{pipeLeads.length} {pipeLeads.length===1?"Lead":"Leads"}</div>
                         </div>
-                        {(isMock ? MOCK_DEALS.filter(d=>d.stage==="lead") : pipeLeads).map(lead => {
+                        {(pipeLeads.length > 0 ? pipeLeads : isMock ? MOCK_DEALS.filter(d=>d.stage==="lead") : []).map(lead => {
                           const c = lead.sales_infra_contacts || lead.contacts || {};
                           const isAdvancing = advancing === lead.id;
                           return (
@@ -631,7 +593,8 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
 
                       {/* ── Qualifiziert / Angebot / Abschluss (aus deals) ── */}
                       {[{id:"qualifiziert",label:"Qualifiziert",next:"Angebot"},{id:"angebot",label:"Angebot",next:"Abschluss"},{id:"abschluss",label:"Abschluss",next:null}].map(({id,label,next})=>{
-                        const col = (isMock ? MOCK_DEALS : deals).filter(d=>d.stage===id);
+                        const realCol = deals.filter(d=>d.stage===id);
+                        const col = realCol.length > 0 ? realCol : MOCK_DEALS.filter(d=>d.stage===id);
                         return (
                           <div key={id}>
                             <div className="pl-col-hdr">
