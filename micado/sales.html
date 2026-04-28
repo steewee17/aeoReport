@@ -206,9 +206,11 @@
       const [pipeLeads, setPipeLeads] = useState([]);
       const [tasks,     setTasks]     = useState([]);
       const [deals,     setDeals]     = useState([]);
+      const [contacts,  setContacts]  = useState([]);
       const [loading,   setLoading]   = useState(true);
       const [advancing, setAdvancing] = useState(null);
-      const [emailCtx,  setEmailCtx]  = useState(null);
+      const [emailCtx,     setEmailCtx]     = useState(null);
+      const [selectedCId,  setSelectedCId]  = useState("");
       const [eLang,     setELang]     = useState("de");
       const [eTone,     setETone]     = useState("formal");
       const [eNotes,    setENotes]    = useState("");
@@ -225,13 +227,23 @@
       const loadData = async () => {
         setLoading(true);
         try {
-          const [l,pl,t,d] = await Promise.all([
-            supa(`sales_infra_wizard_submissions?select=*,sales_infra_contacts(*)&client_slug=eq.${CLIENT}&order=created_at.desc&limit=10`),
-            supa(`sales_infra_wizard_submissions?select=*,sales_infra_contacts(*)&client_slug=eq.${CLIENT}&pipeline_stage=eq.lead&order=created_at.desc`),
-            supa(`sales_infra_tasks?select=*,sales_infra_contacts(*)&status=eq.open&order=due_date.asc&limit=20`),
-            supa(`sales_infra_deals?select=*,sales_infra_contacts(*)&order=last_activity.desc&limit=20`)
+          const [l,pl,t,d,c] = await Promise.all([
+            supa(`sales_infra_wizard_submissions?select=*&client_slug=eq.${CLIENT}&order=created_at.desc&limit=10`),
+            supa(`sales_infra_wizard_submissions?select=*&client_slug=eq.${CLIENT}&pipeline_stage=eq.lead&order=created_at.desc`),
+            supa(`sales_infra_tasks?select=*&status=eq.open&order=due_date.asc&limit=20`),
+            supa(`sales_infra_deals?select=*&order=last_activity.desc&limit=20`),
+            supa(`sales_infra_contacts?client_slug=eq.${CLIENT}&order=created_at.desc`)
           ]);
-          setLeads(l); setPipeLeads(pl); setTasks(t); setDeals(d);
+          // Build lookup map: contact_id → contact object
+          const cMap = {};
+          c.forEach(contact => { cMap[contact.id] = contact; });
+          // Merge contacts into each record client-side
+          const merge = (items) => items.map(i => ({ ...i, contacts: cMap[i.contact_id] || {} }));
+          setContacts(c);
+          setLeads(merge(l));
+          setPipeLeads(merge(pl));
+          setTasks(merge(t));
+          setDeals(merge(d));
         } catch(e) { console.error("Supabase Fehler:", e); }
         setLoading(false);
       };
@@ -267,8 +279,9 @@
       };
 
       const openEmail = (lead) => {
-        const enriched = { ...lead, contacts: lead.sales_infra_contacts || lead.contacts || {} };
-        setEmailCtx(enriched); setEDraft(""); setTab("email");
+        setEmailCtx(lead);
+        setSelectedCId(lead.contact_id || "");
+        setEDraft(""); setTab("email");
       };
 
       const callClaude = async (system, user) => {
@@ -381,7 +394,7 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                     <div className="sec">
                       <div className="sec-title">{Ic.inbox} Neue Kalkulator-Leads</div>
                       {leads.map(lead => {
-                        const c = lead.sales_infra_contacts || lead.contacts || {};
+                        const c = lead.contacts || {};
                         const initials = (c.firstname?.[0]||"")+(c.lastname?.[0]||"");
                         return (
                           <div key={lead.id} className="lead-card">
@@ -428,7 +441,7 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                     <div className="sec">
                       <div className="sec-title">{Ic.list} Offene Follow-ups</div>
                       {tasks.map(task => {
-                        const c = task.sales_infra_contacts || task.contacts || {};
+                        const c = task.contacts || {};
                         const over  = new Date(task.due_date) < new Date();
                         const today = task.due_date === todayISO();
                         return (
@@ -470,9 +483,24 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                         )}
                         <div className="f-grp">
                           <label className="f-lbl">Empfänger</label>
-                          <input className="f-input" readOnly={!!emailCtx}
-                            value={emailCtx?`${emailCtx.contacts?.firstname||""} ${emailCtx.contacts?.lastname||""}, ${emailCtx.contacts?.company||""}`.trim():""}
-                            placeholder="Vorname Nachname, Unternehmen…" onChange={()=>{}}/>
+                          <select className="f-sel" value={selectedCId}
+                            onChange={e => {
+                              const cid = e.target.value;
+                              setSelectedCId(cid);
+                              if (!cid) { setEmailCtx(null); return; }
+                              const contact = contacts.find(c => c.id === cid);
+                              // Find latest wizard submission for this contact
+                              const sub = leads.find(l => l.contact_id === cid);
+                              setEmailCtx({ contacts: contact, ...(sub || {}) });
+                              setEDraft("");
+                            }}>
+                            <option value="">— Kontakt auswählen —</option>
+                            {contacts.map(c => (
+                              <option key={c.id} value={c.id}>
+                                {c.firstname} {c.lastname} · {c.company}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                         <div className="f-grp">
                           <label className="f-lbl">Sprache</label>
@@ -578,7 +606,7 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                           <div className="pl-count">{pipeLeads.length} {pipeLeads.length===1?"Lead":"Leads"}</div>
                         </div>
                         {pipeLeads.map(lead => {
-                          const c = lead.sales_infra_contacts || lead.contacts || {};
+                          const c = lead.contacts || {};
                           const isAdvancing = advancing === lead.id;
                           return (
                             <div key={lead.id} className="deal-card">
@@ -606,7 +634,7 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                               <div className="pl-count">{col.length} Deal{col.length!==1?"s":""}{col.length>0 ? ` · ${eur(col.reduce((a,d)=>a+(d.value_eur||0),0))}` : ""}</div>
                             </div>
                             {col.map(deal=>{
-                              const c = deal.sales_infra_contacts || deal.contacts || {};
+                              const c = deal.contacts || {};
                               const isAdvancing = advancing === deal.id;
                               return (
                                 <div key={deal.id} className="deal-card">
