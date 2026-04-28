@@ -269,18 +269,16 @@
       const promoteWizardLead = async (lead) => {
         setAdvancing(lead.id);
         try {
-          const c = lead.sales_infra_contacts || {};
           await supaInsert("sales_infra_deals", {
             contact_id: lead.contact_id,
             stage: "qualifiziert",
             value_eur: lead.roi_eur_jahr ? Math.round(lead.roi_eur_jahr * 0.3) : null,
             last_activity: new Date().toISOString(),
-            notes: `FlexGrid ${lead.bauteilgroesse} · ${lead.spannpunkte} SP · ROI ${eur(lead.roi_eur_jahr)}/Jahr`,
-            client_slug: CLIENT
+            notes: `FlexGrid ${lead.bauteilgroesse} · ${lead.spannpunkte} SP · ROI ${eur(lead.roi_eur_jahr)}/Jahr`
           });
           await supaUpdate("sales_infra_wizard_submissions", lead.id, { pipeline_stage: "qualifiziert" });
           await loadData();
-        } catch(e) { console.error(e); }
+        } catch(e) { alert("Fehler: " + e.message); }
         setAdvancing(null);
       };
 
@@ -293,7 +291,7 @@
         try {
           await supaUpdate("sales_infra_deals", deal.id, { stage: next, last_activity: new Date().toISOString() });
           await loadData();
-        } catch(e) { console.error(e); }
+        } catch(e) { alert("Fehler: " + e.message); }
         setAdvancing(null);
       };
 
@@ -305,7 +303,12 @@
       const callClaude = async (system, user) => {
         const r = await fetch("https://api.anthropic.com/v1/messages", {
           method:"POST",
-          headers:{"Content-Type":"application/json","x-api-key":apiKey,"anthropic-version":"2023-06-01"},
+          headers:{
+            "Content-Type":"application/json",
+            "x-api-key":apiKey,
+            "anthropic-version":"2023-06-01",
+            "anthropic-dangerous-direct-browser-access":"true"
+          },
           body:JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:1000, system, messages:[{role:"user",content:user}] })
         });
         const d = await r.json();
