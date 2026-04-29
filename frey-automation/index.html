@@ -1072,6 +1072,54 @@ function calc(d){
   return {vk,qk,esp,inv_min,inv_max,amort,roi5};
 }
 
+// ── LEAD SCORING ─────────────────────────────────────────────────────────────
+// Invisible qualification layer — all signals come from existing wizard inputs.
+// Score is never shown to the user; only affects CTA copy and webhook payload.
+const ENTSCHEIDER = ['Geschäftsführung','Produktionsleitung','Werksleitung'];
+const QUAL_SCORE  = {'Kein Problem':0,'Gelegentlich':1,'Regelmäßig':2,'Häufig – kostet spürbar':3};
+
+function scoreLead(d, r) {
+  let s = 0;
+  // Employees in process — deal size proxy (max 4pts)
+  if (d.ma >= 6)      s += 4;
+  else if (d.ma >= 3) s += 2;
+  else                s += 1;
+  // Shifts — volume + urgency signal (max 3pts)
+  if (d.sch === 3)      s += 3;
+  else if (d.sch === 2) s += 2;
+  else                  s += 1;
+  // Quality / scrap issues — pain intensity (max 3pts)
+  s += QUAL_SCORE[d.qual] || 0;
+  // Amortization from calc() — ROI attractiveness (max 4pts)
+  if (r.amort < 1.5)      s += 4;
+  else if (r.amort < 2.5) s += 2;
+  else                    s += 1;
+  // Decision-maker role on S4 — signing authority (max 2pts)
+  if (ENTSCHEIDER.includes(d.funk)) s += 2;
+  // Tier thresholds (total max 16pts)
+  if (s >= 12) return { tier: 'high',   score: s };
+  if (s >= 7)  return { tier: 'medium', score: s };
+  return              { tier: 'low',    score: s };
+}
+
+// User-facing copy per tier — score value is never exposed
+const TIER_CTA = {
+  high:   'Termin direkt buchen \u2192',
+  medium: 'Erstgespräch anfragen \u2192',
+  low:    'Kostenlosen Ratgeber erhalten',
+};
+const TIER_TITLE = {
+  high:   'Ihr Projekt ist bereit.',
+  medium: 'Vielversprechender Ansatz.',
+  low:    'Guter erster Schritt.',
+};
+const TIER_SUB = {
+  high:   'Wir priorisieren Ihre Anfrage\u00a0\u2014 unser Team meldet sich heute noch.',
+  medium: 'Frey Automation meldet sich innerhalb von\u00a024\u00a0Stunden mit einer technischen Einschätzung.',
+  low:    'Wir schicken Ihnen passende Unterlagen und melden uns in Kürze.',
+};
+// ─────────────────────────────────────────────────────────────────────────────
+
 function Chips({opts,val,onSel,cls}){
   return React.createElement('div',{className:'wz-chips'},
     opts.map(o=>React.createElement('div',{key:o,className:'wz-chip'+(val===o?' sel':''),onClick:()=>onSel(o)},o))
@@ -1192,7 +1240,7 @@ function S3({d,next,back}){
   );
 }
 
-function S4({d,set,submit}){
+function S4({d,set,submit,tier}){
   const ok=d.name&&d.firma&&d.email;
   return React.createElement('div',null,
     React.createElement('div',{className:'wz-card'},
@@ -1215,20 +1263,21 @@ function S4({d,set,submit}){
     React.createElement('p',{className:'wz-note',style:{marginBottom:16}},'Frey Automation in Lienz, Tirol meldet sich innerhalb von 24 Stunden. Kein Verkaufsgespräch – nur eine ehrliche technische Einschätzung.'),
     React.createElement('div',{className:'wz-footer'},
       React.createElement('span'),
-      React.createElement('button',{className:'wz-btn wz-btn-primary',disabled:!ok,onClick:submit},'Analyse anfordern \u2192')
+      React.createElement('button',{className:'wz-btn wz-btn-primary',disabled:!ok,onClick:submit},TIER_CTA[tier]||'Analyse anfordern \u2192')
     )
   );
 }
 
-function Done({d}){
+function Done({d,tier}){
   const r=calc(d);
   return React.createElement('div',{className:'wz-success'},
     React.createElement('div',{className:'wz-success-ring'},
       React.createElement('svg',{width:24,height:24,viewBox:'0 0 24 24',fill:'none',stroke:'white',strokeWidth:2.5},React.createElement('polyline',{points:'20 6 9 17 4 12'}))
     ),
-    React.createElement('h3',{style:{marginBottom:8}},'Danke, '+(d.name||'').split(' ')[0]+'.'),
-    React.createElement('p',{style:{marginBottom:24,fontSize:16,maxWidth:420,margin:'0 auto 24px'}},
-      'Frey Automation in Lienz, Tirol meldet sich innerhalb von 24 Stunden. Ihr Einsparpotenzial von '+fmtEUR(r.esp)+' pro Jahr wurde mitübertragen.'
+    React.createElement('h3',{style:{marginBottom:6}},TIER_TITLE[tier]||('Danke, '+(d.name||'').split(' ')[0]+'.')),
+    React.createElement('p',{style:{fontSize:14,fontWeight:600,color:'var(--orange)',marginBottom:12}},TIER_SUB[tier]||''),
+    React.createElement('p',{style:{marginBottom:24,fontSize:15,maxWidth:420,margin:'0 auto 24px',color:'var(--text-2)'}},
+      'Ihr Einsparpotenzial von '+fmtEUR(r.esp)+' pro Jahr wurde mitübertragen.'
     ),
     React.createElement('div',{className:'wz-summary',style:{textAlign:'left',maxWidth:400,margin:'0 auto 24px'}},
       [['Einsparpotenzial / Jahr',fmtEUR(r.esp)],['Investitionsrange',fmtK(r.inv_min)+' \u2013 '+fmtK(r.inv_max)],['ROI nach 5 Jahren','+'+r.roi5+'%'],['Amortisation',r.amort.toFixed(1)+' Jahre']].map(([k,v])=>
@@ -1241,13 +1290,36 @@ function Done({d}){
   );
 }
 
+const WEBHOOK_URL = 'https://steewee.app.n8n.cloud/webhook/b2b-sales-infra';
+
 function Wizard(){
   const [step,setStep]=useState(1);
   const [d,setD]=useState({ma:2,sch:1,lohn:48000,tage:220});
   const [done,setDone]=useState(false);
+  const [submittedTier,setSubmittedTier]=useState('medium');
   const bars=[1,2,3,4];
-  function submit(){trackEvent('wizard_lead_submitted',{branche:d.branche,aufgabe:d.aufgabe});setDone(true);}
-  if(done) return React.createElement(Done,{d});
+
+  // Live tier computed each render — updates as user selects role on S4
+  const liveR    = calc(d);
+  const liveTier = scoreLead(d, liveR).tier;
+
+  async function submit(){
+    const r = calc(d);
+    const { tier, score } = scoreLead(d, r);
+    const payload = {
+      contact:    { name: d.name||'', firma: d.firma||'', funk: d.funk||'', tel: d.tel||'', email: d.email||'' },
+      wizard:     { branche: d.branche, aufgabe: d.aufgabe, ma: d.ma, sch: d.sch||1, lohn: d.lohn||48000, qual: d.qual||'' },
+      calculated: { vk: Math.round(r.vk), qk: r.qk, esp: Math.round(r.esp), inv_min: r.inv_min, inv_max: r.inv_max, amort: +r.amort.toFixed(2), roi5: r.roi5 },
+      meta:       { source: 'check.frey-automation.at', lead_tier: tier, lead_score: score },
+    };
+    trackEvent('wizard_lead_submitted', { branche: d.branche, aufgabe: d.aufgabe, lead_tier: tier });
+    try { await fetch(WEBHOOK_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) }); }
+    catch(e) { console.warn('Webhook error (non-blocking):', e); }
+    setSubmittedTier(tier);
+    setDone(true);
+  }
+
+  if(done) return React.createElement(Done,{d,tier:submittedTier});
   return React.createElement('div',null,
     React.createElement('div',{className:'wz-progress'},bars.map(b=>React.createElement('div',{key:b,className:'wz-bar'+(b<step?' done':b===step?' active':'')}))),
     React.createElement('div',{className:'wz-label'},
@@ -1261,7 +1333,7 @@ function Wizard(){
     step===1&&React.createElement(S1,{d,set:setD,next:()=>setStep(2)}),
     step===2&&React.createElement(S2,{d,set:setD,next:()=>setStep(3),back:()=>setStep(1)}),
     step===3&&React.createElement(S3,{d,next:()=>setStep(4),back:()=>setStep(2)}),
-    step===4&&React.createElement(S4,{d,set:setD,submit})
+    step===4&&React.createElement(S4,{d,set:setD,submit,tier:liveTier})
   );
 }
 
