@@ -297,8 +297,10 @@
           })
         });
         const d = await r.json();
-        if (!d.text) throw new Error(d.error?.message || "Proxy Fehler");
-        return d.text;
+        // n8n returns array or object depending on version
+        const result = Array.isArray(d) ? d[0] : d;
+        if (!result?.text) throw new Error("Kein Text in Antwort");
+        return result.text;
       };
 
       const generateEmail = async () => {
