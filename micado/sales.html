@@ -629,7 +629,21 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                             <div className="f-lbl" style={{marginBottom:5}}>Nächste Schritte</div>
                             {logRes.next_steps.map((s,i)=><div key={i} className="log-result-item"><span style={{color:"var(--green)"}}>→</span>{s}</div>)}
                           </div>}
-                          <button className="btn btn-p btn-sm">In Supabase speichern</button>
+                          <button className="btn btn-p btn-sm" onClick={async () => {
+                              if (!logCtact) { alert("Bitte zuerst einen Kontakt auswählen."); return; }
+                              try {
+                                await supaInsert("sales_infra_interactions", {
+                                  contact_id:  logCtact,
+                                  type:        "notiz",
+                                  summary:     logRes.summary,
+                                  raw_content: logText,
+                                  todos:       logRes.todos,
+                                  next_steps:  logRes.next_steps
+                                });
+                                setLogText(""); setLogCtact(""); setLogRes(null);
+                                alert("Gespeichert ✓");
+                              } catch(e) { alert("Fehler: " + e.message); }
+                            }}>Speichern</button>
                         </> : <div style={{color:"var(--tx3)",fontSize:".86rem",fontStyle:"italic"}}>Zusammenfassung, To-Dos und nächste Schritte erscheinen hier nach der Analyse.</div>}
                       </div>
                     </div>
