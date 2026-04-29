@@ -331,24 +331,23 @@ Absender-Signatur: Antoine Dubois · Head of Sales · MICADO Smart Engineering G
 
 EMPFÄNGER-ROLLE: ${roleCtx}
 
-STRUKTUR — exakt einhalten:
-${hasWizard
-  ? "1. Einstieg: Bedanke dich kurz und natürlich dass der Empfänger den Kalkulator genutzt hat — 1 Satz, nicht übertrieben."
-  : "1. Einstieg: Relevanter Aufhänger zur Branche oder Rolle des Empfängers — 1 Satz."}
-2. Kernaussage: Die wichtigste Zahl für diese Rolle nennen — ROI, Rüstzeit oder Einsparung. Nicht erklären, nur konstatieren.
-3. Glaubwürdigkeit: 1 passenden Referenzkunden nennen — nicht aufzählen.
-4. CTA: Konkreter nächster Schritt — Termin, Frage, Angebot. 1 Satz.
-5. Signatur: NUR Name · Titel · Unternehmen
+PFLICHTSTRUKTUR — exakt in dieser Reihenfolge:
+1. Betreff: "Ihre Kalkulation — [ROI-Zahl] Jahreseinsparung bei [Unternehmen]"
+2. Anrede: "Sehr geehrter Herr [Nachname]," oder "Sehr geehrte Frau [Nachname]," — immer diese Formel, kein Vorname
+3. ${hasWizard ? 'Dankeseinstieg: "Danke, dass Sie unseren ROI-Kalkulator für Octopus FlexGrid ausprobiert haben, Herr/Frau [Nachname]." — natürlich, 1 Satz' : 'Einstieg: relevanter Aufhänger zur Rolle oder Branche — 1 Satz'}
+4. Kernaussage: wichtigste Zahl für diese Rolle — ROI oder Rüstzeit. Nicht erklären, konstatieren. 1–2 Sätze.
+5. Referenz: 1 konkreten Kunden nennen mit spezifischem Kontext (Produktion, Bauteil, Ergebnis) — nicht nur Name
+6. CTA: Immer ein Telefonat oder Call vereinbaren — KEIN Angebot, KEINE Präsentation, KEIN Dokument. Formulierung offen und einladend, 1 Satz.
+7. Signatur: NUR "Antoine Dubois · Head of Sales · MICADO Smart Engineering GmbH"
 
 REGELN:
 - Max. 80 Wörter Fließtext
-- Kein Marketing-Sprech: nie "revolutioniert", "innovativ", "beeindruckend", "signifikant", "state-of-the-art"
-- Zahlen sind Beweis, nicht Thema — nicht wiederholen was der Empfänger selbst eingegeben hat
-- Keine Bullet Points
-- Keine Platzhalter (keine Telefonnummern, keine Email-Adressen)
-- Tonalität: ${eTone==="formal"?"professionell, respektvoll, auf Augenhöhe":"direkt, knapp, peer-to-peer"}
+- Kein Marketing-Sprech: nie "revolutioniert", "innovativ", "beeindruckend", "signifikant"
+- Zahlen als Beweis einsetzen — nicht nacherzählen was der Empfänger eingegeben hat
+- Keine Bullet Points, keine Superlative, keine Platzhalter
+- Tonalität: ${eTone==="formal"?"professionell, respektvoll, persönlich":"direkt, knapp, peer-to-peer"}
 - Sprache: ${langMap[eLang]}
-- Format: Betreff Zeile 1, Leerzeile, Text. Kein Preamble.`;
+- Format: Betreff Zeile 1, Leerzeile, Anrede, Text, Leerzeile, Signatur. Kein Preamble.`;
 
           const roiCtx = hasWizard
             ? `\nKalkulator-Daten (als Beweis verwenden, nicht nacherzählen):\n- Bauteilgröße: ${emailCtx.bauteilgroesse}, ${emailCtx.spannpunkte} Spannpunkte\n- ROI: ${eur(emailCtx.roi_eur_jahr)}/Jahr · Amortisation: ${emailCtx.amortisation_monate} Monate`
