@@ -596,7 +596,14 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                         <div className="panel-title">{Ic.log} Notizen eingeben</div>
                         <div className="f-grp">
                           <label className="f-lbl">Kontakt</label>
-                          <input className="f-input" placeholder="Name oder Unternehmen…" value={logCtact} onChange={e=>setLogCtact(e.target.value)}/>
+                          <select className="f-sel" value={logCtact} onChange={e=>setLogCtact(e.target.value)}>
+                            <option value="">— Kontakt auswählen —</option>
+                            {contacts.map(c => (
+                              <option key={c.id} value={c.id}>
+                                {c.firstname} {c.lastname} · {c.company}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                         <div className="f-grp">
                           <label className="f-lbl">Notiz — frei, alles okay</label>
