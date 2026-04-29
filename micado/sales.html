@@ -297,10 +297,14 @@
           })
         });
         const d = await r.json();
-        // n8n returns array or object depending on version
-        const result = Array.isArray(d) ? d[0] : d;
-        if (!result?.text) throw new Error("Kein Text in Antwort");
-        return result.text;
+        // Handle all possible n8n response shapes
+        const obj = Array.isArray(d) ? d[0] : d;
+        const text = obj?.text                      // Extract Text node output
+          || obj?.content?.[0]?.text                // Raw Anthropic response
+          || obj?.json?.content?.[0]?.text          // n8n wrapped response
+          || null;
+        if (!text) throw new Error("Kein Text in Antwort");
+        return text;
       };
 
       const generateEmail = async () => {
@@ -308,27 +312,49 @@
         try {
           const c = emailCtx?.contacts || {};
           const langMap = {de:"Deutsch",en:"English",fr:"Français"};
+
+          // Role-based focus
+          const roleMap = {
+            management:   "Geschäftsführer/Management. Fokus: ROI, Amortisation, Wettbewerbsvorteil, Referenzkunden als Beweis.",
+            engineering:  "Ingenieur/Produktion. Fokus: technische Effizienz, Rüstzeitreduktion, kein Umbau bestehender Anlagen, Präzision.",
+            procurement:  "Einkauf/Procurement. Fokus: nachweisbare Kosteneinsparung, TCO-Reduktion, messbarer ROI.",
+            production:   "Produktionsleiter. Fokus: Rüstzeitreduktion, Flexibilität, weniger Stillstand, einfachere Bedienung.",
+            other:        "B2B-Entscheider. Fokus: konkreter Nutzen, kurze Amortisation, Referenzkunden."
+          };
+          const roleCtx = roleMap[c.role] || roleMap.other;
+          const hasWizard = !!emailCtx?.roi_eur_jahr;
+
           const system = `Du bist Email Copilot für Antoine Dubois, Head of Sales bei MICADO Smart Engineering GmbH.
 Produkt: Octopus FlexGrid — patentiertes Spannsystem für Composite-Bauteile. Kernnutzen: 65% Rüstzeitreduktion.
 Referenzkunden: Airbus, Boeing, Porsche, GKN, FACC, Carbo-Tech.
 Absender-Signatur: Antoine Dubois · Head of Sales · MICADO Smart Engineering GmbH
 
-REGELN — strikt einhalten:
-- Max. 100 Wörter im Fließtext
-- Struktur: 1 Satz Aufhänger → ROI-Zahl nennen → 1 konkreter nächster Schritt
-- Kein Marketing-Sprech: nie "revolutioniert", "innovativ", "beeindruckend", "signifikant"
-- Keine Bullet Points
-- Keine Superlative
-- Signatur NUR: Name · Titel · Unternehmen — keine Telefonnummer, keine Email
-- Tonalität: ${eTone==="formal"?"professionell, respektvoll":"direkt, auf Augenhöhe"}
-- Sprache: ${langMap[eLang]}
-- Format: Betreff in Zeile 1, Leerzeile, dann Text. Kein Preamble, kein Kommentar.`;
+EMPFÄNGER-ROLLE: ${roleCtx}
 
-          const roiCtx = emailCtx?.roi_eur_jahr
-            ? `\nKalkulator-Daten des Leads:\n- Bauteilgröße: ${emailCtx.bauteilgroesse}, ${emailCtx.spannpunkte} Spannpunkte\n- ROI: ${eur(emailCtx.roi_eur_jahr)}/Jahr · Amortisation: ${emailCtx.amortisation_monate} Monate\nDiese Zahlen konkret einbauen.`
+STRUKTUR — exakt einhalten:
+${hasWizard
+  ? "1. Einstieg: Bedanke dich kurz und natürlich dass der Empfänger den Kalkulator genutzt hat — 1 Satz, nicht übertrieben."
+  : "1. Einstieg: Relevanter Aufhänger zur Branche oder Rolle des Empfängers — 1 Satz."}
+2. Kernaussage: Die wichtigste Zahl für diese Rolle nennen — ROI, Rüstzeit oder Einsparung. Nicht erklären, nur konstatieren.
+3. Glaubwürdigkeit: 1 passenden Referenzkunden nennen — nicht aufzählen.
+4. CTA: Konkreter nächster Schritt — Termin, Frage, Angebot. 1 Satz.
+5. Signatur: NUR Name · Titel · Unternehmen
+
+REGELN:
+- Max. 80 Wörter Fließtext
+- Kein Marketing-Sprech: nie "revolutioniert", "innovativ", "beeindruckend", "signifikant", "state-of-the-art"
+- Zahlen sind Beweis, nicht Thema — nicht wiederholen was der Empfänger selbst eingegeben hat
+- Keine Bullet Points
+- Keine Platzhalter (keine Telefonnummern, keine Email-Adressen)
+- Tonalität: ${eTone==="formal"?"professionell, respektvoll, auf Augenhöhe":"direkt, knapp, peer-to-peer"}
+- Sprache: ${langMap[eLang]}
+- Format: Betreff Zeile 1, Leerzeile, Text. Kein Preamble.`;
+
+          const roiCtx = hasWizard
+            ? `\nKalkulator-Daten (als Beweis verwenden, nicht nacherzählen):\n- Bauteilgröße: ${emailCtx.bauteilgroesse}, ${emailCtx.spannpunkte} Spannpunkte\n- ROI: ${eur(emailCtx.roi_eur_jahr)}/Jahr · Amortisation: ${emailCtx.amortisation_monate} Monate`
             : "";
           const notesCtx = eNotes ? `\nHinweis von Antoine: ${eNotes}` : "";
-          setEDraft(await callClaude(system, `Erstmail an ${c.firstname} ${c.lastname}, ${c.company}.${roiCtx}${notesCtx}`));
+          setEDraft(await callClaude(system, `Erstmail an ${c.firstname} ${c.lastname}, ${c.company}${c.role ? ` (Rolle: ${c.role})` : ""}.${roiCtx}${notesCtx}`));
         } catch(e) { setEDraft(`Fehler: ${e.message}`); }
         setELoading(false);
       };
