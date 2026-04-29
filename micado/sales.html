@@ -359,8 +359,8 @@ EMPFÄNGER-ROLLE: ${roleCtx}
 
 PFLICHTSTRUKTUR — exakt in dieser Reihenfolge:
 1. Betreff: "Ihre Kalkulation — [ROI-Zahl] Jahreseinsparung bei [Unternehmen]"
-2. Anrede: "Sehr geehrter Herr [Nachname]," oder "Sehr geehrte Frau [Nachname]," — immer diese Formel, kein Vorname
-3. ${hasWizard ? 'Dankeseinstieg: "Danke, dass Sie unseren ROI-Kalkulator für Octopus FlexGrid ausprobiert haben, Herr/Frau [Nachname]." — natürlich, 1 Satz' : 'Einstieg: relevanter Aufhänger zur Rolle oder Branche — 1 Satz'}
+2. Anrede: "Sehr geehrter Herr [Nachname]," oder "Sehr geehrte Frau [Nachname]," — immer diese Formel, kein Vorname. Nach dem Komma folgt eine Leerzeile, dann der Text GROSSGESCHRIEBEN beginnend.
+3. ${hasWizard ? 'Dankeseinstieg: "Danke, dass Sie unseren ROI-Kalkulator für Octopus FlexGrid ausprobiert haben." — 1 Satz, KEIN Name nach dem Dank, nicht wiederholen.' : 'Einstieg: relevanter Aufhänger zur Rolle oder Branche — 1 Satz'}
 4. Kernaussage: wichtigste Zahl für diese Rolle — ROI oder Rüstzeit. Nicht erklären, konstatieren. 1–2 Sätze.
 5. Referenz: 1 konkreten Kunden nennen mit spezifischem Kontext (Produktion, Bauteil, Ergebnis) — nicht nur Name
 6. CTA: Immer ein Telefonat oder Call vereinbaren — KEIN Angebot, KEINE Präsentation, KEIN Dokument. Formulierung offen und einladend, 1 Satz.
