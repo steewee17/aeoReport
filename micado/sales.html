@@ -127,6 +127,17 @@
     .btn-advance:hover:not(:disabled){border-color:var(--blue);color:var(--blue);background:var(--glow)}
     .btn-advance:disabled{opacity:.5;cursor:not-allowed}
     .pl-empty{font-size:.8rem;color:var(--tx3);font-style:italic;padding:12px 0;text-align:center}
+    .contacts-grid{display:grid;grid-template-columns:280px 1fr;gap:16px;align-items:start}
+    .contact-list-item{background:#fff;border:1px solid var(--bdr);border-radius:10px;padding:11px 14px;margin-bottom:6px;cursor:pointer;transition:.15s var(--ease);display:flex;align-items:center;gap:10px}
+    .contact-list-item:hover{border-color:var(--bdr2);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    .contact-list-item.active{border-color:var(--blue);background:var(--glow)}
+    .contact-av{width:34px;height:34px;border-radius:50%;background:var(--glow);border:1.5px solid rgba(0,129,194,.2);display:flex;align-items:center;justify-content:center;font-family:var(--head);font-weight:700;font-size:.78rem;color:var(--blue);flex-shrink:0}
+    .contact-av.lg{width:48px;height:48px;font-size:1rem}
+    .ixn-item{background:var(--bg3);border-radius:8px;padding:11px 14px;margin-bottom:8px}
+    .ixn-date{font-family:var(--head);font-size:.65rem;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--tx3);margin-bottom:5px}
+    .ixn-summary{font-size:.86rem;color:var(--tx);line-height:1.6;margin-bottom:6px}
+    .ixn-chips{display:flex;flex-wrap:wrap;gap:5px}
+    .ixn-chip{font-size:.74rem;color:var(--tx2);background:#fff;border:1px solid var(--bdr);border-radius:5px;padding:2px 8px}
     .loading{display:flex;align-items:center;gap:12px;color:var(--tx3);padding:48px 0;font-size:.9rem}
   </style>
 </head>
@@ -196,20 +207,24 @@
       alert:   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>,
       inbox:   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>,
       list:    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>,
+      users:   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+      user:    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={S.w} strokeLinecap={S.lc} strokeLinejoin={S.lj}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
     };
 
     // ─── App ───────────────────────────────────────────────────────────────────
     function SalesOS() {
       const [tab,       setTab]       = useState("today");
       const N8N_PROXY = "https://steewee.app.n8n.cloud/webhook/claude-proxy";
-      const [leads,     setLeads]     = useState([]);
-      const [allSubs,   setAllSubs]   = useState([]);
-      const [pipeLeads, setPipeLeads] = useState([]);
-      const [tasks,     setTasks]     = useState([]);
-      const [deals,     setDeals]     = useState([]);
-      const [contacts,  setContacts]  = useState([]);
-      const [loading,   setLoading]   = useState(true);
-      const [advancing, setAdvancing] = useState(null);
+      const [leads,          setLeads]          = useState([]);
+      const [allSubs,        setAllSubs]        = useState([]);
+      const [pipeLeads,      setPipeLeads]      = useState([]);
+      const [tasks,          setTasks]          = useState([]);
+      const [deals,          setDeals]          = useState([]);
+      const [contacts,       setContacts]       = useState([]);
+      const [selectedContact,setSelectedContact]= useState(null);
+      const [contactIxns,    setContactIxns]    = useState([]);
+      const [loading,        setLoading]        = useState(true);
+      const [advancing,      setAdvancing]      = useState(null);
       const [emailCtx,     setEmailCtx]     = useState(null);
       const [selectedCId,  setSelectedCId]  = useState("");
       const [eLang,     setELang]     = useState("de");
@@ -285,6 +300,17 @@
         setEmailCtx(lead);
         setSelectedCId(lead.contact_id || "");
         setEDraft(""); setTab("email");
+      };
+
+      const openContact = async (contactId) => {
+        const c = contacts.find(x => x.id === contactId);
+        if (!c) return;
+        setSelectedContact(c);
+        setTab("contacts");
+        try {
+          const ixns = await supa(`sales_infra_interactions?contact_id=eq.${contactId}&order=created_at.desc`);
+          setContactIxns(ixns);
+        } catch { setContactIxns([]); }
       };
 
       const callClaude = async (system, user) => {
@@ -405,6 +431,7 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                   {id:"email",    label:"Email Copilot",      icon:Ic.mail},
                   {id:"log",      label:"Interaktion loggen", icon:Ic.log},
                   {id:"pipeline", label:"Pipeline",           icon:Ic.pipe, badge:pipeTotal},
+                  {id:"contacts", label:"Kontakte",           icon:Ic.users, badge:contacts.length||null},
                 ].map(({id,label,icon,badge,red})=>(
                   <button key={id} className={`nav-btn ${tab===id?"active":""}`} onClick={()=>setTab(id)}>
                     {icon}{label}
@@ -471,7 +498,7 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                             </div>
                             <div style={{display:"flex",gap:8}}>
                               <button className="btn btn-p" onClick={()=>openEmail(lead)}>{Ic.mail} E-Mail schreiben</button>
-                              <button className="btn btn-g btn-sm">Zum Kontakt</button>
+                              <button className="btn btn-g btn-sm" onClick={()=>openContact(lead.contact_id)}>{Ic.user} Zum Kontakt</button>
                             </div>
                           </div>
                         );
@@ -715,6 +742,100 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                           </div>
                         );
                       })}
+                    </div>
+                  </>}
+
+                  {/* KONTAKTE */}
+                  {tab==="contacts" && <>
+                    <div style={{marginBottom:20}}>
+                      <div className="pg-title">Kontakte</div>
+                      <div className="pg-sub">{contacts.length} Kontakte im System</div>
+                    </div>
+                    <div className="contacts-grid">
+
+                      {/* ── Liste ── */}
+                      <div>
+                        {contacts.map(c => (
+                          <div key={c.id}
+                            className={`contact-list-item ${selectedContact?.id===c.id?"active":""}`}
+                            onClick={()=>openContact(c.id)}>
+                            <div className="contact-av">{(c.firstname?.[0]||"")+(c.lastname?.[0]||"")}</div>
+                            <div style={{flex:1,minWidth:0}}>
+                              <div style={{fontWeight:600,fontSize:".88rem",color:"var(--tx)",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{c.firstname} {c.lastname}</div>
+                              <div style={{fontSize:".76rem",color:"var(--tx3)",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{c.company}</div>
+                            </div>
+                            {c.role && <span className="badge b-gray" style={{fontSize:".6rem"}}>{c.role}</span>}
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* ── Detail ── */}
+                      {selectedContact ? (()=>{
+                        const sub = allSubs.find(s => s.contact_id === selectedContact.id);
+                        const deal = deals.find(d => d.contact_id === selectedContact.id);
+                        return (
+                          <div>
+                            {/* Header */}
+                            <div className="panel" style={{marginBottom:12}}>
+                              <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:16}}>
+                                <div className="contact-av lg">{(selectedContact.firstname?.[0]||"")+(selectedContact.lastname?.[0]||"")}</div>
+                                <div>
+                                  <div style={{fontFamily:"var(--head)",fontWeight:800,fontSize:"1.3rem",color:"var(--tx)"}}>{selectedContact.firstname} {selectedContact.lastname}</div>
+                                  <div style={{fontSize:".84rem",color:"var(--tx3)"}}>{selectedContact.company}</div>
+                                  <div style={{fontSize:".78rem",color:"var(--tx3)",marginTop:2}}>{selectedContact.email}</div>
+                                </div>
+                                <div style={{marginLeft:"auto",display:"flex",gap:8}}>
+                                  <button className="btn btn-p btn-sm" onClick={()=>openEmail({contacts:selectedContact,...(sub||{})})}>{Ic.mail} E-Mail</button>
+                                </div>
+                              </div>
+                              <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10}}>
+                                {sub && <>
+                                  <div className="stat" style={{padding:"10px 14px"}}>
+                                    <div className="stat-n blue" style={{fontSize:"1.3rem"}}>{eur(sub.roi_eur_jahr)}</div>
+                                    <div className="stat-lbl">ROI / Jahr</div>
+                                  </div>
+                                  <div className="stat" style={{padding:"10px 14px"}}>
+                                    <div className="stat-n" style={{fontSize:"1.3rem"}}>{sub.amortisation_monate} Mo.</div>
+                                    <div className="stat-lbl">Amortisation</div>
+                                  </div>
+                                  <div className="stat" style={{padding:"10px 14px"}}>
+                                    <div className="stat-n" style={{fontSize:"1.3rem"}}>FlexGrid {sub.bauteilgroesse}</div>
+                                    <div className="stat-lbl">Bauteil · {sub.spannpunkte} SP</div>
+                                  </div>
+                                </>}
+                                {deal && <div className="stat" style={{padding:"10px 14px",gridColumn:sub?"span 3":"span 1"}}>
+                                  <div className="stat-n" style={{fontSize:"1.1rem",textTransform:"capitalize"}}>{deal.stage}</div>
+                                  <div className="stat-lbl">Pipeline · {eur(deal.value_eur)}</div>
+                                </div>}
+                              </div>
+                            </div>
+
+                            {/* Interaktionen */}
+                            <div className="panel">
+                              <div className="panel-title">{Ic.log} Interaktionen</div>
+                              {contactIxns.length > 0 ? contactIxns.map(ixn => (
+                                <div key={ixn.id} className="ixn-item">
+                                  <div className="ixn-date">{fmtDate(ixn.created_at)}</div>
+                                  <div className="ixn-summary">{ixn.summary}</div>
+                                  {ixn.todos?.length > 0 && (
+                                    <div className="ixn-chips">
+                                      {ixn.todos.map((t,i) => <span key={i} className="ixn-chip">→ {t}</span>)}
+                                    </div>
+                                  )}
+                                </div>
+                              )) : (
+                                <div style={{color:"var(--tx3)",fontSize:".86rem",fontStyle:"italic"}}>
+                                  Noch keine Interaktionen — über "Interaktion loggen" hinzufügen.
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })() : (
+                        <div style={{color:"var(--tx3)",fontSize:".86rem",padding:"48px 0",textAlign:"center"}}>
+                          Kontakt auswählen um Details zu sehen
+                        </div>
+                      )}
                     </div>
                   </>}
                 </>)}
