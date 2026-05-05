@@ -705,7 +705,7 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                           <div className="pl-title">Lead</div>
                           <div className="pl-count">{pipeLeads.length} {pipeLeads.length===1?"Lead":"Leads"}</div>
                         </div>
-                        {pipeLeads.map(lead => {
+                        {([...pipeLeads, ...deals.filter(d=>d.stage==="lead")]).map(lead => {
                           const c = lead.contacts || {};
                           const isAdvancing = advancing === lead.id;
                           return (
@@ -738,7 +738,7 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                               const isFwd = advancing === deal.id + "_fwd";
                               const isBwd = advancing === deal.id + "_bwd";
                               const stageIdx = STAGES.indexOf(deal.stage);
-                              const hasPrev = stageIdx > 1; // qualifiziert is minimum (not back to lead)
+                              const hasPrev = stageIdx > 0;
                               return (
                                 <div key={deal.id} className="deal-card">
                                   <div className="deal-co">{c.company}</div>
@@ -746,18 +746,18 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                                   {deal.value_eur && <div className="deal-val">{eur(deal.value_eur)}</div>}
                                   <div className="deal-act">Letzte Aktivität: {relTime(deal.last_activity)}</div>
                                   {deal.notes && <div className="deal-note">{deal.notes}</div>}
-                                  <div style={{display:"flex",gap:6,marginTop:10}}>
+                                  <div style={{display:"flex",gap:6,marginTop:10,alignItems:"center"}}>
                                     {hasPrev && (
-                                      <button className="btn-advance" style={{flex:1}} onClick={()=>demoteDeal(deal)} disabled={isBwd}>
-                                        {isBwd ? <><div className="spin dark" style={{width:11,height:11,borderWidth:1.5}}/>…</> : <>← Zurück</>}
+                                      <button className="btn-advance" style={{flex:"0 0 auto",padding:"5px 10px",fontSize:".68rem",color:"var(--tx3)",opacity:.7}} onClick={()=>demoteDeal(deal)} disabled={isBwd}>
+                                        {isBwd ? "…" : "← Zurück"}
                                       </button>
                                     )}
                                     {next && (
-                                      <button className="btn-advance" style={{flex:2}} onClick={()=>promoteDeal(deal)} disabled={isFwd}>
+                                      <button className="btn-advance" style={{flex:1}} onClick={()=>promoteDeal(deal)} disabled={isFwd}>
                                         {isFwd ? <><div className="spin dark" style={{width:11,height:11,borderWidth:1.5}}/>Wird verschoben…</> : <>{next} →</>}
                                       </button>
                                     )}
-                                    {!next && <div className="deal-won">✓ Gewonnen</div>}
+                                    {!next && <div className="deal-won" style={{flex:1,textAlign:"center"}}>✓ Gewonnen</div>}
                                   </div>
                                 </div>
                               );
