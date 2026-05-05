@@ -746,18 +746,20 @@ Antworte NUR mit JSON (kein Markdown, kein Preamble):
                                   {deal.value_eur && <div className="deal-val">{eur(deal.value_eur)}</div>}
                                   <div className="deal-act">Letzte Aktivität: {relTime(deal.last_activity)}</div>
                                   {deal.notes && <div className="deal-note">{deal.notes}</div>}
-                                  <div style={{display:"flex",gap:6,marginTop:10,alignItems:"center"}}>
-                                    {hasPrev && (
-                                      <button className="btn-advance" style={{flex:"0 0 auto",padding:"5px 10px",fontSize:".68rem",color:"var(--tx3)",opacity:.7}} onClick={()=>demoteDeal(deal)} disabled={isBwd}>
-                                        {isBwd ? "…" : "← Zurück"}
-                                      </button>
-                                    )}
+                                  <div style={{marginTop:10}}>
                                     {next && (
-                                      <button className="btn-advance" style={{flex:1}} onClick={()=>promoteDeal(deal)} disabled={isFwd}>
+                                      <button className="btn-advance" onClick={()=>promoteDeal(deal)} disabled={isFwd}>
                                         {isFwd ? <><div className="spin dark" style={{width:11,height:11,borderWidth:1.5}}/>Wird verschoben…</> : <>{next} →</>}
                                       </button>
                                     )}
-                                    {!next && <div className="deal-won" style={{flex:1,textAlign:"center"}}>✓ Gewonnen</div>}
+                                    {!next && <div className="deal-won" style={{textAlign:"center"}}>✓ Gewonnen</div>}
+                                    {hasPrev && (
+                                      <div style={{textAlign:"center",marginTop:6}}>
+                                        <span onClick={()=>!isBwd&&demoteDeal(deal)}
+                                          style={{fontSize:".72rem",color:"var(--tx3)",cursor:"pointer",opacity:isBwd?.5:1}}
+                                        >{isBwd ? "…" : "← Zurück"}</span>
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               );
