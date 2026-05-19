@@ -1306,7 +1306,7 @@ footer { background: var(--ink); padding: 48px 0 32px; }
         </div>
         <div class="ueber-stats">
           <div class="ueber-stat">
-            <div class="ueber-stat-num">30+</div>
+            <div class="ueber-stat-num">40+</div>
             <div class="ueber-stat-label">Jahre Erfahrung</div>
           </div>
           <div class="ueber-stat">
@@ -1569,7 +1569,7 @@ footer { background: var(--ink); padding: 48px 0 32px; }
 
 <!-- ===== KONTAKT ===== -->
 <section class="kontakt-section" id="kontakt">
-  <div class="kontakt-ghost" aria-hidden="true">LIENZ</div>
+  <div class="kontakt-ghost" aria-hidden="true">DEBANT</div>
   <div class="container">
     <div class="kontakt-grid">
       <div class="kontakt-info">
@@ -1584,7 +1584,7 @@ footer { background: var(--ink); padding: 48px 0 32px; }
             <div class="kontakt-detail-icon"><i data-lucide="map-pin"></i></div>
             <div>
               <div class="kontakt-detail-label">Adresse</div>
-              <div class="kontakt-detail-value">Pustertaler Stra&szlig;e 12c<br>A-9900 Nußdorf-Debant, Osttirol</div>
+              <div class="kontakt-detail-value">Pustertaler Stra&szlig;e 12c<br>A-9990 Nußdorf-Debant, Osttirol</div>
             </div>
           </div>
           <div class="kontakt-detail">
@@ -1602,7 +1602,7 @@ footer { background: var(--ink); padding: 48px 0 32px; }
             <div>
               <div class="kontakt-detail-label">E-Mail</div>
               <div class="kontakt-detail-value">
-                <a href="mailto:info@hans-bodner.at">info@hans-bodner.at</a>
+                <a href="mailto:motorrad@autobodner-debant.at">motorrad@autobodner-debant.at</a>
               </div>
             </div>
           </div>
@@ -1664,7 +1664,7 @@ footer { background: var(--ink); padding: 48px 0 32px; }
     <div class="footer-grid">
       <div class="footer-brand">
         <img src="meisterbetrieb.svg" alt="Meisterbetrieb Siegel" style="width:72px; height:72px; filter:invert(1); opacity:0.6;">
-        <p>Meisterbetrieb f&uuml;r Karosserie &amp; Lackierung. Pustertaler Stra&szlig;e&nbsp;12c, A-9900&nbsp;Nußdorf-Debant.</p>
+        <p>Meisterbetrieb f&uuml;r Karosserie &amp; Lackierung. Pustertaler Stra&szlig;e&nbsp;12c, A-9990&nbsp;Nußdorf-Debant.</p>
       </div>
       <div class="footer-col">
         <h4>Leistungen</h4>
@@ -1681,7 +1681,7 @@ footer { background: var(--ink); padding: 48px 0 32px; }
         <ul>
           <li><a href="tel:+43485267233">+43 4852 63646</a></li>
           <li><a href="tel:+436641212188">+43 664 12 12 188</a></li>
-          <li><a href="mailto:info@hans-bodner.at">info@hans-bodner.at</a></li>
+          <li><a href="mailto:motorrad@autobodner-debant.at">motorrad@autobodner-debant.at</a></li>
           <li><a href="https://www.autobodner-debant.at">www.autobodner-debant.at</a></li>
         </ul>
       </div>
@@ -1829,9 +1829,10 @@ const FLOW = {
     question: 'Was ist Ihr Anliegen?',
     hint: 'W&auml;hlen Sie den Bereich, mit dem wir Ihnen helfen sollen.',
     options: [
-      { id: 'werkstatt',  label: 'Werkstatt &amp; Service',       desc: 'Reparatur, Wartung, Inspektion &ndash; alle Marken', next: 'q2a' },
-      { id: 'karosserie', label: 'Karosserie &amp; Lackierung',   desc: 'Unfallschaden, Kratzer, professionelle Lackierung',  next: 'q2b' },
-      { id: 'pickerl',    label: '&sect;57a Pickerl-&Uuml;berpr&uuml;fung', desc: 'Begutachtung, Zulassung, Pr&uuml;fung', next: 'q3' },
+      { id: 'werkstatt',  label: 'Auto Werkstatt &amp; Service', desc: 'Reparatur, Wartung, Inspektion &ndash; alle Marken', next: 'q2a' },
+      { id: 'motorrad',   label: 'Motorrad Zentrum',             desc: 'Verkauf, Service, Reparatur &ndash; Honda, KTM, Vespa', next: 'q2c' },
+      { id: 'karosserie', label: 'Karosserie &amp; Lackierung',   desc: 'Unfallschaden, Hagelschaden, professionelle Lackierung',  next: 'q2b' },
+      { id: 'pickerl',    label: '&sect;57a Pickerl-&Uuml;berpr&uuml;fung', desc: 'Begutachtung f&uuml;r Auto oder Motorrad', next: 'q3' },
     ],
   },
   q2a: {
@@ -1856,15 +1857,26 @@ const FLOW = {
       { id: 'hohlraum',    label: 'Hohlraumversiegelung / Rostschutz',  desc: 'Langzeitschutz gegen Rost und Salz',        next: 'q3' },
     ],
   },
+  q2c: {
+    step: 2,
+    question: 'Welchen Motorrad-Service benötigen Sie?',
+    hint: 'Ihr Zweirad-Experte in Osttirol hilft Ihnen weiter.',
+    options: [
+      { id: 'kauf',     label: 'Neukauf &amp; Beratung',         desc: 'Interesse an Honda, KTM oder Vespa Modellen', next: 'q3' },
+      { id: 'm_service',label: 'Motorrad-Service / Reparatur',  desc: 'Service nach Herstellervorgabe, Reifenwechsel', next: 'q3' },
+      { id: 'tuning',   label: 'Zubehör &amp; Umbau',             desc: 'Auspuffanlagen, Customizing, Tuning',          next: 'q3' },
+      { id: 'm_pickerl',label: '&sect;57a Zweirad-Pickerl',     desc: 'Pickerl-Überprüfung für Ihr Bike',            next: 'q3' },
+    ],
+  },
   q3: {
     step: 3,
-    question: 'Seit wann besteht das Problem?',
-    hint: 'Akute St&ouml;rungen erfordern andere Ma&szlig;nahmen als l&auml;ngere Sch&auml;den.',
+    question: 'Seit wann besteht das Problem / Ihr Wunsch?',
+    hint: 'So k&ouml;nnen wir unsere Kapazit&auml;ten besser planen.',
     options: [
-      { id: 'heute',     label: 'Heute aufgetreten',    desc: 'Erst seit wenigen Stunden',         next: 'q4' },
+      { id: 'heute',     label: 'Aktuell / Sofort',     desc: 'Problem heute aufgetreten / schneller Kaufwunsch', next: 'q4' },
       { id: 'tage',      label: 'Seit einigen Tagen',   desc: '2 bis 7 Tage bekannt',              next: 'q4' },
-      { id: 'wochen',    label: 'Seit mehreren Wochen', desc: 'Wird nicht besser, eher schlimmer', next: 'q4' },
-      { id: 'unbekannt', label: 'Schon l&auml;ngere Zeit', desc: 'Genaues Datum unklar',           next: 'q4' },
+      { id: 'wochen',    label: 'Seit mehreren Wochen', desc: 'Längerfristiges Anliegen',          next: 'q4' },
+      { id: 'unbekannt', label: 'Flexibel planbar',     desc: 'Keine zeitliche Eile',              next: 'q4' },
     ],
   },
   q4: {
@@ -1872,22 +1884,23 @@ const FLOW = {
     question: 'Wie dringend ist das f&uuml;r Sie?',
     hint: 'So k&ouml;nnen wir den richtigen Einsatztermin einplanen.',
     options: [
-      { id: 'notfall',     label: 'Notfall &ndash; sofort!',  desc: 'Fahrzeug nicht fahrbereit oder gef&auml;hrlich', next: 'result' },
-      { id: 'diese_woche', label: 'Diese Woche',               desc: 'So bald wie m&ouml;glich',                      next: 'result' },
-      { id: 'flexibel',    label: 'Flexibel / planbar',        desc: 'Termin nach Vereinbarung',                      next: 'result' },
+      { id: 'notfall',     label: 'Sehr dringend!',            desc: 'Notfall oder Wunschtermin diese Woche', next: 'result' },
+      { id: 'diese_woche', label: 'Innerhalb der nächsten 2 Wochen', desc: 'Mittelfristig planbar',                 next: 'result' },
+      { id: 'flexibel',    label: 'Flexibel / entspannt',      desc: 'Termin nach Vereinbarung',             next: 'result' },
     ],
   },
 };
 
 const LABELS = {
-  werkstatt: 'Werkstatt &amp; Service', karosserie: 'Karosserie &amp; Lackierung',
+  werkstatt: 'Auto Werkstatt &amp; Service', motorrad: 'Motorrad Zentrum', karosserie: 'Karosserie &amp; Lackierung',
   pickerl: '§57a Pickerl', motor: 'Motor / Antrieb', bremsen: 'Bremsen / Fahrwerk',
   elektrik: 'Elektrik / Elektronik', wartung: 'Wartung &amp; Service',
   beule: 'Beule / Delle', kratzer: 'Kratzer / Teillackierung',
   komplettlack: 'Komplettlackierung', hohlraum: 'Hohlraumversiegelung',
-  heute: 'Heute aufgetreten', tage: 'Seit einigen Tagen',
-  wochen: 'Seit mehreren Wochen', unbekannt: 'Schon l&auml;ngere Zeit',
-  notfall: 'Sofort (Notfall)', diese_woche: 'Diese Woche', flexibel: 'Flexibel planbar',
+  kauf: 'Neukauf &amp; Beratung', m_service: 'Motorrad-Service', tuning: 'Zubehör &amp; Umbau', m_pickerl: 'Zweirad-Pickerl',
+  heute: 'Aktuell / Sofort', tage: 'Seit einigen Tagen',
+  wochen: 'Längerfristig', unbekannt: 'Flexibel',
+  notfall: 'Sehr dringend', diese_woche: 'Nächste 2 Wochen', flexibel: 'Flexibel planbar',
 };
 
 const wizAnswers = {};
@@ -1897,7 +1910,7 @@ function wizCurrent() { return FLOW[wizStack[wizStack.length - 1]]; }
 
 function buildResult() {
   const q1 = wizAnswers.q1;
-  const q2 = wizAnswers.q2a || wizAnswers.q2b;
+  const q2 = wizAnswers.q2a || wizAnswers.q2b || wizAnswers.q2c;
   const q3 = wizAnswers.q3;
   const q4 = wizAnswers.q4;
   const forceEmergency = ['bremsen'].includes(q2);
@@ -1914,19 +1927,24 @@ function buildResult() {
     urgDesc = 'Termin nach Vereinbarung m&ouml;glich';
   }
 
-  let service = 'KFZ-Diagnose &amp; Beratung';
+  let service = 'Auto- &amp; Motorrad-Beratung';
   if (q1 === 'werkstatt' && q2 === 'bremsen') service = 'Sicherheitscheck: Bremsen &amp; Fahrwerk';
   else if (q1 === 'werkstatt' && q2 === 'motor' && q4 === 'notfall') service = 'Notfall-Motordiagnose';
   else if (q1 === 'werkstatt' && q2 === 'motor')   service = 'Motor- und Antriebsdiagnose';
   else if (q1 === 'werkstatt' && q2 === 'elektrik') service = 'Elektronik-Diagnose &amp; OBD-Auslesung';
   else if (q1 === 'werkstatt' && q2 === 'wartung')  service = 'Wartung, Inspektion &amp; Reifenwechsel';
-  else if (q1 === 'werkstatt')  service = 'Allgemeine Werkstatt-Diagnose';
+  else if (q1 === 'werkstatt')  service = 'Allgemeine Auto-Werkstatt-Diagnose';
   else if (q1 === 'karosserie' && q2 === 'beule')       service = 'Smart Repair: Delle / Beule';
   else if (q1 === 'karosserie' && q2 === 'kratzer')     service = 'Teillackierung &amp; Kratzerbeseitigung';
   else if (q1 === 'karosserie' && q2 === 'komplettlack') service = 'Komplettlackierung nach Meisterstandard';
   else if (q1 === 'karosserie' && q2 === 'hohlraum')    service = 'Hohlraumversiegelung &amp; Rostschutz';
   else if (q1 === 'karosserie') service = 'Karosserie &amp; Lackierung';
   else if (q1 === 'pickerl')    service = '§57a Pickerl-&Uuml;berpr&uuml;fung';
+  else if (q1 === 'motorrad' && q2 === 'kauf') service = 'Motorrad Beratung / Kaufanfrage';
+  else if (q1 === 'motorrad' && q2 === 'm_service') service = 'Motorrad-Service &amp; Wartung';
+  else if (q1 === 'motorrad' && q2 === 'tuning') service = 'Zweirad-Customizing &amp; Tuning';
+  else if (q1 === 'motorrad' && q2 === 'm_pickerl') service = 'Zweirad &sect;57a Pickerl-&Uuml;berpr&uuml;fung';
+  else if (q1 === 'motorrad') service = 'Zweirad Service-Diagnose';
 
   const details = [
     { label: 'Bereich',            value: LABELS[q1] || q1 },
@@ -2120,13 +2138,13 @@ renderWizard();
   "alternateName": "Christian Bodner KFZ",
   "description": "Meisterbetrieb für KFZ-Werkstatt, Karosserie und Lackierung in Nußdorf-Debant, Osttirol. Alle Marken, über 40 Jahre Erfahrung, ehrlicher Kostenvoranschlag.",
   "url": "https://www.autobodner-debant.at/",
-  "telephone": "+43485267233",
-  "email": "info@hans-bodner.at",
+  "telephone": "+43485263646",
+  "email": "motorrad@autobodner-debant.at",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Pustertaler Straße 12c",
+    "streetAddress": "Glocknerstraße 2",
     "addressLocality": "Nußdorf-Debant",
-    "postalCode": "9900",
+    "postalCode": "9990",
     "addressCountry": "AT",
     "addressRegion": "Tirol"
   },
@@ -2209,7 +2227,7 @@ renderWizard();
       "name": "Gibt es einen Karosserie-Meisterbetrieb in der Nähe von Nußdorf-Debant im Pustertal?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Ja – Auto- und Motorradhaus Bodner an der Pustertaler Straße 12c in Nußdorf-Debant ist ein staatlich geprüfter Karosserie- und Lackier-Meisterbetrieb, der Werkstatt, Karosserie und Lackierung aus einer Hand anbietet."
+        "text": "Ja – Auto- und Motorradhaus Bodner an der Glocknerstraße 2 in Nußdorf-Debant ist ein staatlich geprüfter Karosserie- und Lackier-Meisterbetrieb, der Werkstatt, Karosserie und Lackierung aus einer Hand anbietet."
       }
     },
     {
