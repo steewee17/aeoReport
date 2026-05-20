@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+<!-- Cookie Consent: Klaro -->
+<script defer src="/klaro-config.js"></script>
+<script defer src="https://cdn.kiprotect.com/klaro/v0.7/klaro.js"></script>
+
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XTSBJ44QEB"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // Default consent: denied until user accepts
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied'
+  });
   gtag('js', new Date());
   gtag('config', 'G-XTSBJ44QEB');
 </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XTSBJ44QEB"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AEO Report — KI-Sichtbarkeit für Ihre Kunden</title>
@@ -2408,6 +2416,12 @@
     </div>
     <div style="font-size:11px;">
       <a href="https://www.wkoecg.at/Ecg.aspx?FirmaID=f18d9b7a-0310-436a-a9f0-1f35002ee26a" target="_blank" rel="noopener noreferrer" style="color:white;opacity:.6;text-decoration:none;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">Impressum</a>
+      <span style="opacity:.3;margin:0 6px;">·</span>
+      <a href="/datenschutz.html" style="color:white;opacity:.6;text-decoration:none;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">Datenschutz</a>
+      <span style="opacity:.3;margin:0 6px;">·</span>
+      <a href="/agb.html" style="color:white;opacity:.6;text-decoration:none;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">AGB</a>
+      <span style="opacity:.3;margin:0 6px;">·</span>
+      <a href="javascript:void(0)" onclick="if(window.klaro) klaro.show(); return false;" style="color:white;opacity:.6;text-decoration:none;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">Cookies</a>
       <span style="opacity:.3;margin:0 6px;">·</span>
       <a href="/cdn-cgi/l/email-protection#2e414848474d4b6e4f4b41035c4b5e415c5a004d4143" style="color:white;opacity:.6;text-decoration:none;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">Kontakt</a>
     </div>
